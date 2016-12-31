@@ -1,0 +1,528 @@
+********************************************************************************
+*                      Friday, 30 December 2016 20:55:03                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Mono C# 3.0
+
+- Compilation -----------------------------------------------
+
+Process: /Applications/Unity/Unity.app/Contents/Mono/bin/mono
+Arguments: "/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/gmcs.exe" @Temp/UnityTempFile-58e098fd90f23494892dbfcb86367082
+Exit code: 0
+Elapsed time: 1.22 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+********************************************************************************
+*                      Friday, 30 December 2016 20:55:05                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Mono C# 3.0
+
+- Compilation -----------------------------------------------
+
+Process: /Applications/Unity/Unity.app/Contents/Mono/bin/mono
+Arguments: "/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/gmcs.exe" @Temp/UnityTempFile-2626792878f534305ab3f1bd7543c607
+Exit code: 1
+Elapsed time: 0.49 sec
+
+- Compiler output (1 line):
+0: Compilation failed: 164 error(s), 0 warnings
+
+- Compiler errors (164 lines):
+0: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(23,107): error CS1525: Unexpected symbol `.'
+1: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(24,35): error CS1525: Unexpected symbol `<internal>'
+2: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(28,35): error CS1525: Unexpected symbol `<internal>'
+3: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(35,44): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+4: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(35,84): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+5: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(35,113): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+6: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(40,47): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+7: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(40,66): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+8: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(46,47): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+9: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(46,68): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+10: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(51,49): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+11: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(51,76): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+12: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(56,43): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+13: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(56,64): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+14: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(61,47): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+15: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(61,72): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+16: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(66,48): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+17: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(66,68): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+18: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(133,61): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+19: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(133,74): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+20: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(133,80): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+21: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(133,88): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+22: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(138,77): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+23: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(138,93): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+24: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(138,99): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+25: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(138,101): error CS1520: Class, struct, or interface method must have a return type
+26: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(158,72): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+27: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(158,100): error CS1041: Identifier expected
+28: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(158,78): error CS0106: The modifier `new' is not valid for this item
+29: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(158,78): error CS1520: Class, struct, or interface method must have a return type
+30: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(166,46): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+31: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(181,51): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+32: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(181,63): error CS1519: Unexpected symbol `<=' in class, struct, or interface member declaration
+33: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(209,51): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+34: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(233,51): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+35: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(233,62): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+36: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(233,81): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+37: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(233,113): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+38: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(235,66): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+39: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(235,80): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+40: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(235,88): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+41: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(235,98): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+42: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(240,51): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+43: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(240,69): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+44: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(241,66): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+45: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(241,96): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+46: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(241,104): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+47: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(241,114): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+48: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(250,17): error CS8032: Internal compiler error during parsing, Run with -v for details
+49: Assets/CSharp vNext Support/AsyncTools/AsyncTools.cs(250,17): error CS1038: #endregion directive expected
+50: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(14,63): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+51: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(14,80): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+52: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(36,58): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+53: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(36,81): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+54: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(61,51): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+55: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(61,83): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+56: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(63,32): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+57: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(63,58): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+58: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(65,36): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+59: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(65,66): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+60: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(67,37): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+61: Assets/CSharp vNext Support/AsyncTools/UnityScheduler.cs(67,68): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+62: Assets/CSharp vNext Support/AsyncTools/UnitySynchronizationContext.cs(21,27): error CS1525: Unexpected symbol `.', expecting `[', or `identifier'
+63: Assets/CSharp vNext Support/TupleBridge/TupleElementNamesAttribute.cs(54,46): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+64: Assets/CSharp vNext Support/TupleBridge/TupleElementNamesAttribute.cs(54,63): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+65: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(923,220): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+66: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,62): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+67: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,68): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+68: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,75): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+69: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,82): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+70: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,89): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+71: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,96): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+72: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,103): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+73: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,110): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+74: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,116): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+75: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(926,197): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+76: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,57): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+77: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,63): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+78: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,70): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+79: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,77): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+80: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,84): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+81: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,91): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+82: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,98): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+83: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,105): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+84: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,111): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+85: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(128,28): error CS1041: Identifier expected: `=>' is a keyword
+86: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(132,44): error CS1518: Expected `class', `delegate', `enum', `interface', or `struct'
+87: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(255,29): error CS0116: A namespace can only contain types and namespace declarations
+88: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(260,29): error CS0116: A namespace can only contain types and namespace declarations
+89: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(265,29): error CS0116: A namespace can only contain types and namespace declarations
+90: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(270,29): error CS0116: A namespace can only contain types and namespace declarations
+91: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(275,29): error CS0116: A namespace can only contain types and namespace declarations
+92: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(280,29): error CS0116: A namespace can only contain types and namespace declarations
+93: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(284,5): error CS8025: Parsing error
+94: Assets/Scripts/Adventure/Astronomy/Aeronautics/ArmorPlate.cs(10,30): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+95: Assets/Scripts/Adventure/Astronomy/Aeronautics/ArmorPlate.cs(10,38): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+96: Assets/Scripts/Adventure/Astronomy/Aeronautics/Blaster.cs(23,50): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+97: Assets/Scripts/Adventure/Astronomy/Aeronautics/BlasterTurret.cs(18,34): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+98: Assets/Scripts/Adventure/Astronomy/Aeronautics/BlasterTurret.cs(18,50): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+99: Assets/Scripts/Adventure/Astronomy/Aeronautics/DetachNacelle.cs(11,30): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+100: Assets/Scripts/Adventure/Astronomy/Aeronautics/DetachNacelle.cs(11,38): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+101: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,33): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+102: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,50): error CS1041: Identifier expected
+103: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,35): error CS1520: Class, struct, or interface method must have a return type
+104: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(30,36): error CS1525: Unexpected symbol `?'
+105: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(45,28): error CS1525: Unexpected symbol `out'
+106: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,26): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+107: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,53): error CS1041: Identifier expected
+108: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,55): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+109: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(57,9): error CS8032: Internal compiler error during parsing, Run with -v for details
+110: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(114,38): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+111: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(115,35): error CS1519: Unexpected symbol `in' in class, struct, or interface member declaration
+112: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(116,17): error CS1519: Unexpected symbol `where' in class, struct, or interface member declaration
+113: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(116,29): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+114: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(117,18): error CS1519: Unexpected symbol `select' in class, struct, or interface member declaration
+115: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(117,41): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+116: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(14,42): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+117: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(14,62): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+118: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(15,41): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+119: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,23): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+120: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,39): error CS1041: Identifier expected
+121: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,29): error CS0106: The modifier `new' is not valid for this item
+122: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,29): error CS1520: Class, struct, or interface method must have a return type
+123: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(26,53): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+124: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(26,68): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+125: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(33,44): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+126: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(33,50): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+127: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(34,55): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+128: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(34,59): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+129: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(35,61): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+130: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(36,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+131: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(36,31): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+132: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(37,72): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+133: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(38,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+134: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(38,31): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+135: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(61,38): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+136: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(61,54): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+137: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,32): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+138: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,44): error CS1519: Unexpected symbol `/' in class, struct, or interface member declaration
+139: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,58): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+140: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(63,34): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+141: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(63,54): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+142: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(204,29): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+143: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(205,13): error CS1041: Identifier expected
+144: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(206,13): error CS1041: Identifier expected
+145: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(207,13): error CS1041: Identifier expected
+146: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(205,13): error CS0100: The parameter name `NeedSomeGeneratorHere' is a duplicate
+147: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(206,13): error CS0100: The parameter name `NeedSomeGeneratorHere' is a duplicate
+148: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(204,31): error CS1520: Class, struct, or interface method must have a return type
+149: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(211,31): error CS1525: Unexpected symbol `(', expecting `)', `,', `;', `[', or `='
+150: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(219,36): error CS1518: Expected `class', `delegate', `enum', `interface', or `struct'
+151: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(228,21): error CS0116: A namespace can only contain types and namespace declarations
+152: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(260,21): error CS0116: A namespace can only contain types and namespace declarations
+153: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(276,47): error CS1525: Unexpected symbol `(', expecting `)', `,', `;', `[', or `='
+154: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(274,14): error CS0116: A namespace can only contain types and namespace declarations
+155: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(284,9): error CS8025: Parsing error
+156: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(81,25): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+157: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,22): error CS1519: Unexpected symbol `&&' in class, struct, or interface member declaration
+158: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,54): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+159: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,63): error CS1519: Unexpected symbol `>' in class, struct, or interface member declaration
+160: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+161: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,39): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+162: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,59): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+163: Assets/Scripts/Adventure/Astronomy/VectoredThrust.cs(13,50): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+********************************************************************************
+*                      Friday, 30 December 2016 20:55:17                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Mono C# 3.0
+
+- Compilation -----------------------------------------------
+
+Process: /Applications/Unity/Unity.app/Contents/Mono/bin/mono
+Arguments: "/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/gmcs.exe" @Temp/UnityTempFile-6ff21b649cb06474faa752a8aa3a67d8
+Exit code: 0
+Elapsed time: 1.17 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+********************************************************************************
+*                      Friday, 30 December 2016 20:55:19                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Mono C# 3.0
+
+- Compilation -----------------------------------------------
+
+Process: /Applications/Unity/Unity.app/Contents/Mono/bin/mono
+Arguments: "/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/gmcs.exe" @Temp/UnityTempFile-db9270c880c4a4cce9b024c63cf27393
+Exit code: 1
+Elapsed time: 0.48 sec
+
+- Compiler output (1 line):
+0: Compilation failed: 101 error(s), 0 warnings
+
+- Compiler errors (101 lines):
+0: Assets/CSharp vNext Support/TupleBridge/TupleElementNamesAttribute.cs(54,46): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+1: Assets/CSharp vNext Support/TupleBridge/TupleElementNamesAttribute.cs(54,63): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+2: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(923,220): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+3: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,62): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+4: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,68): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+5: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,75): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+6: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,82): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+7: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,89): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+8: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,96): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+9: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,103): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+10: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,110): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+11: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(924,116): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+12: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(926,197): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+13: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,57): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+14: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,63): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+15: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,70): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+16: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,77): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+17: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,84): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+18: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,91): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+19: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,98): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+20: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,105): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+21: Assets/CSharp vNext Support/TupleBridge/TupleExtensions.cs(927,111): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+22: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(128,28): error CS1041: Identifier expected: `=>' is a keyword
+23: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(132,44): error CS1518: Expected `class', `delegate', `enum', `interface', or `struct'
+24: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(255,29): error CS0116: A namespace can only contain types and namespace declarations
+25: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(260,29): error CS0116: A namespace can only contain types and namespace declarations
+26: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(265,29): error CS0116: A namespace can only contain types and namespace declarations
+27: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(270,29): error CS0116: A namespace can only contain types and namespace declarations
+28: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(275,29): error CS0116: A namespace can only contain types and namespace declarations
+29: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(280,29): error CS0116: A namespace can only contain types and namespace declarations
+30: Assets/CSharp vNext Support/TupleBridge/ValueTuple.cs(284,5): error CS8025: Parsing error
+31: Assets/Scripts/Adventure/Astronomy/Aeronautics/ArmorPlate.cs(10,30): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+32: Assets/Scripts/Adventure/Astronomy/Aeronautics/ArmorPlate.cs(10,38): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+33: Assets/Scripts/Adventure/Astronomy/Aeronautics/Blaster.cs(23,50): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+34: Assets/Scripts/Adventure/Astronomy/Aeronautics/BlasterTurret.cs(18,34): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+35: Assets/Scripts/Adventure/Astronomy/Aeronautics/BlasterTurret.cs(18,50): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+36: Assets/Scripts/Adventure/Astronomy/Aeronautics/DetachNacelle.cs(11,30): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+37: Assets/Scripts/Adventure/Astronomy/Aeronautics/DetachNacelle.cs(11,38): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+38: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,33): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+39: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,50): error CS1041: Identifier expected
+40: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(22,35): error CS1520: Class, struct, or interface method must have a return type
+41: Assets/Scripts/Adventure/Astronomy/Aeronautics/EnergyBlast.cs(30,36): error CS1525: Unexpected symbol `?'
+42: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(45,28): error CS1525: Unexpected symbol `out'
+43: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,26): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+44: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,53): error CS1041: Identifier expected
+45: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(49,55): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+46: Assets/Scripts/Adventure/Astronomy/Aeronautics/GuidedMissile.cs(57,9): error CS8032: Internal compiler error during parsing, Run with -v for details
+47: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(114,38): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+48: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(115,35): error CS1519: Unexpected symbol `in' in class, struct, or interface member declaration
+49: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(116,17): error CS1519: Unexpected symbol `where' in class, struct, or interface member declaration
+50: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(116,29): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+51: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(117,18): error CS1519: Unexpected symbol `select' in class, struct, or interface member declaration
+52: Assets/Scripts/Adventure/Astronomy/Astronomy.cs(117,41): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+53: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(14,42): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+54: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(14,62): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+55: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(15,41): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+56: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,23): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+57: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,39): error CS1041: Identifier expected
+58: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,29): error CS0106: The modifier `new' is not valid for this item
+59: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(16,29): error CS1520: Class, struct, or interface method must have a return type
+60: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(26,53): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+61: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(26,68): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+62: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(33,44): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+63: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(33,50): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+64: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(34,55): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+65: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(34,59): error CS1519: Unexpected symbol `==' in class, struct, or interface member declaration
+66: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(35,61): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+67: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(36,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+68: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(36,31): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+69: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(37,72): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+70: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(38,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+71: Assets/Scripts/Adventure/Astronomy/SpaceObject.cs(38,31): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+72: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(61,38): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+73: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(61,54): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+74: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,32): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+75: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,44): error CS1519: Unexpected symbol `/' in class, struct, or interface member declaration
+76: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(62,58): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+77: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(63,34): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+78: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(63,54): error CS1519: Unexpected symbol `;' in class, struct, or interface member declaration
+79: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(204,29): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+80: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(205,13): error CS1041: Identifier expected
+81: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(206,13): error CS1041: Identifier expected
+82: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(207,13): error CS1041: Identifier expected
+83: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(205,13): error CS0100: The parameter name `NeedSomeGeneratorHere' is a duplicate
+84: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(206,13): error CS0100: The parameter name `NeedSomeGeneratorHere' is a duplicate
+85: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(204,31): error CS1520: Class, struct, or interface method must have a return type
+86: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(211,31): error CS1525: Unexpected symbol `(', expecting `)', `,', `;', `[', or `='
+87: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(219,36): error CS1518: Expected `class', `delegate', `enum', `interface', or `struct'
+88: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(228,21): error CS0116: A namespace can only contain types and namespace declarations
+89: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(260,21): error CS0116: A namespace can only contain types and namespace declarations
+90: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(276,47): error CS1525: Unexpected symbol `(', expecting `)', `,', `;', `[', or `='
+91: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(274,14): error CS0116: A namespace can only contain types and namespace declarations
+92: Assets/Scripts/Adventure/Astronomy/Spaceship.cs(284,9): error CS8025: Parsing error
+93: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(81,25): error CS1519: Unexpected symbol `=>' in class, struct, or interface member declaration
+94: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,22): error CS1519: Unexpected symbol `&&' in class, struct, or interface member declaration
+95: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,54): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+96: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(82,63): error CS1519: Unexpected symbol `>' in class, struct, or interface member declaration
+97: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,29): error CS1519: Unexpected symbol `(' in class, struct, or interface member declaration
+98: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,39): error CS1519: Unexpected symbol `,' in class, struct, or interface member declaration
+99: Assets/Scripts/Adventure/Astronomy/SpaceshipAIController.cs(83,59): error CS1519: Unexpected symbol `)' in class, struct, or interface member declaration
+100: Assets/Scripts/Adventure/Astronomy/VectoredThrust.cs(13,50): error CS1519: Unexpected symbol `=' in class, struct, or interface member declaration
+********************************************************************************
+*                      Friday, 30 December 2016 20:55:57                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-8a782e653642f436484dcf22d2deceab -debug:portable
+Exit code: 0
+Elapsed time: 2.76 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:00                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-facb35a8c401c4091b9374c1a2ba7db9 -debug:portable
+Exit code: 1
+Elapsed time: 2.72 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/Adventure/Astronomy/SpaceshipController.cs(62,13): error CS7036: There is no argument given that corresponds to the required formal parameter 'args' of 'SpaceObject.StartSemaphore<T>(Func<IEnumerator>, T)'
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:31                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-d18cf04abd4024c48825d11c4cf8f7d0 -debug:portable
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:35                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-f6e5055e317e74211b68d23f016985ab -debug:portable
+Exit code: 0
+Elapsed time: 3.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:39                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-01f903e3f10254cd69c506f94e2f7cdc -debug:portable
+Exit code: 1
+Elapsed time: 2.74 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (2 lines):
+0: Assets/CSharp vNext Support/Editor/UnitySchedulerEditor.cs(8,3): error CS0103: The name 'UnityScheduler' does not exist in the current context
+1: Assets/CSharp vNext Support/Editor/UnitySchedulerEditor.cs(9,31): error CS0103: The name 'UnityScheduler' does not exist in the current context
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:50                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-f0276468531884531803013b25c2103e -debug:portable
+Exit code: 0
+Elapsed time: 3.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:54                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-f4a9f9d4cf98543a09eb35e692a806ee -debug:portable
+Exit code: 0
+Elapsed time: 3.29 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Friday, 30 December 2016 20:56:58                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor.dll
+Project directory: /Users/bescott/Developer/reckless-spaceships/reckless-vr
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/reckless-spaceships/reckless-vr/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-586f217da403b4c8fb9ba281618cac8a -debug:portable
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor.pdb" deleted

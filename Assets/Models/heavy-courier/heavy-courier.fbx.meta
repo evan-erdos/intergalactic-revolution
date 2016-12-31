@@ -1,0 +1,183 @@
+fileFormatVersion: 2
+guid: 01ce5ac2abb504083885a2d307ebdc6f
+timeCreated: 1482116935
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: heavy_courier
+    100004: heavy_courier_fuselage
+    100006: heavy_courier_fuselage_LOD_0
+    100008: heavy_courier_fuselage_LOD_1
+    100010: heavy_courier_fuselage_LOD_2
+    100012: heavy_courier_l_engine
+    100014: heavy_courier_l_engine_LOD_0
+    100016: heavy_courier_l_engine_LOD_1
+    100018: heavy_courier_r_engine
+    100020: heavy_courier_r_engine_LOD_0
+    100022: heavy_courier_r_engine_LOD_1
+    100024: heavy_courier_engine_l
+    100026: heavy_courier_engine_l_LOD_0
+    100028: heavy_courier_engine_l_LOD_1
+    100030: heavy_courier_engine_l_LOD_2
+    100032: heavy_courier_engine_r
+    100034: heavy_courier_engine_r_LOD_0
+    100036: heavy_courier_engine_r_LOD_1
+    100038: heavy_courier_engine_r_LOD_2
+    100040: heavy_courier_fuselage_plate
+    100042: heavy_courier_linkage_aft
+    100044: heavy_courier_linkage_fore
+    100046: heavy_courier_linkage_mid
+    400000: //RootNode
+    400002: heavy_courier
+    400004: heavy_courier_fuselage
+    400006: heavy_courier_fuselage_LOD_0
+    400008: heavy_courier_fuselage_LOD_1
+    400010: heavy_courier_fuselage_LOD_2
+    400012: heavy_courier_l_engine
+    400014: heavy_courier_l_engine_LOD_0
+    400016: heavy_courier_l_engine_LOD_1
+    400018: heavy_courier_r_engine
+    400020: heavy_courier_r_engine_LOD_0
+    400022: heavy_courier_r_engine_LOD_1
+    400024: heavy_courier_engine_l
+    400026: heavy_courier_engine_l_LOD_0
+    400028: heavy_courier_engine_l_LOD_1
+    400030: heavy_courier_engine_l_LOD_2
+    400032: heavy_courier_engine_r
+    400034: heavy_courier_engine_r_LOD_0
+    400036: heavy_courier_engine_r_LOD_1
+    400038: heavy_courier_engine_r_LOD_2
+    400040: heavy_courier_fuselage_plate
+    400042: heavy_courier_linkage_aft
+    400044: heavy_courier_linkage_fore
+    400046: heavy_courier_linkage_mid
+    2300000: heavy_courier_fuselage
+    2300002: heavy_courier_fuselage_LOD_0
+    2300004: heavy_courier_fuselage_LOD_1
+    2300006: heavy_courier_fuselage_LOD_2
+    2300008: heavy_courier_l_engine
+    2300010: heavy_courier_l_engine_LOD_0
+    2300012: heavy_courier_l_engine_LOD_1
+    2300014: heavy_courier_r_engine
+    2300016: heavy_courier_r_engine_LOD_0
+    2300018: heavy_courier_r_engine_LOD_1
+    2300020: heavy_courier_engine_l_LOD_0
+    2300022: heavy_courier_engine_l_LOD_1
+    2300024: heavy_courier_engine_l_LOD_2
+    2300026: heavy_courier_engine_r_LOD_0
+    2300028: heavy_courier_engine_r_LOD_1
+    2300030: heavy_courier_engine_r_LOD_2
+    2300032: heavy_courier_fuselage_plate
+    2300034: heavy_courier_linkage_aft
+    2300036: heavy_courier_linkage_fore
+    2300038: heavy_courier_linkage_mid
+    3300000: heavy_courier_fuselage
+    3300002: heavy_courier_fuselage_LOD_0
+    3300004: heavy_courier_fuselage_LOD_1
+    3300006: heavy_courier_fuselage_LOD_2
+    3300008: heavy_courier_l_engine
+    3300010: heavy_courier_l_engine_LOD_0
+    3300012: heavy_courier_l_engine_LOD_1
+    3300014: heavy_courier_r_engine
+    3300016: heavy_courier_r_engine_LOD_0
+    3300018: heavy_courier_r_engine_LOD_1
+    3300020: heavy_courier_engine_l_LOD_0
+    3300022: heavy_courier_engine_l_LOD_1
+    3300024: heavy_courier_engine_l_LOD_2
+    3300026: heavy_courier_engine_r_LOD_0
+    3300028: heavy_courier_engine_r_LOD_1
+    3300030: heavy_courier_engine_r_LOD_2
+    3300032: heavy_courier_fuselage_plate
+    3300034: heavy_courier_linkage_aft
+    3300036: heavy_courier_linkage_fore
+    3300038: heavy_courier_linkage_mid
+    4300000: heavy_courier_fuselage
+    4300002: heavy_courier_fuselage_LOD_2
+    4300004: heavy_courier_fuselage_LOD_1
+    4300006: heavy_courier_fuselage_LOD_0
+    4300008: heavy_courier_r_engine
+    4300010: heavy_courier_r_engine_LOD_0
+    4300012: heavy_courier_r_engine_LOD_1
+    4300014: heavy_courier_l_engine
+    4300016: heavy_courier_l_engine_LOD_0
+    4300018: heavy_courier_l_engine_LOD_1
+    4300020: heavy_courier_fuselage_plate
+    4300022: heavy_courier_linkage_fore
+    4300024: heavy_courier_linkage_mid
+    4300026: heavy_courier_linkage_aft
+    4300028: heavy_courier_engine_l_LOD_0
+    4300030: heavy_courier_engine_l_LOD_1
+    4300032: heavy_courier_engine_l_LOD_2
+    4300034: heavy_courier_engine_r_LOD_0
+    4300036: heavy_courier_engine_r_LOD_1
+    4300038: heavy_courier_engine_r_LOD_2
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 16000
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
