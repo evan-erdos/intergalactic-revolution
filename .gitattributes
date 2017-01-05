@@ -1,2 +1,4 @@
 *.png filter=lfs diff=lfs merge=lfs -crlf
 *.psd filter=lfs diff=lfs merge=lfs -crlf
+*.wav filter=lfs diff=lfs merge=lfs -crlf
+*.jpg filter=lfs diff=lfs merge=lfs -crlf

@@ -1,0 +1,130 @@
+fileFormatVersion: 2
+guid: c8d1406f1d5a84b72aa7aa20081d3862
+timeCreated: 1483405605
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: base
+    100002: //RootNode
+    100004: blaster_rig
+    100006: bolt
+    100008: bolt_handle
+    100010: bullet_01
+    100012: bullet_01_tip
+    100014: bullet_02
+    100016: bullet_02_tip
+    100018: bullet_03
+    100020: bullet_03_tip
+    100022: bullet_04
+    100024: bullet_04_tip
+    100026: bullet_05
+    100028: bullet_05_tip
+    100030: cable
+    100032: cylinder_arm
+    100034: cylinder_rotate
+    100036: extractor
+    100038: game_model
+    100040: magazine_bullet_casing
+    100042: magazine_bullet_tip
+    100044: magazine_front
+    100046: trigger_back
+    100048: trigger_front
+    400000: base
+    400002: //RootNode
+    400004: blaster_rig
+    400006: bolt
+    400008: bolt_handle
+    400010: bullet_01
+    400012: bullet_01_tip
+    400014: bullet_02
+    400016: bullet_02_tip
+    400018: bullet_03
+    400020: bullet_03_tip
+    400022: bullet_04
+    400024: bullet_04_tip
+    400026: bullet_05
+    400028: bullet_05_tip
+    400030: cable
+    400032: cylinder_arm
+    400034: cylinder_rotate
+    400036: extractor
+    400038: game_model
+    400040: magazine_bullet_casing
+    400042: magazine_bullet_tip
+    400044: magazine_front
+    400046: trigger_back
+    400048: trigger_front
+    4300000: game_model
+    9500000: //RootNode
+    13700000: game_model
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

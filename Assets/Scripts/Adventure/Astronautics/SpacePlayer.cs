@@ -1,0 +1,53 @@
+﻿/* Ben Scott * @evan-erdos * bescott@andrew.cmu.edu * 2016-12-28 */
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityStandardAssets.Cameras;
+
+namespace Adventure.Astronautics.Spaceships {
+    public class SpacePlayer : SpaceObject {
+        [SerializeField] protected GameObject spaceCamera;
+        [SerializeField] protected Spaceship spaceship;
+        [SerializeField] protected GameObject escapePod;
+
+        void Awake() {
+            if (escapePod) GetComponent<Cam3D>().SetTarget(escapePod.transform);
+            if (!spaceship) throw new SpaceException("No Spaceship!");
+            var controller = GetComponent<SpaceshipController>();
+            controller.Ship = spaceship;
+            spaceship.KillEvent += (o,e) => OnKill();
+            spaceship.JumpEvent += (o,e) => OnJump();
+        }
+
+        void Start() {
+            transform.parent = spaceship.transform;
+            if (!spaceCamera) return;
+            var instance = Instantiate(spaceCamera) as GameObject;
+            var camera = Camera.main;
+            var spacecam = instance.GetComponent<Camera>();
+            spacecam.rect = camera.rect;
+            spacecam.transform.localPosition = Vector3.zero;
+        }
+
+        void OnKill() { transform.parent = escapePod.transform; Restart(); }
+
+        void OnJump() {
+            StartSemaphore(Jumping);
+            IEnumerator Jumping() {
+                yield return new WaitForSeconds(1);
+                SceneManager.LoadSceneAsync("Moon Base Delta");
+            }
+        }
+
+        public void Restart() {
+            StartSemaphore(Restarting);
+            IEnumerator Restarting() {
+                yield return new WaitForSeconds(10);
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+                yield return new WaitForSeconds(10);
+            }
+        }
+    }
+}

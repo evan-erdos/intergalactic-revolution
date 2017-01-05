@@ -1,0 +1,42 @@
+---
+type: [starsystem] # planet
+---
+
+Epsilon Eridani: !!starsystem
+  position: [1,2,3]
+  systems: [Alpha Centauri, Tau Ceti, Rigel]
+
+Tau Ceti: !!starsystem
+  position: [2,2,3]
+  systems: [Alpha Centauri, Rigel]
+
+Alpha Centauri: !!starsystem
+  position: [-1,2,3]
+  systems: [Tau Ceti, Rigel]
+
+Rigel: !!starsystem
+  position: [1,12,3]
+  systems: [Nigel]
+
+Nigel: !!starsystem
+  position: [1,13,3]
+  systems: [Rigel]
+
+# date:
+# - 1885-01-12
+# - 2013-03-21
+# - 2105-10-24
+# - 2598-10-18
+# - 2842-06-17
+# ---
+#
+# sun: !!planet
+#   radius: 696300km
+#   period: 86400D
+
+# terra: !!planet
+#   radius: 6371km
+#   period: 1D
+#   orbit: 365D
+
+...
