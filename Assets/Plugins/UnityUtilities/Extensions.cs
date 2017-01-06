@@ -143,6 +143,35 @@ public static class Extensions {
     // RegexOptions.IgnorePatternWhitespace |
     // RegexOptions.Compiled);
 
+    public static void Disable<T>(this GameObject o) where T : Component => o.Disable<T>();
+    public static void Disable<T>(this Component o) where T : Component => o.Disable<T>();
+    public static void Disable(this Behaviour o) => o.Enable(false);
+
+    public static void Enable<T>(this GameObject o) where T : Component => o.Enable<T>();
+    public static void Enable<T>(this Component o) where T : Component => o.Enable<T>();
+    public static void Enable(this Behaviour o, bool isOn=true) => o.enabled = isOn;
+
+    public static T Get<T>(this GameObject gameObject) =>
+        GetComponentOrNull<T>(gameObject.GetComponent<T>());
+
+    public static T Get<T>(this Component component) =>
+        GetComponentOrNull<T>(component.GetComponent<T>());
+
+    public static T GetParent<T>(this GameObject gameObject) =>
+        GetComponentOrNull<T>(gameObject.GetComponentInParent<T>());
+
+    public static T GetParent<T>(this Component component) =>
+        GetComponentOrNull<T>(component.GetComponentInParent<T>());
+
+    public static T GetChild<T>(this GameObject gameObject) =>
+        GetComponentOrNull<T>(gameObject.GetComponentInChildren<T>());
+
+    public static T GetChild<T>(this Component component) =>
+        GetComponentOrNull<T>(component.GetComponentInChildren<T>());
+
+    static T GetComponentOrNull<T>(T component) =>
+        (component==null)?default(T):component;
+
     public static T GetChild<T>(this GameObject o, string s) {
         foreach (Transform child in o.transform)
             if (child.tag == s) return child.GetComponent<T>();
@@ -155,14 +184,6 @@ public static class Extensions {
         from Transform child in gameObject.transform
         where child.tag==tag
         select child.GetComponent<T>();
-
-    public static T Get<T>(this GameObject o) {
-        var component = o.GetComponent<T>();
-        return (component==null)?default(T):component; }
-
-    public static T Get<T>(this Component o) {
-        var component = o.GetComponent<T>();
-        return (component==null)?default(T):component; }
 
     public static T Create<T>(GameObject original) where T : Component =>
         Create<T>(original, Vector3.zero, Quaternion.identity);

@@ -10,7 +10,7 @@ using Adventure.Astronautics;
 namespace Adventure.Astronautics.Spaceships {
     public class Spaceship : SpaceObject, ISpaceship {
         bool hasJettisoned, boost, isDisabled;
-        float energy, bankedTurnAmount, aeroCoefficient, radius = 100000;
+        float energy, aeroFactor;
         new AudioSource audio;
         new Rigidbody rigidbody;
         LayerMask layerMask;
@@ -20,7 +20,12 @@ namespace Adventure.Astronautics.Spaceships {
         List<IShipComponent> mechanics = new List<IShipComponent>();
         Stack<IDamageable> parts = new Stack<IDamageable>();
         List<ParticleSystem> hypertrail = new List<ParticleSystem>();
-        List<Blaster> blasters = new List<Blaster>();
+
+        [SerializeField] List<Blaster> blasters = new List<Blaster>();
+        [SerializeField] List<Blaster> rockets = new List<Blaster>();
+        [SerializeField] List<Blaster> others = new List<Blaster>();
+        List<Blaster> weapons = new List<Blaster>();
+
         [SerializeField] float health = 400;
         [SerializeField] float enginePower = 800;
         [SerializeField] float rollEffect = 1;
@@ -33,47 +38,51 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] float dragEffect = 0.001f;
         [SerializeField] float energyThrust = 400;
         [SerializeField] float energyCapacity = 2000;
-        [SerializeField] float energyRate = 20;
+        [SerializeField] float energyRate = 50;
         [SerializeField] float energyGain = 20;
+        [SerializeField] float energyJump = 200;
         [SerializeField] float oversteer = 0.9f;
         [SerializeField] float topSpeed = 1500;
-        [SerializeField] float wingspan = 4;
         [SerializeField] float maneuveringThrust = 100;
         [SerializeField] List<AudioClip> hitSounds = new List<AudioClip>();
         [SerializeField] RandList<AudioClip> sounds = new RandList<AudioClip>();
         [SerializeField] protected AudioClip modeClip;
+        [SerializeField] protected AudioClip selectClip;
         [SerializeField] protected AudioClip hyperspaceClip;
         [SerializeField] protected GameObject pod;
         [SerializeField] protected GameObject explosion;
         [SerializeField] protected GameObject hyperspace;
         [SerializeField] protected AudioClip sound;
-        [SerializeField] protected Blaster rockets;
         [SerializeField] protected SpaceEvent onKill = new SpaceEvent();
         [SerializeField] protected SpaceEvent onJump = new SpaceEvent();
         [SerializeField] protected SpaceEvent onDamage = new SpaceEvent();
         public event SpaceAction KillEvent;
         public event SpaceAction JumpEvent;
         public event DamageAction DamageEvent;
-        public bool AirBrakes {get;protected set;}
         public bool IsDisabled {get;protected set;}
-        public float Throttle {get;protected set;}
-        public float ForwardSpeed {get;protected set;}
-        public float EnginePower {get;protected set;}
-        public float CurrentPower {get;protected set;}
+        public bool AirBrakes {get;protected set;}
+        public float Roll {get;protected set;}
+        public float Pitch {get;protected set;}
+        public float Spin {get;protected set;}
+        public float Yaw {get;protected set;}
+        public float Shift {get;protected set;}
         public float RollAngle {get;protected set;}
         public float PitchAngle {get;protected set;}
-        public float RollInput {get;protected set;}
-        public float PitchInput {get;protected set;}
-        public float SpinInput {get;protected set;}
-        public float YawInput {get;protected set;}
-        public float SteepInput {get;protected set;}
-        public float ThrottleInput {get;protected set;}
-        public float AeroEffect {get;protected set;}
-        public float TopSpeed {get;protected set;}
-        public float Health {get;protected set;}
-        public float MaxHealth {get;protected set;}
-        public float EnergyCapacity {get; protected set;}
         public Spaceship Target {get;protected set;}
+
+        public int CargoSpace {get;protected set;} = 20;
+        public float Throttle {get;protected set;} = 0;
+        public float ForwardSpeed {get;protected set;}
+        public float EnginePower {get;protected set;} = 800;
+        public float CurrentPower {get;protected set;} = 800;
+        public float AeroEffect {get;protected set;} = 0.02f;
+        public float TopSpeed {get;protected set;} = 1500;
+        public float Health {get;protected set;} = 400;
+        public float MaxHealth {get;protected set;} = 400;
+        public float EnergyCapacity {get;protected set;} = 2000;
+        public float EnergyPotential => (Boost?-energyRate:energyGain);
+        public float MaxThrottle => 2;
+        public float EnergyJump => energyJump;
         public (float x,float y,float z) Velocity => rigidbody.velocity.ToTuple();
         public bool Boost {
             get { return boost && Energy>1; }
@@ -93,14 +102,30 @@ namespace Adventure.Astronautics.Spaceships {
             (Health, MaxHealth) = (health, health);
             (EnginePower, CurrentPower) = (enginePower, enginePower);
             (AeroEffect, TopSpeed) = (aerodynamicEffect, topSpeed);
-            (Energy, EnergyCapacity) = (energy, energyCapacity);
+            (EnergyCapacity, Energy) = (energyCapacity, energyCapacity);
+        }
+
+
+        int nextWeapon = -1;
+        public void SelectWeapon() {
+            StartSemaphore(Selecting);
+            IEnumerator Selecting() {
+                weapons.ForEach(o => o.gameObject.SetActive(false));
+                weapons.Clear();
+                switch (++nextWeapon%3) {
+                    case 0: weapons.AddRange(blasters); break;
+                    case 1: weapons.AddRange(rockets); break;
+                    case 2: weapons.AddRange(others); break; }
+                weapons.ForEach(o => o.gameObject.SetActive(true));
+                audio.PlayOneShot(selectClip);
+                yield return new WaitForSeconds(0.3f);
+            }
         }
 
         void Awake() {
             Reset();
             layerMask = LayerMask.NameToLayer("AI");
-            foreach (var blaster in GetComponentsInChildren<Blaster>())
-                if (blaster.name=="High Energy Blaster") blasters.Add(blaster);
+            // blasters.AddRange(GetComponentsInChildren<Blaster>());
             sounds.AddRange(hitSounds);
             mechanics.AddRange(GetComponentsInChildren<IShipComponent>());
             var query =
@@ -108,19 +133,21 @@ namespace Adventure.Astronautics.Spaceships {
                 where particles.name=="Hypertrail"
                 select particles;
             hypertrail.AddRange(query);
-            if (0<hypertrail.Count)
-                hypertrail.ForEach(o => o.gameObject.SetActive(false));
+            hypertrail.ForEach(o => o.gameObject.SetActive(false));
             parts = new Stack<IDamageable>(GetComponentsInChildren<IDamageable>());
             rigidbody = GetComponent<Rigidbody>();
             audio = gameObject.AddComponent<AudioSource>();
-            (audio.clip, audio.loop, audio.playOnAwake) = (sound, true, false);
+            (audio.clip, audio.loop, audio.playOnAwake) = (sound,true,false);
             onKill.AddListener((o,e) => OnKill());
             onJump.AddListener((o,e) => OnJump());
             onDamage.AddListener((o,e) => OnDamage(1));
         }
 
         IEnumerator Start() {
-            StartCoroutine(RegenerateBoost());
+            blasters.ForEach(o => o.gameObject.SetActive(false));
+            rockets.ForEach(o => o.gameObject.SetActive(false));
+            others.ForEach(o => o.gameObject.SetActive(false));
+            SelectWeapon();
             while (true) {
                 yield return new WaitForSeconds(1);
                 FindTargets();
@@ -130,26 +157,21 @@ namespace Adventure.Astronautics.Spaceships {
                         transform.Distance(y.transform)));
                 if (targets.Count>0) Target = targets[0];
             }
-
-            IEnumerator RegenerateBoost() {
-                var wait = new WaitForSeconds(1);
-                while (true) { yield return wait; Energy += energyGain; }
-            }
         }
 
         void OnEnable() {
             KillEvent += onKill.Invoke;
             JumpEvent += onJump.Invoke;
-            DamageEvent += (o,e) => OnDamage(e); // icky, use onDamage.Invoke
+            DamageEvent += (o,e) => OnDamage(e);
         }
 
         void OnDisable() {
             KillEvent -= onKill.Invoke;
             JumpEvent -= onJump.Invoke;
-            DamageEvent -= (o,e) => OnDamage(e); // icky, use onDamage.Invoke
+            DamageEvent -= (o,e) => OnDamage(e);
         }
 
-        void FixedUpdate() => Energy -= (Boost)?energyRate*Time.fixedDeltaTime:0;
+        void FixedUpdate() => Energy += EnergyPotential*Time.fixedDeltaTime;
         void OnCollisionEnter(Collision c) => Damage(c.impulse.magnitude);
 
         void OnChangeMode() {
@@ -163,7 +185,7 @@ namespace Adventure.Astronautics.Spaceships {
                     case FlightMode.Manual: Manual(); break;
                     case FlightMode.Assisted: Assisted(); break;
                     case FlightMode.Navigation: Navigation(); break;
-                } yield return new WaitForSeconds(0.1f);
+                } yield return new WaitForSeconds(0.05f);
             }
         }
 
@@ -171,34 +193,17 @@ namespace Adventure.Astronautics.Spaceships {
             if (0>=parts.Count) return;
             var part = parts.Pop();
             part.Damage(1000000);
-            if (!(part is Blaster blaster)) return;
-            blaster.Disable();
-            blasters.Remove(blaster);
+            if (part is Blaster blaster) blaster.Disable();
         }
 
-        void FindTargets() {
+        void FindTargets(float radius=100000) {
             Physics.OverlapSphereNonAlloc(
-                position: transform.position,
-                radius: radius,
-                results: colliders,
-                layerMask: layerMask);
+                transform.position,radius,colliders,layerMask);
             foreach (var collider in colliders) {
                 if (collider is null) return;
                 if (collider.attachedRigidbody is null) continue;
                 var ship = collider.attachedRigidbody.GetComponent<Spaceship>();
                 if (ship) targets.Add(ship);
-            }
-        }
-
-        void OnDamage(float damage) {
-            if (hasJettisoned) return;
-            Health -= damage;
-            StartSemaphore(Damaging);
-            IEnumerator Damaging() {
-                audio.PlayOneShot(sounds.Pick(),1);
-                if (damage>200) SevereDamage();
-                if (Health<0) KillEvent(this, new SpaceArgs());
-                yield return new WaitForSeconds(0.1f);
             }
         }
 
@@ -213,20 +218,15 @@ namespace Adventure.Astronautics.Spaceships {
                         Quaternion rotation,
                         (float,float,float) velocity) {
             if (PreFire()) StartSemaphore(Firing);
-            bool PreFire() => blasters.Count>0;
+            bool PreFire() => weapons.Count>0;
             IEnumerator Firing() {
-                var blaster = blasters[++next%blasters.Count];
-                blaster.Fire(position, rotation, velocity);
-                yield return new WaitForSeconds(0.1f);
+                // var blaster = blasters[++next%blasters.Count];
+                var blaster = weapons[++next%weapons.Count];
+                if (blaster.gameObject.activeSelf)
+                    blaster.Fire(position, rotation, velocity);
+                yield return new WaitForSeconds(blaster.Rate/weapons.Count);
             }
         }
-
-        public void FireRockets() => FireRockets(Target);
-        public void FireRockets(SpaceObject target) => rockets.Fire(
-            position: (target is null)
-                ? transform.forward*200
-                : target.transform.position,
-            velocity: rigidbody.velocity);
 
         public void Move(
                         bool brakes = false,
@@ -234,98 +234,83 @@ namespace Adventure.Astronautics.Spaceships {
                         float roll = 0,
                         float pitch = 0,
                         float yaw = 0,
-                        float steep = 0,
-                        float throttle = 0,
-                        float spin=0) {
+                        float throttle = 0) {
             if (IsDisabled) return;
-            RollInput = Mathf.Clamp(roll, -1, 1);
-            PitchInput = Mathf.Clamp(pitch, -1, 1);
-            YawInput = Mathf.Clamp(yaw, -1, 1);
-            SteepInput = Mathf.Clamp(steep, -1, 1);
-            ThrottleInput = Mathf.Clamp(throttle, -1, 1);
-            SpinInput = Mathf.Clamp(spin, -1, 1);
+            Roll = Mathf.Clamp(roll,-1,1);
+            Pitch = Mathf.Clamp(pitch,-1,1);
+            Yaw = Mathf.Clamp(yaw,-1,1);
+            Shift = Mathf.Clamp(throttle,-1,1);
+            Spin = Mathf.Clamp(throttle,-1,1);
             AirBrakes = brakes;
             Boost = boost;
+            ForwardSpeed = Mathf.Max(
+                0,transform.InverseTransformDirection(rigidbody.velocity).z);
 
             switch (Mode) {
-                case FlightMode.Manual: ManualFlight(); break;
-                case FlightMode.Assisted: AssitedFlight(); break;
-                case FlightMode.Navigation: NavigationFlight(); break;
+                case FlightMode.Manual: ManualFlight(); goto default;
+                case FlightMode.Assisted: AssitedFlight(); goto default;
+                case FlightMode.Navigation: NavigationFlight(); goto default;
                 default: DefaultFlight(); break;
             }
 
             void ManualFlight() {
-                (Throttle, ThrottleInput) = (0,0);
-                // CalculateRollAndPitchAngles();
-                // AutoLevel();
-                CalculateForwardSpeed();
-                // ControlThrottle();
-                CalculateDrag();
-                // CaluclateAerodynamics();
-                CalculateForce();
-                // CalculateTorque();
+                (Throttle, Shift) = (0,-1); ControlThrottle();
+                (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
+                rigidbody.AddForce(CalculateForce().ToVector());
+                rigidbody.AddForce(CalculateThrust().ToVector());
                 CalculateSpin();
                 CalculateManeuverThrust();
-                CalculateYawThrust();
-                CalculateJump();
             }
 
             void AssitedFlight() {
-                // CalculateRollAndPitchAngles();
-                // AutoLevel();
-                CalculateForwardSpeed();
-                ControlThrottle();
-                CalculateDrag();
-                CaluclateAerodynamics();
-                CalculateForce();
-                CalculateTorque();
+                (Throttle,CurrentPower) = ControlThrottle();
+                (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
+                (rigidbody.velocity, rigidbody.rotation) = CaluclateAerodynamics();
+                rigidbody.AddForce(CalculateForce().ToVector());
+                rigidbody.AddTorque(CalculateTorque().ToVector());
                 CalculateManeuverThrust();
             }
 
             void NavigationFlight() {
                 CalculateRollAndPitchAngles();
                 AutoLevel();
-                CalculateForwardSpeed();
-                ControlThrottle();
-                CalculateDrag();
-                CaluclateAerodynamics();
-                CalculateForce();
-                CalculateTorque();
-                CalculateSpin();
+                (Throttle,CurrentPower) = ControlThrottle();
+                (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
+                (rigidbody.velocity, rigidbody.rotation) = CaluclateAerodynamics();
+                rigidbody.AddForce(CalculateForce().ToVector());
+                rigidbody.AddTorque(CalculateTorque().ToVector());
+                // CalculateSpin();
                 CalculateManeuverThrust();
-                CalculateJump();
-                CalculateSpin();
+                // CalculateJump();
             }
 
             void DefaultFlight() {
-                CalculateRollAndPitchAngles();
-                AutoLevel();
-                CalculateForwardSpeed();
-                ControlThrottle();
-                CalculateDrag();
-                CaluclateAerodynamics();
-                CalculateForce();
-                CalculateTorque();
-                CalculateSpin();
-                CalculateManeuverThrust();
-                CalculateJump();
+                // CalculateRollAndPitchAngles();
+                // AutoLevel();
+                // (Throttle,Shift) = ControlThrottle();
+                // (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
+                // (rigidbody.velocity, rigidbody.rotation) = CaluclateAerodynamics();
+                // rigidbody.AddForce(CalculateForce().ToVector());
+                // rigidbody.AddTorque(CalculateTorque().ToVector());
+                // CalculateSpin();
+                // CalculateManeuverThrust();
             }
         }
 
-
+        (float,float,float) CalculateThrust() =>
+            (transform.forward*(Boost?energyThrust:0)).ToTuple();
 
         void CalculateJump() {
-            if (Mode!=FlightMode.Navigation) return;
             if (!Boost || !AirBrakes || Energy<20) return;
-            Jump(Quaternion.LookRotation(Vector3.left), null);
+            Jump(Quaternion.LookRotation(Vector3.left),null);
         }
 
         public void Jump(Quaternion direction, StarSystem system) {
             StartSemaphore(Jumping);
             IEnumerator Jumping() {
                 IsDisabled = true;
-                //while (--Throttle>0) yield return new WaitForSeconds(0.1f);
-                (Throttle, ThrottleInput) = (0,0);
+                while (--Throttle>0) yield return new WaitForSeconds(0.1f);
+                (Throttle, Shift) = (0,0);
                 (rigidbody.drag, rigidbody.angularDrag) = (10,10);
                 while (Mathf.Abs(Quaternion.Dot(transform.rotation,direction))<0.9999f) {
                     yield return new WaitForFixedUpdate();
@@ -334,18 +319,13 @@ namespace Adventure.Astronautics.Spaceships {
                 audio.PlayOneShot(hyperspaceClip);
                 Throttle = 20;
                 ControlThrottle();
-                Boost = true;
                 rigidbody.AddForce(transform.forward*1000, ForceMode.Impulse);
                 hypertrail.ForEach(o => {o.gameObject.SetActive(true);o.Play();});
                 yield return new WaitForSeconds(5);
-                Instantiate(hyperspace, transform.position, Quaternion.identity);
+                Create(hyperspace);
                 transform.position += transform.forward*100;
                 rigidbody.AddForce(transform.forward*100000, ForceMode.Impulse);
                 IsDisabled = false;
-                hypertrail.ForEach(o => o.Stop());
-                yield return new WaitForSeconds(1);
-                hypertrail.ForEach(o => o.gameObject.SetActive(false));
-                yield return new WaitForSeconds(3);
                 JumpEvent(this, new SpaceArgs());
             }
         }
@@ -358,11 +338,24 @@ namespace Adventure.Astronautics.Spaceships {
             rigidbody.velocity = GetComponent<Rigidbody>().velocity;
             rigidbody.angularVelocity = GetComponent<Rigidbody>().angularVelocity;
             rigidbody.AddForce(transform.up*200, ForceMode.VelocityChange);
-            Array.ForEach(pod.GetComponentsInChildren<ParticleSystem>(),
-                o => o.Play());
+            pod.GetComponentsInChildren<ParticleSystem>().ForEach(o => o.Play());
         }
 
-        void OnJump() => Instantiate(explosion, transform.position, transform.rotation);
+        void OnJump() => hypertrail.ForEach(o => o.Stop());
+
+        void OnDamage(float damage) {
+            if (hasJettisoned) return;
+            Health -= damage;
+            StartSemaphore(Damaging);
+            IEnumerator Damaging() {
+                audio.PlayOneShot(sounds.Pick(),1);
+                if (damage>200) SevereDamage();
+                if (Health<0 && !hasJettisoned) Kill();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        void Kill() { if (KillEvent!=null) KillEvent(this,new SpaceArgs()); }
 
         void OnKill() {
             if (hasJettisoned) return;
@@ -383,17 +376,15 @@ namespace Adventure.Astronautics.Spaceships {
                     yield return new WaitForSeconds(0.1f); }
                 Jettison();
                 mechanics.ForEach(o => o.Disable());
-                Instantiate(explosion, transform.position, transform.rotation);
+                Create(explosion);
                 yield return new WaitForSeconds(1);
-                Instantiate(explosion, transform.position, transform.rotation);
                 enabled = false;
                 audio.Stop();
             }
         }
 
-
         void CalculateRollAndPitchAngles() {
-            var flat = new Vector3(transform.forward.x, 0, transform.forward.z);
+            var flat = new Vector3(transform.forward.x,0,transform.forward.z);
             if (flat.sqrMagnitude<=0) return;
             flat.Normalize();
             var localFlatForward = transform.InverseTransformDirection(flat);
@@ -405,115 +396,116 @@ namespace Adventure.Astronautics.Spaceships {
 
         void AutoLevel() {
             var (turnPitchAuto, pitchLevelAuto, rollLevelAuto) = (0,0,0);
-            bankedTurnAmount = Mathf.Sin(RollAngle);
-            if (RollInput==0) RollInput = -RollAngle*rollLevelAuto;
-            if (PitchInput==0) PitchInput = -PitchAngle*pitchLevelAuto - Mathf.Abs(
+            var bankedTurnAmount = Mathf.Sin(RollAngle);
+            if (Roll==0) Roll = -RollAngle*rollLevelAuto;
+            if (Pitch==0) Pitch = -PitchAngle*pitchLevelAuto - Mathf.Abs(
                 bankedTurnAmount*bankedTurnAmount*turnPitchAuto);
         }
 
-        void CalculateForwardSpeed() => ForwardSpeed = Mathf.Max(
-            0, transform.InverseTransformDirection(rigidbody.velocity).z);
-
-        void ControlThrottle() {
-            if (isDisabled) { ThrottleInput = 0; Throttle = 0; return; }
-            var deltaThrottle = ThrottleInput*Time.fixedDeltaTime*throttleEffect;
-            Throttle = Mathf.Clamp(Throttle+deltaThrottle, 0, 1.5f);
-            CurrentPower = Throttle*EnginePower + (Boost?energyThrust:0);
+        (float,float) ControlThrottle() {
+            if (isDisabled) return (0,0);
+            var throt = Shift*Time.fixedDeltaTime*throttleEffect;
+            throt = Mathf.Clamp(Throttle+throt,0,MaxThrottle);
+            return (throt,throt*EnginePower+(Boost?energyThrust:0));
         }
 
-        void CalculateDrag() {
-            if (isDisabled) { rigidbody.drag = 0; return; }
-            rigidbody.drag = rigidbody.velocity.magnitude*dragEffect * 0.5f;
-            rigidbody.drag *= (AirBrakes)?airBrakesEffect:1;
-            var steeringDrag = Mathf.Max(300,rigidbody.velocity.magnitude)/TopSpeed;
-            rigidbody.angularDrag = steeringDrag*oversteer;
-            rigidbody.angularDrag *= (AirBrakes)?airBrakesEffect:1;
-            rigidbody.angularDrag = Mathf.Max(4f,rigidbody.angularDrag);
+        (float,float) CalculateDrag() {
+            if (isDisabled) return (0, rigidbody.angularDrag);
+            var (drag, angularDrag) = (0f,0f);
+            drag += rigidbody.velocity.magnitude*dragEffect*0.5f;
+            drag *= (AirBrakes)?airBrakesEffect:1;
+            angularDrag += Mathf.Max(300,rigidbody.velocity.magnitude)/TopSpeed;
+            angularDrag *= oversteer*((AirBrakes)?airBrakesEffect:1);
+            angularDrag = Mathf.Max(4f,angularDrag);
+            return (drag, angularDrag);
         }
 
-        void CaluclateAerodynamics() {
-            if (rigidbody.velocity.magnitude<=0) return;
-            aeroCoefficient = Vector3.Dot(
-                transform.forward,
-                rigidbody.velocity.normalized);
-            aeroCoefficient *= aeroCoefficient;
-            var newVelocity = Vector3.Lerp(
-                rigidbody.velocity,
-                transform.forward*ForwardSpeed,
-                aeroCoefficient*ForwardSpeed*AeroEffect*Time.deltaTime);
-
-            rigidbody.velocity = newVelocity;
-
+        (Vector3,Quaternion) CaluclateAerodynamics() {
+            if (rigidbody.velocity.magnitude<=0)
+                return (rigidbody.velocity, rigidbody.rotation);
+            aeroFactor = Vector3.Dot(
+                transform.forward, rigidbody.velocity.normalized);
+            aeroFactor *= aeroFactor;
+            var velocity = Vector3.Lerp(
+                rigidbody.velocity, transform.forward*ForwardSpeed,
+                aeroFactor*ForwardSpeed*AeroEffect*Time.deltaTime);
+            var rotation = Quaternion.identity;
             if (rigidbody.velocity.sqrMagnitude>0.1f)
-                rigidbody.rotation = Quaternion.Slerp(
+                rotation = Quaternion.Slerp(
                     rigidbody.rotation,
-                    Quaternion.LookRotation(rigidbody.velocity, transform.up),
+                    Quaternion.LookRotation(rigidbody.velocity,transform.up),
                     AeroEffect*Time.deltaTime);
+            return (velocity, rotation);
         }
 
-        void CalculateForce() {
+        (float,float,float) CalculateForce() {
             var (Lift, zeroLiftSpeed) = (0,0); // (0.002f, 300);
             var forces = CurrentPower*transform.forward;
             var liftDirection = Vector3.Cross(rigidbody.velocity,transform.right);
             var zeroLift = Lift*Mathf.InverseLerp(zeroLiftSpeed,0,ForwardSpeed);
-            var liftPower = ForwardSpeed*ForwardSpeed*zeroLift*aeroCoefficient;
+            var liftPower = ForwardSpeed*ForwardSpeed*zeroLift*aeroFactor;
             forces += liftPower*liftDirection.normalized;
-            forces += transform.up * SteepInput;
-            rigidbody.AddForce(forces);
+            return (forces.x, forces.y, forces.z);
         }
 
-        void CalculateTorque() {
+        (float,float,float) CalculateTorque() {
             var torque = Vector3.zero;
-            var bankedTurnEffect = 0f;
-            torque += PitchInput*pitchEffect*transform.right;
-            torque += YawInput*yawEffect*transform.up;
-            torque -= RollInput*rollEffect*transform.forward;
-            torque += bankedTurnAmount*bankedTurnEffect*transform.up;
-            var spin = Mathf.Clamp(ForwardSpeed,0,TopSpeed)*aeroCoefficient;
-            var dragCompensation = Mathf.Max(1,rigidbody.angularDrag);
-            rigidbody.AddTorque(torque*spin*dragCompensation);
+            torque += Pitch*pitchEffect*transform.right;
+            torque += Yaw*yawEffect*transform.up;
+            torque -= Roll*rollEffect*transform.forward;
+            // torque += bankedTurnEffect*bankedTurnAmount*transform.up
+            torque *= Mathf.Clamp(ForwardSpeed,0,TopSpeed)*aeroFactor;
+            torque *= Mathf.Max(1,rigidbody.angularDrag);
+            return (torque.x, torque.y, torque.z);
         }
 
-        void CalculateSpin(float threshold=0.1f) {
-            if (Mathf.Abs(SpinInput)<=threshold) return;
-            if (Mode!=FlightMode.Manual) return;
+        void CalculateSpin(float threshold=0.5f) {
+            if (Mathf.Abs(Spin)<=threshold) return;
             Throttle = 0;
-            var direction =  Quaternion.LookRotation(
-                (0<SpinInput)?rigidbody.velocity:-rigidbody.velocity, transform.up);
-            rigidbody.rotation = Quaternion.Slerp(
-                rigidbody.rotation, direction, spinEffect*Time.fixedDeltaTime);
+            var direction = (0<Spin)?rigidbody.velocity:-rigidbody.velocity;
+            rigidbody.rotation = Quaternion.Lerp(
+                rigidbody.rotation,
+                Quaternion.LookRotation(direction,transform.up),
+                spinEffect*Time.fixedDeltaTime);
         }
 
         void CalculateManeuverThrust(float threshold=0.1f) {
-            if (RollInput>threshold) ApplyBalancedForce(
-                force: -transform.up * maneuveringThrust * RollInput,
-                displacement: transform.right*wingspan);
-            if (RollInput<-threshold) ApplyBalancedForce(
-                force: transform.up * maneuveringThrust * RollInput,
-                displacement: -transform.right*wingspan);
-        }
+            var wingspan = 4;
+            ManeuverRoll();
+            ManeuverPitch();
+            ManeuverYaw();
 
-        void CalculateYawThrust(float threshold=0.1f) {
-            if (YawInput>threshold) ApplyBalancedForce(
-                force: -transform.right * maneuveringThrust * YawInput,
-                displacement: transform.forward*3);
-            if (YawInput<-threshold) ApplyBalancedForce(
-                force: transform.right * maneuveringThrust * YawInput,
-                displacement: -transform.forward*3);
+            void ManeuverRoll() {
+                if (Roll>threshold) ApplyBalancedForce(
+                    force: -transform.up * maneuveringThrust * Roll,
+                    displacement: transform.right*wingspan);
+                if (Roll<-threshold) ApplyBalancedForce(
+                    force: transform.up * maneuveringThrust * Roll,
+                    displacement: -transform.right*wingspan);
+            }
+
+            void ManeuverPitch() {
+                if (Pitch>threshold) ApplyBalancedForce(
+                    force: transform.forward * maneuveringThrust * Pitch,
+                    displacement: transform.up*wingspan);
+                if (Pitch<-threshold) ApplyBalancedForce(
+                    force: -transform.forward * maneuveringThrust * Pitch,
+                    displacement: -transform.up*wingspan);
+            }
+
+            void ManeuverYaw() {
+                if (Yaw>threshold) ApplyBalancedForce(
+                    force: transform.right * maneuveringThrust * Yaw,
+                    displacement: transform.forward*wingspan);
+                if (Yaw<-threshold) ApplyBalancedForce(
+                    force: -transform.right * maneuveringThrust * Yaw,
+                    displacement: -transform.forward*wingspan);
+            }
         }
 
         void ApplyBalancedForce(Vector3 force, Vector3 displacement) {
-            rigidbody.AddForceAtPosition(
-                force: force,
-                position: transform.position + displacement);
-            rigidbody.AddForceAtPosition(
-                force: -force,
-                position: transform.position - displacement);
-
-#if _DEBUG
-            Debug.DrawRay(transform.position+displacement, force/100f, Color.green);
-            Debug.DrawRay(transform.position-displacement, -force/100f, Color.cyan);
-#endif
+            rigidbody.AddForceAtPosition(force,transform.position+displacement);
+            rigidbody.AddForceAtPosition(-force,transform.position-displacement);
         }
     }
 }

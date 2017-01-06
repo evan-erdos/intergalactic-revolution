@@ -11,12 +11,17 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected GameObject spaceCamera;
         [SerializeField] protected Spaceship spaceship;
         [SerializeField] protected GameObject escapePod;
+        [SerializeField] protected GameObject miniHUD;
+        [SerializeField] protected GameObject fullHUD;
 
         void Awake() {
             if (escapePod) GetComponent<Cam3D>().SetTarget(escapePod.transform);
             if (!spaceship) throw new SpaceException("No Spaceship!");
             var controller = GetComponent<SpaceshipController>();
             controller.Ship = spaceship;
+            controller.miniHUD = miniHUD;
+            controller.fullHUD = fullHUD;
+            fullHUD.SetActive(false);
             spaceship.KillEvent += (o,e) => OnKill();
             spaceship.JumpEvent += (o,e) => OnJump();
         }

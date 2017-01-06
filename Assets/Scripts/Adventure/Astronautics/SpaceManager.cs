@@ -16,13 +16,24 @@ namespace Adventure.Astronautics {
         Deserializer deserializer = new Deserializer();
         Map<Type,Map<SpaceObject>> objects = new Map<Type,Map<SpaceObject>>();
         Map<Map<SpaceObject.Data>> data = new Map<Map<SpaceObject.Data>>();
-        Map<StarSystem.Data> starSystemData = new Map<StarSystem.Data>();
+        static Map<StarSystem.Data> starSystemData = new Map<StarSystem.Data>();
         public static Settings settings {get;set;}
+        public static StarSystem CurrentSystem {get;set;}
+        public static StarSystem Destination {get;set;}
+        public static List<(string,double[])> NearbySystems => GetNearby(CurrentSystem);
         public static Map<StarSystem> StarSystems = new Map<StarSystem>();
         public static readonly Map<Type> tags = new Map<Type> {
             ["object"] = typeof(SpaceObject.Data),
             ["system"] = typeof(StarSystem.Data),
             ["settings"] = typeof(Adventure.Settings) };
+
+        public static List<(string,double[])> GetNearby(StarSystem system) {
+            var list = new List<(string,double[])>();
+            foreach (var item in starSystemData[system.Name].systems)
+                list.Add((item, starSystemData[item].position));
+            return list;
+        }
+
 
         void Awake() {
             path = $"{Application.streamingAssetsPath}/{root}";

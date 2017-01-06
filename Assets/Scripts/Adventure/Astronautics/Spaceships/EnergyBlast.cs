@@ -15,20 +15,20 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Hit() => HitEvent(this, new SpaceArgs());
 
-        public void Reset() {
+        public virtual void Reset() {
             GetComponent<ParticleSystem>().Stop();
-            (renderer.enabled, collider.enabled) = (true, true);
-            (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero);
+            (renderer.enabled, collider.enabled) = (true,true);
+            (rigidbody.isKinematic, rigidbody.velocity) = (false,Vector3.zero);
         }
 
-        void OnHit() {
+        protected virtual void OnHit() {
             gameObject.SetActive(true);
             GetComponent<ParticleSystem>().Play();
-            (renderer.enabled, collider.enabled) = (false, false);
+            (renderer.enabled, collider.enabled) = (false,false);
             rigidbody.isKinematic = true;
         }
 
-        void Awake() {
+        protected virtual void Awake() {
             rigidbody = GetComponent<Rigidbody>();
             collider = GetComponent<Collider>();
             renderer = GetComponent<Renderer>();

@@ -5,10 +5,10 @@ using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
     public class GuidedMissile : SpaceObject {
-        [SerializeField] float time = 20;
         [SerializeField] float track = 1;
         [SerializeField] float speed = 100;
         [SerializeField] float force = 100;
+        [SerializeField] float acceleration = 100;
         [SerializeField] protected GameObject particles;
         [SerializeField] protected SpaceEvent onHit = new SpaceEvent();
         new Rigidbody rigidbody;
@@ -30,12 +30,10 @@ namespace Adventure.Astronautics.Spaceships {
         IEnumerator Start() {
             collider.enabled = false;
             rigidbody.AddForce(
-                force: transform.forward*20,
+                force: transform.forward*acceleration,
                 mode: ForceMode.Acceleration);
             yield return new WaitForFixedUpdate();
             collider.enabled = true;
-            yield return new WaitForSeconds(time);
-            Hit();
         }
 
         void FixedUpdate() {
@@ -55,8 +53,7 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void OnCollisionEnter(Collision collision) {
-            var other = collision.collider.GetComponent<IDamageable>();
-            if (other!=null) other.Damage(Force);
+            collision.collider.Get<IDamageable>()?.Damage(Force);
             Hit();
         }
     }

@@ -38,8 +38,7 @@ namespace Adventure.Astronautics.Spaceships {
             turrets.AddRange(spaceship.GetComponentsInChildren<BlasterTurret>());
             while (!isDisabled) {
                 yield return new WaitForSeconds(5);
-                canFire = !canFire;
-                isBraking = !isBraking;
+                (canFire, isBraking) = (!canFire, !isBraking);
             }
         }
 

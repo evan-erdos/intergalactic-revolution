@@ -21,9 +21,7 @@ namespace Adventure.Astronautics.Spaceships {
             float roll,
             float pitch,
             float yaw,
-            float steep,
-            float throttle,
-            float spin);
+            float throttle);
 
         /// Jump : () => void
         /// tells the ship to jump to a particular system

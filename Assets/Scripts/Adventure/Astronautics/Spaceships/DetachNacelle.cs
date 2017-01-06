@@ -14,7 +14,8 @@ namespace Adventure.Astronautics.Spaceships {
             if (!enabled || damage<Health) return;
             var parent =  GetComponentInParent<Rigidbody>();
             var rigidbody = GetOrAdd<Rigidbody>();
-            var (velocity, angularVelocity) = (parent.velocity, parent.angularVelocity);
+            var (velocity, angularVelocity) = (parent.velocity,parent.angularVelocity);
+            rigidbody.mass = 10;
             (rigidbody.useGravity, rigidbody.isKinematic) = (false, false);
             (rigidbody.velocity, rigidbody.angularVelocity) = (velocity, angularVelocity);
             rigidbody.AddForce(10*transform.forward, ForceMode.Impulse);

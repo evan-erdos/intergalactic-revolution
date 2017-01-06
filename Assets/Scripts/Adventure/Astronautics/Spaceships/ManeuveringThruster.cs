@@ -16,7 +16,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         enum Axis { None, Roll, Pitch, Yaw };
 
-        public void Disable() { isDisabled = true; }
+        public void Disable() => isDisabled = true;
 
         void Start() {
             spaceship = GetComponentInParent<Spaceship>();
@@ -31,13 +31,11 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Update() {
             if (isDisabled) return;
-            var throttle = 0f;
-            var particleSystem = particles.main;
-
+            var (throttle, particleSystem) = (0f, particles.main);
             switch (axis) {
-                case Axis.Roll: throttle = spaceship.RollInput; break;
-                case Axis.Pitch: throttle = spaceship.PitchInput; break;
-                case Axis.Yaw: throttle = spaceship.YawInput; break;
+                case Axis.Roll: throttle = spaceship.Roll; break;
+                case Axis.Pitch: throttle = spaceship.Pitch; break;
+                case Axis.Yaw: throttle = spaceship.Yaw; break;
             }
 
             if (0<throttle && !reverse || throttle<0 && reverse) return;

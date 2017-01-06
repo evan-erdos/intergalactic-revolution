@@ -14,12 +14,26 @@ namespace Adventure.Astronautics {
         Semaphore semaphore;
         public virtual (float x,float y,float z) Position => transform.position.ToTuple();
         public virtual void Init() => semaphore = new Semaphore(StartCoroutine);
-
-        public T Get<T>() {
-            var component = GetComponent<T>();
-            return (component==null)?default(T):component;
-        }
-
+        protected void StartSemaphore(Func<IEnumerator> c) => semaphore.Invoke(c);
+        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
+        public override string ToString() => $"{name} - ({1} ton)";
+        public GameObject Create(GameObject original) =>
+            Create(original,transform.position, transform.rotation);
+        public GameObject Create(GameObject original, Vector3 position) =>
+            Create(original, transform.position, Quaternion.identity);
+        public GameObject Create(
+            GameObject original, Vector3 position, Quaternion rotation) =>
+                Instantiate(original,position,rotation) as GameObject;
+        public T Create<T>(GameObject original) =>
+            Create<T>(original, transform.position, transform.rotation);
+        public T Create<T>(GameObject original, Vector3 position) =>
+            Create<T>(original,position,Quaternion.identity);
+        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) =>
+            GetComponentOrNull<T>(Create(original,position,rotation).GetComponent<T>());
+        public T Get<T>() => GetComponentOrNull<T>(GetComponent<T>());
+        public T GetParent<T>() => GetComponentOrNull<T>(GetComponentInParent<T>());
+        public T GetChild<T>() => GetComponentOrNull<T>(GetComponentInChildren<T>());
+        T GetComponentOrNull<T>(T component) => (component==null)?default(T):component;
         public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
         public T GetOrAdd<T,U>() where T : Component where U : T {
             var component = GetComponent<T>();
@@ -35,25 +49,10 @@ namespace Adventure.Astronautics {
             } return instance;
         }
 
-        public T Create<T>(GameObject original) =>
-            Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original, Vector3 position) =>
-            Create<T>(original,position,Quaternion.identity);
-        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) {
-            var instance = Instantiate(original,position,rotation) as GameObject;
-            var component = instance.GetComponent<T>();
-            return (component==null)?default(T):component;
-        }
-
-
         protected Coroutine Wait(YieldInstruction wait, Action func) {
             return StartCoroutine(Waiting());
             IEnumerator Waiting() { yield return wait; func(); }
         }
-
-        protected void StartSemaphore(Func<IEnumerator> c) => semaphore.Invoke(c);
-        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
-        public override string ToString() => $"{name} - ({1} ton)";
 
         public class Data {
             public string name {get;set;}

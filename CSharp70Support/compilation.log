@@ -1,5 +1,30 @@
 ********************************************************************************
-*                     Wednesday, 04 January 2017 18:00:58                      *
+*                       Friday, 06 January 2017 16:33:18                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-19ea332a6c1574cb49564ea9be45a2ab -debug:portable
+Exit code: 0
+Elapsed time: 3.27 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (2 lines):
+0: Assets/Plugins/UnityUtilities/EmissionColor.cs(11,18): warning CS0109: The member 'EmissionColor.renderer' does not hide an inherited member. The new keyword is not required.
+1: Assets/Plugins/PostProcessing/Runtime/PostProcessingBehaviour.cs(30,14): warning CS0649: Field 'PostProcessingBehaviour.m_RenderingInSceneView' is never assigned to, and will always have its default value false
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:33:22                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.0.0
 Platform: Mac
@@ -11,7 +36,49 @@ Compiler: Microsoft C# 7.0
 - Compilation -----------------------------------------------
 
 Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-538433395e76e46e787bdbcf166fbe5c -debug:portable
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-88b8d3947d7c34027bf08f95734026ad -debug:portable
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (19 lines):
+0: Assets/Scripts/EnergyMeter.cs(12,22): warning CS0109: The member 'EnergyMeter.renderer' does not hide an inherited member. The new keyword is not required.
+1: Assets/Scripts/HeadingMeter.cs(14,22): warning CS0109: The member 'HeadingMeter.renderer' does not hide an inherited member. The new keyword is not required.
+2: Assets/Scripts/HealthMeter.cs(12,22): warning CS0109: The member 'HealthMeter.renderer' does not hide an inherited member. The new keyword is not required.
+3: Assets/Scripts/HyperspaceMeter.cs(12,22): warning CS0109: The member 'HyperspaceMeter.renderer' does not hide an inherited member. The new keyword is not required.
+4: Assets/Scripts/EngineMeter.cs(12,22): warning CS0109: The member 'EngineMeter.renderer' does not hide an inherited member. The new keyword is not required.
+5: Assets/Scripts/VelocityMeter.cs(13,22): warning CS0109: The member 'VelocityMeter.renderer' does not hide an inherited member. The new keyword is not required.
+6: Assets/Scripts/ThrottleMeter.cs(13,22): warning CS0109: The member 'ThrottleMeter.renderer' does not hide an inherited member. The new keyword is not required.
+7: Assets/Scripts/Adventure/Astronautics/Spaceships/GuidedMissile.cs(14,23): warning CS0109: The member 'GuidedMissile.rigidbody' does not hide an inherited member. The new keyword is not required.
+8: Assets/Scripts/Adventure/Astronautics/Spaceships/GuidedMissile.cs(15,22): warning CS0109: The member 'GuidedMissile.collider' does not hide an inherited member. The new keyword is not required.
+9: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAIController.cs(17,23): warning CS0109: The member 'SpaceshipAIController.rigidbody' does not hide an inherited member. The new keyword is not required.
+10: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAudio.cs(37,23): warning CS0109: The member 'SpaceshipAudio.rigidbody' does not hide an inherited member. The new keyword is not required.
+11: Assets/Scripts/Adventure/Astronautics/Spaceships/Blaster.cs(22,35): warning CS0109: The member 'Blaster.audio' does not hide an inherited member. The new keyword is not required.
+12: Assets/Scripts/Adventure/Astronautics/Spaceships/Blaster.cs(23,33): warning CS0109: The member 'Blaster.rigidbody' does not hide an inherited member. The new keyword is not required.
+13: Assets/Scripts/Adventure/Astronautics/Spaceships/Spaceship.cs(14,25): warning CS0109: The member 'Spaceship.audio' does not hide an inherited member. The new keyword is not required.
+14: Assets/Scripts/Adventure/Astronautics/Spaceships/Spaceship.cs(15,23): warning CS0109: The member 'Spaceship.rigidbody' does not hide an inherited member. The new keyword is not required.
+15: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(8,33): warning CS0109: The member 'EnergyBlast.rigidbody' does not hide an inherited member. The new keyword is not required.
+16: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(9,32): warning CS0109: The member 'EnergyBlast.collider' does not hide an inherited member. The new keyword is not required.
+17: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(10,32): warning CS0109: The member 'EnergyBlast.renderer' does not hide an inherited member. The new keyword is not required.
+18: Assets/Scripts/Adventure/Astronautics/Spaceships/BlasterTurret.cs(13,23): warning CS0109: The member 'BlasterTurret.rigidbody' does not hide an inherited member. The new keyword is not required.
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:33:51                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-22ff8ee8aedb948d3887b2ff4f067f97 -debug:portable
 Exit code: 0
 Elapsed time: 3.25 sec
 
@@ -20,4 +87,324 @@ Elapsed time: 3.25 sec
 - Compiler errors (0 lines):
 
 PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:33:55                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-d96f27a811dc54fe6931df24126367da -debug:portable
+Exit code: 0
+Elapsed time: 4.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
 File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:33:55                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-15331ca4432a34487b5116ab6c779914 -debug:portable
+Exit code: 0
+Elapsed time: 3.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:38:43                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-0506c8a7311494dbd99ab67d688bc5dd -debug:portable
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:38:48                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-b5650f7824a894d479fe788f0ce4a79f -debug:portable
+Exit code: 0
+Elapsed time: 3.77 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:38:57                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-48e0ff1ce241a4f4cb173de06f2485f1 -debug:portable
+Exit code: 0
+Elapsed time: 3.24 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (2 lines):
+0: Assets/Plugins/UnityUtilities/EmissionColor.cs(11,18): warning CS0109: The member 'EmissionColor.renderer' does not hide an inherited member. The new keyword is not required.
+1: Assets/Plugins/PostProcessing/Runtime/PostProcessingBehaviour.cs(30,14): warning CS0649: Field 'PostProcessingBehaviour.m_RenderingInSceneView' is never assigned to, and will always have its default value false
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:39:00                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-42ff65663c79d4614b9e380770ded8f0 -debug:portable
+Exit code: 0
+Elapsed time: 3.23 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (19 lines):
+0: Assets/Scripts/HeadingMeter.cs(14,22): warning CS0109: The member 'HeadingMeter.renderer' does not hide an inherited member. The new keyword is not required.
+1: Assets/Scripts/EnergyMeter.cs(12,22): warning CS0109: The member 'EnergyMeter.renderer' does not hide an inherited member. The new keyword is not required.
+2: Assets/Scripts/HealthMeter.cs(12,22): warning CS0109: The member 'HealthMeter.renderer' does not hide an inherited member. The new keyword is not required.
+3: Assets/Scripts/HyperspaceMeter.cs(12,22): warning CS0109: The member 'HyperspaceMeter.renderer' does not hide an inherited member. The new keyword is not required.
+4: Assets/Scripts/EngineMeter.cs(12,22): warning CS0109: The member 'EngineMeter.renderer' does not hide an inherited member. The new keyword is not required.
+5: Assets/Scripts/ThrottleMeter.cs(13,22): warning CS0109: The member 'ThrottleMeter.renderer' does not hide an inherited member. The new keyword is not required.
+6: Assets/Scripts/VelocityMeter.cs(13,22): warning CS0109: The member 'VelocityMeter.renderer' does not hide an inherited member. The new keyword is not required.
+7: Assets/Scripts/Adventure/Astronautics/Spaceships/GuidedMissile.cs(14,23): warning CS0109: The member 'GuidedMissile.rigidbody' does not hide an inherited member. The new keyword is not required.
+8: Assets/Scripts/Adventure/Astronautics/Spaceships/GuidedMissile.cs(15,22): warning CS0109: The member 'GuidedMissile.collider' does not hide an inherited member. The new keyword is not required.
+9: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAIController.cs(17,23): warning CS0109: The member 'SpaceshipAIController.rigidbody' does not hide an inherited member. The new keyword is not required.
+10: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAudio.cs(37,23): warning CS0109: The member 'SpaceshipAudio.rigidbody' does not hide an inherited member. The new keyword is not required.
+11: Assets/Scripts/Adventure/Astronautics/Spaceships/Blaster.cs(22,35): warning CS0109: The member 'Blaster.audio' does not hide an inherited member. The new keyword is not required.
+12: Assets/Scripts/Adventure/Astronautics/Spaceships/Blaster.cs(23,33): warning CS0109: The member 'Blaster.rigidbody' does not hide an inherited member. The new keyword is not required.
+13: Assets/Scripts/Adventure/Astronautics/Spaceships/Spaceship.cs(14,25): warning CS0109: The member 'Spaceship.audio' does not hide an inherited member. The new keyword is not required.
+14: Assets/Scripts/Adventure/Astronautics/Spaceships/Spaceship.cs(15,23): warning CS0109: The member 'Spaceship.rigidbody' does not hide an inherited member. The new keyword is not required.
+15: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(8,33): warning CS0109: The member 'EnergyBlast.rigidbody' does not hide an inherited member. The new keyword is not required.
+16: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(9,32): warning CS0109: The member 'EnergyBlast.collider' does not hide an inherited member. The new keyword is not required.
+17: Assets/Scripts/Adventure/Astronautics/Spaceships/EnergyBlast.cs(10,32): warning CS0109: The member 'EnergyBlast.renderer' does not hide an inherited member. The new keyword is not required.
+18: Assets/Scripts/Adventure/Astronautics/Spaceships/BlasterTurret.cs(13,23): warning CS0109: The member 'BlasterTurret.rigidbody' does not hide an inherited member. The new keyword is not required.
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:40:41                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-cf3911160008d4d2195d065101a952b1 -debug:portable
+Exit code: 0
+Elapsed time: 3.80 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:40:45                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-968c01ff5bc704ac5ae0fffc8298b7d9 -debug:portable
+Exit code: 0
+Elapsed time: 4.79 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:40:45                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-dd3b4a215af83488fab583112f7a675e -debug:portable
+Exit code: 0
+Elapsed time: 4.30 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:42:06                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-05cd44bca46eb4fd89a7062e18defede -debug:portable
+Exit code: 0
+Elapsed time: 3.78 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:42:10                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-203e1b277247947bd9e51dc4450022b2 -debug:portable
+Exit code: 0
+Elapsed time: 3.78 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:42:15                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-1d98748a57d334ed28c0d83c8c13fcbd -debug:portable
+Exit code: 0
+Elapsed time: 3.75 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                       Friday, 06 January 2017 16:42:15                       *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-7f813b219a11940fa8ea6902c3c316ea -debug:portable
+Exit code: 0
+Elapsed time: 3.75 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted
