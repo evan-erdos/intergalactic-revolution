@@ -36,7 +36,9 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void OnEnable() => HitEvent += onHit.Invoke;
-        void OnDisable() => HitEvent -= onHit.Invoke;
+        protected override void OnDisable() { base.OnDisable();
+            HitEvent -= onHit.Invoke;
+        }
 
         void OnCollisionEnter(Collision c) {
             var other = c.rigidbody?.GetComponentInParent<IDamageable>();

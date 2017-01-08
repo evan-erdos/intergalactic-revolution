@@ -15,9 +15,9 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected GameObject fullHUD;
 
         void Awake() {
-            if (escapePod) GetComponent<Cam3D>().SetTarget(escapePod.transform);
+            if (escapePod) Get<Cam3D>()?.SetTarget(escapePod.transform);
             if (!spaceship) throw new SpaceException("No Spaceship!");
-            var controller = GetComponent<SpaceshipController>();
+            var controller = Get<SpaceshipController>();
             controller.Ship = spaceship;
             controller.miniHUD = miniHUD;
             controller.fullHUD = fullHUD;
@@ -29,11 +29,10 @@ namespace Adventure.Astronautics.Spaceships {
         void Start() {
             transform.parent = spaceship.transform;
             if (!spaceCamera) return;
-            var instance = Instantiate(spaceCamera) as GameObject;
             var camera = Camera.main;
-            var spacecam = instance.GetComponent<Camera>();
-            spacecam.rect = camera.rect;
-            spacecam.transform.localPosition = Vector3.zero;
+            var instance = Create<Camera>(spaceCamera);
+            instance.rect = camera.rect;
+            instance.transform.localPosition = Vector3.zero;
         }
 
         void OnKill() { transform.parent = escapePod.transform; Restart(); }
@@ -49,9 +48,9 @@ namespace Adventure.Astronautics.Spaceships {
         public void Restart() {
             StartSemaphore(Restarting);
             IEnumerator Restarting() {
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(5);
                 SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(5);
             }
         }
     }

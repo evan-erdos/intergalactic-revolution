@@ -9,24 +9,18 @@ namespace Adventure.Astronautics.Spaceships {
     /// a spaceship which can fly around and fire weapons
     public interface ISpaceship : IWeapon {
 
-        /// Velocity : (real, real, real)
+        /// Velocity : (real,real,real)
         /// current rate of speed of the ship
-        (float x, float y, float z) Velocity {get;}
+        (float x,float y,float z) Velocity {get;}
 
         /// Move : () => void
         /// sends movement controls to the spaceship
-        void Move(
-            bool brakes,
-            bool boost,
-            float roll,
-            float pitch,
-            float yaw,
-            float throttle);
+        void Move();
+        void Move(bool brakes,bool boost,float throttle,float roll,float pitch,float yaw);
 
-        /// Jump : () => void
-        /// tells the ship to jump to a particular system
-        void Jump(
-            Quaternion direction,
-            StarSystem system);
+        /// HyperJump : () => void
+        /// tells the ship to jump a short distance or all the way to a new system
+        void HyperJump();
+        void HyperJump(Quaternion direction, StarSystem system);
     }
 }

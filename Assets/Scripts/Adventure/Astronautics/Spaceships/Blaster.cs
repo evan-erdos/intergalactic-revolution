@@ -26,13 +26,14 @@ namespace Adventure.Astronautics {
         public float Rate {get;protected set;} = 0.1f;
         public (float,float,float) Barrel {get;protected set;}
         public virtual void Disable() => isDisabled = true;
+        public virtual void Enable() => isDisabled = false;
         public void Fire() => Fire(transform.forward);
         public void Fire(Vector3 position) => Fire(position,rigidbody.velocity);
         public void Fire(Vector3 position, Vector3 velocity) => Fire(
             position: position.ToTuple(),
             velocity: velocity.ToTuple(),
             rotation: Quaternion.LookRotation(transform.forward));
-        // public void Fire(Vector3 position, Vector3 velocity, Quaternion rotation) =>
+        // public void Fire(Vector3 position,Vector3 velocity,Quaternion rotation) =>
         //     Fire(position.ToTuple(), velocity.ToTuple(), rotation, Rate, force);
         public void Fire(
                         (float,float,float) position,
@@ -73,7 +74,7 @@ namespace Adventure.Astronautics {
         public void Damage(float damage) {
             Health -= damage;
             if (0<Health) return;
-            (rigidbody.isKinematic, isDisabled) = (false, true);
+            (rigidbody.isKinematic, isDisabled) = (false,true);
             transform.parent = null;
         }
 
@@ -81,8 +82,7 @@ namespace Adventure.Astronautics {
             Rate = rate;
             barrels.Add(transform);
             Barrel = barrels.First().position.ToTuple();
-            audio = GetOrAdd<AudioSource>();
-            rigidbody = GetComponentInParent<Rigidbody>();
+            (audio,rigidbody) = (GetOrAdd<AudioSource>(),GetParent<Rigidbody>());
             sounds.AddRange(fireSounds);
             foreach (var particles in GetComponentsInChildren<ParticleSystem>())
                 if (particles.name=="flash") flash = particles;

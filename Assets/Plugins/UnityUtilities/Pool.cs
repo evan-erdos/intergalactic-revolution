@@ -25,13 +25,15 @@ public class Pool : IEnumerable<GameObject> {
     public IEnumerator<GameObject> GetEnumerator() => queue.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => queue.GetEnumerator() as IEnumerator;
     void Drop() => Drop(queue.Dequeue());
-    void Drop(GameObject instance) { instance.SetActive(false); originals.Push(instance); }
+    void Drop(GameObject o) { o.SetActive(false); originals.Push(o); }
 
-    public T Create<T>(Transform o) where T : Component => Create<T>(o.position,o.rotation);
-    public T Create<T>(Vector3 position, Quaternion rotation) where T : Component =>
+    public T Create<T>(Transform o) => Create<T>(o.position,o.rotation);
+    public T Create<T>(Vector3 o) => Create(o,Quaternion.identity).GetComponent<T>();
+    public T Create<T>(Vector3 position, Quaternion rotation) =>
         Create(position,rotation).GetComponent<T>();
 
     public GameObject Create(Transform o) => Create(o.position, o.rotation);
+    public GameObject Create(Vector3 o) => Create(o,Quaternion.identity);
     public GameObject Create(Vector3 position, Quaternion rotation) {
         if (originals.Count<=0 && queue.Count>0) Drop();
         var instance = originals.Pop();

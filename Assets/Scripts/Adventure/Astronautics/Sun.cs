@@ -13,7 +13,7 @@ namespace Adventure.Astronautics {
             while (true) {
                 yield return new WaitForSeconds(1);
                 yield return new WaitForFixedUpdate();
-                sun.Rotate(0, (unit.Time * unit.Day)/period, 0);
+                sun.Rotate(0,(unit.Time * unit.Day)/period,0);
             }
         }
     }

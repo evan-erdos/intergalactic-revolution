@@ -5,26 +5,25 @@ using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
     public class GuidedMissile : SpaceObject {
+        new Rigidbody rigidbody;
+        new Collider collider;
         [SerializeField] float track = 1;
         [SerializeField] float speed = 100;
         [SerializeField] float force = 100;
         [SerializeField] float acceleration = 100;
         [SerializeField] protected GameObject particles;
         [SerializeField] protected SpaceEvent onHit = new SpaceEvent();
-        new Rigidbody rigidbody;
-        new Collider collider;
-
         public event SpaceAction HitEvent;
         public float Force => force;
         public Transform Target {get;set;}
-        public void Hit() => HitEvent(this, new SpaceArgs());
+        public void Hit() => HitEvent(this,new SpaceArgs());
         void OnHit() => gameObject.SetActive(false);
 
         void Awake() {
             onHit.AddListener((o,e) => OnHit());
             HitEvent += onHit.Invoke;
-            rigidbody = GetComponent<Rigidbody>();
-            collider = GetComponent<Collider>();
+            rigidbody = Get<Rigidbody>();
+            collider = Get<Collider>();
         }
 
         IEnumerator Start() {

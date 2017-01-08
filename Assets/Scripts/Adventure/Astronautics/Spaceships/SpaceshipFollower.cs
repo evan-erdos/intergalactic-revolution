@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class SpaceshipFollowerController : MonoBehaviour {
+    public class SpaceshipFollower : MonoBehaviour {
         bool disabled, openFire, isSlowing, isInFormation;
         float perlin;
         Vector3 formationOffset = new Vector3(-1,-1,0);
@@ -28,15 +28,14 @@ namespace Adventure.Astronautics.Spaceships {
         void Awake() {
             controller = GetComponent<Spaceship>();
             blasters = GetComponentsInChildren<Blaster>();
-            perlin = Random.Range(0f, 100f);
+            perlin = Random.Range(0f,100f);
         }
 
         IEnumerator Start() {
             while (true) {
                 yield return new WaitForSeconds(5);
                 isInFormation = true;
-                openFire = !openFire;
-                isSlowing = !isSlowing;
+                (openFire, isSlowing) = (!openFire, !isSlowing);
                 yield return new WaitForSeconds(10);
                 isInFormation = false;
             }
@@ -44,75 +43,41 @@ namespace Adventure.Astronautics.Spaceships {
 
         void FixedUpdate() {
             if (disabled) { controller.Move(); return; }
-
-            // random movement vector
             var vect = Mathf.PerlinNoise(Time.time*lateralWanderSpeed,perlin)*2-1;
-            // make the plane wander from the path somewhat
             var wander = isInFormation?0:lateralWanderDistance;
-
-            // set the goal position
             var position = Vector3.zero;
             if (target) position = target.position-target.forward*followDistance;
             else if (followTarget)
                 position = followTarget.transform.position+formationOffset;
-
-            // wander a bit
             position += transform.right*vect*wander;
-
-            // adjust the yaw and pitch towards the target
             var localTarget = transform.InverseTransformPoint(position);
             var targetAngleYaw = Mathf.Atan2(localTarget.x, localTarget.z);
             var targetAnglePitch = -Mathf.Atan2(localTarget.y, localTarget.z);
-
-            // Set the target for the planes pitch
             targetAnglePitch = Mathf.Clamp(
                 targetAnglePitch,
                 -m_MaxClimbAngle*Mathf.Deg2Rad,
                 m_MaxClimbAngle*Mathf.Deg2Rad);
 
-            // calculate the difference between current pitch and desired pitch
             var changePitch = targetAnglePitch - controller.PitchAngle;
-
-            // AI applies elevator control to reach the target angle
-            // does so by modifying pitch and rotation around x
-            var pitchInput = changePitch*m_PitchSensitivity;
-
-            // clamp the planes roll
+            var pitch = changePitch*m_PitchSensitivity;
             var desiredRoll = Mathf.Clamp(
                 targetAngleYaw,
                 -m_MaxRollAngle*Mathf.Deg2Rad,
                 m_MaxRollAngle*Mathf.Deg2Rad);
-            var yawInput = 0f;
-            var rollInput = 0f;
-
-            // adjust how fast the AI is changing the controls based on the speed
+            var (yaw, roll) = (0f,0f);
             var currentSpeedEffect = 1 + controller.ForwardSpeed*m_SpeedEffect;
-            rollInput *= currentSpeedEffect;
-            pitchInput *= currentSpeedEffect;
-            yawInput *= currentSpeedEffect;
-
-            // pass the current input to the plane
-            controller.Move(
-                roll: rollInput,
-                pitch: pitchInput,
-                yaw: yawInput,
-                throttle: 0.5f,
-                brakes: isSlowing);
-
-            PreFire();
+            roll *= currentSpeedEffect;
+            pitch *= currentSpeedEffect;
+            yaw *= currentSpeedEffect;
+            controller.Move(isSlowing,false,0.5f,roll,pitch,yaw);
         }
 
-        public void Reset() { disabled = false; }
+        public void Reset() => disabled = false;
         public void Disable() { disabled = true; controller.Disable(); }
-
-        void PreFire() {
-            if (!target || !target.IsNear(transform, dist)) return;
-            if (target.GetComponent<Spaceship>().Health<0) return;
-            if (openFire) Fire();
-        }
-
+        public void SetTarget(Transform target) => this.target = target;
 
         public void Fire() {
+            if (!PreFire()) return;
             var rate = 1000f;
             var speed = target.GetComponent<Rigidbody>().velocity;
             var position = target.position;
@@ -125,9 +90,9 @@ namespace Adventure.Astronautics.Spaceships {
                     position: prediction.ToTuple(),
                     velocity: velocity.ToTuple(),
                     rotation: Quaternion.LookRotation(distance));
+            bool PreFire() =>
+                !target || !target.IsNear(transform, dist) ||
+                target.Get<Spaceship>().Health<0 || openFire;
         }
-
-
-        public void SetTarget(Transform target) { this.target = target; }
     }
 }

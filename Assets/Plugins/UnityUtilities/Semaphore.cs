@@ -15,6 +15,7 @@ public class Semaphore : YieldInstruction {
     public bool AreAnyYielding {get { return coroutines.Count>0; } }
     public Semaphore(Func<IEnumerator,Coroutine> action) {
         this.action = action; }
+    public void Clear() => coroutines.Clear();
     public bool IsYielding(string name) { return coroutines.ContainsKey(name); }
     public void Invoke(Func<IEnumerator> coroutine) {
         Invoke(coroutine.Method.Name, coroutine); }

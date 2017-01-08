@@ -32,7 +32,7 @@ public static class Extensions {
                     this Transform transform,
                     Vector3 position,
                     float distance=0.01f) =>
-        distance<Vector3.Distance(transform.position,position);
+        Vector3.Distance(transform.position,position)<distance;
 
     /// IsNear : () => bool
     /// detects if the vector is close to the location

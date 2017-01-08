@@ -34,7 +34,7 @@ namespace Adventure.Astronautics.Spaceships {
                 size*0.3f+boosting,
                 size, spaceship.Throttle);
             particleSystem.startColor = Color.Lerp(
-                color, color, spaceship.Throttle);
+                color,color,spaceship.Throttle);
             if (!boostParticles) return;
             var boosts = boostParticles.main;
             boosts.startLifetime = Mathf.Lerp(0f,boost,boosting);
