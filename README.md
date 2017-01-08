@@ -11,17 +11,17 @@ Another VR Spaceship Game by Electric Heroin.
 Set up for dualshock right now, sorry! 
 Also, we can change the team name if you want.
 
-stick 1 x: roll
-stick 1 y: pitch
-stick 2 x: yaw
-stick 2 y: special axis (throttle in assisted mode, reverse direction in manual)
-left trigger: fire weapon
-left bumper: switch HUD
-right trigger: boost
-right bumper: brakes
-square button: switch guns
-triangle button: switch flight mode
-
+- stick 1 x: roll
+- stick 1 y: pitch
+- stick 2 x: yaw
+- stick 2 y: special axis (throttle in assisted mode, reverse direction in manual)
+- left trigger: fire weapon
+- left bumper: switch HUD
+- right trigger: boost
+- right bumper: brakes
+- square button: switch guns
+- triangle button: switch flight mode
+- cross button: hyperspace jump (short in manual/assist mode, to another system in navigation mode)
 
 
 
