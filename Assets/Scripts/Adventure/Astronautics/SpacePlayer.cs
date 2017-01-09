@@ -8,6 +8,7 @@ using UnityStandardAssets.Cameras;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceObject {
+        float mouseX, mouseY;
         [SerializeField] protected GameObject spaceCamera;
         [SerializeField] protected Spaceship spaceship;
         [SerializeField] protected GameObject escapePod;
@@ -34,6 +35,17 @@ namespace Adventure.Astronautics.Spaceships {
             instance.rect = camera.rect;
             instance.transform.localPosition = Vector3.zero;
         }
+
+        void Update() =>
+            (mouseX,mouseY) = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
+
+        void FixedUpdate() =>
+            transform.localRotation = Quaternion.Euler(
+                x: transform.localRotation.eulerAngles.x+mouseY*10,
+                y: transform.localRotation.eulerAngles.y+mouseX*10,
+                z: 0);
+
+
 
         void OnKill() { transform.parent = escapePod.transform; Restart(); }
 

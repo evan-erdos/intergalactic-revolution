@@ -1,28 +1,5 @@
 ********************************************************************************
-*                       Sunday, 08 January 2017 06:46:43                       *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 2.0.0.0
-Platform: Mac
-Target assembly: Assembly-CSharp-firstpass.dll
-Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
-Compiler: Microsoft C# 7.0
-
-- Compilation -----------------------------------------------
-
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-5809aadca4af640c5a5f5ebec254c9f4 -debug:portable
-Exit code: 0
-Elapsed time: 3.80 sec
-
-- Compiler output (0 lines):
-
-- Compiler errors (0 lines):
-
-PDB to MDB conversion skipped
-File "Temp/Assembly-CSharp-firstpass.pdb" deleted
-********************************************************************************
-*                       Sunday, 08 January 2017 06:46:48                       *
+*                       Monday, 09 January 2017 10:27:27                       *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.0.0
 Platform: Mac
@@ -34,9 +11,9 @@ Compiler: Microsoft C# 7.0
 - Compilation -----------------------------------------------
 
 Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-d191de42df5b448739b7cc7762ada2e0 -debug:portable
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-88924134d1e274b548ac743539457963 -debug:portable
 Exit code: 0
-Elapsed time: 3.76 sec
+Elapsed time: 3.26 sec
 
 - Compiler output (0 lines):
 
@@ -44,26 +21,3 @@ Elapsed time: 3.76 sec
 
 PDB to MDB conversion skipped
 File "Temp/Assembly-CSharp.pdb" deleted
-********************************************************************************
-*                       Sunday, 08 January 2017 06:46:48                       *
-********************************************************************************
-CSharpCompilerWrapper.exe version: 2.0.0.0
-Platform: Mac
-Target assembly: Assembly-CSharp-Editor-firstpass.dll
-Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
-Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
-Compiler: Microsoft C# 7.0
-
-- Compilation -----------------------------------------------
-
-Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-19cdf759181d84bdab74f8f91c0bcd72 -debug:portable
-Exit code: 0
-Elapsed time: 3.25 sec
-
-- Compiler output (0 lines):
-
-- Compiler errors (0 lines):
-
-PDB to MDB conversion skipped
-File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted

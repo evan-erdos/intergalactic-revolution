@@ -12,13 +12,12 @@ public class Semaphore : YieldInstruction {
     Func<IEnumerator,Coroutine> action;
     Dictionary<string,Func<IEnumerator>> coroutines =
         new Dictionary<string,Func<IEnumerator>>();
-    public bool AreAnyYielding {get { return coroutines.Count>0; } }
-    public Semaphore(Func<IEnumerator,Coroutine> action) {
-        this.action = action; }
+    public bool AreAnyYielding => coroutines.Count>0;
+    public Semaphore(Func<IEnumerator,Coroutine> action) { this.action = action; }
     public void Clear() => coroutines.Clear();
-    public bool IsYielding(string name) { return coroutines.ContainsKey(name); }
-    public void Invoke(Func<IEnumerator> coroutine) {
-        Invoke(coroutine.Method.Name, coroutine); }
+    public bool IsYielding(string name) => coroutines.ContainsKey(name);
+    public void Invoke(Func<IEnumerator> coroutine) =>
+        Invoke(coroutine.Method.Name, coroutine);
     public void Invoke(string name, Func<IEnumerator> coroutine) {
         if (!coroutines.ContainsKey(name)) action(Waiting(name, coroutine)); }
     IEnumerator Waiting(string name, Func<IEnumerator> coroutine) {

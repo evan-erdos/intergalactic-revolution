@@ -34,12 +34,5 @@ namespace Adventure.Astronautics.Spaceships {
             shard.velocity += Random.insideUnitSphere*spread;
             shard.AddForce(transform.forward*power);
         }
-
-        void OnCollisionEnter(Collision c) {
-            c.rigidbody?.GetParent<IDamageable>()?.Damage(Force);
-            var hit = c.contacts[0];
-            transform.rotation = Quaternion.LookRotation(hit.point,hit.normal);
-            Hit();
-        }
     }
 }

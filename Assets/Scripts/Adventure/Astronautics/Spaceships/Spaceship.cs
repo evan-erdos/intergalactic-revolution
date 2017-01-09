@@ -60,7 +60,7 @@ namespace Adventure.Astronautics.Spaceships {
         public event SpaceAction KillEvent;
         public event SpaceAction JumpEvent;
         public event DamageAction DamageEvent;
-        public bool IsDisabled {get;protected set;}
+        public bool IsDisabled => isDisabled;
         public bool Brakes {get;protected set;}
         // public bool Jump {get;protected set;}
         public int CargoSpace {get;protected set;} = 20;
@@ -93,9 +93,15 @@ namespace Adventure.Astronautics.Spaceships {
             get { return energy; }
             protected set { energy = Mathf.Clamp(value,0,EnergyCapacity); } }
 
-        public void Disable() => (isDisabled, Throttle) = (true,0);
+
         public void Alarm() => audio.Play();
         public void Damage(float damage) => DamageEvent?.Invoke(this,damage);
+
+        public void Disable() {
+            (isDisabled, Throttle) = (true,0);
+            (rigidbody.drag, rigidbody.angularDrag) = (0,0);
+        }
+
         public void Reset() {
             (isDisabled, hasJettisoned) = (false, false);
             (Health, MaxHealth) = (health, health);
@@ -168,7 +174,7 @@ namespace Adventure.Astronautics.Spaceships {
             blasters.ForEach(o => o.gameObject.SetActive(false));
             rockets.ForEach(o => o.gameObject.SetActive(false));
             others.ForEach(o => o.gameObject.SetActive(false));
-            SelectWeapon();
+            SelectWeapon(); ChangeMode();
             while (true) {
                 yield return new WaitForSeconds(1);
                 Physics.OverlapSphereNonAlloc(
@@ -197,7 +203,7 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void FixedUpdate() => Energy += EnergyPotential*Time.fixedDeltaTime;
-        void OnCollisionEnter(Collision c) => Damage(c.impulse.magnitude);
+        void OnCollisionEnter(Collision c) => Damage(c.impulse.magnitude/4);
 
 
         int nextMode = 0; // on the way out
@@ -299,7 +305,7 @@ namespace Adventure.Astronautics.Spaceships {
             void ManualFlight() {
                 (Throttle,Shift) = (0,-1); ControlThrottle();
                 (rigidbody.drag,rigidbody.angularDrag) = CalculateDrag();
-                rigidbody.AddForce(CalculateThrust().ToVector());
+                rigidbody.AddForce(CalculateThrust().ToVector()*2);
                 var aeroCoefficient = ComputeCoefficient();
                 CalculateSpin();
                 CalculateManeuverThrust();
@@ -369,7 +375,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void HyperJump(Quaternion direction, StarSystem system) {
             if (Energy>=EnergyJump/2) StartSemaphore(Jumping);
             IEnumerator Jumping() {
-                IsDisabled = true;
+                isDisabled = true;
                 while (--Throttle>0) yield return new WaitForSeconds(0.1f);
                 (Throttle, Shift) = (0,0);
                 (rigidbody.drag, rigidbody.angularDrag) = (10,10);
@@ -387,7 +393,7 @@ namespace Adventure.Astronautics.Spaceships {
                 hyperspaces.Create(transform.position,Quaternion.identity);
                 transform.position += transform.forward*100;
                 rigidbody.AddForce(transform.forward*100000, ForceMode.Impulse);
-                IsDisabled = false;
+                isDisabled = false;
                 HyperspaceJump();
             }
         }
@@ -426,18 +432,19 @@ namespace Adventure.Astronautics.Spaceships {
             IEnumerator HaltAndCatchFire() {
                 Disable(); Alarm();
                 yield return new WaitForSeconds(2);
-                while (0<parts.Count) { SevereDamage();
-                    yield return new WaitForSeconds(0.1f); }
+                while (0<parts.Count) yield return Wait(
+                    wait: new WaitForSeconds(0.1f),
+                    func: () => SevereDamage());
                 StartCoroutine(Killing());
             }
 
             IEnumerator Killing() {
                 if (hasJettisoned) yield break;
-                while (0<parts.Count) { SevereDamage();
-                    yield return new WaitForSeconds(0.1f); }
+                Disable();
+                while (0<parts.Count) SevereDamage();
                 Jettison();
                 mechanics.ForEach(o => o.Disable());
-                Create(explosion);
+                Create(explosion).transform.parent = transform;
                 yield return new WaitForSeconds(1);
                 enabled = false;
                 audio.Stop();
