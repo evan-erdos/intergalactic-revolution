@@ -28,7 +28,7 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected float m_WindBasePitch = 0.2f;
         [SerializeField] protected float m_WindSpeedPitchFactor = 0.004f;
         [SerializeField] protected float m_WindMaxSpeedVolume = 100;
-        [SerializeField] protected AdvancedSetttings settings = new AdvancedSetttings();
+        [SerializeField] AdvancedSetttings settings = new AdvancedSetttings();
 
         AudioSource boostSource;
         AudioSource engineSoundSource;

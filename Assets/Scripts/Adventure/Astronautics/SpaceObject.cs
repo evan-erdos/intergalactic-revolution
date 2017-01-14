@@ -12,7 +12,7 @@ namespace Adventure.Astronautics {
     public abstract class SpaceObject : MonoBehaviour, ISpaceObject {
         Semaphore semaphore;
         public string Name => name;
-        public (float x,float y,float z) Position => transform.position.ToTuple();
+        public (float x,float y,float z) Position => transform.position.tuple();
         protected void StartSemaphore(Func<IEnumerator> c) => semaphore.Invoke(c);
         public virtual bool Fits(string s) => new Regex("\b(object)\b").IsMatch(s);
         public override string ToString() => $"{name} - ({1} ton)";
@@ -20,6 +20,9 @@ namespace Adventure.Astronautics {
         protected virtual void OnDisable() => semaphore?.Clear();
         protected virtual void OnEnable() => Create();
         public virtual void Create() => semaphore = new Semaphore(StartCoroutine);
+
+        public void If(bool condition, Action then) { if (condition) then(); }
+        public void If(Func<bool> cond, Action then) { if (cond()) then(); }
 
         public Transform GetOrAdd(string name) {
             var instance = transform.Find(name);

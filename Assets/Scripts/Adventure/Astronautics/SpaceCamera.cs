@@ -9,7 +9,7 @@ namespace Adventure.Astronautics {
         Camera primaryCamera;
 
         void Awake() => camera = Get<Camera>();
-        public void Init(Camera camera) => primaryCamera = camera;
+        public void Create(Camera camera) => primaryCamera = camera;
 
         void LateUpdate() {
             camera.rect = primaryCamera.rect;

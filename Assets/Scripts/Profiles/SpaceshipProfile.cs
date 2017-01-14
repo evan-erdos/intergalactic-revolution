@@ -23,6 +23,8 @@ public class SpaceshipProfile : ScriptableObject {
     public float EnergyGain = 20; // W/L
     public float TopSpeed = 1500; // m/s
     public float ManeuveringEnergy = 100; // kN
+    public List<Vector3> Pivots = new List<Vector3> {
+        new Vector3(0,0.5f,-0.25f), new Vector3(0,4,-20)};
     public List<AudioClip> hitSounds = new List<AudioClip>();
     public AudioClip modeClip;
     public AudioClip changeClip;

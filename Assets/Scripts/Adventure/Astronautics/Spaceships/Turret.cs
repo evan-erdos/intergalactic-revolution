@@ -22,7 +22,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void Fire(ITrackable target) => Fire(target.Position, target.Velocity);
         public void Fire(Vector3 position) => Fire(position,rigidbody.velocity);
         public void Fire(Vector3 position, Vector3 velocity) =>
-            Fire(position.ToTuple(), velocity.ToTuple());
+            Fire(position.tuple(), velocity.tuple());
 
         int current = -1;
         public void Fire(
@@ -63,14 +63,14 @@ namespace Adventure.Astronautics.Spaceships {
                 yield return new WaitForSeconds(1);
                 if (Target is null) continue;
                 var rotation = Quaternion.LookRotation(
-                    Target.Position.ToVector()-turret.position,
+                    Target.Position.vect()-turret.position,
                     transform.up);
                 while (turret.rotation!=rotation) {
                     yield return new WaitForFixedUpdate();
                     turret.rotation = Quaternion.Slerp(
                         turret.rotation,
                         Quaternion.LookRotation(
-                            Target.Position.ToVector()-turret.position,
+                            Target.Position.vect()-turret.position,
                             transform.up),
                         2*Time.fixedDeltaTime);
                 }

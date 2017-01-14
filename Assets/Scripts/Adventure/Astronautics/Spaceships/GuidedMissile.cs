@@ -42,9 +42,9 @@ namespace Adventure.Astronautics.Spaceships {
                 hitInfo: out var hit,
                 maxDistance: 1f)) Hit(hit.collider.GetParent<IDamageable>());
             if (Target is null) return;
-            var displacement = Target.Position.ToVector()-transform.position;
+            var displacement = Target.Position.vect()-transform.position;
             var distance = displacement.magnitude;
-            var prediction = Target.Velocity.ToVector().normalized*distance/speed;
+            var prediction = Target.Velocity.vect().normalized*distance/speed;
             var force = (displacement+prediction)*track;
             if (force.sqrMagnitude>speed) force = force.normalized * speed;
             force += Vector3.right * Mathf.PerlinNoise(Time.time*wander,perlin);

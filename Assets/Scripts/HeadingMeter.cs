@@ -26,7 +26,8 @@ public class HeadingMeter : SpaceObject {
             case Heading.Forward:
                 points[1] += (spaceship.transform.forward)*radius; break;
             case Heading.Velocity:
-                points[1] += spaceship.Velocity.ToVector().normalized*radius; break;
+                points[1] += spaceship.Velocity.vect().normalized*radius;
+                break;
         }
     }
 

@@ -7,11 +7,15 @@ using UnityEngine.SceneManagement;
 using unit=Adventure.Astronautics.Astronomy;
 
 namespace Adventure.Astronautics {
-    public class StarSystem : SpaceObject {
-        string path = "Scenes/Star Systems/";
-        public Vector3 StellarPosition {get;protected set;} = Vector3.zero;
-        public Map<StarSystem> Systems {get;protected set;} = new Map<StarSystem>();
-        public void Awake() => Load();
-        void Load() => SceneManager.LoadScene($"{path}{name}", LoadSceneMode.Additive);
+    public class StarSystem : SpaceObject, ICreatable<StarSystemProfile> {
+        [SerializeField] protected StarSystemProfile profile;
+        GameObject starSystem;
+        public Vector3 StellarPosition {get;protected set;}
+        public List<StarSystemProfile> NearbySystems {get;protected set;}
+        void Awake() => Create(profile);
+        void Start() => Create(starSystem);
+        public void Create(StarSystemProfile profile) =>
+            (StellarPosition, NearbySystems, starSystem) =
+                (profile.StellarPosition, profile.NearbySystems, profile.starSystem);
     }
 }

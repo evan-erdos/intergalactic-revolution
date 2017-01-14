@@ -14,7 +14,7 @@ MonoBehaviour:
   Name: Spraylight Cannon
   Health: 1000
   Force: 50000
-  Rate: 2
+  Rate: 1
   Spread: 1
   Range: 2000
   Angle: 60

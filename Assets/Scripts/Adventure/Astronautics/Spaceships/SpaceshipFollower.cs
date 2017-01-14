@@ -87,7 +87,7 @@ namespace Adventure.Astronautics.Spaceships {
             velocity = Vector3.zero; // haha nope
             var prediction = position+speed*distance.magnitude/rate;
             foreach (var blaster in blasters)
-                blaster.Fire(prediction.ToTuple(), velocity.ToTuple());
+                blaster.Fire(prediction.tuple(), velocity.tuple());
             bool PreFire() =>
                 !target || !target.IsNear(transform, dist) ||
                 target.Get<Spaceship>().Health<0 || openFire;

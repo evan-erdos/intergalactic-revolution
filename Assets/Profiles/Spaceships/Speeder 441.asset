@@ -24,11 +24,14 @@ MonoBehaviour:
   AeroEffect: 0.02
   DragEffect: 0.05
   EnergyThrust: 6000
-  EnergyCapacity: 12000
+  EnergyCapacity: 800
   EnergyLoss: 50
   EnergyGain: 20
   TopSpeed: 2000
   ManeuveringEnergy: 100
+  Pivots:
+  - {x: 0, y: 0.375, z: 0.62}
+  - {x: 0, y: 4, z: -20}
   hitSounds:
   - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
   - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}

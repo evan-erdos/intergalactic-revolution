@@ -7,9 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Station Alpha A.unity
-  - enabled: 1
-    path: Assets/Scenes/Star Systems/Epsilon Eridani.unity
-  - enabled: 0
-    path: Assets/Scenes/Star Systems/Sol.unity
   - enabled: 0
     path: Assets/Scenes/Moon Base Delta.unity

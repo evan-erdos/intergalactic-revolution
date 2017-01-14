@@ -13,7 +13,7 @@ namespace Adventure.Astronautics {
     public abstract class NetworkSpaceObject : NetworkBehaviour, ISpaceObject {
         Semaphore semaphore;
         public string Name => name;
-        public (float x,float y,float z) Position => transform.position.ToTuple();
+        public (float x,float y,float z) Position => transform.position.tuple();
         protected void StartSemaphore(Func<IEnumerator> c) => semaphore.Invoke(c);
         public virtual bool Fits(string s) => new Regex("\b(object)\b").IsMatch(s);
         public override string ToString() => $"{name} - ({1} ton)";

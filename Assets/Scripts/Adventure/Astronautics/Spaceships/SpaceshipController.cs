@@ -9,48 +9,22 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpaceshipController : NetworkSpaceObject {
-        bool toggle;
         float brake, boost, speed, roll, pitch, yaw;
         public Spaceship Ship {get;set;}
-        List<(float fov,(float x,float y,float z))> pivots =
-            new List<(float fov,(float x,float y,float z))> {
-                (fov: 40, (x: 0, y: 0.5f, z: -0.25f)),
-                (fov: 60, (x: 0, y: 4, z: -20))};
-
-        void Start() => ChangeCamera(false);
+        void Start() => Ship.ToggleView();
         void FixedUpdate() => Ship.Move(brake,boost,speed,roll,pitch,yaw);
         void Update() {
             if (!isLocalPlayer) return;
-            float GetAxis(string key) => Input.GetAxis(key);
             float AsAxis(string key) => Input.GetButton(key)?1:0;
-            (brake,boost,speed) = (AsAxis("Brake"),AsAxis("Boost"),GetAxis("Speed"));
-            (roll,pitch,yaw) = (GetAxis("Roll"),GetAxis("Pitch"),GetAxis("Yaw"));
+            (roll, pitch) = (Input.GetAxis("Roll"),Input.GetAxis("Pitch"));
+            (yaw, speed) = (Input.GetAxis("Yaw"), Input.GetAxis("Speed"));
+            (brake, boost) = (AsAxis("Brake"), AsAxis("Boost"));
             if (Input.GetButton("Jump")) Ship.HyperJump();
             if (Input.GetButton("Fire")) Ship.Fire();
             if (Input.GetButtonDown("Switch")) Ship.SelectWeapon();
             if (Input.GetButtonDown("Mode")) Ship.ChangeMode();
-            if (Input.GetButtonDown("Toggle")) Toggle();
-            if (Input.GetButtonDown("Select")) Ship.Select();
-        }
-
-        void ChangeCamera(bool toggle) {
-            var (fov,(x,y,z)) = pivots[toggle?1:0];
-            var camera = GetComponentInChildren<Camera>();
-            camera.fieldOfView = fov;
-            camera.transform.localPosition = (x,y,z).ToVector();
-        }
-
-        bool wait;
-        void Toggle() {
-            StartCoroutine(Toggling());
-            // StartSemaphore(Toggling);
-            IEnumerator Toggling() {
-                if (wait) yield break;
-                wait = true;
-                ChangeCamera(toggle = !toggle);
-                yield return new WaitForSeconds(0.2f);
-                wait = false;
-            }
+            if (Input.GetButtonDown("Toggle")) Ship.ToggleView();
+            if (Input.GetButtonDown("Select")) Ship.SelectTarget();
         }
     }
 }

@@ -11,7 +11,7 @@ using UnityEngine;
 
 /// Extensions
 /// a collection of helpful little snippets
-public static class Extensions {
+public static partial class Extensions {
 
     /// IsNear : (string) => String
     /// capitalizes strings
@@ -36,8 +36,10 @@ public static class Extensions {
 
     /// IsNear : () => bool
     /// detects if the vector is close to the location
-    public static bool IsNear(this Vector3 o, Vector3 v, float dist=float.Epsilon) =>
-        (o-v).sqrMagnitude<dist*dist;
+    public static bool IsNear(this Vector3 o,
+                    Vector3 vector,
+                    float distance=float.Epsilon) =>
+        (o-vector).sqrMagnitude<distance*distance;
 
     public static bool IsNear(this (float,float,float) o,
                     Vector3 v,

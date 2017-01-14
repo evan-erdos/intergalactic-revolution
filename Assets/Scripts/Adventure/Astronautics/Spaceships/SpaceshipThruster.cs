@@ -26,18 +26,17 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Update() {
-            var boosting = spaceship.BoostPower;
             var particleSystem = particles.main;
             particleSystem.startLifetime = Mathf.Lerp(
                 0.0f, lifetime, spaceship.Throttle);
             particleSystem.startSize = Mathf.Lerp(
-                size*0.3f+boosting,
+                size*0.3f+spaceship.Boost,
                 size, spaceship.Throttle);
             particleSystem.startColor = Color.Lerp(
                 color,color,spaceship.Throttle);
             if (!boostParticles) return;
             var boosts = boostParticles.main;
-            boosts.startLifetime = Mathf.Lerp(0f,boost,boosting);
+            boosts.startLifetime = Mathf.Lerp(0f,boost,spaceship.Boost);
         }
     }
 }

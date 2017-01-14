@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 namespace Adventure.Astronautics.Spaceships {
     public class SpaceshipAIController : SpaceObject {
         bool isDisabled, isFiring, isBraking;
-        float perlin;
+        float perlin = Random.Range(1,100);
         Collider[] colliders = new Collider[20];
         RaycastHit[] results = new RaycastHit[10];
         List<ITrackable> targets = new List<ITrackable>();
@@ -40,29 +40,28 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Move() {
             if (isDisabled || Target is null) { spaceship.Move(); return; }
-            var (brakes, boost) = (0,0);
+            var (brakes, boost, yawEffect) = (0,0,1f);
             var vect = Mathf.PerlinNoise(Time.time*wanderSpeed,perlin)*2-1;
-            var targetPos = Target.Position.ToVector() + transform.right*vect*lateralWander;
-            // targetPos -= Target.forward*followRange;
+            var goal = Target.Position.vect()+transform.right*vect*lateralWander;
+            // goal -= Target.forward*followRange;
             // if (Physics.SphereCast(
             //     origin: transform.position,
             //     radius: radius,
             //     direction: transform.forward,
             //     hitInfo: out var hit,
-            //     maxDistance: 100))
-            //         targetPos = transform.position - transform.forward - transform.up*2;
-            var localTarget = transform.InverseTransformPoint(targetPos);
-            // Debug.DrawRay(transform.position, localTarget, Color.red, 0.2f);
-            var targetAngleYaw = Mathf.Atan2(localTarget.x,localTarget.z);
-            var targetAnglePitch = -Mathf.Atan2(localTarget.y,localTarget.z);
+            //     maxDistance: 100)) goal = whatever
+            var localTarget = transform.InverseTransformPoint(goal);
+            var yawAngle = Mathf.Atan2(localTarget.x,localTarget.z);
+            var pitchAngle = -Mathf.Atan2(localTarget.y,localTarget.z);
             var maxClimb = maxClimbAngle*Mathf.Deg2Rad;
             var maxRoll = maxRollAngle*Mathf.Deg2Rad;
-            targetAnglePitch = Mathf.Clamp(targetAnglePitch,-maxClimb,maxClimb);
-            var desiredRoll = Mathf.Clamp(targetAngleYaw,-maxRoll,maxRoll);
-            var (roll,pitch,yaw) = (0f,targetAnglePitch,0f);
-            var (throttle,speed) = (throttleEffect,1+spaceship.ForwardSpeed*speedEffect);
-            (roll,pitch,yaw) = (roll*speed*rollEffect,pitch*speed*pitchEffect,yaw*speed);
-            spaceship.Move(brakes,boost,throttle,roll,pitch,yaw);
+            pitchAngle = Mathf.Clamp(pitchAngle,-maxClimb,maxClimb);
+            var desiredRoll = Mathf.Clamp(yawAngle,-maxRoll,maxRoll);
+            var (roll,pitch,yaw) = (0f,pitchAngle,0f);
+            var speed = 1+spaceship.ForwardSpeed*speedEffect;
+            (roll,pitch,yaw) = (roll*speed*rollEffect, pitch*speed*pitchEffect, yaw*speed*yawEffect);
+            // (roll,pitch,yaw) = (roll*speed,pitch*speed,yaw*speed);
+            spaceship.Move(brakes,boost,throttleEffect,roll,pitch,yaw);
         }
 
         void Awake() {
@@ -80,7 +79,7 @@ namespace Adventure.Astronautics.Spaceships {
             while (true) {
                 yield return new WaitForSeconds(2);
                 Physics.OverlapSphereNonAlloc(
-                    Position.ToVector(),radius,colliders,layerMask);
+                    Position.vect(),radius,colliders,layerMask);
                 foreach (var result in colliders) {
                     yield return null;
                     if (result?.attachedRigidbody is null) continue;
@@ -101,6 +100,5 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void FixedUpdate() { Move(); Fire(); }
-
     }
 }

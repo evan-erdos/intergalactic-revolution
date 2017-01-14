@@ -12,7 +12,7 @@ public class HyperspaceMeter : SpaceObject {
     new LineRenderer renderer;
     Spaceship spaceship;
 
-    float Ratio => spaceship.Energy / spaceship.EnergyJump; // EnergyJump
+    float Ratio => (spaceship.Energy / spaceship.EnergyJump); // EnergyJump
 
     void Awake() {
         renderer = Get<LineRenderer>();
@@ -24,6 +24,6 @@ public class HyperspaceMeter : SpaceObject {
             Mathf.Cos(i*angle)*radius,Mathf.Sin(i*angle)*radius,0);
     }
 
-    void Update() => renderer.numPositions = (int) Ratio + 1;
+    void Update() => renderer.numPositions = (int) Mathf.Min(Ratio,sides) + 1;
     void LateUpdate() => renderer.SetPositions(points);
 }

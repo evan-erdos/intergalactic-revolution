@@ -2809,6 +2809,7 @@ GameObject:
   - component: {fileID: 54671129894404072}
   - component: {fileID: 82440829870323724}
   - component: {fileID: 114480085075028028}
+  - component: {fileID: 114727510842171770}
   m_Layer: 8
   m_Name: Viper 905
   m_TagString: Player
@@ -5706,7 +5707,7 @@ Transform:
   m_GameObject: {fileID: 1774282575585514}
   m_LocalRotation: {x: 0.10478322, y: 0.14011526, z: -0.031388517, w: 0.9840747}
   m_LocalPosition: {x: -5512.456, y: -607.7101, z: -7.5619507}
-  m_LocalScale: {x: 1, y: 0.9999999, z: 1.0000001}
+  m_LocalScale: {x: 1, y: 1, z: 1.0000001}
   m_Children:
   - {fileID: 4542563776510278}
   - {fileID: 4136934317776426}
@@ -12007,6 +12008,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 1000
+--- !u!114 &114727510842171770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1774282575585514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114771943601513230
 MonoBehaviour:
   m_ObjectHideFlags: 1
