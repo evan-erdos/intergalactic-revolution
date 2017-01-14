@@ -6,9 +6,9 @@ using UnityStandardAssets.CrossPlatformInput;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
-    public class VectoredThrust : MonoBehaviour, IShipComponent, IDamageable {
+    public class VectoredThrust : SpaceObject, IShipComponent, IDamageable {
         Spaceship spaceship;
-        [SerializeField] float range = 6;
+        [SerializeField] float range = 6; // deg
         [SerializeField] protected bool reverse;
         public float Health {get;protected set;} = 1000;
         public void Disable() => enabled = false;
@@ -17,18 +17,17 @@ namespace Adventure.Astronautics {
             var rigidbody = GetComponent<Rigidbody>();
             if (!rigidbody) rigidbody = gameObject.AddComponent<Rigidbody>();
             (rigidbody.isKinematic,rigidbody.useGravity) = (false,false);
-            transform.parent = null;
-            Disable();
+            transform.parent = null; Disable();
         }
 
         void Awake() => spaceship = GetComponentInParent<Spaceship>();
         void FixedUpdate() => transform.localRotation = Quaternion.Slerp(
             transform.localRotation,
             Quaternion.Euler(
-                x: Mathf.Clamp(range*(spaceship.Roll
-                    * (reverse?1:-1)+spaceship.Pitch),5,-5),
-                y: spaceship.Yaw*range,
-                z: spaceship.Roll*range*(reverse?0.5f:0.25f)),
+                x: Mathf.Clamp(range*(spaceship.Control.roll
+                    * (reverse?1:-1)+spaceship.Control.pitch),5,-5),
+                y: spaceship.Control.yaw*range,
+                z: spaceship.Control.roll*range*(reverse?0.5f:0.25f)),
             Time.fixedDeltaTime*10);
     }
 }

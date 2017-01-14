@@ -10,6 +10,7 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] float power = 30000;
         List<Rigidbody> shards = new List<Rigidbody>();
 
+        void OnHit(Rigidbody shard) => shard.Get<ParticleSystem>().Play();
         public override void Reset() => shards.ForEach(shard => Reset(shard));
         protected override void Awake() { base.Awake();
             shards.AddRange(GetComponentsInChildren<Rigidbody>());
@@ -19,10 +20,9 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Start() => shards.ForEach(shard => Fire(shard));
 
-        void OnHit(Rigidbody shard) => shard.Get<ParticleSystem>().Play();
-
         void Reset(Rigidbody shard) {
             shard.Get<ParticleSystem>().Stop();
+            shard.transform.parent = transform;
             (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true,true);
             (shard.isKinematic, shard.velocity) = (false, Vector3.zero);
         }
@@ -33,6 +33,7 @@ namespace Adventure.Astronautics.Spaceships {
             shard.angularVelocity += Random.insideUnitSphere*spread;
             shard.velocity += Random.insideUnitSphere*spread;
             shard.AddForce(transform.forward*power);
+            shard.transform.parent = null;
         }
     }
 }

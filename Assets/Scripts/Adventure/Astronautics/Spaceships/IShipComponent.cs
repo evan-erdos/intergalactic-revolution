@@ -8,7 +8,7 @@ namespace Adventure.Astronautics.Spaceships {
 
     /// IShipComponent : ISpaceObject
     /// a component of a larger ship which can be disabled
-    public interface IShipComponent {
+    public interface IShipComponent : ISpaceObject {
 
         /// Disable : () => void
         /// disables the component

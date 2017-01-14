@@ -39,6 +39,11 @@ public static class Extensions {
     public static bool IsNear(this Vector3 o, Vector3 v, float dist=float.Epsilon) =>
         (o-v).sqrMagnitude<dist*dist;
 
+    public static bool IsNear(this (float,float,float) o,
+                    Vector3 v,
+                    float dist=float.Epsilon) =>
+        v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
+
     /// Distance : () => real
     /// finds distance between transforms
     public static float Distance(this Transform o, Transform other) =>
@@ -86,6 +91,9 @@ public static class Extensions {
 
     public static void ForEach<T>(this IEnumerable<T> list, Action<T> func) {
         foreach (var item in list) func(item); }
+
+    public static T Pick<T>(this IList<T> list) =>
+        (list.Count==0) ? default(T) : list[new System.Random().Next(list.Count)];
 
     /// GetTypes : (type) => type[]
     /// gets a list of all parent types on a given type
@@ -150,6 +158,8 @@ public static class Extensions {
     public static void Enable<T>(this GameObject o) where T : Component => o.Enable<T>();
     public static void Enable<T>(this Component o) where T : Component => o.Enable<T>();
     public static void Enable(this Behaviour o, bool isOn=true) => o.enabled = isOn;
+
+    // public static T Get<T>(this object o) => GetComponentOrNull<T>(o.GetComponent<T>());
 
     public static T Get<T>(this GameObject gameObject) =>
         GetComponentOrNull<T>(gameObject.GetComponent<T>());

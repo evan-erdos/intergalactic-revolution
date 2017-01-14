@@ -1,5 +1,5 @@
 ********************************************************************************
-*                       Monday, 09 January 2017 10:27:27                       *
+*                      Saturday, 14 January 2017 13:27:35                      *
 ********************************************************************************
 CSharpCompilerWrapper.exe version: 2.0.0.0
 Platform: Mac
@@ -11,9 +11,579 @@ Compiler: Microsoft C# 7.0
 - Compilation -----------------------------------------------
 
 Process: /Library/Frameworks/Mono.framework/Commands/mono
-Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-88924134d1e274b548ac743539457963 -debug:portable
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-3345f55c547544af4af6a3e6f44ccefc -debug:portable
+Exit code: 0
+Elapsed time: 3.36 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:31:41                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-5f13e9a19468c4b2c983d7aa0d0eca02 -debug:portable
+Exit code: 1
+Elapsed time: 2.74 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipController.cs(50,17): error CS1501: No overload for method 'ChangeCamera' takes 1 arguments
+********************************************************************************
+*                      Saturday, 14 January 2017 13:32:31                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-8098953ab881043fe883465772bad136 -debug:portable
+Exit code: 0
+Elapsed time: 3.25 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:36:25                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-999322793a49b43a3be63107f96ae318 -debug:portable
+Exit code: 0
+Elapsed time: 3.28 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:38:06                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-c3df46d6e60be46ea89db2fd9fd5e714 -debug:portable
+Exit code: 0
+Elapsed time: 3.27 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:38:17                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-ec77ffd7e6ac542888177c6fdd90cfca -debug:portable
+Exit code: 0
+Elapsed time: 3.28 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:40:03                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-275ad9606f7f541e480a8035ff52df3d -debug:portable
+Exit code: 0
+Elapsed time: 3.28 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:41:13                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-8dedc5d87b1404a1dabef1be909fabd8 -debug:portable
+Exit code: 0
+Elapsed time: 3.28 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:42:57                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-c4a18bd5d48ff463884a6cb593f29cfb -debug:portable
 Exit code: 0
 Elapsed time: 3.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:43:14                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-6d87e8bc99832478693b280475ecbdf2 -debug:portable
+Exit code: 1
+Elapsed time: 2.77 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAudio.cs(86,48): error CS1061: 'SpaceshipAudio.AdvancedSetttings' does not contain a definition for 'dengineMasterVolume' and no extension method 'dengineMasterVolume' accepting a first argument of type 'SpaceshipAudio.AdvancedSetttings' could be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:43:19                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-e09dde3854aff4e60907b8b4cbea96fd -debug:portable
+Exit code: 1
+Elapsed time: 3.24 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/Adventure/Astronautics/Spaceships/SpaceshipAudio.cs(86,51): error CS1061: 'SpaceshipAudio.AdvancedSetttings' does not contain a definition for 'dengineMasterVolume' and no extension method 'dengineMasterVolume' accepting a first argument of type 'SpaceshipAudio.AdvancedSetttings' could be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:43:35                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-fa6cc5d3a2cf04e3ebada253572cc2d4 -debug:portable
+Exit code: 0
+Elapsed time: 3.27 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:47:50                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-cba5142f9d25a454c8ef67f5e4f28309 -debug:portable
+Exit code: 1
+Elapsed time: 2.76 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (3 lines):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,17): error CS0619: 'Component.networkView' is obsolete: 'Property networkView has been deprecated. Use GetComponent<NetworkView>() instead. (UnityUpgradable)'
+1: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,29): error CS1061: 'Component' does not contain a definition for 'IsMine' and no extension method 'IsMine' accepting a first argument of type 'Component' could be found (are you missing a using directive or an assembly reference?)
+2: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(34,38): error CS0246: The type or namespace name 'SmoothFollow' could not be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:47:58                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-dc22e0ece86044de1951c48b76e02f6d -debug:portable
+Exit code: 1
+Elapsed time: 2.76 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (3 lines):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,17): error CS0619: 'Component.networkView' is obsolete: 'Property networkView has been deprecated. Use GetComponent<NetworkView>() instead. (UnityUpgradable)'
+1: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,29): error CS1061: 'Component' does not contain a definition for 'IsMine' and no extension method 'IsMine' accepting a first argument of type 'Component' could be found (are you missing a using directive or an assembly reference?)
+2: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(34,42): error CS0246: The type or namespace name 'SmoothFollow' could not be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:48:23                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-675feb03555bc40a295b164a8789710e -debug:portable
+Exit code: 1
+Elapsed time: 3.26 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (2 lines):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,17): error CS0619: 'Component.networkView' is obsolete: 'Property networkView has been deprecated. Use GetComponent<NetworkView>() instead. (UnityUpgradable)'
+1: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,29): error CS1061: 'Component' does not contain a definition for 'IsMine' and no extension method 'IsMine' accepting a first argument of type 'Component' could be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:49:29                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-e95f73eccf44843efbd963f3aea75207 -debug:portable
+Exit code: 0
+Elapsed time: 3.76 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:49:33                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-4b73a76b3a69d45b89d11a87160acf72 -debug:portable
+Exit code: 1
+Elapsed time: 3.23 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (2 lines):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,17): error CS0619: 'Component.networkView' is obsolete: 'Property networkView has been deprecated. Use GetComponent<NetworkView>() instead. (UnityUpgradable)'
+1: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,29): error CS1061: 'Component' does not contain a definition for 'IsMine' and no extension method 'IsMine' accepting a first argument of type 'Component' could be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:49:33                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-23d9ea978cde54e11b1dcc6a1fec95e4 -debug:portable
+Exit code: 0
+Elapsed time: 3.23 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:49:59                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-4fbfb75ac94ca434b96f246688aa3092 -debug:portable
+Exit code: 0
+Elapsed time: 3.79 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-firstpass.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:50:04                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-ef0e2a9369fcd40939bb2a45beacd54b -debug:portable
+Exit code: 0
+Elapsed time: 3.74 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:50:04                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp-Editor-firstpass.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-baee93a0d975d44bdafe02b474c5dd24 -debug:portable
+Exit code: 0
+Elapsed time: 3.77 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp-Editor-firstpass.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:50:42                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-687d58fead93f4b69abc081d904f8029 -debug:portable
+Exit code: 1
+Elapsed time: 0.71 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (3 lines):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(32,64): error CS1001: Identifier expected
+1: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(32,65): error CS1525: Invalid expression term '}'
+2: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(32,65): error CS1002: ; expected
+********************************************************************************
+*                      Saturday, 14 January 2017 13:50:59                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-07eafea90045d492d88f9d1fd1949a1e -debug:portable
+Exit code: 1
+Elapsed time: 2.76 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (1 line):
+0: Assets/Scripts/Adventure/Astronautics/SpacePlayer.cs(33,30): error CS0246: The type or namespace name 'NetworkIdentity' could not be found (are you missing a using directive or an assembly reference?)
+********************************************************************************
+*                      Saturday, 14 January 2017 13:51:22                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-53b736c7f1e6f47c3afe61291df46132 -debug:portable
+********************************************************************************
+*                      Saturday, 14 January 2017 13:51:25                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-a88391e9c6e1b42c58893de708bddcd6 -debug:portable
+********************************************************************************
+*                      Saturday, 14 January 2017 13:51:26                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-46b4fa2d787404c55bd9adb14d4873ff -debug:portable
+Exit code: 0
+Elapsed time: 3.75 sec
+
+- Compiler output (0 lines):
+
+- Compiler errors (0 lines):
+
+PDB to MDB conversion skipped
+File "Temp/Assembly-CSharp.pdb" deleted
+********************************************************************************
+*                      Saturday, 14 January 2017 13:53:35                      *
+********************************************************************************
+CSharpCompilerWrapper.exe version: 2.0.0.0
+Platform: Mac
+Target assembly: Assembly-CSharp.dll
+Project directory: /Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master
+Unity 'Data' or 'Frameworks' directory: /Applications/Unity/Unity.app/Contents
+Compiler: Microsoft C# 7.0
+
+- Compilation -----------------------------------------------
+
+Process: /Library/Frameworks/Mono.framework/Commands/mono
+Arguments: "/Users/bescott/Developer/intergalactic-revolution/intergalactic-revolution-master/CSharp70Support/Roslyn/csc.exe" -nostdlib+ -noconfig -nologo -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/mscorlib.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Core.dll" -r:"/Applications/Unity/Unity.app/Contents/Mono/lib/mono/2.0/System.Xml.dll" @Temp/UnityTempFile-7a75eb626a0c749d4bff5daf67b81365 -debug:portable
+Exit code: 0
+Elapsed time: 3.27 sec
 
 - Compiler output (0 lines):
 

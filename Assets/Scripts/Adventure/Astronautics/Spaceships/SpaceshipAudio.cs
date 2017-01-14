@@ -74,33 +74,25 @@ namespace Adventure.Astronautics.Spaceships {
 
 
         void Update() {
-
-            // find what proportion of the engine's power is being used
             var enginePowerProportion = Mathf.InverseLerp(
                 0, spaceship.EnginePower, spaceship.CurrentPower);
 
-            // set the engine's pitch to be proportional to the engine's power
             engineSoundSource.pitch = Mathf.Lerp(
                 m_EngineMinThrottlePitch,
                 m_EngineMaxThrottlePitch,
                 enginePowerProportion);
-
-            // increase pitch by proportional to the forward speed
             engineSoundSource.pitch += spaceship.Energy*m_EngineFwdSpeedMultiplier;
-
-            // set the volume to be proportional to the engine's current power
             engineSoundSource.volume = Mathf.InverseLerp(
                 0, spaceship.EnginePower*settings.engineMasterVolume,
                 spaceship.CurrentPower);
 
             boostSource.volume = Mathf.Lerp(
-                0, settings.engineMasterVolume, spaceship.Boost?1:0);
+                0, settings.engineMasterVolume, spaceship.Boost);
 
-            // set the wind to be proportional to the forward speed
-            var planeSpeed = rigidbody.velocity.magnitude;
-            windSoundSource.pitch = m_WindBasePitch + planeSpeed*m_WindSpeedPitchFactor;
+            var speed = rigidbody.velocity.magnitude;
+            windSoundSource.pitch = m_WindBasePitch + speed*m_WindSpeedPitchFactor;
             windSoundSource.volume = Mathf.InverseLerp(
-                0, m_WindMaxSpeedVolume, planeSpeed)*settings.windMasterVolume;
+                0, m_WindMaxSpeedVolume, speed)*settings.windMasterVolume;
         }
     }
 }

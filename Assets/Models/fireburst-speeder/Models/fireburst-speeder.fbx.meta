@@ -132,6 +132,24 @@ ModelImporter:
     4300044: fireburst_speeder_nacelle_l
     4300046: fireburst_speeder_engine_l
     4300048: fireburst_speeder_panel_l_3
+    6400000: fireburst_speeder_cockpit
+    6400002: fireburst_speeder_cockpit_glass
+    6400004: fireburst_speeder_engine_l
+    6400006: fireburst_speeder_engine_r
+    6400008: fireburst_speeder_fuselage
+    6400010: fireburst_speeder_nacelle_l
+    6400012: fireburst_speeder_nacelle_r
+    6400014: fireburst_speeder_panel
+    6400016: fireburst_speeder_panel_l
+    6400018: fireburst_speeder_panel_l_0
+    6400020: fireburst_speeder_panel_l_2
+    6400022: fireburst_speeder_panel_l_3
+    6400024: fireburst_speeder_panel_l_4
+    6400026: fireburst_speeder_panel_r
+    6400028: fireburst_speeder_panel_r_0
+    6400030: fireburst_speeder_panel_r_1
+    6400032: fireburst_speeder_panel_r_2
+    6400034: fireburst_speeder_panel_r_3
   materials:
     importMaterials: 1
     materialName: 1
@@ -160,7 +178,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 100
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

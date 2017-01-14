@@ -12,13 +12,12 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected SpaceEvent onHit = new SpaceEvent();
         public float Force => force;
         public event SpaceAction HitEvent;
-
         public void Hit() => HitEvent(this, new SpaceArgs());
 
         public virtual void Reset() {
             GetComponent<ParticleSystem>().Stop();
-            (renderer.enabled, collider.enabled) = (true,true);
-            (rigidbody.isKinematic, rigidbody.velocity) = (false,Vector3.zero);
+            (renderer.enabled,collider.enabled) = (true,true);
+            (rigidbody.isKinematic,rigidbody.velocity) = (false,Vector3.zero);
         }
 
         protected virtual void OnHit() {
@@ -33,11 +32,7 @@ namespace Adventure.Astronautics.Spaceships {
             collider = GetComponent<Collider>();
             renderer = GetComponent<Renderer>();
             onHit.AddListener((o,e) => OnHit());
-        }
-
-        void OnEnable() => HitEvent += onHit.Invoke;
-        protected override void OnDisable() { base.OnDisable();
-            HitEvent -= onHit.Invoke;
+            HitEvent += onHit.Invoke;
         }
 
         void OnCollisionEnter(Collision c) {

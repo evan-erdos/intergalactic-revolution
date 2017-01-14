@@ -9,11 +9,12 @@ using Random = UnityEngine.Random;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpaceshipAIController : SpaceObject {
-        bool isDisabled, canFire, isBraking;
+        bool isDisabled, isFiring, isBraking;
         float perlin;
+        Collider[] colliders = new Collider[20];
         RaycastHit[] results = new RaycastHit[10];
+        List<ITrackable> targets = new List<ITrackable>();
         List<Blaster> blasters = new List<Blaster>();
-        List<BlasterTurret> turrets = new List<BlasterTurret>();
         new Rigidbody rigidbody;
         LayerMask mask;
         [SerializeField] float lateralWander = 5;
@@ -21,74 +22,82 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] float maxClimbAngle = 45;
         [SerializeField] float maxRollAngle = 45;
         [SerializeField] float speedEffect = 0.01f;
-        [SerializeField] float followRange = 10;
         [SerializeField] float aggroRange = 10000;
-        [SerializeField] protected float rollEffect = 0.2f;
-        [SerializeField] protected float pitchEffect = 0.5f;
+        [SerializeField] float rollEffect = 0.2f;
+        [SerializeField] float pitchEffect = 0.5f;
+        [SerializeField] float throttleEffect = 0.5f;
         [SerializeField] protected Spaceship spaceship;
-        [SerializeField] protected Transform Target;
+        public ITrackable Target {get;protected set;}
 
-        public void Reset() => (isDisabled,canFire) = (false,false);
+        public void Reset() => (isDisabled, isFiring) = (false,false);
         public void Disable() { isDisabled = true; spaceship.Disable(); }
         public void Fire() {
-            if (PreFire()) blasters.ForEach(o => Fire(o));
+            if (PreFire()) spaceship.Fire(Target);
             bool PreFire() =>
-                canFire && Target.Get<Spaceship>().Health>0 &&
-                Target.IsNear(transform,aggroRange);
-        }
-
-        protected void Fire(Blaster blaster) {
-            var (rate,spread) = (1000f,0.005f);
-            var (location,position) = (blaster.Barrel.ToVector(),Target.position);
-            var (direction,speed) = (position-location,Target.Get<Rigidbody>().velocity);
-            var distance = direction.magnitude;
-            var projection = speed*distance/rate;
-            var splay = Target.forward*Random.Range(-spread/2f,spread);
-            var variation = (splay+Random.insideUnitSphere*spread) * distance;
-            var rotation = Quaternion.LookRotation(direction);
-            var (velocity,prediction) = (rigidbody.velocity,position+projection+variation);
-            if (0<=Physics.RaycastNonAlloc(new Ray(location,prediction),results,100,mask))
-                blaster.Fire(prediction.ToTuple(), rotation, velocity.ToTuple());
-#if _DEBUG
-            var directRay = new Color(1f, 1f, 1f, 0.25f);
-            var predictRay = new Color(1f, 0.25f, 0.25f, 1f);
-            var nearRay = new Color(1f,0.5f, 0.5f, 0.25f);
-            Debug.DrawLine(location,position,directRay,1f);
-            Debug.DrawLine(location,prediction,predictRay,1f);
-            Debug.DrawLine(position,prediction,Color.blue,1f);
-#endif
+                isFiring && !(Target is null) &&
+                Target.Position.IsNear(transform.position,aggroRange);
         }
 
         public void Move() {
             if (isDisabled || Target is null) { spaceship.Move(); return; }
+            var (brakes, boost) = (0,0);
             var vect = Mathf.PerlinNoise(Time.time*wanderSpeed,perlin)*2-1;
-            var targetPos = Target.position + transform.right*vect*lateralWander;
-            targetPos -= Target.forward*followRange;
+            var targetPos = Target.Position.ToVector() + transform.right*vect*lateralWander;
+            // targetPos -= Target.forward*followRange;
+            // if (Physics.SphereCast(
+            //     origin: transform.position,
+            //     radius: radius,
+            //     direction: transform.forward,
+            //     hitInfo: out var hit,
+            //     maxDistance: 100))
+            //         targetPos = transform.position - transform.forward - transform.up*2;
             var localTarget = transform.InverseTransformPoint(targetPos);
+            // Debug.DrawRay(transform.position, localTarget, Color.red, 0.2f);
             var targetAngleYaw = Mathf.Atan2(localTarget.x,localTarget.z);
             var targetAnglePitch = -Mathf.Atan2(localTarget.y,localTarget.z);
             var maxClimb = maxClimbAngle*Mathf.Deg2Rad;
             var maxRoll = maxRollAngle*Mathf.Deg2Rad;
             targetAnglePitch = Mathf.Clamp(targetAnglePitch,-maxClimb,maxClimb);
             var desiredRoll = Mathf.Clamp(targetAngleYaw,-maxRoll,maxRoll);
-            var (roll,pitch,yaw) = (0f,targetAnglePitch-spaceship.PitchAngle,0f);
-            var (throttle,speed) = (0.5f, 1+spaceship.ForwardSpeed*speedEffect);
+            var (roll,pitch,yaw) = (0f,targetAnglePitch,0f);
+            var (throttle,speed) = (throttleEffect,1+spaceship.ForwardSpeed*speedEffect);
             (roll,pitch,yaw) = (roll*speed*rollEffect,pitch*speed*pitchEffect,yaw*speed);
-            spaceship.Move(isBraking,false,roll,pitch,yaw,throttle);
+            spaceship.Move(brakes,boost,throttle,roll,pitch,yaw);
         }
 
         void Awake() {
-            mask = LayerMask.NameToLayer("AI");
+            mask = 1<<LayerMask.NameToLayer("AI");
             perlin = Random.Range(0,100);
+            if (!spaceship) spaceship = Get<Spaceship>();
             rigidbody = spaceship.Get<Rigidbody>();
             blasters.AddRange(spaceship.GetComponentsInChildren<Blaster>());
-            turrets.AddRange(spaceship.GetComponentsInChildren<BlasterTurret>());
         }
 
         IEnumerator Start() {
-            while (!isDisabled) yield return Wait(
-                wait: new WaitForSeconds(4),
-                func: () => (canFire,isBraking) = (!canFire,!isBraking));
+            var radius = 10000;
+            var layerMask = 1<<LayerMask.NameToLayer("Player");
+            StartCoroutine(Toggling());
+            while (true) {
+                yield return new WaitForSeconds(2);
+                Physics.OverlapSphereNonAlloc(
+                    Position.ToVector(),radius,colliders,layerMask);
+                foreach (var result in colliders) {
+                    yield return null;
+                    if (result?.attachedRigidbody is null) continue;
+                    var ship = result.attachedRigidbody.Get<ITrackable>();
+                    if (!(ship is null)) targets.Add(ship);
+                } yield return null;
+                // targets.Sort((x,y) =>
+                //     transform.Distance(x.transform).CompareTo(
+                //         transform.Distance(y.transform)));
+                if (0<targets.Count) Target = targets.First();
+            }
+
+            IEnumerator Toggling() {
+                while (!isDisabled) yield return Wait(
+                    wait: new WaitForSeconds(4),
+                    func: () => (isFiring,isBraking) = (!isFiring,!isBraking));
+            }
         }
 
         void FixedUpdate() { Move(); Fire(); }

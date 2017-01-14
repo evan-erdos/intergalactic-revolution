@@ -1,4 +1,4 @@
-﻿Shader "Instanced/NewInstancedSurfaceShader" {
+﻿Shader "Standard (Instanced)" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -8,7 +8,7 @@
 	SubShader {
 		Tags { "RenderType"="Opaque" }
 		LOD 200
-		
+
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		// And generate the shadow pass with instancing support

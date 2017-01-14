@@ -26,7 +26,7 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Update() {
-            var boosting = spaceship.Boost?1f:0f;
+            var boosting = spaceship.BoostPower;
             var particleSystem = particles.main;
             particleSystem.startLifetime = Mathf.Lerp(
                 0.0f, lifetime, spaceship.Throttle);

@@ -5,12 +5,17 @@ using System.Collections;
 
 namespace Adventure.Astronautics {
     public class SpaceCamera : SpaceObject {
-        IEnumerator Start() {
-            transform.localPosition = Vector3.zero;
-            while (true) {
-                yield return new WaitForFixedUpdate();
-                transform.rotation = Camera.main.transform.rotation;
-            }
+        new Camera camera;
+        Camera primaryCamera;
+
+        void Awake() => camera = Get<Camera>();
+        public void Init(Camera camera) => primaryCamera = camera;
+
+        void LateUpdate() {
+            camera.rect = primaryCamera.rect;
+            camera.fieldOfView = primaryCamera.fieldOfView;
+            camera.transform.localPosition = Vector3.zero;
+            transform.rotation = primaryCamera.transform.rotation;
         }
 
         public void Jump(Quaternion rotation) {
@@ -19,7 +24,7 @@ namespace Adventure.Astronautics {
                 var speed = Vector3.zero;
                 var destination = rotation*Vector3.forward*1000;
                 yield return new WaitForSeconds(1);
-                while (transform.localPosition != destination) {
+                while (transform.localPosition!=destination) {
                     yield return new WaitForFixedUpdate();
                     transform.localPosition = Vector3.SmoothDamp(
                         current: transform.localPosition,

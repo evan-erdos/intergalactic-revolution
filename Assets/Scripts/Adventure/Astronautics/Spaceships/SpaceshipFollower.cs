@@ -43,6 +43,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         void FixedUpdate() {
             if (disabled) { controller.Move(); return; }
+            var (brakes, boost, throttle) = (isSlowing?1f:0, 0, 0.5f);
             var vect = Mathf.PerlinNoise(Time.time*lateralWanderSpeed,perlin)*2-1;
             var wander = isInFormation?0:lateralWanderDistance;
             var position = Vector3.zero;
@@ -58,7 +59,7 @@ namespace Adventure.Astronautics.Spaceships {
                 -m_MaxClimbAngle*Mathf.Deg2Rad,
                 m_MaxClimbAngle*Mathf.Deg2Rad);
 
-            var changePitch = targetAnglePitch - controller.PitchAngle;
+            var changePitch = targetAnglePitch - controller.transform.rotation.z;
             var pitch = changePitch*m_PitchSensitivity;
             var desiredRoll = Mathf.Clamp(
                 targetAngleYaw,
@@ -69,7 +70,7 @@ namespace Adventure.Astronautics.Spaceships {
             roll *= currentSpeedEffect;
             pitch *= currentSpeedEffect;
             yaw *= currentSpeedEffect;
-            controller.Move(isSlowing,false,0.5f,roll,pitch,yaw);
+            controller.Move(brakes,boost,throttle,roll,pitch,yaw);
         }
 
         public void Reset() => disabled = false;
@@ -86,10 +87,7 @@ namespace Adventure.Astronautics.Spaceships {
             velocity = Vector3.zero; // haha nope
             var prediction = position+speed*distance.magnitude/rate;
             foreach (var blaster in blasters)
-                blaster.Fire(
-                    position: prediction.ToTuple(),
-                    velocity: velocity.ToTuple(),
-                    rotation: Quaternion.LookRotation(distance));
+                blaster.Fire(prediction.ToTuple(), velocity.ToTuple());
             bool PreFire() =>
                 !target || !target.IsNear(transform, dist) ||
                 target.Get<Spaceship>().Health<0 || openFire;

@@ -4,22 +4,25 @@ using UnityEngine;
 using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class GuidedMissile : SpaceObject {
+    public class GuidedMissile : SpaceObject, IProjectile {
+        float perlin, wander = 10;
         new Rigidbody rigidbody;
         new Collider collider;
         [SerializeField] float track = 1;
         [SerializeField] float speed = 100;
         [SerializeField] float force = 100;
-        [SerializeField] float acceleration = 100;
         [SerializeField] protected GameObject particles;
         [SerializeField] protected SpaceEvent onHit = new SpaceEvent();
         public event SpaceAction HitEvent;
         public float Force => force;
-        public Transform Target {get;set;}
+        public ITrackable Target {get;set;}
         public void Hit() => HitEvent(this,new SpaceArgs());
-        void OnHit() => gameObject.SetActive(false);
+        public void Reset() => gameObject.SetActive(true);
+        void Hit(IDamageable o) { if (o!=null) o.Damage(Force); Hit(); }
+        void OnHit() { Create(particles); gameObject.SetActive(false); }
 
         void Awake() {
+            perlin = Random.Range(1,100);
             onHit.AddListener((o,e) => OnHit());
             HitEvent += onHit.Invoke;
             rigidbody = Get<Rigidbody>();
@@ -28,32 +31,30 @@ namespace Adventure.Astronautics.Spaceships {
 
         IEnumerator Start() {
             collider.enabled = false;
-            rigidbody.AddForce(
-                force: transform.forward*acceleration,
-                mode: ForceMode.Acceleration);
             yield return new WaitForFixedUpdate();
             collider.enabled = true;
         }
 
         void FixedUpdate() {
-            if (CastCheck()) Hit();
-            if (!Target) return;
-            var force = (Target.position-transform.position)*track;
-            if (force.sqrMagnitude>speed) force = force.normalized * speed;
-            rigidbody.AddForce(force);
-            transform.rotation = Quaternion.LookRotation(rigidbody.velocity);
-
-            bool CastCheck() => Physics.SphereCast(
+            if (Physics.Raycast(
                 origin: transform.position,
-                radius: 2f,
                 direction: transform.forward,
                 hitInfo: out var hit,
-                maxDistance: 1f);
+                maxDistance: 1f)) Hit(hit.collider.GetParent<IDamageable>());
+            if (Target is null) return;
+            var displacement = Target.Position.ToVector()-transform.position;
+            var distance = displacement.magnitude;
+            var prediction = Target.Velocity.ToVector().normalized*distance/speed;
+            var force = (displacement+prediction)*track;
+            if (force.sqrMagnitude>speed) force = force.normalized * speed;
+            force += Vector3.right * Mathf.PerlinNoise(Time.time*wander,perlin);
+            rigidbody.AddForce(force);
+            if (rigidbody.velocity.normalized!=transform.up)
+                transform.rotation = Quaternion.LookRotation(
+                    rigidbody.velocity, transform.up);
         }
 
-        void OnCollisionEnter(Collision collision) {
-            collision.collider.Get<IDamageable>()?.Damage(Force);
-            Hit();
-        }
+        void OnCollisionEnter(Collision collision) =>
+            Hit(collision.collider.Get<IDamageable>());
     }
 }

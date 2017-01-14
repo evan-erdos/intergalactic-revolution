@@ -15,25 +15,24 @@ namespace Adventure.Astronautics {
         string path, root = "adventure", dir = "star-systems";
         Deserializer deserializer = new Deserializer();
         Map<Type,Map<SpaceObject>> objects = new Map<Type,Map<SpaceObject>>();
-        Map<Map<SpaceObject.Data>> data = new Map<Map<SpaceObject.Data>>();
-        static Map<StarSystem.Data> starSystemData = new Map<StarSystem.Data>();
+        Map<Map<SpaceObject>> data = new Map<Map<SpaceObject>>();
+        static Map<StarSystem> starSystemData = new Map<StarSystem>();
         public static Settings settings {get;set;}
         public static StarSystem CurrentSystem {get;set;}
         public static StarSystem Destination {get;set;}
-        public static List<(string,double[])> NearbySystems => GetNearby(CurrentSystem);
+        // public static List<(string,double[])> NearbySystems => GetNearby(CurrentSystem);
         public static Map<StarSystem> StarSystems = new Map<StarSystem>();
         public static readonly Map<Type> tags = new Map<Type> {
-            ["object"] = typeof(SpaceObject.Data),
-            ["system"] = typeof(StarSystem.Data),
+            ["object"] = typeof(SpaceObject),
+            ["system"] = typeof(StarSystem),
             ["settings"] = typeof(Adventure.Settings) };
 
-        public static List<(string,double[])> GetNearby(StarSystem system) {
-            var list = new List<(string,double[])>();
-            foreach (var item in starSystemData[system.Name].systems)
-                list.Add((item, starSystemData[item].position));
-            return list;
-        }
-
+        // public static List<(string,double[])> GetNearby(StarSystem system) {
+        //     var list = new List<(string,double[])>();
+        //     foreach (var item in starSystemData[system.Name].systems)
+        //         list.Add((item, starSystemData[item].position));
+        //     return list;
+        // }
 
         void Awake() {
             path = $"{Application.streamingAssetsPath}/{root}";
@@ -41,7 +40,7 @@ namespace Adventure.Astronautics {
             // ParseDefaults($"{path}/adventure.yml");
             var objs = FindObjectsOfType(typeof(SpaceObject)) as SpaceObject[];
             foreach (var obj in objs) {
-                obj.Init();
+                obj.Create();
                 var type = obj.GetType();
                 if (!objects.ContainsKey(type))
                     objects[type] = new Map<SpaceObject>();
@@ -58,21 +57,20 @@ namespace Adventure.Astronautics {
                 //     if (tags.Keys.Contains(YamlReader.FromType(bt))
                 //     && defaults.TryGetValue(
                 //                     tags[YamlReader.FromType(bt)],
-                //                     out SpaceObject.Data bd))
+                //                     out SpaceObject bd))
                 //         bd.Deserialize(thing.Value);
                 // if (tags.Keys.Contains(type)
                 // && defaults.TryGetValue(tags[type], out SpaceObject.Data yml))
                 //     yml.Deserialize(thing.Value);
-                if (!data.TryGetValue(type, out Map<SpaceObject.Data> map)) continue;
-                if (!map.TryGetValue(thing.Key, out var yml)) {
-                    print($"no entry under name {thing.Key}?"); continue; }
-                yml.Deserialize(thing.Value);
+                // if (!data.TryGetValue(type, out Map<SpaceObject.Data> map)) continue;
+                // if (!map.TryGetValue(thing.Key, out var yml)) {
+                    // print($"no entry under name {thing.Key}?"); continue; }
+                // yml.Deserialize(thing.Value);
                 yield return null;
             }
         }
 
-        T Deserialize<T>(EventReader reader) =>
-            deserializer.Deserialize<T>(reader);
+        T Deserialize<T>(EventReader o) => deserializer.Deserialize<T>(o);
 
         void ParseFile(string file) {
             var reader = new EventReader(
@@ -86,7 +84,7 @@ namespace Adventure.Astronautics {
                     throw new System.Exception("wrong type data in yaml file");
                 switch (type) {
                     case "starsystem":
-                        var systems = Deserialize<Map<StarSystem.Data>>(reader);
+                        var systems = Deserialize<Map<StarSystem>>(reader);
                         foreach (var pair in systems)
                             starSystemData[pair.Key] = pair.Value;
                         break;
@@ -109,13 +107,13 @@ namespace Adventure.Astronautics {
             }
         }
 
-        void ParseFile<T>(EventReader reader) {
-            foreach (var pair in Deserialize<Map<T>>(reader)) {
-                var type = YamlReader.FromType(typeof(T));
-                if (!data.ContainsKey(type))
-                    data[type] = new Map<SpaceObject.Data>();
-                data[type][pair.Key] = pair.Value as SpaceObject.Data;
-            }
-        }
+        // void ParseFile<T>(EventReader reader) {
+        //     foreach (var pair in Deserialize<Map<T>>(reader)) {
+        //         var type = YamlReader.FromType(typeof(T));
+        //         if (!data.ContainsKey(type))
+        //             data[type] = new Map<SpaceObject.Data>();
+        //         data[type][pair.Key] = pair.Value as SpaceObject.Data;
+        //     }
+        // }
     }
 }

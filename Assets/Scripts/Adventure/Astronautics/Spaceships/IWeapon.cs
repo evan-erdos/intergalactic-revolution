@@ -7,16 +7,20 @@ using UnityEngine;
 namespace Adventure.Astronautics.Spaceships {
 
     /// IWeapon : IShipComponent
-    /// a weapon on a space ship
+    /// a weapon which can be fired out into space or at something in particular
     public interface IWeapon : IShipComponent, IDamageable {
 
-        /// Fire : (position, velocity, rotation) => void
-        /// fires blasters on a specified position,
-        /// compensating for the spaceship's velocity
+        /// Fire : () => void
+        /// fires blasters at nothing in particular, default targeting
         void Fire();
-        void Fire(
-            (float, float, float) position,
-            Quaternion rotation,
-            (float, float, float) velocity);
+
+        /// Fire : (target) => void
+        /// fires blasters on a specified target,
+        /// allowing the blaster to track position and velocity
+        void Fire(ITrackable target);
+
+        /// Fire : (position,velocity,rotation) => void
+        /// fires blasters on a specified position, with a moment velocity
+        void Fire((float,float,float) position, (float,float,float) velocity);
     }
 }

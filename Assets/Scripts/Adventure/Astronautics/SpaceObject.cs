@@ -11,26 +11,39 @@ using UnityEngine.Events;
 namespace Adventure.Astronautics {
     public abstract class SpaceObject : MonoBehaviour, ISpaceObject {
         Semaphore semaphore;
-
-        public virtual (float x,float y,float z) Position => transform.position.ToTuple();
-        public virtual void Init() => semaphore = new Semaphore(StartCoroutine);
+        public string Name => name;
+        public (float x,float y,float z) Position => transform.position.ToTuple();
         protected void StartSemaphore(Func<IEnumerator> c) => semaphore.Invoke(c);
         public virtual bool Fits(string s) => new Regex("\b(object)\b").IsMatch(s);
         public override string ToString() => $"{name} - ({1} ton)";
-        public virtual void OnDeactivate() => semaphore?.Clear();
-        protected virtual void OnDisable() => OnDeactivate();
+        // public virtual void OnDeactivate() => semaphore?.Clear();
+        protected virtual void OnDisable() => semaphore?.Clear();
+        protected virtual void OnEnable() => Create();
+        public virtual void Create() => semaphore = new Semaphore(StartCoroutine);
 
-        public T Create<T>(GameObject original) =>
-            Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original, Vector3 position) =>
-            Create<T>(original,position,Quaternion.identity);
-        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) =>
-            GetComponentOrNull<T>(Create(original,position,rotation).GetComponent<T>());
+        public Transform GetOrAdd(string name) {
+            var instance = transform.Find(name);
+            if (!instance) {
+                instance = new GameObject(name).transform;
+                instance.parent = transform; } return instance; }
+
+        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
+        public T GetOrAdd<T,U>() where T : Component where U : T {
+            var component = GetComponent<T>();
+            if (!component) component = gameObject.AddComponent<U>();
+            return component; }
 
         public T Get<T>() => GetComponentOrNull<T>(GetComponent<T>());
         public T GetParent<T>() => GetComponentOrNull<T>(GetComponentInParent<T>());
         public T GetChild<T>() => GetComponentOrNull<T>(GetComponentInChildren<T>());
         T GetComponentOrNull<T>(T component) => (component==null)?default(T):component;
+
+        public T Create<T>(GameObject original) =>
+            Create<T>(original, transform.position, transform.rotation);
+        public T Create<T>(GameObject original,Vector3 position) =>
+            Create<T>(original,position,Quaternion.identity);
+        public T Create<T>(GameObject original,Vector3 position,Quaternion rotation) =>
+            GetComponentOrNull<T>(Create(original,position,rotation).GetComponent<T>());
 
         public GameObject Create(GameObject original) =>
             Create(original,transform.position, transform.rotation);
@@ -42,21 +55,6 @@ namespace Adventure.Astronautics {
                         Quaternion rotation) =>
                 Instantiate(original,position,rotation) as GameObject;
 
-        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
-        public T GetOrAdd<T,U>() where T : Component where U : T {
-            var component = GetComponent<T>();
-            if (!component) component = gameObject.AddComponent<U>();
-            return component;
-        }
-
-        public Transform GetOrAdd(string name) {
-            var instance = transform.Find(name);
-            if (!instance) {
-                instance = new GameObject(name).transform;
-                instance.parent = transform;
-            } return instance;
-        }
-
         protected Coroutine Loop(YieldInstruction wait, Action func) {
             return StartCoroutine(Looping());
             IEnumerator Looping() { while (true) yield return Wait(wait,func); } }
@@ -64,11 +62,5 @@ namespace Adventure.Astronautics {
         protected Coroutine Wait(YieldInstruction wait, Action func) {
             return StartCoroutine(Waiting());
             IEnumerator Waiting() { yield return wait; func(); } }
-
-        public class Data {
-            public string name {get;set;}
-            public virtual SpaceObject Deserialize(SpaceObject o) => o;
-            public virtual void Merge(SpaceObject.Data o) => name = o.name;
-        }
     }
 }

@@ -33,9 +33,9 @@ namespace Adventure.Astronautics.Spaceships {
             if (isDisabled) return;
             var (throttle, particleSystem) = (0f, particles.main);
             switch (axis) {
-                case Axis.Roll: throttle = spaceship.Roll; break;
-                case Axis.Pitch: throttle = spaceship.Pitch; break;
-                case Axis.Yaw: throttle = spaceship.Yaw; break; }
+                case Axis.Roll: throttle = spaceship.Control.roll; break;
+                case Axis.Pitch: throttle = spaceship.Control.pitch; break;
+                case Axis.Yaw: throttle = spaceship.Control.yaw; break; }
             if (0<throttle && !reverse || throttle<0 && reverse) return;
             throttle = Mathf.Abs(throttle);
             particleSystem.startLifetime = Mathf.Lerp(0,lifetime,throttle);

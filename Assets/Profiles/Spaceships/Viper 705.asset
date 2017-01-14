@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
+  m_Name: Viper 705
+  m_EditorClassIdentifier: 
+  Name: T-31 Viper 705
+  CargoSpace: 30
+  Health: 10000
+  EnginePower: 3000
+  RollEffect: 0.3
+  PitchEffect: 0.2
+  YawEffect: 0.4
+  SpinEffect: 1
+  ThrottleEffect: 0.5
+  BrakesEffect: 3
+  AeroEffect: 0.02
+  DragEffect: 0.001
+  EnergyThrust: 6000
+  EnergyCapacity: 5000
+  EnergyLoss: 50
+  EnergyGain: 20
+  TopSpeed: 3500
+  ManeuveringEnergy: 200
+  hitSounds:
+  - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
+  - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}
+  modeClip: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
+  changeClip: {fileID: 8300000, guid: 9815425169548454a9e8264c159581f8, type: 3}
+  selectClip: {fileID: 8300000, guid: 75024edad0464486381177a71b449093, type: 3}
+  hyperspaceClip: {fileID: 8300000, guid: 9b4760fb4beea4ff7a92a9daf28ebe03, type: 3}
+  alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}
+  explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
+  hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}

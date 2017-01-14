@@ -6,17 +6,16 @@ using UnityEngine;
 
 namespace Adventure.Astronautics {
 
-    /// ISpaceObject
-    /// root interface for all objects in the namespace
+    /// ICelestialObject
+    /// any kind of enormous stellar object
     public interface ICelestialObject {
 
-        /// Location : (real, real, real)
+        /// Location : (real,real,real)
         /// represents the object's location in universal coordinates
-        (double, double, double) Location {get;}
+        (double x, double y, double z) Location {get;}
 
         /// Mass : tons
         /// represents the object's mass in solar masses
         double Mass {get;}
-
     }
 }

@@ -9,11 +9,11 @@ namespace Adventure.Astronautics {
         [SerializeField] float period = 24; // days
         IEnumerator Start() {
             var sun = transform.Find("sun");
-            sun.Rotate(0, unit.Time%360, 0);
+            sun.Rotate(0,unit.Time%360,0);
             while (true) {
                 yield return new WaitForSeconds(1);
                 yield return new WaitForFixedUpdate();
-                sun.Rotate(0,(unit.Time * unit.Day)/period,0);
+                sun.Rotate(0,(unit.Time*unit.Day)/period,0);
             }
         }
     }

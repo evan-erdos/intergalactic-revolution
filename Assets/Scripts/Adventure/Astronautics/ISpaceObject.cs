@@ -10,9 +10,17 @@ namespace Adventure.Astronautics {
     /// root interface for all objects in the namespace
     public interface ISpaceObject {
 
-        /// Position : (real, real, real)
+        /// Name : string
+        /// an identifying string for this object
+        string Name {get;}
+
+        /// Position : (real,real,real)
         /// represents the object's location in world coordinates
         (float x, float y, float z) Position {get;}
+
+        /// Create : () => void
+        /// does whatever setup is required when creating an instance
+        void Create();
 
         /// Fits : (pattern) => bool
         /// does this object match the given description?
