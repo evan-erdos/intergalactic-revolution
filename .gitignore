@@ -38,8 +38,8 @@ Obj/
 UnityGenerated/
 Library/
 Assets/AssetStoreTools*
-CSharp70Support/compilation\ log.txt
 CSharp60Support/compilation\ log.txt
+CSharp70Support/compilation.log
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
