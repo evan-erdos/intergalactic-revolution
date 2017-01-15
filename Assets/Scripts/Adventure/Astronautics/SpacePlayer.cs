@@ -26,7 +26,6 @@ namespace Adventure.Astronautics.Spaceships {
             Ship.KillEvent += (o,e) => OnKill();
             Ship.JumpEvent += (o,e) => OnJump();
             // transform.parent = Ship.transform;
-            SetCamera();
             Ship.ToggleView();
         }
 
@@ -35,12 +34,9 @@ namespace Adventure.Astronautics.Spaceships {
         bool IsMainPlayer() => isLocalPlayer;
         // void Start() => If(IsMainPlayer,() => CreateShip());
         public override void OnStartLocalPlayer() {
-            base.OnStartLocalPlayer(); CreateShip(); }
-
+            base.OnStartLocalPlayer(); CreateShip(); SetCamera(); }
         void OnConnectedToServer() => CreateShip();
-
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
-
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
         void FixedUpdate() {
             transform.localRotation = Quaternion.Euler(
