@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d390130551f4b82ab7785f1f3627f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceship: {fileID: 0}
+  prefab: {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
   ships:
   - {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
   - {fileID: 1431798685936340, guid: 3bc7b412a00f64625b14f95596e57433, type: 2}

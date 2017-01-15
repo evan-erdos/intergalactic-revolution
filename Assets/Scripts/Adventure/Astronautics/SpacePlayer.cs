@@ -11,39 +11,33 @@ namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : NetworkSpaceObject {
         (float x,float y) mouse = (0,0);
         List<NetworkStartPosition> points = new List<NetworkStartPosition>();
-        [SerializeField] protected Spaceship spaceship;
+        [SerializeField] protected GameObject prefab;
         [SerializeField] List<GameObject> ships = new List<GameObject>();
+        public Spaceship Ship {get; protected set;}
 
-        public void SetShip() => CmdCreateShip(ships.Pick());
-        // [Command]
-        public void CmdCreateShip(GameObject prefab) {
-            // Network.Instantiate(
-            //         prefab: prefab,
-            //         position: transform.position,
-            //         rotation: transform.rotation,
-            //         group: 0) as GameObject;
+        public void CreateShip() => CmdCreateShip();
+        [Command] public void CmdCreateShip() {
             var instance = Instantiate(prefab) as GameObject;
             NetworkServer.Spawn(instance);
-            var spaceship = instance.Get<Spaceship>();
-            spaceship.Create();
-            spaceship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
-            this.spaceship = spaceship;
-            GetOrAdd<SpaceshipController>().Ship = spaceship;
-            spaceship.KillEvent += (o,e) => OnKill();
-            spaceship.JumpEvent += (o,e) => OnJump();
-            // transform.parent = spaceship.transform;
+            Ship = instance.Get<Spaceship>();
+            Ship.Create();
+            Ship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
+            GetOrAdd<SpaceshipController>().Ship = Ship;
+            Ship.KillEvent += (o,e) => OnKill();
+            Ship.JumpEvent += (o,e) => OnJump();
+            // transform.parent = Ship.transform;
             SetCamera();
-            spaceship.ToggleView();
+            Ship.ToggleView();
         }
 
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
         // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
         bool IsMainPlayer() => isLocalPlayer;
-        // void Start() => If(IsMainPlayer,() => SetShip());
+        // void Start() => If(IsMainPlayer,() => CreateShip());
         public override void OnStartLocalPlayer() {
-            base.OnStartLocalPlayer(); SetShip(); }
+            base.OnStartLocalPlayer(); CreateShip(); }
 
-        void OnConnectedToServer() => SetShip();
+        void OnConnectedToServer() => CreateShip();
 
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
@@ -52,13 +46,13 @@ namespace Adventure.Astronautics.Spaceships {
             transform.localRotation = Quaternion.Euler(
                 x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
                 y: transform.localEulerAngles.y+mouse.x*10, z: 0);
-            if (spaceship is null) return;
-            transform.position = spaceship.transform.position;
-            transform.rotation = spaceship.transform.rotation;
+            if (Ship is null) return;
+            transform.position = Ship.transform.position;
+            transform.rotation = Ship.transform.rotation;
         }
 
         void SetCamera() => If(IsMainPlayer, () =>
-            PlayerCamera.Follow(spaceship.transform));
+            PlayerCamera.Follow(Ship.transform));
 
         void OnJump() {
             StartSemaphore(Jumping);
@@ -77,7 +71,7 @@ namespace Adventure.Astronautics.Spaceships {
                 transform.parent = null;
                 transform.position = point.transform.position;
                 transform.rotation = point.transform.rotation;
-                SetShip();
+                CreateShip();
                 yield return new WaitForSeconds(5);
             }
         }
