@@ -34,8 +34,8 @@ namespace Adventure.Astronautics.Spaceships {
         // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
         bool IsMainPlayer() => isLocalPlayer;
         void Start() => If(IsMainPlayer,() => SetShip());
-        public override void OnStartLocalPlayer() { base.OnStartLocalPlayer();
-            print("fancy start function"); }
+        // public override void OnStartLocalPlayer() { base.OnStartLocalPlayer();
+        //     print("fancy start function"); }
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));

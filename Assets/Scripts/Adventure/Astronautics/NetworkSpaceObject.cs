@@ -57,12 +57,21 @@ namespace Adventure.Astronautics {
                         GameObject original,
                         Vector3 position,
                         Quaternion rotation) {
+            CmdCreate(original,position,rotation);
+            return lastInstanceMade; }
+
+        GameObject lastInstanceMade;
+
+        [Command] public void CmdCreate(
+                        GameObject original,
+                        Vector3 position,
+                        Quaternion rotation) {
             var instance = Instantiate(original,position,rotation) as GameObject;
             instance.GetComponent<ISpaceObject>().Create();
             instance.GetComponentInChildren<ISpaceObject>().Create();
-            CmdCreate(instance); return instance; }
-
-        [Command] public void CmdCreate(GameObject o) => NetworkServer.Spawn(o);
+            NetworkServer.Spawn(instance);
+            lastInstanceMade = instance;
+        }
 
         protected Coroutine Loop(YieldInstruction wait, Action func) {
             return StartCoroutine(Looping());
