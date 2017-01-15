@@ -12,9 +12,9 @@ namespace Adventure.Astronautics.Spaceships {
         (float x,float y) mouse = (0,0);
         List<NetworkStartPosition> points = new List<NetworkStartPosition>();
         [SerializeField] protected Spaceship spaceship;
-        [SerializeField] List<GameObject> randomShips = new List<GameObject>();
+        [SerializeField] List<GameObject> ships = new List<GameObject>();
 
-        public void SetSpaceship(Spaceship spaceship) {
+        public void SetShip(Spaceship spaceship) {
             if (spaceship is null) return;
             spaceship.Create();
             spaceship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
@@ -28,7 +28,11 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
-        void Start() => SetSpaceship(Create<Spaceship>(randomShips.Pick()));
+        // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
+        bool IsMainPlayer() => isLocalPlayer;
+        void Start() => If(IsMainPlayer,() => SetShip(Create<Spaceship>(ships.Pick())));
+        public override void OnStartLocalPlayer() { base.OnStartLocalPlayer();
+            print("fancy start function"); }
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
@@ -36,9 +40,8 @@ namespace Adventure.Astronautics.Spaceships {
             x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
             y: transform.localEulerAngles.y+mouse.x*10, z: 0);
 
-        void SetCamera() {
-            if (GetComponent<NetworkIdentity>().localPlayerAuthority)
-                PlayerCamera.Follow(spaceship.transform); }
+        void SetCamera() => If(IsMainPlayer, () =>
+            PlayerCamera.Follow(spaceship.transform));
 
         void OnJump() {
             StartSemaphore(Jumping);
