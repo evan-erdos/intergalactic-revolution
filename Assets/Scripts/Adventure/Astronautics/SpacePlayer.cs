@@ -10,7 +10,6 @@ using UnityStandardAssets.Cameras;
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : NetworkSpaceObject {
         (float x,float y) mouse = (0,0);
-        new PlayerCamera camera;
         List<NetworkStartPosition> points = new List<NetworkStartPosition>();
         [SerializeField] List<GameObject> ships = new List<GameObject>();
         public Spaceship Ship {get;protected set;}
@@ -28,11 +27,10 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
+        void Start() => ships.ForEach(o => ClientScene.RegisterPrefab(o));
         public override void OnStartLocalPlayer() {
-            camera = GetComponentInChildren<PlayerCamera>();
             CreateShip();
-            if (!Ship) Destroy(camera.gameObject);
-            else if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
+            if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
         }
         // void OnConnectedToServer() => CreateShip();
         // void OnNetworkInstantiate(NetworkMessageInfo info) => CreateShip();
