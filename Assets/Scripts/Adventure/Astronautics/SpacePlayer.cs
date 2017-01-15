@@ -28,11 +28,11 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
-        void Start() => camera = GetComponentInChildren<PlayerCamera>();
         public override void OnStartLocalPlayer() {
+            camera = GetComponentInChildren<PlayerCamera>();
             CreateShip();
-            if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
-            else camera.GetComponent<Camera>().enabled = false;
+            if (!Ship) Destroy(camera.gameObject);
+            else if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
         }
         // void OnConnectedToServer() => CreateShip();
         // void OnNetworkInstantiate(NetworkMessageInfo info) => CreateShip();
