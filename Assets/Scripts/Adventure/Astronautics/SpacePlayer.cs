@@ -16,7 +16,6 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void SetShip() => CmdCreateShip(ships.Pick());
         [Command] public void CmdCreateShip(GameObject prefab) {
-            if (prefab is null) return;
             var instance = Instantiate(prefab) as GameObject;
             NetworkServer.Spawn(instance);
             var spaceship = instance.Get<Spaceship>();
@@ -35,8 +34,9 @@ namespace Adventure.Astronautics.Spaceships {
         // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
         bool IsMainPlayer() => isLocalPlayer;
         void Start() => If(IsMainPlayer,() => SetShip());
-        // public override void OnStartLocalPlayer() { base.OnStartLocalPlayer();
-        //     print("fancy start function"); }
+        public override void OnStartLocalPlayer() {
+            base.OnStartLocalPlayer(); SetShip(); }
+
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
