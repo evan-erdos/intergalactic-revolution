@@ -15,7 +15,13 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] List<GameObject> ships = new List<GameObject>();
 
         public void SetShip() => CmdCreateShip(ships.Pick());
-        [Command] public void CmdCreateShip(GameObject prefab) {
+        // [Command]
+        public void CmdCreateShip(GameObject prefab) {
+            // Network.Instantiate(
+            //         prefab: prefab,
+            //         position: transform.position,
+            //         rotation: transform.rotation,
+            //         group: 0) as GameObject;
             var instance = Instantiate(prefab) as GameObject;
             NetworkServer.Spawn(instance);
             var spaceship = instance.Get<Spaceship>();
@@ -33,9 +39,11 @@ namespace Adventure.Astronautics.Spaceships {
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
         // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
         bool IsMainPlayer() => isLocalPlayer;
-        void Start() => If(IsMainPlayer,() => SetShip());
+        // void Start() => If(IsMainPlayer,() => SetShip());
         public override void OnStartLocalPlayer() {
             base.OnStartLocalPlayer(); SetShip(); }
+
+        void OnConnectedToServer() => SetShip();
 
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
@@ -69,7 +77,7 @@ namespace Adventure.Astronautics.Spaceships {
                 transform.parent = null;
                 transform.position = point.transform.position;
                 transform.rotation = point.transform.rotation;
-                Start();
+                SetShip();
                 yield return new WaitForSeconds(5);
             }
         }
