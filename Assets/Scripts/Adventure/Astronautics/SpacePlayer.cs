@@ -14,11 +14,12 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected Spaceship spaceship;
         [SerializeField] List<GameObject> ships = new List<GameObject>();
 
-        [Command] public void CmdCreateShip(GameObject o) => NetworkServer.Spawn(o);
-        public void SetShip() => SetShip(Create<Spaceship>(ships.Pick()));
-        public void SetShip(Spaceship spaceship) {
-            if (spaceship is null) return;
-            CmdCreateShip(spaceship.gameObject);
+        public void SetShip() => CmdCreateShip(ships.Pick());
+        [Command] public void CmdCreateShip(GameObject prefab) {
+            if (prefab is null) return;
+            var instance = Instantiate(prefab) as GameObject;
+            NetworkServer.Spawn(instance);
+            var spaceship = instance.Get<Spaceship>();
             spaceship.Create();
             spaceship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
             this.spaceship = spaceship;
@@ -74,3 +75,4 @@ namespace Adventure.Astronautics.Spaceships {
         }
     }
 }
+
