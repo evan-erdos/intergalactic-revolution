@@ -10,6 +10,7 @@ using UnityStandardAssets.Cameras;
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : NetworkSpaceObject {
         (float x,float y) mouse = (0,0);
+        SpaceshipController controller;
         List<NetworkStartPosition> points = new List<NetworkStartPosition>();
         [SerializeField] List<GameObject> ships = new List<GameObject>();
         public Spaceship Ship {get;protected set;}
@@ -21,15 +22,22 @@ namespace Adventure.Astronautics.Spaceships {
             Ship = instance.Get<Spaceship>();
             Ship.Create();
             Ship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
-            GetOrAdd<SpaceshipController>().Ship = Ship;
+            controller.Ship = Ship;
             Ship.KillEvent += (o,e) => OnKill();
             Ship.JumpEvent += (o,e) => OnJump();
         }
 
-        void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
+        void Awake() {
+            points.AddRange(FindObjectsOfType<NetworkStartPosition>());
+            controller = GetOrAdd<SpaceshipController>();
+        }
         void Start() => ships.ForEach(o => ClientScene.RegisterPrefab(o));
-        public override void OnStartLocalPlayer() {
+        public override void OnStartLocalPlayer() => StartCoroutine(Fucking());
+
+        IEnumerator Fucking() {
             CreateShip();
+            yield return new WaitForSeconds(1);
+            if (!Ship) throw new SpaceException("no spaceship");
             if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
         }
         // void OnConnectedToServer() => CreateShip();
