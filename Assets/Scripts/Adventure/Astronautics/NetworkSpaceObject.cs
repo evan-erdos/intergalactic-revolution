@@ -22,6 +22,9 @@ namespace Adventure.Astronautics {
         protected virtual void OnEnable() => Create();
         public virtual void Create() => semaphore = new Semaphore(StartCoroutine);
 
+        public void If(bool condition, Action then) { if (condition) then(); }
+        public void If(Func<bool> cond, Action then) { if (cond()) then(); }
+
         public Transform GetOrAdd(string name) {
             var instance = transform.Find(name);
             if (!instance) {
