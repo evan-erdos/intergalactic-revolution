@@ -35,7 +35,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 0
-    axis: 0
+    axis: 4
     joyNum: 1
   - serializedVersion: 3
     m_Name: Fire1
@@ -44,7 +44,7 @@ InputManager:
     negativeButton: 
     positiveButton: mouse 0
     altNegativeButton: 
-    altPositiveButton: joystick button 10
+    altPositiveButton: joystick button 4
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -60,7 +60,7 @@ InputManager:
     negativeButton: 
     positiveButton: mouse 1
     altNegativeButton: 
-    altPositiveButton: joystick button 8
+    altPositiveButton: joystick button 4
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -92,7 +92,7 @@ InputManager:
     negativeButton: 
     positiveButton: space
     altNegativeButton: 
-    altPositiveButton: joystick button 14
+    altPositiveButton: joystick button 0
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -138,7 +138,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 9
+    positiveButton: joystick button 8
     altNegativeButton: 
     altPositiveButton: return
     gravity: 0
@@ -147,7 +147,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 0
-    axis: 14
+    axis: 1
     joyNum: 1
   - serializedVersion: 3
     m_Name: Roll
@@ -179,7 +179,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 2
-    axis: 1
+    axis: 4
     joyNum: 1
   - serializedVersion: 3
     m_Name: Fire1
@@ -202,7 +202,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 1
+    positiveButton: joystick button 4
     altNegativeButton: 
     altPositiveButton: space
     gravity: 1000
@@ -755,7 +755,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 2
+    axis: 3
     joyNum: 1
   - serializedVersion: 3
     m_Name: Brake
@@ -771,7 +771,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 12
+    axis: 2
     joyNum: 1
   - serializedVersion: 3
     m_Name: Unused
@@ -826,7 +826,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 9
+    positiveButton: joystick button 8
     altNegativeButton: 
     altPositiveButton: return
     gravity: 0
@@ -835,7 +835,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 0
-    axis: 14
+    axis: 1
     joyNum: 1
   - serializedVersion: 3
     m_Name: Unused
@@ -883,7 +883,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 0
-    axis: 14
+    axis: 3
     joyNum: 1
   - serializedVersion: 3
     m_Name: Mode
@@ -1187,7 +1187,7 @@ InputManager:
     snap: 1
     invert: 0
     type: 0
-    axis: 3
+    axis: 2
     joyNum: 1
   - serializedVersion: 3
     m_Name: Speed
@@ -1203,7 +1203,7 @@ InputManager:
     snap: 1
     invert: 1
     type: 2
-    axis: 3
+    axis: 2
     joyNum: 1
   - serializedVersion: 3
     m_Name: Toggle
