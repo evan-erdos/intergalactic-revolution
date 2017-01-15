@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: 54312943198189430}
   - component: {fileID: 114038120682193888}
   - component: {fileID: 114680131861731472}
+  - component: {fileID: 114393924861219150}
+  - component: {fileID: 114332835276318088}
+  - component: {fileID: 114792949456072836}
   m_Layer: 8
   m_Name: diamond spray
   m_TagString: Untagged
@@ -1186,22 +1189,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 232
+    i1: 162
+    i2: 76
+    i3: 124
+    i4: 120
+    i5: 10
+    i6: 68
+    i7: 116
+    i8: 25
+    i9: 225
+    i10: 251
+    i11: 82
+    i12: 100
+    i13: 152
+    i14: 138
+    i15: 63
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114043086752510064
@@ -1257,6 +1260,25 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   spread: 100
   power: 40000
+--- !u!114 &114332835276318088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1042537615994610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4898187298072874}
+  m_ChildIndex: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114355770228549288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1274,6 +1296,25 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114393924861219150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1042537615994610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4047312613382570}
+  m_ChildIndex: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114457861530884554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1397,6 +1438,25 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114792949456072836
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1042537615994610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4389831814663700}
+  m_ChildIndex: 2
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &114976201922489290
 MonoBehaviour:
   m_ObjectHideFlags: 1

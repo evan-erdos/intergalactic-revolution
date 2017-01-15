@@ -70,11 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceship: {fileID: 0}
-  randomShips:
+  ships:
   - {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
   - {fileID: 1431798685936340, guid: 3bc7b412a00f64625b14f95596e57433, type: 2}
-  - {fileID: 1774282575585514, guid: 66022f72988b44aabad443a99bb39260, type: 2}
   - {fileID: 1695912349146176, guid: 3a36e32c6943b46b7a85b1b76683bd2b, type: 2}
+  - {fileID: 1774282575585514, guid: 66022f72988b44aabad443a99bb39260, type: 2}
 --- !u!114 &114386858864168352
 MonoBehaviour:
   m_ObjectHideFlags: 1

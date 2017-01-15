@@ -14,15 +14,18 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected Spaceship spaceship;
         [SerializeField] List<GameObject> ships = new List<GameObject>();
 
+        [Command] public void CmdCreateShip(GameObject o) => NetworkServer.Spawn(o);
+        public void SetShip() => SetShip(Create<Spaceship>(ships.Pick()));
         public void SetShip(Spaceship spaceship) {
             if (spaceship is null) return;
+            CmdCreateShip(spaceship.gameObject);
             spaceship.Create();
             spaceship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
             this.spaceship = spaceship;
             GetOrAdd<SpaceshipController>().Ship = spaceship;
             spaceship.KillEvent += (o,e) => OnKill();
             spaceship.JumpEvent += (o,e) => OnJump();
-            transform.parent = spaceship.transform;
+            // transform.parent = spaceship.transform;
             SetCamera();
             spaceship.ToggleView();
         }
@@ -30,15 +33,20 @@ namespace Adventure.Astronautics.Spaceships {
         void Awake() => points.AddRange(FindObjectsOfType<NetworkStartPosition>());
         // bool IsMainPlayer() => Get<NetworkIdentity>().localPlayerAuthority;
         bool IsMainPlayer() => isLocalPlayer;
-        void Start() => If(IsMainPlayer,() => SetShip(Create<Spaceship>(ships.Pick())));
+        void Start() => If(IsMainPlayer,() => SetShip());
         public override void OnStartLocalPlayer() { base.OnStartLocalPlayer();
             print("fancy start function"); }
         void OnNetworkInstantiate(NetworkMessageInfo info) => SetCamera();
 
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
-        void FixedUpdate() => transform.localRotation = Quaternion.Euler(
-            x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
-            y: transform.localEulerAngles.y+mouse.x*10, z: 0);
+        void FixedUpdate() {
+            transform.localRotation = Quaternion.Euler(
+                x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
+                y: transform.localEulerAngles.y+mouse.x*10, z: 0);
+            if (spaceship is null) return;
+            transform.position = spaceship.transform.position;
+            transform.rotation = spaceship.transform.rotation;
+        }
 
         void SetCamera() => If(IsMainPlayer, () =>
             PlayerCamera.Follow(spaceship.transform));

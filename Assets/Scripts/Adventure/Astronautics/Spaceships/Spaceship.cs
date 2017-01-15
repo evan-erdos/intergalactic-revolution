@@ -296,7 +296,7 @@ namespace Adventure.Astronautics.Spaceships {
 
             switch (Mode) {
                 case FlightMode.Manual: ManualFlight(); break;
-                case FlightMode.Assisted: AssitedFlight(); break;
+                case FlightMode.Assisted: AssistedFlight(); break;
                 case FlightMode.Navigation: NavigationFlight(); break;
                 default: DefaultFlight(); break;
             }
@@ -309,7 +309,7 @@ namespace Adventure.Astronautics.Spaceships {
                 CalculateManeuverThrust();
             }
 
-            void AssitedFlight() {
+            void AssistedFlight() {
                 (Throttle,CurrentPower) = ControlThrottle();
                 (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
                 var aeroCoefficient = ComputeCoefficient();
