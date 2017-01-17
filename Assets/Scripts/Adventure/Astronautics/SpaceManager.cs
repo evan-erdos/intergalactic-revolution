@@ -33,6 +33,7 @@ namespace Adventure.Astronautics {
             ["system"] = typeof(StarSystem),
             ["settings"] = typeof(Adventure.Settings) };
 
+        public static bool IsOnline => false;
         public static void StopHost() => singleton.network.StopHost();
         public static void StartHost() => singleton.network.StartHost();
         public static void StartServer() => singleton.network.StartServer();

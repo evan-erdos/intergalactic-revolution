@@ -26,7 +26,7 @@ namespace Adventure.Astronautics.Spaceships {
         List<ParticleSystem> hypertrail = new List<ParticleSystem>();
         List<Weapon> weapons = new List<Weapon>();
         List<FlightMode> modes = new List<FlightMode> {
-            FlightMode.Assisted, FlightMode.Manual };
+            FlightMode.Manual, FlightMode.Assisted};
         [SerializeField] List<Weapon> blasters = new List<Weapon>();
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
         [SerializeField] protected SpaceEvent onKill = new SpaceEvent();
@@ -43,7 +43,7 @@ namespace Adventure.Astronautics.Spaceships {
         public float Throttle {get;protected set;} = 0; // [0...1]
         public float EnginePower {get;protected set;} = 800; // kN
         public float CurrentPower {get;protected set;} = 800; // kN
-        public float AeroEffect {get;protected set;} = 0.02f; // drag coefficient
+        public float AeroEffect {get;protected set;} = 2; // drag coefficient
         public float TopSpeed {get;protected set;} = 1500; // m/s
         public float Health {get;protected set;} = 12000; // kN
         public float MaxHealth {get;protected set;} = 12000; // kN
@@ -80,13 +80,14 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Create(SpaceshipProfile profile) =>
             (Mass, Health, EnginePower,
-            rollEffect, pitchEffect, yawEffect, spinEffect,
-            brakesEffect, throttleEffect, AeroEffect,
-            dragEffect, energyLoss, energyGain,
-            EnergyThrust, EnergyCapacity, TopSpeed,
-            maneuveringEnergy, Pivots, hitSounds, modeClip,
-            changeClip, selectClip, hyperspaceClip,
-            alarmClip, explosion, hyperspace) =
+            rollEffect, pitchEffect, yawEffect,
+            spinEffect, brakesEffect, throttleEffect,
+            AeroEffect, dragEffect, energyLoss,
+            energyGain, EnergyThrust, EnergyCapacity,
+            TopSpeed, maneuveringEnergy, Pivots,
+            hitSounds, modeClip, changeClip,
+            selectClip, hyperspaceClip, alarmClip,
+            explosion, hyperspace) =
                 (profile.Mass, profile.Health, profile.EnginePower,
                 profile.RollEffect, profile.PitchEffect, profile.YawEffect,
                 profile.SpinEffect, profile.BrakesEffect, profile.ThrottleEffect,
@@ -223,8 +224,8 @@ namespace Adventure.Astronautics.Spaceships {
             StartSemaphore(ChangingAero);
             StartSemaphore(ChangingDrag);
             IEnumerator ChangingAero() {
-                var (time, speed, smooth, max) = (0f,0f,0.25f,2f);
-                while (AeroEffect!=aeroEffect) yield return Wait(
+                var (time, speed, smooth, max) = (0f,0f,0.125f,100f);
+                while (Mathf.Abs(AeroEffect-aeroEffect)>0.25f) yield return Wait(
                     wait: new WaitForFixedUpdate(),
                     func: () => AeroEffect = Mathf.SmoothDamp(
                         current: AeroEffect,
@@ -236,7 +237,7 @@ namespace Adventure.Astronautics.Spaceships {
             }
 
             IEnumerator ChangingDrag() {
-                var (time, speed, smooth, max) = (0f,0f,0.25f,2f);
+                var (time, speed, smooth, max) = (0f,0f,0.125f,100f);
                 while (dragEffect!=dragCoefficient) yield return Wait(
                     wait: new WaitForFixedUpdate(),
                     func: () => dragEffect = Mathf.SmoothDamp(
@@ -288,8 +289,8 @@ namespace Adventure.Astronautics.Spaceships {
                         float pitch = 0,
                         float yaw = 0) {
             if (IsDisabled || IsDead) return;
-            Control = (Clamp(roll),Clamp(pitch),Clamp(yaw));
-            (Brakes,Boost,Shift) = (Clamp(brakes),Clamp(boost),Clamp(throttle));
+            Control = (Clamp(roll), Clamp(pitch), Clamp(yaw));
+            (Brakes,Boost,Shift) = (Clamp(brakes), Clamp(boost), Clamp(throttle));
             var spin = Clamp(throttle);
             ForwardSpeed = transform.InverseTransformDirection(rigidbody.velocity).z;
             ForwardSpeed = Mathf.Max(0,ForwardSpeed);
@@ -326,7 +327,8 @@ namespace Adventure.Astronautics.Spaceships {
                 (Throttle,CurrentPower) = ControlThrottle();
                 (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
                 var aeroCoefficient = ComputeCoefficient();
-                (rigidbody.velocity,rigidbody.rotation) = CalculateAerodynamics();
+                (rigidbody.velocity, rigidbody.rotation) =
+                    CalculateAerodynamics(aeroCoefficient);
                 rigidbody.AddForce(CalculateForce());
                 rigidbody.AddTorque(CalculateTorque(aeroCoefficient).vect());
                 CalculateManeuverThrust();
@@ -339,7 +341,8 @@ namespace Adventure.Astronautics.Spaceships {
                 (Throttle,Shift) = ControlThrottle();
                 (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
                 var aeroCoefficient = ComputeCoefficient();
-                (rigidbody.velocity,rigidbody.rotation) = CalculateAerodynamics();
+                (rigidbody.velocity,rigidbody.rotation) =
+                    CalculateAerodynamics(aeroCoefficient);
                 var liftForce = CalculateLift(0).vect();
                 rigidbody.AddForce(liftForce+CalculateForce().vect());
                 rigidbody.AddTorque(CalculateTorque(aeroCoefficient).vect());
@@ -490,11 +493,11 @@ namespace Adventure.Astronautics.Spaceships {
                 rigidbody.velocity, transform.forward*ForwardSpeed,
                 aeroFactor*ForwardSpeed*AeroEffect*Time.fixedDeltaTime);
             var rotation = Quaternion.identity;
-            if (rigidbody.velocity.sqrMagnitude>0.1f)
+            if (0.1f<rigidbody.velocity.sqrMagnitude)
                 rotation = Quaternion.Slerp(
                     rigidbody.rotation,
                     Quaternion.LookRotation(rigidbody.velocity,transform.up),
-                    AeroEffect*Time.fixedDeltaTime);
+                    aeroFactor*AeroEffect*Time.fixedDeltaTime);
             return (velocity, rotation);
         }
 
@@ -531,10 +534,11 @@ namespace Adventure.Astronautics.Spaceships {
             if (Mathf.Abs(spin)<=threshold) return;
             Throttle = 0;
             var direction = (0<spin)?rigidbody.velocity:-rigidbody.velocity;
-            rigidbody.rotation = Quaternion.Slerp(
-                rigidbody.rotation,
-                Quaternion.LookRotation(direction,transform.up),
-                spinEffect*Time.fixedDeltaTime);
+            if (0.1f<direction.sqrMagnitude)
+                rigidbody.rotation = Quaternion.Slerp(
+                    rigidbody.rotation,
+                    Quaternion.LookRotation(direction,Vector3.up),
+                    spinEffect*Time.fixedDeltaTime);
         }
 
         void CalculateManeuverThrust(float threshold=0.1f, float wingspan=4) {

@@ -17,9 +17,9 @@ MonoBehaviour:
   Mass: 60
   Health: 16000
   EnginePower: 2000
-  RollEffect: 32
-  PitchEffect: 32
-  YawEffect: 32
+  RollEffect: 64
+  PitchEffect: 64
+  YawEffect: 64
   SpinEffect: 1
   ThrottleEffect: 0.25
   BrakesEffect: 20

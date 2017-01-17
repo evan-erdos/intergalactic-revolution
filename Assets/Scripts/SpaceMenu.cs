@@ -34,25 +34,37 @@ public class SpaceMenu : SpaceObject {
         Get<SceneLoader>().Load(() => OnLoadGame(pilot,star,spob), spob);
 
     void Load(string name, SpaceshipProfile ship, StarProfile star) =>
-        Load(name, ship, star, star.Subsystems.Pick());
-
-    void Load(
+        Load(name,ship,star,star.Subsystems.Pick());
+    void Load(string name, SpaceshipProfile ship, StarProfile star, string spob) =>
+        Get<SceneLoader>().Load(() => OnLoad(name, ship, star, spob), spob);
+    void OnLoad(
                     string name,
                     SpaceshipProfile shipProfile,
                     StarProfile starSystem,
                     string spob) {
         if (once) return; once = true;
         var star = Create(starSystem.prefab);
+        // var user = Create<SpacePlayer>(pilot.prefab);
+        var pilot = PickUser();
         var user = Create<SpacePlayer>(pilot.prefab);
         var ship = Create<Spaceship>(pilot.ship.prefab);
         var scene = SceneManager.GetSceneByName(spob);
-        DontDestroyOnLoad(user.gameObject);
         DontDestroyOnLoad(ship.gameObject);
         // ship.Create();
         (star.name, user.name, user.Ship) = (starSystem.name, pilot.name, ship);
         SceneManager.MoveGameObjectToScene(star.gameObject,scene);
+        SceneManager.MoveGameObjectToScene(user.gameObject,scene);
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(spob));
+        user.Reset();
+        DontDestroyOnLoad(user.gameObject);
         PlayerCamera.atmosphere = starSystem.atmosphere;
         PlayerCamera.Target = ship.transform;
+        var list = new List<NetworkStartPosition>();
+        list.Add(FindObjectsOfType<NetworkStartPosition>());
+        var spawn = list.Pick();
+        ship.transform.position = spawn.transform.position;
+        ship.transform.rotation = spawn.transform.rotation;
+        user.SetShip(ship);
         SceneManager.UnloadSceneAsync("Menu");
     }
 

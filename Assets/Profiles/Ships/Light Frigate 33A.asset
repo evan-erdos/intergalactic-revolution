@@ -16,14 +16,14 @@ MonoBehaviour:
   CargoSpace: 100
   Mass: 60
   Health: 16000
-  EnginePower: 7000
-  RollEffect: 8
-  PitchEffect: 8
-  YawEffect: 8
+  EnginePower: 8000
+  RollEffect: 48
+  PitchEffect: 32
+  YawEffect: 64
   SpinEffect: 2
   ThrottleEffect: 0.25
   BrakesEffect: 20
-  AeroEffect: 0.2
+  AeroEffect: 5
   DragEffect: 0.01
   EnergyThrust: 2000
   EnergyCapacity: 1000

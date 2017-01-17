@@ -13567,9 +13567,9 @@ Light:
   m_Enabled: 0
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 0.82068956, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.8758621, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 15
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -13602,9 +13602,9 @@ Light:
   m_Enabled: 0
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 0.82068956, g: 1, b: 0, a: 1}
+  m_Color: {r: 0, g: 0.8758621, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 15
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -23906,7 +23906,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 951187806
+  randomSeed: -1282170495
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -26801,7 +26801,7 @@ ParticleSystem:
   moveWithTransform: 2
   moveWithCustomTransform: {fileID: 4319758604602166}
   scalingMode: 2
-  randomSeed: 838912937
+  randomSeed: 1685358773
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -29684,7 +29684,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 2064262387
+  randomSeed: 1421082324
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -32555,7 +32555,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1339705317
+  randomSeed: 1326783057
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -44183,7 +44183,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 476853357
+  randomSeed: -677504817
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -49955,7 +49955,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 716628864
+  randomSeed: -565601408
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -52856,7 +52856,7 @@ ParticleSystem:
   moveWithTransform: 2
   moveWithCustomTransform: {fileID: 4319758604602166}
   scalingMode: 2
-  randomSeed: 1869471923
+  randomSeed: 393155497
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -58640,7 +58640,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 845733167
+  randomSeed: -1797384454
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -61511,7 +61511,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -132765008
+  randomSeed: -589231410
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -67283,7 +67283,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1259923973
+  randomSeed: 621799659
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -70172,7 +70172,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -224834194
+  randomSeed: -736322206
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -73103,7 +73103,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 102806239
+  randomSeed: 1147466733
   InitialModule:
     serializedVersion: 3
     enabled: 1

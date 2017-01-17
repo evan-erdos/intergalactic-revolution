@@ -21,7 +21,7 @@ MonoBehaviour:
   PitchEffect: 0.2
   YawEffect: 0.4
   SpinEffect: 1
-  ThrottleEffect: 0.5
+  ThrottleEffect: 3
   BrakesEffect: 3
   AeroEffect: 0.02
   DragEffect: 0.001

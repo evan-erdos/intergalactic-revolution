@@ -14,8 +14,8 @@ MonoBehaviour:
   prefab: {fileID: 1853441245229730, guid: 6289702173fa6460c9f6736ec8cc0c0e, type: 2}
   Name: Light Blaster
   Health: 1000
-  Force: 4000
-  Rate: 2
+  Force: 3000
+  Rate: 5
   Spread: 10
   Range: 600
   Angle: 30

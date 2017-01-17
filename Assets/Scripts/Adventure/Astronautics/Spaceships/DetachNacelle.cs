@@ -11,11 +11,12 @@ namespace Adventure.Astronautics.Spaceships {
         public void Detach() => Damage(Health+1);
         public void Damage(float damage) {
             if (!enabled || damage<Health) return;
-            var parent = GetComponentInParent<Rigidbody>();
+            // var parent = GetComponentInParent<Rigidbody>();
             var rigidbody = GetOrAdd<Rigidbody>();
-            var (velocity,angular) = (parent.velocity,parent.angularVelocity);
+            var (velocity,angular) = (rigidbody.velocity, rigidbody.angularVelocity);
             (rigidbody.mass, rigidbody.isKinematic) = (10, false);
             (rigidbody.velocity, rigidbody.angularVelocity) = (velocity, angular);
+            rigidbody.useGravity = false;
             rigidbody.AddForce(10*transform.forward, ForceMode.Impulse);
         }
     }

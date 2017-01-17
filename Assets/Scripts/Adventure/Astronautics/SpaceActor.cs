@@ -25,7 +25,9 @@ namespace Adventure.Astronautics {
             DontDestroyOnLoad(gameObject);
         }
 
-        protected virtual void Reset() {
+        public virtual void Reset() {
+            locations.Clear();
+            locations.Add(FindObjectsOfType<NetworkStartPosition>());
             var point = locations.Pick();
             transform.position = point.transform.position;
             transform.rotation = point.transform.rotation;
