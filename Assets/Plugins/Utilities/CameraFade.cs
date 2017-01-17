@@ -14,22 +14,22 @@ public class CameraFade : MonoBehaviour {
     float delay = 0;
     Action then;
 
-    static CameraFade instance = null;
+    static CameraFade singleton = null;
     static CameraFade Instance {
         get {
-            if (instance==null) {
-                instance = GameObject.FindObjectOfType(
+            if (singleton==null) {
+                singleton = GameObject.FindObjectOfType(
                     typeof(CameraFade)) as CameraFade;
-                if (instance==null)
-                    instance = new GameObject("CameraFade")
+                if (singleton==null)
+                    singleton = new GameObject("CameraFade")
                         .AddComponent<CameraFade>();
-            } return instance;
+            } return singleton;
         }
     }
 
     void Awake() {
-        if (instance!=null) return;
-        instance = this as CameraFade;
+        if (singleton!=null) return;
+        singleton = this as CameraFade;
         Instance.Init();
     }
 
@@ -128,7 +128,7 @@ public class CameraFade : MonoBehaviour {
         } else SetScreenOverlayColor(colorNew);
     }
 
-    void Die() { instance = null; Destroy(gameObject); }
+    void Die() { singleton = null; Destroy(gameObject); }
 
-    void OnApplicationQuit() { instance = null; }
+    void OnApplicationQuit() { singleton = null; }
 }

@@ -52,6 +52,10 @@ namespace Adventure.Astronautics {
         }
 
 
+        public static void LoadSceneFade(string scene, Color color) =>
+            CameraFade.StartAlphaFade(color,false,1f,0,() =>
+                SceneManager.LoadSceneAsync(scene));
+
         void Awake() {
             path = $"{Application.streamingAssetsPath}/{root}/{dir}";
             if (singleton is null) singleton = this;

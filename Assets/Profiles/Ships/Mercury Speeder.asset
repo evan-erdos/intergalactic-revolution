@@ -9,31 +9,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
-  m_Name: Vishnu's Revenge
+  m_Name: Mercury Speeder
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1366375101290510, guid: 4c8902dcdaf214478919f7bafb9a6b24, type: 2}
-  Name: Vishnu's Revenge
-  CargoSpace: 100
-  Mass: 60
-  Health: 16000
-  EnginePower: 2000
-  RollEffect: 64
-  PitchEffect: 64
-  YawEffect: 64
-  SpinEffect: 1
-  ThrottleEffect: 0.25
-  BrakesEffect: 20
+  prefab: {fileID: 1937603680827418, guid: 5a36547d4826d4aeca3db43f4714a5ae, type: 2}
+  Name: Mercury Speeder
+  CargoSpace: 50
+  Mass: 15
+  Health: 50000
+  EnginePower: 10000
+  RollEffect: 0.1
+  PitchEffect: 0.1
+  YawEffect: 0.2
+  SpinEffect: 0.5
+  ThrottleEffect: 5
+  BrakesEffect: 10
   AeroEffect: 4
-  DragEffect: 0.01
-  EnergyThrust: 2000
-  EnergyCapacity: 1000
+  DragEffect: 0.1
+  EnergyThrust: 9000
+  EnergyCapacity: 8000
   EnergyLoss: 100
-  EnergyGain: 30
-  TopSpeed: 1100
-  ManeuveringEnergy: 400
+  EnergyGain: 50
+  TopSpeed: 4000
+  ManeuveringEnergy: 200
   Pivots:
-  - {x: 0, y: 50, z: -150}
-  - {x: 0, y: 30, z: -200}
+  - {x: 0, y: 0.375, z: 0.62}
+  - {x: 0, y: 4, z: -20}
   hitSounds:
   - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
   - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}

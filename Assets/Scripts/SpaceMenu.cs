@@ -97,5 +97,11 @@ public class SpaceMenu : SpaceObject {
     PilotProfile PickUser() => SpaceManager.Pilots.ToList().Pick();
     StarProfile PickSyst() => SpaceManager.StarSystems.Keys.ToList().Pick();
     void Awake() => selection.Select();
-    void Start() => Create(PickSyst().prefab);
+    void Start() {
+        Create(PickSyst().prefab);
+        CameraFade.StartAlphaFade(Color.black,true,1,0);
+        PlayerCamera.main.transform.parent = null;
+        PlayerCamera.main.transform.position = Vector3.zero;
+        PlayerCamera.main.transform.rotation = Quaternion.identity;
+    }
 }
