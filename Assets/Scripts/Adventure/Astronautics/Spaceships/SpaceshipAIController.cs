@@ -10,11 +10,11 @@ using Random = UnityEngine.Random;
 namespace Adventure.Astronautics.Spaceships {
     public class SpaceshipAIController : SpaceObject {
         bool isDisabled, isFiring, isBraking;
-        float perlin = Random.Range(1,100);
+        float perlin;
         Collider[] colliders = new Collider[20];
         RaycastHit[] results = new RaycastHit[10];
         List<ITrackable> targets = new List<ITrackable>();
-        List<Blaster> blasters = new List<Blaster>();
+        List<Weapon> weapons = new List<Weapon>();
         new Rigidbody rigidbody;
         LayerMask mask;
         [SerializeField] float lateralWander = 5;
@@ -40,7 +40,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Move() {
             if (isDisabled || Target is null) { spaceship.Move(); return; }
-            var (brakes, boost, yawEffect) = (0,0,1f);
+            var (brakes, boost, yawEffect) = (0f,0f,1f);
             var vect = Mathf.PerlinNoise(Time.time*wanderSpeed,perlin)*2-1;
             var goal = Target.Position.vect()+transform.right*vect*lateralWander;
             // goal -= Target.forward*followRange;
@@ -59,8 +59,9 @@ namespace Adventure.Astronautics.Spaceships {
             var desiredRoll = Mathf.Clamp(yawAngle,-maxRoll,maxRoll);
             var (roll,pitch,yaw) = (0f,pitchAngle,0f);
             var speed = 1+spaceship.ForwardSpeed*speedEffect;
-            (roll,pitch,yaw) = (roll*speed*rollEffect, pitch*speed*pitchEffect, yaw*speed*yawEffect);
-            // (roll,pitch,yaw) = (roll*speed,pitch*speed,yaw*speed);
+            roll = roll*rollEffect*speed;
+            pitch = pitch*pitchEffect*speed;
+            yaw = yaw*yawEffect*speed;
             spaceship.Move(brakes,boost,throttleEffect,roll,pitch,yaw);
         }
 
@@ -69,7 +70,7 @@ namespace Adventure.Astronautics.Spaceships {
             perlin = Random.Range(0,100);
             if (!spaceship) spaceship = Get<Spaceship>();
             rigidbody = spaceship.Get<Rigidbody>();
-            blasters.AddRange(spaceship.GetComponentsInChildren<Blaster>());
+            weapons.Add(spaceship.GetComponentsInChildren<Weapon>());
         }
 
         IEnumerator Start() {
@@ -86,10 +87,7 @@ namespace Adventure.Astronautics.Spaceships {
                     var ship = result.attachedRigidbody.Get<ITrackable>();
                     if (!(ship is null)) targets.Add(ship);
                 } yield return null;
-                // targets.Sort((x,y) =>
-                //     transform.Distance(x.transform).CompareTo(
-                //         transform.Distance(y.transform)));
-                if (0<targets.Count) Target = targets.First();
+                // if (0<targets.Count) Target = targets.First();
             }
 
             IEnumerator Toggling() {

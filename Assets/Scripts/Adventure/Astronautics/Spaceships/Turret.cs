@@ -4,20 +4,19 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class Turret : SpaceObject, IWeapon, IEnumerable<Blaster> {
+    public class Turret : SpaceObject, IWeapon, IEnumerable<Weapon> {
         bool isFiring;
         new Rigidbody rigidbody;
-        List<Blaster> list = new List<Blaster>();
+        List<Weapon> list = new List<Weapon>();
         Transform turret;
         public bool IsDisabled {get;protected set;} = false;
         public float Health {get;protected set;} = 3000;
-        public Blaster Current {get;protected set;}
+        public Weapon Current {get;protected set;}
         public ITrackable Target {get;set;}
-        public IEnumerator<Blaster> GetEnumerator() => list.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => list.GetEnumerator() as IEnumerator;
+        public IEnumerator<Weapon> GetEnumerator() => list.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator) list.GetEnumerator();
         public void Fire() => Fire(Target);
         public void Fire(ITrackable target) => Fire(target.Position, target.Velocity);
         public void Fire(Vector3 position) => Fire(position,rigidbody.velocity);
@@ -51,7 +50,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Awake() {
             rigidbody = Get<Rigidbody>();
-            list.AddRange(GetComponentsInChildren<Blaster>());
+            list.AddRange(GetComponentsInChildren<Weapon>());
             Current = list.First();
             foreach (Transform child in transform)
                 if (child.name=="turret") turret = child;

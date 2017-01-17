@@ -12,7 +12,7 @@ namespace Adventure.Astronautics.Spaceships {
         bool disabled, openFire, isSlowing, isInFormation;
         float perlin;
         Vector3 formationOffset = new Vector3(-1,-1,0);
-        Blaster[] blasters;
+        Weapon[] weapons;
         Spaceship controller;
         [SerializeField] float m_PitchSensitivity = 0.5f;
         [SerializeField] float lateralWanderDistance = 5;
@@ -27,7 +27,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Awake() {
             controller = GetComponent<Spaceship>();
-            blasters = GetComponentsInChildren<Blaster>();
+            weapons = GetComponentsInChildren<Weapon>();
             perlin = Random.Range(0f,100f);
         }
 
@@ -86,8 +86,8 @@ namespace Adventure.Astronautics.Spaceships {
             var velocity = GetComponent<Rigidbody>().velocity;
             velocity = Vector3.zero; // haha nope
             var prediction = position+speed*distance.magnitude/rate;
-            foreach (var blaster in blasters)
-                blaster.Fire(prediction.tuple(), velocity.tuple());
+            foreach (var weapon in weapons)
+                weapon.Fire(prediction.tuple(), velocity.tuple());
             bool PreFire() =>
                 !target || !target.IsNear(transform, dist) ||
                 target.Get<Spaceship>().Health<0 || openFire;

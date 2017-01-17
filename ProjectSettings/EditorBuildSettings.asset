@@ -6,6 +6,16 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Init.unity
+  - enabled: 1
+    path: Assets/Scenes/Base.unity
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+  - enabled: 1
     path: Assets/Scenes/Station Alpha A.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Moon Base Delta.unity
+  - enabled: 1
+    path: Assets/Scenes/Rigel Observatory Station.unity
+  - enabled: 1
+    path: Assets/Scenes/Formalhaut Spaceport II.unity

@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4424042255384848}
   - component: {fileID: 114359047224781596}
-  - component: {fileID: 54231209215575568}
   - component: {fileID: 114386858864168352}
   - component: {fileID: 114534385220520606}
   m_Layer: 8
@@ -43,21 +42,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &54231209215575568
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1865520461216274}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0.2
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &114359047224781596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,11 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d390130551f4b82ab7785f1f3627f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ships:
-  - {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
-  - {fileID: 1431798685936340, guid: 3bc7b412a00f64625b14f95596e57433, type: 2}
-  - {fileID: 1695912349146176, guid: 3a36e32c6943b46b7a85b1b76683bd2b, type: 2}
-  - {fileID: 1774282575585514, guid: 66022f72988b44aabad443a99bb39260, type: 2}
+  shipPrefab: {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
+  Ship: {fileID: 0}
 --- !u!114 &114386858864168352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -117,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
+  m_TransformSyncMode: 1
   m_SendInterval: 0.1
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0

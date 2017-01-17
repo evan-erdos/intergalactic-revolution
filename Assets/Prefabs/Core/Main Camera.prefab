@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 81678589763489300}
   - component: {fileID: 114743029837135692}
   - component: {fileID: 114506234208585352}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -39,13 +39,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1346981481135148}
-  m_LocalRotation: {x: 0.10478322, y: 0.14011526, z: -0.031388517, w: 0.9840747}
-  m_LocalPosition: {x: -5512.5, y: -607.7, z: -7.6}
+  m_LocalRotation: {x: -0, y: -0.9659258, z: -0, w: 0.2588191}
+  m_LocalPosition: {x: 8857.32, y: 5909.91, z: 1770.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -150, z: 0}
 --- !u!20 &20139609916371356
 Camera:
   m_ObjectHideFlags: 1
@@ -62,7 +62,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0.5
   far clip plane: 50000
   field of view: 60
   orthographic: 0
@@ -70,7 +70,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294963199
+    m_Bits: 4294962943
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: c7f268a18140b47109f2f8c38a5a3a6f, type: 2}
+  profile: {fileID: 11400000, guid: aa189abec09b94101be89d3d8227b3ae, type: 2}
 --- !u!114 &114620072498991654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -119,7 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b1ee74161e245adab3af38c3b7132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceCamera: {fileID: 123046, guid: 72545d03e979b416cad1544ff2f57cef, type: 2}
 --- !u!114 &114743029837135692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_EventMask:
     serializedVersion: 2
-    m_Bits: 4294967289
+    m_Bits: 4294967033
 --- !u!124 &124346425862929516
 Behaviour:
   m_ObjectHideFlags: 1

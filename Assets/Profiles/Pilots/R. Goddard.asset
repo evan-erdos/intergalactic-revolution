@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f050df1ca844dd1ac5aa768e468a5c, type: 3}
+  m_Name: R. Goddard
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1865520461216274, guid: 8ed1223f1cab442db8efd10eaa060a61, type: 2}
+  Name: Robert Hutchings Goddard
+  Nationality: "Frederation\xAE"
+  Reputation: 10
+  Money: 1000000
+  ship: {fileID: 11400000, guid: e3cf383ac5d934ac1ad71f813cea4f58, type: 2}
+  star: {fileID: 11400000, guid: fae5ae2e656754842bca442a9e1f1a13, type: 2}

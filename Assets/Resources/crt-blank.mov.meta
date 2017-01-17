@@ -1,0 +1,58 @@
+fileFormatVersion: 2
+guid: 7cc76b0dfe18b487b8eb1947b4e671b9
+timeCreated: 1484656210
+licenseType: Pro
+VideoClipImporter:
+  serializedVersion: 2
+  useLegacyImporter: 0
+  quality: 0.5
+  isColorLinear: 0
+  originalWidth: 1728
+  originalHeight: 1080
+  frameRange: 0
+  startFrame: -1
+  endFrame: -1
+  frameCount: 440
+  frameRate: 33.04732131958008
+  colorSpace: 0
+  deinterlace: 0
+  sourceFileSize: 18092036
+  encodeAlpha: 0
+  sourceHasAlpha: 0
+  flipVertical: 0
+  flipHorizontal: 0
+  importAudio: 0
+  sourceAudioChannelCount: 0800
+  sourceAudioSampleRate: 44ac0000
+  targetSettings:
+    0:
+      enableTranscoding: 0
+      codec: 0
+      resizeFormat: 0
+      aspectRatio: 0
+      customWidth: 1728
+      customHeight: 1080
+      bitrateMode: 2
+      spatialQuality: 2
+  output:
+    format: 0
+    settings:
+      enableTranscoding: 0
+      codec: 0
+      resizeFormat: 0
+      aspectRatio: 0
+      customWidth: 1728
+      customHeight: 1080
+      bitrateMode: 2
+      spatialQuality: 2
+    encodedWidth: 1728
+    encodedHeight: 1080
+    encodedStartFrame: 0
+    encodedEndFrame: 440
+    streamedResource:
+      source: Assets/Resources/crt-blank.mov
+      offset: 0
+      size: 18092036
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

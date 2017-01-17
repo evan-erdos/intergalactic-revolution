@@ -3,10 +3,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName="Assets/NewSpaceshipProfile.asset")]
+[CreateAssetMenu(fileName="Assets/Profiles/Spaceships/NewSpaceshipProfile.asset")]
 public class SpaceshipProfile : ScriptableObject {
+    public GameObject prefab;
     public string Name = "T-31 Viper 411";
     public int CargoSpace = 20; // tons
+    public float Mass = 15; // tons
     public float Health = 12000; // N
     public float EnginePower = 8000; // kN
     public float RollEffect = 1; // [0..1]
@@ -24,7 +26,7 @@ public class SpaceshipProfile : ScriptableObject {
     public float TopSpeed = 1500; // m/s
     public float ManeuveringEnergy = 100; // kN
     public List<Vector3> Pivots = new List<Vector3> {
-        new Vector3(0,0.5f,-0.25f), new Vector3(0,4,-20)};
+        new Vector3(0,0.5f,-0.25f), new Vector3(0,4,-20) };
     public List<AudioClip> hitSounds = new List<AudioClip>();
     public AudioClip modeClip;
     public AudioClip changeClip;

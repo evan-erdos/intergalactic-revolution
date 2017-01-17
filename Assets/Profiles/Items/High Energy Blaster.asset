@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7f172c959e9344a68401cd7e3953e12, type: 3}
+  m_Name: High Energy Blaster
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1876452983408560, guid: 2e545de8eee1843518544a82685a5779, type: 2}
+  Name: High Energy Blaster
+  Health: 1000
+  Force: 6000
+  Rate: 10
+  Spread: 100
+  Range: 1000
+  Angle: 60
+  Projectile: {fileID: 1082745319266606, guid: e9c0dbb3895164086afb125ab8795e88, type: 2}
+  sounds:
+  - {fileID: 8300000, guid: 5dcd01c8beafe48a19eed2d0a6167d85, type: 3}

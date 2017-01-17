@@ -12,7 +12,7 @@ namespace Adventure.Astronautics {
 
     /// FlightMode
     /// defines the different kinds of flight control systems
-    public enum FlightMode { Navigation, Assisted, Manual }
+    public enum FlightMode { Navigation, Assisted, Manual, Manuevering }
 
     /// SpaceAction : (sender, args) => void
     /// ubiquitous event handler, with a sender and event arguments
@@ -33,19 +33,19 @@ namespace Adventure.Astronautics {
     /// SpaceException : error
     /// when something goes awry... in space!
     public class SpaceException : Exception {
-        public SpaceException(string message) : base(message) { } }
+        public SpaceException(string s) : base(s) { } }
 
     /// Astronomy
     /// contains relevant measurements of spacetime, plus discrete unit bases
     public static class Astronomy {
         public const float Day = (float) 86400; // seconds
         public const float km = (float) 0.001; // meters
-        public const float kg = (float) 0.001; // tonnes
+        public const float kg = (float) 0.001; // tons
         public const float AU = (float) 149_597_870_700.0; // km
         public const float pc = (float) 206_265.0; // AU
-        public const float Mass = (float) 1.98892e27; // tonnes
-        public static float Time => (float) (Date-Epoch).TotalDays;
-        public static DateTime Epoch => new DateTime(1994,10,20);
-        public static DateTime Date = new DateTime(2017,1,19);
+        public const float Mass = (float) 1.98892e27; // tons
+        public static float Time => (float) (Date-Epoch).TotalDays; // days
+        public static DateTime Epoch => new DateTime(1994,10,20); // birthday
+        public static DateTime Date = new DateTime(2017,1,19); // apocalypse
     }
 }

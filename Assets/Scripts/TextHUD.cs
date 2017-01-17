@@ -18,8 +18,8 @@ public class TextHUD : SpaceObject {
             case ShipProperty.Mode: s = $"{spaceship.Mode}"; break;
             case ShipProperty.Speed: s = $"{spaceship.ForwardSpeed} m/s"; break;
             case ShipProperty.Cargo: s = $"{spaceship.CargoSpace} tons"; break;
-            case ShipProperty.System: s = $"{SpaceManager.CurrentSystem}"; break;
-            case ShipProperty.Destination: s = $"{SpaceManager.Destination}"; break;
+            case ShipProperty.System: s = $"{spaceship.CurrentSystem}"; break;
+            case ShipProperty.Destination: s = $"{spaceship.Destination}"; break;
             case ShipProperty.Target: s = $"{spaceship.Target?.Name}"; break;
             case ShipProperty.Weapon: s = $"{spaceship.Weapon.Name}"; break;
             default: return $"None";

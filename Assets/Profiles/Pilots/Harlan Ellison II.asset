@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f050df1ca844dd1ac5aa768e468a5c, type: 3}
+  m_Name: Harlan Ellison II
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1865520461216274, guid: 8ed1223f1cab442db8efd10eaa060a61, type: 2}
+  Name: Harlan Ellison II
+  Nationality: "Frederation\xAE"
+  Reputation: 10
+  Money: 100
+  ship: {fileID: 11400000, guid: 18496b2ea0590488fbb5d70090de1f97, type: 2}
+  star: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}

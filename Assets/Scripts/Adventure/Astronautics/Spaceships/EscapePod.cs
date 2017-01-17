@@ -9,11 +9,11 @@ using Adventure.Astronautics;
 namespace Adventure.Astronautics.Spaceships {
     public class EscapePod : SpaceObject {
         public void Jettison() {
-            transform.SetParent(null);
-            var rigidbody = Get<Rigidbody>();
+            var (parent,rigidbody) = (GetParent<Rigidbody>(), GetOrAdd<Rigidbody>());
+            transform.parent = null;
             rigidbody.isKinematic = false;
-            // rigidbody.velocity = Get<Rigidbody>().velocity;
-            // rigidbody.angularVelocity = Get<Rigidbody>().angularVelocity;
+            rigidbody.velocity = parent.velocity;
+            rigidbody.angularVelocity = parent.angularVelocity;
             rigidbody.AddForce(transform.up*200, ForceMode.VelocityChange);
             GetComponentsInChildren<ParticleSystem>().ForEach(o => o.Play());
         }

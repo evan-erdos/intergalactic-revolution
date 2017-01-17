@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0b95fc67431ee41acb113bf2d5f91ea9
+timeCreated: 1484644492
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - prefab: {fileID: 1301794474917138, guid: e7f933a91a995417f907b7a1922f0e14, type: 2}
+  - atmosphere: {fileID: 11400000, guid: 03c3ea6aa66ba4bb2899b45d33c35a37, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

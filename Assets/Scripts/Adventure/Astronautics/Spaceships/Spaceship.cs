@@ -24,16 +24,14 @@ namespace Adventure.Astronautics.Spaceships {
         List<ITrackable> targets = new List<ITrackable>();
         List<IShipComponent> mechanics = new List<IShipComponent>();
         List<ParticleSystem> hypertrail = new List<ParticleSystem>();
-        List<Blaster> weapons = new List<Blaster>();
+        List<Weapon> weapons = new List<Weapon>();
         List<FlightMode> modes = new List<FlightMode> {
-            FlightMode.Navigation, FlightMode.Assisted, FlightMode.Manual };
-        [SerializeField] List<Blaster> blasters = new List<Blaster>();
-        [SerializeField] List<Blaster> rockets = new List<Blaster>();
+            FlightMode.Assisted, FlightMode.Manual };
+        [SerializeField] List<Weapon> blasters = new List<Weapon>();
+        [SerializeField] List<Weapon> rockets = new List<Weapon>();
         [SerializeField] protected SpaceEvent onKill = new SpaceEvent();
         [SerializeField] protected SpaceEvent onJump = new SpaceEvent();
         [SerializeField] protected SpaceEvent onDamage = new SpaceEvent();
-        Blaster CurrentBlaster => weapons?[0];
-        float RateOfFire => 1/(CurrentBlaster.Rate*weapons.Count);
         public event SpaceAction KillEvent;
         public event SpaceAction JumpEvent;
         public event DamageAction DamageEvent;
@@ -41,56 +39,62 @@ namespace Adventure.Astronautics.Spaceships {
         public bool IsDead {get;protected set;} = false;
         public FlightMode Mode {get;protected set;} = FlightMode.Assisted;
         public int CargoSpace {get;protected set;} = 20; // tons
-        public float ForwardSpeed {get;protected set;} // m/s
+        public float Mass {get;protected set;} = 40; // tons
         public float Throttle {get;protected set;} = 0; // [0...1]
         public float EnginePower {get;protected set;} = 800; // kN
         public float CurrentPower {get;protected set;} = 800; // kN
-        public float AeroEffect {get;protected set;} = 0.02f;
+        public float AeroEffect {get;protected set;} = 0.02f; // drag coefficient
         public float TopSpeed {get;protected set;} = 1500; // m/s
         public float Health {get;protected set;} = 12000; // kN
         public float MaxHealth {get;protected set;} = 12000; // kN
         public float EnergyCapacity {get;protected set;} = 8000; // kN/L
         public float EnergyThrust {get;protected set;} = 6000; // kN
-        public float EnergyPotential => (Boost>0)?-energyLoss:energyGain;
-        public float EnergyJump => energyJumpFactor*Mass;
-        public float Mass => rigidbody.mass; // tons
+        public float ForwardSpeed {get;protected set;} = 0; // m/s
         public float Speed => rigidbody.velocity.magnitude; // m/s
+        public float EnergyJump => energyJumpFactor*Mass;
+        public float EnergyPotential => (Boost>0)?-energyLoss:energyGain;
         public float BoostPower => (Energy>1 && Boost>0.1f)?EnergyThrust:0;
         public float Energy {
             get { return Mathf.Clamp(energy,0,EnergyCapacity); }
             set { energy = value; } } float energy = 8000;
-        public List<Vector3> Pivots {get; protected set;}
+        public List<Vector3> Pivots {get;protected set;}
         public (float roll,float pitch,float yaw) Control {get;protected set;}
         public float Boost {get; protected set;}
         public (float x,float y,float z) Velocity => rigidbody.velocity.tuple();
-
         public IWeapon Weapon {get;protected set;}
         public ITrackable Target {get;protected set;}
+        public StarSystem CurrentSystem {get;protected set;}
+        public StarProfile Destination {get;protected set;}
+        public void Kill() => KillEvent?.Invoke(this,new SpaceArgs());
+        public void Jump() => JumpEvent?.Invoke(this,new SpaceArgs());
         public void Alarm() => audio.Play();
         public void Damage(float damage) => DamageEvent?.Invoke(this,damage);
+        public void Fire() => Fire(Target);
+        public void Fire(Vector3 position, Vector3 velocity) =>
+            Fire(position.tuple(), velocity.tuple());
         public void Disable() =>
             (IsDisabled,rigidbody.drag,rigidbody.angularDrag) = (true,0,0);
         public void Reset() =>
-            (IsDisabled,IsDead,Health,Energy) =
-                (false,false,MaxHealth,EnergyCapacity);
+            (IsDisabled,IsDead,rigidbody.mass,Health,Energy) =
+                (false,false,Mass,MaxHealth,EnergyCapacity);
 
         public void Create(SpaceshipProfile profile) =>
-            (Health, EnginePower, rollEffect,
-            pitchEffect, yawEffect, spinEffect,
+            (Mass, Health, EnginePower,
+            rollEffect, pitchEffect, yawEffect, spinEffect,
             brakesEffect, throttleEffect, AeroEffect,
             dragEffect, energyLoss, energyGain,
             EnergyThrust, EnergyCapacity, TopSpeed,
             maneuveringEnergy, Pivots, hitSounds, modeClip,
             changeClip, selectClip, hyperspaceClip,
             alarmClip, explosion, hyperspace) =
-                (profile.Health, profile.EnginePower, profile.RollEffect,
-                profile.PitchEffect, profile.YawEffect, profile.SpinEffect,
-                profile.BrakesEffect, profile.ThrottleEffect, profile.AeroEffect,
-                profile.DragEffect, profile.EnergyLoss, profile.EnergyGain,
-                profile.EnergyThrust, profile.EnergyCapacity, profile.TopSpeed,
-                profile.ManeuveringEnergy, profile.Pivots, profile.hitSounds,
-                profile.modeClip, profile.changeClip, profile.selectClip,
-                profile.hyperspaceClip, profile.alarmClip,
+                (profile.Mass, profile.Health, profile.EnginePower,
+                profile.RollEffect, profile.PitchEffect, profile.YawEffect,
+                profile.SpinEffect, profile.BrakesEffect, profile.ThrottleEffect,
+                profile.AeroEffect, profile.DragEffect, profile.EnergyLoss,
+                profile.EnergyGain, profile.EnergyThrust, profile.EnergyCapacity,
+                profile.TopSpeed, profile.ManeuveringEnergy, profile.Pivots,
+                profile.hitSounds, profile.modeClip, profile.changeClip,
+                profile.selectClip, profile.hyperspaceClip, profile.alarmClip,
                 profile.explosion, profile.hyperspace);
 
         List<ITrackable> trackables = new List<ITrackable>();
@@ -112,10 +116,8 @@ namespace Adventure.Astronautics.Spaceships {
         public void ToggleView() {
             StartSemaphore(Toggling);
             IEnumerator Toggling() {
-                // PlayerCamera.Follow(transform);
-                PlayerCamera.main.transform.localPosition =
-                    Pivots[++nextCamera%Pivots.Count];
-                PlayerCamera.main.transform.localRotation = Quaternion.identity;
+                var pivot = Pivots[++nextCamera%Pivots.Count];
+                PlayerCamera.Pivot = pivot;
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -128,8 +130,8 @@ namespace Adventure.Astronautics.Spaceships {
                 weapons.Clear();
                 nextWeapon = (1+nextWeapon)%2;
                 switch (nextWeapon) {
-                    case 0: weapons.AddRange(blasters); break;
-                    case 1: weapons.AddRange(rockets); break; }
+                    case 0: weapons.Add(blasters); break;
+                    case 1: weapons.Add(rockets); break; }
                 nextFire = 0;
                 weapons.ForEach(o => o.gameObject.SetActive(true));
                 audio.PlayOneShot(changeClip);
@@ -138,18 +140,34 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
+
+        int nextMode = 0; // on the way out
+        public void ChangeMode() {
+            if (!IsDisabled) StartSemaphore(ChangingMode);
+            IEnumerator ChangingMode() {
+                audio.PlayOneShot(modeClip);
+                Mode = modes[++nextMode%modes.Count];
+                switch (Mode) {
+                    case FlightMode.Manual: ChangeDrag(0,0); break;
+                    case FlightMode.Assisted: ChangeDrag(AeroEffect); break;
+                    case FlightMode.Navigation: ChangeDrag(AeroEffect,0); break;
+                } yield return new WaitForSeconds(0.05f);
+            }
+        }
+
         void Awake() {
-            Create(profile); Reset();
-            mechanics.AddRange(GetComponentsInChildren<IShipComponent>());
+            Create(profile);
+            mechanics.Add(GetComponentsInChildren<IShipComponent>());
             var query =
                 from particles in GetComponentsInChildren<ParticleSystem>()
                 where particles.name=="Hypertrail"
                 select particles;
-            hypertrail.AddRange(query);
+            hypertrail.Add(query);
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
             parts = new Stack<IDamageable>(GetComponentsInChildren<IDamageable>());
             (rigidbody,audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
-            (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip,true,false);
+            (audio.clip,audio.loop, audio.playOnAwake) = (alarmClip,true,false);
+            Reset();
             onKill.AddListener((o,e) => OnKill());
             onJump.AddListener((o,e) => OnHyperJump());
             onDamage.AddListener((o,e) => OnDamage(1));
@@ -201,20 +219,6 @@ namespace Adventure.Astronautics.Spaceships {
         void FixedUpdate() => Energy += EnergyPotential*Time.fixedDeltaTime;
         void OnCollisionEnter(Collision c) => Damage(c.impulse.magnitude/4);
 
-        int nextMode = 0; // on the way out
-        public void ChangeMode() {
-            if (!IsDisabled) StartSemaphore(ChangingMode);
-            IEnumerator ChangingMode() {
-                audio.PlayOneShot(modeClip);
-                Mode = modes[++nextMode%modes.Count];
-                switch (Mode) {
-                    case FlightMode.Manual: ChangeDrag(0,0); break;
-                    case FlightMode.Assisted: ChangeDrag(AeroEffect); break;
-                    case FlightMode.Navigation: ChangeDrag(AeroEffect,0); break;
-                } yield return new WaitForSeconds(0.05f);
-            }
-        }
-
         void ChangeDrag(float aeroEffect, float dragCoefficient=0.0002f) {
             StartSemaphore(ChangingAero);
             StartSemaphore(ChangingDrag);
@@ -245,9 +249,6 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
-        public void Fire() => Fire(Target);
-        public void Fire(Vector3 position, Vector3 velocity) =>
-            Fire(position.tuple(), velocity.tuple());
         public void Fire(ITrackable target) {
             if (target is null) Fire(transform.forward.tuple(),(0,0,0));
             else if (PreFire()) StartSemaphore(Firing);
@@ -275,7 +276,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Move() {
             var (brakes,boost,throttle,roll,pitch,yaw) = (0f,0f,0f,0f,0f,0f);
-            // insert clever ship autopiloting algorithm here
+            // insert clever fallback ship autopiloting algorithm here
             Move(brakes,boost,throttle,roll,pitch,yaw);
         }
 
@@ -350,8 +351,6 @@ namespace Adventure.Astronautics.Spaceships {
         (float,float,float) CalculateThrust() =>
             (transform.forward*BoostPower).tuple();
 
-        public void HyperspaceJump() => JumpEvent?.Invoke(this,new SpaceArgs());
-
         void OnHyperJump() => hypertrail.ForEach(o => o.Stop());
 
         public void HyperJump() {
@@ -393,7 +392,7 @@ namespace Adventure.Astronautics.Spaceships {
                 transform.position += transform.forward*100;
                 rigidbody.AddForce(transform.forward*100000, ForceMode.Impulse);
                 IsDisabled = false;
-                HyperspaceJump();
+                Jump();
             }
         }
 
@@ -401,7 +400,7 @@ namespace Adventure.Astronautics.Spaceships {
             if (0>=parts.Count) return;
             var part = parts.Pop();
             part.Damage(1000000);
-            if (part is Blaster blaster) blaster.Disable();
+            if (part is Weapon blaster) blaster.Disable();
         }
 
         void OnDamage(float damage) {
@@ -415,8 +414,6 @@ namespace Adventure.Astronautics.Spaceships {
                 yield return new WaitForSeconds(0.1f);
             }
         }
-
-        void Kill() => KillEvent?.Invoke(this,new SpaceArgs());
 
         void OnKill() {
             if (IsDead) return; IsDead = true;

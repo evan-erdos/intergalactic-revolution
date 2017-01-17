@@ -5,9 +5,10 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using net=UnityEngine.Networking;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class SpaceshipAudio : MonoBehaviour {
+    public class SpaceshipAudio : net::NetworkBehaviour {
         [Serializable] public class AdvancedSetttings {
             public float engineMinDistance = 50f;
             public float engineMaxDistance = 1000f;
@@ -37,6 +38,7 @@ namespace Adventure.Astronautics.Spaceships {
         new Rigidbody rigidbody;
 
         void Awake() {
+            if (!isLocalPlayer) { enabled = false; return; }
             spaceship = GetComponent<Spaceship>();
             rigidbody = GetComponent<Rigidbody>();
 

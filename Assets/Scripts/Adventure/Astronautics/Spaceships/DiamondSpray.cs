@@ -23,7 +23,8 @@ namespace Adventure.Astronautics.Spaceships {
         void Reset(Rigidbody shard) {
             shard.Get<ParticleSystem>().Stop();
             shard.transform.parent = transform;
-            (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true,true);
+            shard.Get<Renderer>().enabled = true;
+            shard.Get<Collider>().enabled = true;
             (shard.isKinematic, shard.velocity) = (false, Vector3.zero);
         }
 

@@ -8,48 +8,28 @@ using UnityEngine.SceneManagement;
 using UnityStandardAssets.Cameras;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class SpacePlayer : NetworkSpaceObject {
+    public class SpacePlayer : SpaceActor {
         (float x,float y) mouse = (0,0);
-        SpaceshipController controller;
-        List<NetworkStartPosition> points = new List<NetworkStartPosition>();
-        [SerializeField] List<GameObject> ships = new List<GameObject>();
-        public Spaceship Ship {get;protected set;}
+        SpaceshipController control;
 
-        public void CreateShip() => CmdCreateShip(ships.Pick());
-        [Command] public void CmdCreateShip(GameObject prefab) {
-            var instance = Instantiate(prefab) as GameObject;
-            NetworkServer.Spawn(instance);
-            Ship = instance.Get<Spaceship>();
-            Ship.Create();
-            Ship.GetComponentsInChildren<ISpaceObject>().ForEach(o=>o.Create());
-            controller.Ship = Ship;
+        public override void SetShip(Spaceship ship) {
+            Ship = ship;
             Ship.KillEvent += (o,e) => OnKill();
             Ship.JumpEvent += (o,e) => OnJump();
+            PlayerCamera.Target = Ship.transform;
         }
 
-        void Awake() {
-            points.AddRange(FindObjectsOfType<NetworkStartPosition>());
-            controller = GetOrAdd<SpaceshipController>();
-        }
-        void Start() => ships.ForEach(o => ClientScene.RegisterPrefab(o));
-        public override void OnStartLocalPlayer() => StartCoroutine(Fucking());
+        // public override void OnStartLocalPlayer() => CreateShip();
+        protected override void Awake() { base.Awake();
+            control = GetOrAdd<SpaceshipController>(); }
 
-        IEnumerator Fucking() {
-            CreateShip();
-            yield return new WaitForSeconds(1);
-            if (!Ship) throw new SpaceException("no spaceship");
-            if (isLocalPlayer) PlayerCamera.Follow(Ship.transform);
-        }
-        // void OnConnectedToServer() => CreateShip();
         // void OnNetworkInstantiate(NetworkMessageInfo info) => CreateShip();
         void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
-        void FixedUpdate() {
+        protected override void FixedUpdate() {
             transform.localRotation = Quaternion.Euler(
                 x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
                 y: transform.localEulerAngles.y+mouse.x*10, z: 0);
-            if (Ship is null) return;
-            transform.position = Ship.transform.position;
-            transform.rotation = Ship.transform.rotation;
+            base.FixedUpdate();
         }
 
         void OnJump() {
@@ -64,12 +44,7 @@ namespace Adventure.Astronautics.Spaceships {
             StartSemaphore(Killing);
             IEnumerator Killing() {
                 yield return new WaitForSeconds(8);
-                // SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-                var point = points.Pick();
-                transform.parent = null;
-                transform.position = point.transform.position;
-                transform.rotation = point.transform.rotation;
-                CreateShip();
+                Reset();
                 yield return new WaitForSeconds(5);
             }
         }
