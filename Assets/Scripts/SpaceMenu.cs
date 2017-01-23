@@ -43,6 +43,7 @@ public class SpaceMenu : SpaceObject {
                     StarProfile starSystem,
                     string spob) {
         if (once) return; once = true;
+        SpaceManager.StartHost();
         var star = Create(starSystem.prefab);
         // var user = Create<SpacePlayer>(pilot.prefab);
         var pilot = PickUser();
@@ -62,6 +63,8 @@ public class SpaceMenu : SpaceObject {
         var list = new List<NetworkStartPosition>();
         list.Add(FindObjectsOfType<NetworkStartPosition>());
         var spawn = list.Pick();
+        ship.JumpEvent += (o,e) => SpaceManager.Jump(
+            ship.Destination, ship.Destination.Subsystems.Pick());
         ship.transform.position = spawn.transform.position;
         ship.transform.rotation = spawn.transform.rotation;
         user.SetShip(ship);
@@ -70,7 +73,7 @@ public class SpaceMenu : SpaceObject {
 
     void OnLoadGame(PilotProfile pilot, StarProfile starSystem, string spob) {
         if (once) return; once = true;
-        // SpaceManager.StartHost();
+        SpaceManager.StartHost();
         // var star = Create<StarSystem>(starSystem.prefab);
         var star = Create(starSystem.prefab);
         var user = Create<SpacePlayer>(pilot.prefab);
@@ -79,10 +82,17 @@ public class SpaceMenu : SpaceObject {
         DontDestroyOnLoad(user.gameObject);
         DontDestroyOnLoad(ship.gameObject);
         // ship.Create();
+        ship.Stars = starSystem.NearbySystems;
         (star.name, user.name, user.Ship) = (starSystem.name, pilot.name, ship);
         SceneManager.MoveGameObjectToScene(star.gameObject,scene);
         PlayerCamera.atmosphere = starSystem.atmosphere;
         PlayerCamera.Target = ship.transform;
+        var list = new List<NetworkStartPosition>();
+        list.Add(FindObjectsOfType<NetworkStartPosition>());
+        var spawn = list.Pick();
+        ship.transform.position = spawn.transform.position;
+        ship.transform.rotation = spawn.transform.rotation;
+        user.SetShip(ship);
         SceneManager.UnloadSceneAsync("Menu");
     }
 

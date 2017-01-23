@@ -65,6 +65,7 @@ namespace Adventure.Astronautics.Spaceships {
         public ITrackable Target {get;protected set;}
         public StarSystem CurrentSystem {get;protected set;}
         public StarProfile Destination {get;protected set;}
+        public StarProfile[] Stars {get;set;} = new StarProfile[1];
         public void Kill() => KillEvent?.Invoke(this,new SpaceArgs());
         public void Jump() => JumpEvent?.Invoke(this,new SpaceArgs());
         public void Alarm() => audio.Play();
@@ -97,6 +98,17 @@ namespace Adventure.Astronautics.Spaceships {
                 profile.hitSounds, profile.modeClip, profile.changeClip,
                 profile.selectClip, profile.hyperspaceClip, profile.alarmClip,
                 profile.explosion, profile.hyperspace);
+
+        int nextSystem = -1; // gross
+        public void SelectSystem() {
+            StartSemaphore(Hyperspacing);
+            IEnumerator Hyperspacing() {
+                if (0>=Stars.Length) yield break;
+                audio.PlayOneShot(selectClip);
+                Destination = Stars[++nextSystem%Stars.Length];
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
 
         List<ITrackable> trackables = new List<ITrackable>();
         int nextTarget = -1; // ick
@@ -373,7 +385,7 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
-        public void HyperJump(Quaternion direction, StarSystem system) {
+        public void HyperJump(Quaternion direction, StarProfile destination) {
             if (Energy>=EnergyJump/2) StartSemaphore(Jumping);
             IEnumerator Jumping() {
                 IsDisabled = true;

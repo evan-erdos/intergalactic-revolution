@@ -774,13 +774,13 @@ InputManager:
     axis: 12
     joyNum: 1
   - serializedVersion: 3
-    m_Name: Unused
+    m_Name: Hyperspace
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: joystick button 4
+    positiveButton: joystick button 0
     altNegativeButton: 
-    altPositiveButton: 
+    altPositiveButton: j
     gravity: 0
     dead: 0.19
     sensitivity: 1

@@ -37,10 +37,19 @@ namespace Adventure.Astronautics.Spaceships {
         Spaceship spaceship;
         new Rigidbody rigidbody;
 
+        void OnKill() {
+            Destroy(engineSoundSource);
+            Destroy(windSoundSource);
+            Destroy(boostSource);
+            enabled = false;
+        }
+
+
         void Awake() {
             if (SpaceManager.IsOnline && !isLocalPlayer) { enabled = false; return; }
             spaceship = GetComponent<Spaceship>();
             rigidbody = GetComponent<Rigidbody>();
+            spaceship.KillEvent += (o,e) => OnKill();
 
             engineSoundSource = gameObject.AddComponent<AudioSource>();
             engineSoundSource.playOnAwake = false;

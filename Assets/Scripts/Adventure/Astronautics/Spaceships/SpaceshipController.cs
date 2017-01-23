@@ -34,6 +34,7 @@ namespace Adventure.Astronautics.Spaceships {
             if (Input.GetButtonDown("Mode")) Ship?.ChangeMode();
             if (Input.GetButtonDown("Toggle")) Ship?.ToggleView();
             if (Input.GetButtonDown("Select")) Ship?.SelectTarget();
+            if (Input.GetButtonDown("Hyperspace")) Ship?.SelectSystem();
         }
     }
 }

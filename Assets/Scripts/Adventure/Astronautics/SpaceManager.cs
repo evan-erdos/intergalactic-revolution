@@ -13,7 +13,7 @@ using YamlDotNet.Serialization;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
-    public class SpaceManager : MonoBehaviour {
+    public class SpaceManager : SpaceObject {
         string path, root = "adventure", dir = "star-systems";
         NetworkManager network;
         Deserializer deserializer = new Deserializer();
@@ -47,8 +47,49 @@ namespace Adventure.Astronautics {
 
         // manager.matchMaker.JoinMatch(match.networkId, "", manager.OnMatchJoined);
 
-        public static void Jump(StarProfile star, string spob) {
-            print("you jumped!");
+
+        // public static void OnLoad() {
+        //     var star = Create(starSystem.prefab);
+        //     // var user = Create<SpacePlayer>(pilot.prefab);
+        //     var pilot = PickUser();
+        //     var user = Create<SpacePlayer>(pilot.prefab);
+        //     var ship = Create<Spaceship>(pilot.ship.prefab);
+        //     var scene = SceneManager.GetSceneByName(spob);
+        //     DontDestroyOnLoad(ship.gameObject);
+        //     // ship.Create();
+        //     (star.name, user.name, user.Ship) = (starSystem.name, pilot.name, ship);
+        //     SceneManager.MoveGameObjectToScene(star.gameObject,scene);
+        //     SceneManager.MoveGameObjectToScene(user.gameObject,scene);
+        //     SceneManager.SetActiveScene(SceneManager.GetSceneByName(spob));
+        //     user.Reset();
+        //     DontDestroyOnLoad(user.gameObject);
+        //     PlayerCamera.atmosphere = starSystem.atmosphere;
+        //     PlayerCamera.Target = ship.transform;
+        //     var list = new List<NetworkStartPosition>();
+        //     list.Add(FindObjectsOfType<NetworkStartPosition>());
+        //     var spawn = list.Pick();
+        //     ship.transform.position = spawn.transform.position;
+        //     ship.transform.rotation = spawn.transform.rotation;
+        //     user.SetShip(ship);
+        //     SceneManager.UnloadSceneAsync("Menu");
+        // }
+
+
+        public static void Jump(StarProfile starSystem, string spob) {
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+            var scene = SceneManager.GetSceneByName(spob);
+            var star = singleton.Create(starSystem.prefab);
+            LoadSceneFade(spob, Color.black);
+            SceneManager.MoveGameObjectToScene(star.gameObject,scene);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(spob));
+            // var list = new List<NetworkStartPosition>();
+            // list.Add(FindObjectsOfType<NetworkStartPosition>());
+            // var spawn = list.Pick();
+            // ship.transform.position = spawn.transform.position;
+            // ship.transform.rotation = spawn.transform.rotation;
+            // user.SetShip(ship);
+            PlayerCamera.atmosphere = starSystem.atmosphere;
+            // PlayerCamera.Target = ship.transform;
         }
 
 

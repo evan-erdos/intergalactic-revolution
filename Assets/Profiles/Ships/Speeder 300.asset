@@ -25,7 +25,7 @@ MonoBehaviour:
   BrakesEffect: 2
   AeroEffect: 2
   DragEffect: 0.1
-  EnergyThrust: 1000
+  EnergyThrust: 2500
   EnergyCapacity: 600
   EnergyLoss: 60
   EnergyGain: 10

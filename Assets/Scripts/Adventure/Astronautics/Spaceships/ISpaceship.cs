@@ -35,6 +35,6 @@ namespace Adventure.Astronautics.Spaceships {
         /// tells the ship to jump all the way to a new system
         void HyperJump(
             Quaternion direction,
-            StarSystem system);
+            StarProfile destination);
     }
 }
