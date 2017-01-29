@@ -1,0 +1,127 @@
+fileFormatVersion: 2
+guid: ca97e1222f41f44e4bcb0b3c37120847
+timeCreated: 1485513815
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: spacedock_v_hub
+    100004: spacedock_v_pods_0
+    100006: spacedock_v_pods_0_detail
+    100008: spacedock_v_pods_1
+    100010: spacedock_v_pods_1_detail
+    100012: spacedock_v_pods_2
+    100014: spacedock_v_pods_2_detail
+    100016: spacedock_v_ring
+    400000: //RootNode
+    400002: spacedock_v_hub
+    400004: spacedock_v_pods_0
+    400006: spacedock_v_pods_0_detail
+    400008: spacedock_v_pods_1
+    400010: spacedock_v_pods_1_detail
+    400012: spacedock_v_pods_2
+    400014: spacedock_v_pods_2_detail
+    400016: spacedock_v_ring
+    2300000: spacedock_v_hub
+    2300002: spacedock_v_pods_0
+    2300004: spacedock_v_pods_0_detail
+    2300006: spacedock_v_pods_1
+    2300008: spacedock_v_pods_1_detail
+    2300010: spacedock_v_pods_2
+    2300012: spacedock_v_pods_2_detail
+    2300014: spacedock_v_ring
+    3300000: spacedock_v_hub
+    3300002: spacedock_v_pods_0
+    3300004: spacedock_v_pods_0_detail
+    3300006: spacedock_v_pods_1
+    3300008: spacedock_v_pods_1_detail
+    3300010: spacedock_v_pods_2
+    3300012: spacedock_v_pods_2_detail
+    3300014: spacedock_v_ring
+    4300000: spacedock_v_ring
+    4300002: spacedock_v_hub
+    4300004: spacedock_v_pods_0
+    4300006: spacedock_v_pods_0_detail
+    4300008: spacedock_v_pods_1
+    4300010: spacedock_v_pods_1_detail
+    4300012: spacedock_v_pods_2
+    4300014: spacedock_v_pods_2_detail
+    6400000: spacedock_v_hub
+    6400002: spacedock_v_pods_0
+    6400004: spacedock_v_pods_0_detail
+    6400006: spacedock_v_pods_1
+    6400008: spacedock_v_pods_1_detail
+    6400010: spacedock_v_pods_2
+    6400012: spacedock_v_pods_2_detail
+    6400014: spacedock_v_ring
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 40000
+    meshCompression: 0
+    addColliders: 1
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -14,8 +14,8 @@ MonoBehaviour:
   prefab: {fileID: 1258256628526678, guid: 13842c1a53221464790c35c49d80e696, type: 2}
   Name: Pollux
   StellarPosition: {x: 5, y: 5, z: 5}
-  atmosphere: {fileID: 11400000, guid: 94b86f3387d3f4f2b87e6d626a5a2471, type: 2}
+  atmosphere: {fileID: 11400000, guid: a48dc1909166b446d9a0182680c49e68, type: 2}
   Subsystems:
-  - Moon Base Delta
+  - Pollux Spaceport IV
   NearbySystems:
   - {fileID: 11400000, guid: 4d62731b42a7a40e39f23d87b7b57169, type: 2}

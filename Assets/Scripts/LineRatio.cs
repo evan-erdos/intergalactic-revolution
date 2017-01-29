@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Adventure;
 
-public class LineRatio : MonoBehaviour, IProportional {
+public class LineRatio : MonoBehaviour, IProportion {
     new LineRenderer renderer;
     public float Ratio {get;set;}
     void Awake() => renderer = GetComponent<LineRenderer>();

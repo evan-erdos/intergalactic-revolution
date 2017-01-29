@@ -4,3 +4,5 @@
 *.jpg filter=lfs diff=lfs merge=lfs -crlf
 *.mov filter=lfs diff=lfs merge=lfs -crlf
 *.mp4 filter=lfs diff=lfs merge=lfs -crlf
+*.exr filter=lfs diff=lfs merge=lfs -crlf
+LightingData.asset filter=lfs diff=lfs merge=lfs -crlf

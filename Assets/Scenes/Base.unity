@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.0020332523, g: 0.0020158328, b: 0.001939084, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -72,7 +72,8 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_StationaryBakeMode: 3
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000032, guid: 0f19c3c6e3229453bb6d91a994754565,
+    type: 2}
   m_RuntimeCPUUsage: 25
   m_ShadowMaskMode: 2
 --- !u!196 &4
@@ -203,7 +204,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 429888578}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
@@ -346,6 +347,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4133755432151180, guid: 1b196c18fb62d4633bf539dfa621bc03, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1346981481135148, guid: 1b196c18fb62d4633bf539dfa621bc03, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20139609916371356, guid: 1b196c18fb62d4633bf539dfa621bc03,
+        type: 2}
+      propertyPath: m_OcclusionCulling
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
