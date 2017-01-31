@@ -14,10 +14,9 @@ public class HeadingMeter : SpaceObject {
     new LineRenderer renderer;
 
     void Awake() {
-        spaceship = GetComponentInParent<Spaceship>();
+        spaceship = GetParent<Spaceship>();
         renderer = Get<LineRenderer>();
-        renderer.useWorldSpace = true;
-        renderer.numPositions = 2;
+        (renderer.useWorldSpace, renderer.numPositions) = (true,2);
     }
 
     void Update() {
@@ -26,7 +25,7 @@ public class HeadingMeter : SpaceObject {
             case Heading.Forward:
                 points[1] += (spaceship.transform.forward)*radius; break;
             case Heading.Velocity:
-                points[1] += spaceship.Velocity.vect().normalized*radius;
+                points[1] += spaceship.Velocity.normalized*radius;
                 break;
         }
     }

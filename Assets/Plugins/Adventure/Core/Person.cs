@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-// using UnityStandardAssets.Characters.ThirdPerson;
 using ai=UnityEngine.AI;
 using Adventure.Locales;
 using Adventure.Inventories;
@@ -18,13 +17,13 @@ namespace Adventure {
     public class Person : Actor {
         List<Rigidbody> rigidbodies = new List<Rigidbody>();
         [SerializeField] protected Transform hand;
-        [SerializeField] protected AvatarIKGoal handGoal = AvatarIKGoal.RightHand;
+        protected AvatarIKGoal handGoal = AvatarIKGoal.RightHand;
         public bool IKEnabled {get;set;}
         public uint massLimit {get;set;}
+        public Lamp EquippedItem {get;set;}
         public ai::NavMeshAgent agent {get;protected set;}
         public IMotor motor {get;protected set;}
         public Animator animator {get;protected set;}
-        public Lamp EquippedItem {get;set;}
         public override void Use(IUsable o) => Do(o.Position, () => o.Use());
         public override void Sit(IThing o) => Do(o.Position, () => OnSit());
         public override void Find(IThing o) => Do(o.Position, () => o.Find());
@@ -37,26 +36,25 @@ namespace Adventure {
         public override void Stow(IWearable o) => Do(o.Position, () => o.Stow());
         public void Do(Transform o, Action e) => Do(o.position, e);
         public void Do(Vector3 o, Action e) => Do(() => transform.IsNear(o),e);
-        public void Kill(Person o) => Do(o.transform, () => o.Kill(1000f));
+        public void Kill(Person o) => Do(o.transform, () => o.Kill(1000));
         public void Kill(float force=0) => Kill(force*Vector3.one,Vector3.right);
 
         public override void Goto(Thing o, StoryArgs e) {
             try {
                 var query =
                     from thing in Story.Rooms.Values
-                    where thing.Fits(e.input) && thing is Room
+                    where thing.Fits(e.Input) && thing is Room
                     select thing;
                 if (!query.Any())
-                    throw new StoryException(Description["cannot nearby room"]);
+                    throw new StoryError(Description["cannot nearby room"]);
                 if (query.Count()>1)
-                    throw new AmbiguityException(
+                    throw new AmbiguityError(
                         Description?["many nearby room"],
                         query.Cast<IThing>());
                 e.Goal = query.First();
-                // throw new StoryException($"You can't go to the {thing}.");
                 if (e.Goal is Thing location) Goto(location);
-                else throw new StoryException($"You can't go to the {e.Goal}.");
-            } catch (StoryException) { }
+                else throw new StoryError($"You can't go to the {e.Goal}.");
+            } catch (StoryError) { }
         }
 
         protected override void Awake() { base.Awake();
@@ -71,7 +69,6 @@ namespace Adventure {
             if (!agent) return;
             agent.updateRotation = false;
             agent.updatePosition = true;
-
         }
 
         IEnumerator Start() {
@@ -104,37 +101,33 @@ namespace Adventure {
 
         void OnAnimatorIK(int layerIndex) {
             if (!animator || !IKEnabled) return;
-            if (LookTarget != null) {
-                animator.SetLookAtWeight(0.5f);
-                animator.SetLookAtPosition(LookTarget.position);
-            }
 
             var weight = (EquippedItem==null)?0:1;
             animator.SetLookAtWeight(0);
             animator.SetIKPositionWeight(handGoal,weight);
             animator.SetIKRotationWeight(handGoal,weight);
-            //if (EquippedItem!=null) { }
             animator.SetIKPosition(handGoal,EquippedItem.Grip.position);
             animator.SetIKRotation(handGoal,EquippedItem.Grip.rotation);
+            if (LookTarget != null) {
+                animator.SetLookAtWeight(0.5f);
+                animator.SetLookAtPosition(LookTarget.position);
+            }
         }
 
-        void OnCollisionEnter(Collision collision) => Kill(
-            force: collision.impulse/Time.fixedDeltaTime,
-            position: collision.contacts.FirstOrDefault().point);
+        void OnCollisionEnter(Collision o) => Kill(
+            force: o.impulse/Time.fixedDeltaTime,
+            position: o.contacts.FirstOrDefault().point);
 
 
         public void Kill(Vector3 force, Vector3 position) {
-            if (force.sqrMagnitude<100f) return;
-            if (GetComponent<ai::NavMeshAgent>())
-                GetComponent<ai::NavMeshAgent>().enabled = false;
-            if (GetComponent<Animator>())
-                GetComponent<Animator>().enabled = false;
-            if (GetComponent<Collider>())
-                GetComponent<Collider>().enabled = false;
+            if (force.sqrMagnitude<100) return;
+            if (Get<ai::NavMeshAgent>()) Get<ai::NavMeshAgent>().enabled = false;
+            if (Get<Animator>()) Get<Animator>().enabled = false;
+            if (Get<Collider>()) Get<Collider>().enabled = false;
             rigidbodies.ForEach(rb => rb.isKinematic = false);
-            GetComponent<Rigidbody>().isKinematic = true;
-            if (force.sqrMagnitude<=100f) return;
-            GetComponent<Person>().Kill();
+            Get<Rigidbody>().isKinematic = true;
+            if (force.sqrMagnitude<=100) return;
+            Get<Person>().Kill();
             rigidbodies.ForEach(o => o.AddForceAtPosition(force,position));
         }
 
@@ -143,14 +136,13 @@ namespace Adventure {
             StartSemaphore(Viewing);
             IEnumerator Viewing() {
                 var speed = Vector3.zero;
-                while (LookTarget.IsNear(location, 2f))
-                    yield return new Wait(() =>
-                        LookTarget.position = Vector3.SmoothDamp(
-                            current: LookTarget.position,
-                            target: location.position,
-                            currentVelocity: ref speed,
-                            smoothTime: 1f));
-                yield return new WaitForSeconds(3f);
+                while (LookTarget.IsNear(location,2)) yield return Wait(() =>
+                    LookTarget.position = Vector3.SmoothDamp(
+                        current: LookTarget.position,
+                        target: location.position,
+                        currentVelocity: ref speed,
+                        smoothTime: 1));
+                yield return new WaitForSeconds(3);
             }
         }
 
@@ -159,11 +151,10 @@ namespace Adventure {
             if (agent) agent.enabled = false;
             transform.position = location.position;
             if (Physics.Raycast(
-                            origin: transform.position,
-                            direction: Vector3.down,
-                            hitInfo: out RaycastHit hit,
-                            maxDistance: 1f))
-                transform.position = hit.point;
+                origin: transform.position,
+                direction: Vector3.down,
+                hitInfo: out RaycastHit hit,
+                maxDistance: 1)) transform.position = hit.point;
             WalkTarget = location;
             if (agent) agent.enabled = true;
             motor.IsDisabled = false;
@@ -182,8 +173,7 @@ namespace Adventure {
 
         void OnSit() {
             Log(Description["sit"]);
-            if (animator) animator.SetBool("Sit",true);
-        }
+            if (animator) animator.SetBool("Sit",true); }
 
         public override void Stand() { base.Stand();
             Log(Description["stand"]);
@@ -191,11 +181,10 @@ namespace Adventure {
 
         public virtual void Stand(Thing thing, StoryArgs args) {
             if (animator.GetBool("Sit")) (thing as Actor).Stand();
-            else throw new StoryException(thing.Description["try to stand"]); }
+            else throw new StoryError(thing.Description["try to stand"]); }
 
         public override void Pray() { base.Pray();
             if (animator) animator.SetBool("Pray", true); }
-
 
         new public class Data : Actor.Data {
             public override BaseObject Deserialize(BaseObject o) {

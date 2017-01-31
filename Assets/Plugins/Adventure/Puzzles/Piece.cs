@@ -25,12 +25,7 @@ namespace Adventure.Puzzles {
 
         protected override void Awake() { base.Awake();
             onSolve?.AddListener((o,e) => OnSolve());
-            SolveEvent += onSolve.Invoke;
-        }
-
-        protected override void OnDestroy() { base.OnDestroy();
-            onSolve?.RemoveListener((o,e) => OnSolve());
-            SolveEvent -= onSolve.Invoke;
+            SolveEvent += (o,e) => onSolve?.Invoke(o,e);
         }
     }
 
@@ -51,12 +46,7 @@ namespace Adventure.Puzzles {
 
         protected override void Awake() { base.Awake();
             onPose?.AddListener((o,e) => OnPose());
-            PoseEvent += onPose.Invoke;
-        }
-
-        protected override void OnDestroy() { base.OnDestroy();
-            onPose?.RemoveListener((o,e) => OnPose());
-            PoseEvent -= onPose.Invoke;
+            PoseEvent += (o,e) => onPose?.Invoke(o,e);
         }
 
         new public class Data : Thing.Data {

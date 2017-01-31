@@ -21,8 +21,6 @@ namespace Adventure.Locales {
 
         /// Travel : (path) => void
         /// moves the user it's called on to the target destination
-        /// - thing : Thing
-        ///     thing to be moved to the destination
-        void Travel(Thing thing);
+        void Travel(Thing destination);
     }
 }

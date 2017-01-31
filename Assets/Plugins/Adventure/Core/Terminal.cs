@@ -10,33 +10,31 @@ using ui=UnityEngine.UI;
 namespace Adventure {
     public class Terminal : BaseObject {
         bool isLocked;
-        float time = 0.5f, initTime = 10f;
+        float time = 0.5f, initTime = 10;
         Coroutine coroutine;
         Parser parser;
-        static Queue<string> queue = new Queue<string>();
         Queue<string> logs = new Queue<string>();
         ui::Text log;
         ui::InputField input;
-        public event StoryAction LogEvent;
+        static Queue<string> queue = new Queue<string>();
         public static Map<Verb> Verbs = new Map<Verb>();
         public static Map<Message> Messages = new Map<Message>();
-
+        public event StoryAction LogEvent;
         public void Clear() { logs.Enqueue(log.text); log.text = ""; }
-        public void LogMessage(string message) => Log(Messages[message]);
-        public void Log(string s, bool f) => LogEvent(null, new StoryArgs(s));
-        public static void Log(params string[] lines) =>
-            lines.ForEach(line => queue.Enqueue(Format(line)));
+        public void LogMessage(string o) => Log(Messages[o]);
+        public void Log(string o, bool f) => LogEvent(null, new StoryArgs(o));
+        public static void Log(params string[] a) =>
+            a.ForEach(o => queue.Enqueue(Format(o)));
         public void CommandInput() => CommandInput(input.text);
-        public void CommandInput(string message) {
+        public void CommandInput(string o) {
             if (coroutine!=null) StopCoroutine(coroutine);
             if (coroutine!=null) isLocked = false;
             input.text = "";
             input.interactable = true;
             input.ActivateInputField();
             input.Select();
-            parser.Evaluate(message.Trim());
+            parser.Evaluate(o.Trim());
         }
-
 
         void OnLog(string message) {
             StartSemaphore(FadeText);
@@ -75,19 +73,18 @@ namespace Adventure {
 
         IEnumerator Logging() {
             while (true) {
-                if (0<queue.Count && !isLocked)
-                    OnLog(queue.Dequeue());
+                if (0<queue.Count && !isLocked) OnLog(queue.Dequeue());
                 yield return new WaitForSeconds(time);
             }
         }
 
-        void OnEnable() => LogEvent += (o,e) => Log(e.message);
-        void OnDisable() => LogEvent += (o,e) => Log(e.message);
+        void OnEnable() => LogEvent += (o,e) => Log(e.Message);
+        void OnDisable() => LogEvent += (o,e) => Log(e.Message);
 
         void Awake() {
             input = GetComponentInChildren<ui::InputField>();
             log = GetComponentInChildren<ui::Text>();
-            parser = new Parser(Verbs, (o,e) => Log(e.message));
+            parser = new Parser(Verbs, (o,e) => Log(e.Message));
         }
 
         void Start() {
@@ -121,8 +118,8 @@ namespace Adventure {
                         where instance!=null
                         select instance as Thing;
                     query.ToList().ForEach(thing => {
-                        thing.LogEvent -= (o,e) => Log(e.message);
-                        thing.LogEvent += (o,e) => Log(e.message); });
+                        thing.LogEvent -= (o,e) => Log(e.Message);
+                        thing.LogEvent += (o,e) => Log(e.Message); });
                 }
             }
         }

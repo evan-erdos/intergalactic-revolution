@@ -14,20 +14,13 @@ namespace Adventure.Inventories {
         public bool Worn {get;set;}
         public uint Shards {get;set;}
         public Transform Grip => transform;
-
         public override void Use() => Attack();
         public void Stow() => Log(Description["stow"]);
         public void Wear() => Log(Description["wear"]);
         public void Attack() {
-            var instance = Instantiate<GameObject>(
-                fireFlash,
-                flashLocation.position,
-                flashLocation.rotation);
+            var instance = Create(fireFlash,flashLocation.position,flashLocation.rotation);
             instance.transform.parent = null;
-            var shell = Instantiate<GameObject>(
-                fireShell,
-                shellLocation.position,
-                shellLocation.rotation);
+            var shell = Create(fireShell,shellLocation.position,shellLocation.rotation);
             var rigidbody = shell.GetComponent<Rigidbody>();
             rigidbody.AddRelativeForce(
                 force: Vector3.up+Random.insideUnitSphere*0.2f,
@@ -37,19 +30,10 @@ namespace Adventure.Inventories {
                 mode: ForceMode.VelocityChange);
         }
 
-        void Reload() {
-            if (CountLoaded >= Size) return;
-            if (Count>(Size-CountLoaded)) Count -= Size-CountLoaded;
-            else if (Count < (Size-CountLoaded)) CountLoaded = Count;
-            Count = Count-CountLoaded;
-        }
-
-
         static Vector3 Spray(Vector3 direction, float spread) {
             var delta = Random.insideUnitCircle - new Vector2(0.5f,0.5f);
-            var splay = new Vector2(direction.x, direction.y);
-            splay += delta * spread;
-            return direction + new Vector3(splay.x, splay.y, 0f);
+            var splay = new Vector2(direction.x, direction.y) + delta * spread;
+            return direction + new Vector3(splay.x, splay.y, 0);
         }
     }
 }

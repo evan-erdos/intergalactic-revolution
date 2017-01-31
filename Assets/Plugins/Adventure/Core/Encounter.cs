@@ -10,9 +10,8 @@ namespace Adventure {
         public bool IsReusable {get;protected set;}
         public float InitialDelay {get;protected set;}
 
-        protected override void Awake() => collider = GetOrAdd<Collider>();
-
         IEnumerator Start() {
+            collider = GetOrAdd<Collider>();
             if (0>=InitialDelay) yield break;
             yield return new WaitForSeconds(InitialDelay);
             Begin();

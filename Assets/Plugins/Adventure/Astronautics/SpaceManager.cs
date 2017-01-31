@@ -7,16 +7,13 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using YamlDotNet.Core;
-using YamlDotNet.Core.Events;
-using YamlDotNet.Serialization;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
     public class SpaceManager : SpaceObject {
         string path, root = "adventure", dir = "star-systems";
+        // Deserializer deserializer = new Deserializer();
         NetworkManager network;
-        Deserializer deserializer = new Deserializer();
         [SerializeField] protected StarProfile CurrentStarSystem;
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];

@@ -78,7 +78,7 @@ namespace Adventure {
         /// When a command is parsed in and evaluated, it is
         /// sent here, and a Command is created, dispatched to
         /// its function for processing, and in the case
-        /// of a StoryException, it is resolved, such that
+        /// of a StoryError, it is resolved, such that
         /// an appropriate action might be taken. Any kind of
         /// text command Exception ends here, as they are used
         /// only for indicating errors in game logic, not errors
@@ -87,19 +87,19 @@ namespace Adventure {
         ///     the command struct without input
         /// - input : string
         ///     the raw, user-issued command
-        /// - throw : StoryException
+        /// - throw : StoryError
         ///     thrown when command is incoherent/malformed
         public bool Execute(Verb verb, string input) {
             try { verb.Command(player, new StoryArgs(verb, input)); return true; }
-            catch (MoralityException error) { ResolveMorality(error); }
-            catch (AmbiguityException error) { ResolveAmbiguity(error); }
-            catch (StoryException error) { Resolve(error); }
+            catch (MoralityError error) { ResolveMorality(error); }
+            catch (AmbiguityError error) { ResolveAmbiguity(error); }
+            catch (StoryError error) { Resolve(error); }
             return false;
 
-            void Resolve(StoryException error) => Failure(input, error.Message);
-            void ResolveMorality(MoralityException error) {
+            void Resolve(StoryError error) => Failure(input, error.Message);
+            void ResolveMorality(MoralityError error) {
                 if (error.cond()) error.then(null, new StoryArgs()); }
-            void ResolveAmbiguity(AmbiguityException error) {
+            void ResolveAmbiguity(AmbiguityError error) {
                 var sb = new StringBuilder();
                 sb.AppendLine(error.Message);
                 foreach (var elem in error.options)

@@ -11,6 +11,7 @@ namespace Adventure {
         YieldInstruction wait = new WaitForSeconds(1);
         [SerializeField] protected StoryEvent onLog, onView, onFind, onTouch;
         public event StoryAction LogEvent, ViewEvent, FindEvent, TouchEvent;
+        public virtual float Range => 5;
         public override string Name => $"**{name}**";
         public virtual string Content => $"### {Name} ###\n{Description}";
         public virtual Transform Location {get;set;}
@@ -24,21 +25,11 @@ namespace Adventure {
         public override bool Fits(string s) => Description.Fits(s);
         public virtual void OnLog(string s) => Terminal.Log(s.md());
 
-        public virtual void OnFind() {
-            StartSemaphore(Finding);
-            IEnumerator Finding() {
-                Terminal.Log(Description["find"].md());
-                yield return wait;
-            }
-        }
+        public virtual void OnFind() => Wait(wait, () =>
+            Terminal.Log(Description["find"].md()));
 
-        public virtual void OnView() {
-            StartSemaphore(Viewing);
-            IEnumerator Viewing() {
-                Terminal.Log(Content.md());
-                yield return wait;
-            }
-        }
+        public virtual void OnView() { StartSemaphore(Viewing);
+            IEnumerator Viewing() { Terminal.Log(Content.md()); yield return wait; } }
 
         protected virtual void Awake() {
             Mask =
@@ -47,20 +38,13 @@ namespace Adventure {
                 | 1 << LayerMask.NameToLayer("Room")
                 | 1 << LayerMask.NameToLayer("Actor");
             gameObject.layer = LayerMask.NameToLayer("Thing");
-            onLog.AddListener((o,e) => OnLog(e.message));
+            onLog.AddListener((o,e) => OnLog(e.Message));
             onFind.AddListener((o,e) => OnFind());
             onView.AddListener((o,e) => OnView());
-            LogEvent += onLog.Invoke;
-            FindEvent += onFind.Invoke;
-            ViewEvent += onView.Invoke;
-            TouchEvent += onTouch.Invoke;
-        }
-
-        protected virtual void OnDestroy() {
-            LogEvent -= onLog.Invoke;
-            FindEvent -= onFind.Invoke;
-            ViewEvent -= onView.Invoke;
-            TouchEvent -= onTouch.Invoke;
+            LogEvent += (o,e) => onLog?.Invoke(o,e);
+            FindEvent += (o,e) => onFind?.Invoke(o,e);
+            ViewEvent += (o,e) => onView?.Invoke(o,e);
+            TouchEvent += (o,e) => onTouch?.Invoke(o,e);
         }
 
         void OnCollision(Collision o) => If(o.rigidbody.tag=="Player", () => Touch());

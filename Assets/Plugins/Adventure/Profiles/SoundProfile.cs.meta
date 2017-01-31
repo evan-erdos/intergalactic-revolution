@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d24f237bb9cd149a08802a9c84fe33e3
+timeCreated: 1484644472
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - prefab: {fileID: 1988634568274006, guid: 0558eda40f9834a369eaaa793bc60751, type: 2}
+  - modeClip: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
+  - changeClip: {fileID: 8300000, guid: 9815425169548454a9e8264c159581f8, type: 3}
+  - selectClip: {fileID: 8300000, guid: 75024edad0464486381177a71b449093, type: 3}
+  - hyperspaceClip: {fileID: 8300000, guid: 15cf05bd865f446e8bce9d84f5186291, type: 3}
+  - alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}
+  - explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
+  - hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

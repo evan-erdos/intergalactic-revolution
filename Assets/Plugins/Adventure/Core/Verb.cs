@@ -15,8 +15,6 @@ namespace Adventure {
         public string[] Grammar {get;set;}
         public StoryAction Command {get;set;}
         public Verb(Regex pattern, string[] grammar, StoryAction command=null) {
-            (this.Pattern, this.Grammar) = (pattern, grammar);
-            this.Command = command;
-        }
+            (this.Pattern, this.Grammar, this.Command) = (pattern, grammar, command); }
     }
 }

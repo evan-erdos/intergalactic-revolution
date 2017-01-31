@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.Cameras;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceActor {

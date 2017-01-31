@@ -22,10 +22,7 @@ namespace Adventure.Locales {
         }
 
         protected override void Awake() { base.Awake();
-            TravelEvent += onTravel.Invoke; }
-
-        protected override void OnDestroy() { base.OnDestroy();
-            TravelEvent -= onTravel.Invoke; }
+            TravelEvent += (o,e) => onTravel?.Invoke(o,e); }
 
         new public class Data : Thing.Data {
             public string destination = "Cloister";

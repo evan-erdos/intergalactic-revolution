@@ -8,28 +8,13 @@ namespace Adventure.Inventories {
     public class Gun : Weapon {
         public bool isAuto, isBurst, isPrimary;
         public uint
-            countAmmo = 24,
-            sizeClip = 7,
-            countLoaded = 7,
-            countBursts = 1,
-            fovScoped = 30,
-            range = 128;
+            countAmmo = 24, sizeClip = 7, countLoaded = 7,
+            countBursts = 1, fovScoped = 30, range = 128;
         public float
-            rateSpread = 0.1f,
-            rateCool = 0.05f,
-            rateScope = 0.06f,
-            rateMax = 0.3f,
-            spread = 0.1f,
-            spreadAimed = 0.1f,
-            spreadMax = 0.1f,
-            spreadJam = 1f,
-            timeShot = 0.05f,
-            sinceShot = 0f,
-            timeReload = 2f,
-            sinceReload = 0f,
-            forceShot = 443f,
-            damageShot = 1024f,
-            deltaShot = 256f;
+            rateSpread = 0.1f, rateCool = 0.05f, rateScope = 0.06f, rateMax = 0.3f,
+            spread = 0.1f, spreadAimed = 0.1f, spreadMax = 0.1f, spreadJam = 1,
+            timeShot = 0.05f, sinceShot = 0, timeReload = 2, sinceReload = 0,
+            forceShot = 443, damageShot = 1024, deltaShot = 256;
         public string MunitionType = "9mm PARA";
         public string[] animNames, animFire, animReload;
         public enum WeaponTypes { Projectile, Ballistic, Crystal, Melee };
@@ -41,8 +26,8 @@ namespace Adventure.Inventories {
         public GameObject[] ShotParticles;
 
         void Update() {
-            if (sinceShot<Rate) sinceShot+=Time.deltaTime;
-            if (sinceReload<timeReload) sinceReload+=Time.deltaTime;
+            if (sinceShot<Rate) sinceShot += Time.deltaTime;
+            if (sinceReload<timeReload) sinceReload += Time.deltaTime;
             if (Time.timeScale>0) {
                 if (Input.GetButtonDown("Reload")) Reload();
                 if (Input.GetMouseButtonDown(0)) Use();

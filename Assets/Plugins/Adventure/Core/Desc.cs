@@ -13,7 +13,7 @@ namespace Adventure {
     /// some style options, and another string which serves as a
     /// formatting template for the other elements.
     public class Desc : ILoggable {
-        Map<IEnumerator<string>> enumerators = new Map<IEnumerator<string>>();
+        Map<IEnumerator<string>> routines = new Map<IEnumerator<string>>();
 
         /// DefiniteArticle : string
         /// article to use to refer to something specifically
@@ -50,24 +50,19 @@ namespace Adventure {
 
         public Desc() : this(" ") { }
         internal Desc(string desc) : this(desc, new Regex(" ")) { }
-        internal Desc(string desc, Regex nouns) { (Content,Nouns) = (desc,nouns); }
+        internal Desc(string desc, Regex nouns) { (Content, Nouns) = (desc, nouns); }
 
-        public string this[string s] {
-            get {
-                if (!Responses?.ContainsKey(s)==true) return "";
-                if (!enumerators.ContainsKey(s))
-                    enumerators[s] = Responses?[s]?.GetEnumerator();
-                var enumerator = enumerators[s];
-                var result = enumerator.Current;
-                if (!enumerator.MoveNext()) return result;
-                return enumerator.Current;
-            }
+        public string this[string s] => FindDesc(s);
+        string FindDesc(string s) {
+            if (!Responses?.ContainsKey(s)==true) return "";
+            if (!routines.ContainsKey(s)) routines[s] = Responses?[s]?.GetEnumerator();
+            var enumerator = routines[s];
+            if (!enumerator.MoveNext()) return enumerator.Current;
+            return enumerator.Current;
         }
 
-        public bool Fits(string s) =>
-            !string.IsNullOrEmpty(s)
-            && !string.IsNullOrEmpty(Nouns.ToString())
-            && (Nouns.IsMatch(s) || s==Name);
+        public bool Fits(string o) => !string.IsNullOrEmpty(Nouns.ToString())
+            && !string.IsNullOrEmpty(o) && (Nouns.IsMatch(o) || o==Name);
         public void Log() => Terminal.Log(Content.md());
         public override string ToString() => Content.md();
         public static implicit operator string(Desc o) => o.Content;

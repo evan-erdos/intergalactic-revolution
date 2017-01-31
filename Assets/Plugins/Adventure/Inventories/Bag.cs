@@ -9,8 +9,6 @@ namespace Adventure.Inventories {
     public class Bag : ItemSet {
         string ItemsName => $"It contains:\n{this.Aggregate("",(a,e)=>a+"- "+e)}";
         public override string Content => $"{base.Content}\n{ItemsName}";
-
-        protected override void OnDestroy() { base.OnDestroy();
-            this.ForEach(o => o.Drop()); }
+        void OnDestroy() => this.ForEach(o => o.Drop());
     }
 }

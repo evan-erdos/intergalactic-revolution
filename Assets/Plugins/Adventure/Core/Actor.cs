@@ -16,7 +16,7 @@ namespace Adventure {
         public event StoryAction KillEvent;
         public event StoryAction GotoEvent;
         public virtual bool IsDead {get;set;}
-        public override float Range => 16f;
+        public override float Range => 16;
         public virtual float Mass => rigidbody.mass;
         public virtual decimal Health {get;set;} = 120;
         public virtual decimal Vitality {get;set;} = 128;
@@ -30,7 +30,13 @@ namespace Adventure {
         public override Transform Location {set {
             var room = value.GetComponentInParent<Room>();
             if (room) base.Location = room.Location;
-            else throw new StoryException(Description["cannot goto"]); } }
+            else throw new StoryError(Description["cannot goto"]); } }
+
+        public virtual void Kill(Actor thing) => KillEvent(this, new StoryArgs {
+            Message = $"kill {thing}", Goal = thing });
+
+        public virtual void Goto(IThing thing) => GotoEvent(this, new StoryArgs {
+            Message = $"go to {thing}", Goal = thing });
 
         public override void Do() => Talk();
         public virtual void Take() => Find<Item>().ForEach(o => Take(o));
@@ -41,8 +47,6 @@ namespace Adventure {
         public virtual void Stand() => Log(Description["stand"]);
         public virtual void Kill() => KillEvent(this, new StoryArgs());
         public virtual void Hurt(decimal damage) => Health -= damage;
-        public virtual void Kill(Actor o) => KillEvent(this,new StoryArgs(o));
-        public virtual void Goto(IThing o) => GotoEvent(this, new StoryArgs(o));
         public virtual void Sit(IThing o) => Log(Description["sit"]);
         public virtual void Use(IUsable o) => o.Use();
         public virtual void Find(IThing o) => o.Find();
@@ -75,11 +79,11 @@ namespace Adventure {
 
         public virtual void Take(Thing thing) {
             if (thing==this)
-                throw new StoryException(Description["cannot take self"]);
+                throw new StoryError(Description["cannot take self"]);
             if (!(thing is Item item))
-                throw new StoryException(Description["cannot take thing"]);
+                throw new StoryError(Description["cannot take thing"]);
             if (Items.Contains(item))
-                throw new StoryException(Description["already take thing"]);
+                throw new StoryError(Description["already take thing"]);
             item.Location = transform;
             Items.Add(item);
             item.Take();
@@ -87,9 +91,9 @@ namespace Adventure {
 
         public virtual void Drop(Thing thing) {
             if (!(thing is Item item))
-                throw new StoryException(Description["cannot drop"]);
+                throw new StoryError(Description["cannot drop"]);
             if (!Items.Contains(item))
-                throw new StoryException(Description["already drop"]);
+                throw new StoryError(Description["already drop"]);
             item.Drop();
             Items.Remove(item);
             item.transform.parent = null;
@@ -103,7 +107,7 @@ namespace Adventure {
                 select item as Key;
             if (thing is ILockable door && !door.IsLocked)
                 list.ToList().ForEach(item => door.Lock(item));
-            else throw new StoryException(Description["cannot lock"]);
+            else throw new StoryError(Description["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
@@ -123,23 +127,23 @@ namespace Adventure {
             var query =
                 from item in Enumerable.Union(
                     list.Cast<IThing>(), Items.Cast<IThing>())
-                where item.Fits(args.input) && item is T
+                where item.Fits(args.Input) && item is T
                 select item as Thing;
             if (!query.Any())
-                throw new StoryException(Description?["cannot nearby thing"]);
+                throw new StoryError(Description?["cannot nearby thing"]);
             if (query.Count()>1)
-                throw new AmbiguityException(
+                throw new AmbiguityError(
                     Description?["many nearby thing"], query.Cast<IThing>());
             args.Goal = query.First();
             if (thing is Actor actor) then(actor, args.Goal as Thing);
-            else throw new StoryException($"You can't do that to a {thing}.");
+            else throw new StoryError($"You can't do that to a {thing}.");
         }
 
         public virtual void Do(Thing o, StoryArgs e) => o.Do();
         public virtual void Help(Thing o, StoryArgs e) => Help();
         public virtual void Pray(Thing o, StoryArgs e) => Pray();
         public virtual void Kill(Thing sender, StoryArgs args) {
-            throw new MoralityException(
+            throw new MoralityError(
                 message: sender.Description["attempt kill"],
                 then: (o,e) => (o as Actor).Kill()); }
 
@@ -214,32 +218,23 @@ namespace Adventure {
             GotoEvent += (o,e) => onGoto?.Invoke(o,e);
         }
 
-        protected override void OnDestroy() { base.OnDestroy();
-            KillEvent -= (o,e) => onKill?.Invoke(o,e);
-            GotoEvent -= (o,e) => onGoto?.Invoke(o,e);
-        }
-
         class Holdall<T> : IList<T> where T : Item {
             List<T> list = new List<T>();
             public bool IsReadOnly => false;
             public int Count => list.Count;
             public int Limit => 4;
-            public T this[int index] {
-                get { return list[index]; }
-                set { list[index] = value; } }
-            public void Add(T item) => list.Add(item);
+            public T this[int i] { get {return list[i];} set {list[i]=value;} }
+            public void Add(T o) => list.Add(o);
             public void Clear() => list.Clear();
             public void CopyTo(T[] a, int n) => list.CopyTo(a,n);
-            public void Insert(int n, T item) => list.Insert(n, item);
+            public void Insert(int n, T o) => list.Insert(n, o);
             public void RemoveAt(int n) => list.RemoveAt(n);
-            public bool Contains(T item) => list.Contains(item);
-            public bool Remove(T item) => list.Remove(item);
-            public int IndexOf(T item) => list.IndexOf(item);
+            public bool Contains(T o) => list.Contains(o);
+            public bool Remove(T o) => list.Remove(o);
+            public int IndexOf(T o) => list.IndexOf(o);
             public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
-            IEnumerator IEnumerable.GetEnumerator() =>
-                list.GetEnumerator() as IEnumerator;
+            IEnumerator IEnumerable.GetEnumerator() => (IEnumerator) GetEnumerator();
         }
-
 
         new public class Data : Thing.Data {
             public bool dead {get;set;}

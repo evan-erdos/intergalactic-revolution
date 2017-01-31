@@ -16,7 +16,7 @@ namespace Adventure.Astronautics {
 
         /// Position : (real,real,real)
         /// represents the object's location in world coordinates
-        (float x, float y, float z) Position {get;}
+        Vector3 Position {get;}
 
         /// Create : () => void
         /// does whatever setup is required when creating an instance

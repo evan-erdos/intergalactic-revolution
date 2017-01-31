@@ -11,6 +11,14 @@ namespace Adventure {
     /// provides a common interface to all things in the Adventure system
     public interface IThing : IObject, ILoggable {
 
+        /// Range : real
+        /// determines event ranges (sqrMagnitude, adjust accordingly)
+        float Range {get;}
+
+        /// Mask : LayerMask
+        /// a mask containing all the layers the thing can interact with
+        LayerMask Mask {get;}
+
         /// Location : Transform
         /// the location and context of the thing (transform parent)
         Transform Location {get;}

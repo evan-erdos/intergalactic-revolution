@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.Cameras;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
-    public abstract class SpaceActor : NetworkSpaceObject {
+    public abstract class SpaceActor : Adventure.NetObject {
         new protected Rigidbody rigidbody;
         protected List<NetworkStartPosition> locations =
             new List<NetworkStartPosition>();

@@ -13,25 +13,24 @@ namespace Adventure.Movement {
         Transform last;
         new AudioSource audio;
         public AudioClip[] stepSounds;
-        Map<RandList<AudioClip>> sounds =
-            new Map<RandList<AudioClip>> {
-                ["Dirt"] = new RandList<AudioClip>(),
-                ["Gravel"] = new RandList<AudioClip>(),
-                ["Puddle"] = new RandList<AudioClip>(),
-                ["Sand"] = new RandList<AudioClip>(),
-                ["Swamp"] = new RandList<AudioClip>(),
-                ["Water"] = new RandList<AudioClip>(),
-                ["Wood"] = new RandList<AudioClip>(),
-                ["Glass"] = new RandList<AudioClip>(),
-                ["Concrete"] = new RandList<AudioClip>(),
-                ["Default"] = new RandList<AudioClip>()};
+        Map<RandList<AudioClip>> sounds = new Map<RandList<AudioClip>> {
+            ["Dirt"] = new RandList<AudioClip>(),
+            ["Gravel"] = new RandList<AudioClip>(),
+            ["Puddle"] = new RandList<AudioClip>(),
+            ["Sand"] = new RandList<AudioClip>(),
+            ["Swamp"] = new RandList<AudioClip>(),
+            ["Water"] = new RandList<AudioClip>(),
+            ["Wood"] = new RandList<AudioClip>(),
+            ["Glass"] = new RandList<AudioClip>(),
+            ["Concrete"] = new RandList<AudioClip>(),
+            ["Default"] = new RandList<AudioClip>()};
 
         public float Volume => isDashing?0.2f:isDucking?0.05f:0.1f;
         public float Rate => isDashing?0.15f:isDucking?0.3f:0.2f;
         public bool HasLanded => !isLanding && HasMoved(0.2f);
 
         public void OnMove(Person actor, StoryArgs args) { }
-        bool HasMoved(float d = 0.4f) => transform.IsNear(last,d*d);
+        bool HasMoved(float d=0.4f) => transform.IsNear(last,d*d);
 
         public void Land(string step, float volume) {
             semaphore.Invoke(Landing);

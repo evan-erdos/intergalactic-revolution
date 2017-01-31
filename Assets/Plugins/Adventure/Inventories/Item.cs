@@ -7,40 +7,35 @@ using UnityEngine;
 namespace Adventure.Inventories {
     public class Item : Thing, IItem {
         new protected Rigidbody rigidbody;
-        YieldInstruction wait = new WaitForSeconds(1);
-        [SerializeField] protected StoryEvent onTake, onDrop;
+        [SerializeField] protected StoryEvent onTake;
+        [SerializeField] protected StoryEvent onDrop;
         [SerializeField] protected AudioClip sound;
         public event StoryAction TakeEvent, DropEvent;
-        public bool Held {get; protected set;}
-        public decimal? Cost {get; protected set;}
-        public override float Range => 8f;
+        public bool Held {get;protected set;}
+        public decimal? Cost {get;protected set;}
+        public override float Range => 8;
         public float Mass {
             get { return rigidbody.mass; }
             set { rigidbody.mass = value; } }
         protected string MassName => $"<cmd>{Mass:N}kg</cmd>";
         public override string Name => $"{base.Name} : {MassName}";
         public override string Content => $"{base.Content}\n{CostName}";
-        public virtual string CostName {
-            get {
-                if (Cost==null) return $" ";
-                else if (Cost<0) return $"It's cursed. You can't sell it.";
-                else if (Cost==0) return $"It's <cost>worthless</cost>.";
-                else if (Cost==1) return $"It is worth <cost>{Cost} coin</cost>.";
-                else return $"It is worth <cost>{Cost} coins</cost>.";
-            }
-        }
+        public virtual string CostName { get {
+            if (Cost==null) return $" ";
+            else if (Cost<0) return $"It's cursed. You can't sell it.";
+            else if (Cost==0) return $"It's <cost>worthless</cost>.";
+            else if (Cost==1) return $"It is worth <cost>{Cost} coin</cost>.";
+            else return $"It is worth <cost>{Cost} coins</cost>."; } }
 
         public virtual void Use() => Drop();
 
-        public virtual void Take() =>
-            TakeEvent(this, new StoryArgs(
-                input: $"take {Name}",
-                verb: new Verb(Description.Nouns, new[] { Name })));
+        public virtual void Take() => TakeEvent(this, new StoryArgs {
+            Input = $"take {Name}",
+            Verb = new Verb(Description.Nouns, new[] { Name })});
 
-        public virtual void Drop() =>
-            DropEvent(this, new StoryArgs(
-                input: $"drop {Name}",
-                verb: new Verb(Description.Nouns, new[] { Name })));
+        public virtual void Drop() => DropEvent(this, new StoryArgs {
+            Input = $"drop {Name}",
+            Verb = new Verb(Description.Nouns, new[] { Name })});
 
         public virtual void OnTake() {
             StartSemaphore(Taking);
@@ -51,11 +46,8 @@ namespace Adventure.Inventories {
                 Log($"<cmd>The Monk takes the {base.Name}.</cmd>");
                 rigidbody.isKinematic = true;
                 rigidbody.useGravity = false;
-                // gameObject.SetActive(false);
-                foreach (var renderer in GetComponentsInChildren<Renderer>())
-                    renderer.enabled = false;
-                foreach (var collider in GetComponentsInChildren<Collider>())
-                    collider.enabled = false;
+                GetComponentsInChildren<Renderer>().ForEach(o => o.enabled = false);
+                GetComponentsInChildren<Collider>().ForEach(o => o.enabled = false);
                 Held = true;
                 yield return new WaitForSeconds(1f);
             }
@@ -75,12 +67,10 @@ namespace Adventure.Inventories {
                 rigidbody.isKinematic = false;
                 rigidbody.useGravity = true;
                 gameObject.SetActive(true);
-                foreach (var renderer in GetComponentsInChildren<Renderer>())
-                    renderer.enabled = true;
-                foreach (var collider in GetComponentsInChildren<Collider>())
-                    collider.enabled = true;
+                GetComponentsInChildren<Renderer>().ForEach(o => o.enabled = true);
+                GetComponentsInChildren<Collider>().ForEach(o => o.enabled = true);
                 Held = false;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1);
             }
         }
 
@@ -89,13 +79,8 @@ namespace Adventure.Inventories {
             rigidbody = GetOrAdd<Rigidbody>();
             onTake.AddListener((o,e) => OnTake());
             onDrop.AddListener((o,e) => OnDrop());
-            TakeEvent += onTake.Invoke;
-            DropEvent +=  onDrop.Invoke;
-        }
-
-        protected override void OnDestroy() { base.OnDestroy();
-            TakeEvent -= (o,e) => onTake?.Invoke(o,e);
-            DropEvent -= (o,e) => onDrop?.Invoke(o,e);
+            TakeEvent += (o,e) => onTake?.Invoke(o,e);
+            DropEvent += (o,e) => onDrop?.Invoke(o,e);
         }
 
         new public class Data : Thing.Data {

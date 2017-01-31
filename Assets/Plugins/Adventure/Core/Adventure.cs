@@ -14,27 +14,34 @@ using Adventure.Inventories;
 
 namespace Adventure {
 
+    /// Settings
+    /// simple class for program-wide constants and configurations
     public class Settings {
         public string Name {get;set;} = "Adventure";
         public string Date {get;set;} = "2016-12-10";
-        public string Release {get;set;} = "v0.2.1";
+        public string Version {get;set;} = "v0.2.1";
         public string Author {get;set;} = "Ben Scott";
         public string Handle {get;set;} = "@evan-erdos";
         public string Email {get;set;} = "bescott@andrew.cmu.edu";
         public string Link {get;set;} = "bescott.org/adventure/";
     }
 
+    /// Lambda : () => void
+    /// spirit animal of the action delegate from system namespace
+    public delegate void Lambda();
+
+    /// Cond : () => bool
+    /// represents a function which checks the truth state of something
     public delegate bool Cond();
     public delegate bool Cond<T>(T args);
-    public delegate void Lambda();
+
+    /// Routine : () => coroutine
+    /// specific signature of special, local-scope coroutine generators
+    public delegate IEnumerator Routine();
 
     /// RealAction : (real) => void
     /// handler for signaling any change in a number [0...1]
     public delegate void RealAction(float value);
-
-    /// RealEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
-    [Serializable] public class RealEvent : UnityEvent<float> { }
 
     /// StoryAction : (thing,args) => void
     /// The standard event delegate for commands
@@ -44,43 +51,71 @@ namespace Adventure {
     ///     standard parse event arguments
     public delegate void StoryAction(IThing thing, StoryArgs args);
 
-    [Serializable] public class StoryEvent : UnityEvent<IThing,StoryArgs> { }
-
-
-    /// StoryException : Exception
-    /// throw when anything is not well-formed, sensible, or reasonable
-    class StoryException : Exception {
-        public const string defaultMessage = "Something has gone horribly wrong.";
-        internal StoryException(string message=defaultMessage) : base(message) { }
-        internal StoryException(string message, Exception e) : base(message,e) { }
+    /// StoryArgs : EventArgs
+    /// encapsulates the event data
+    /// - verb : Verb
+    ///     Default Command struct, makes this function a StoryAction
+    /// - input : string
+    ///     raw input from the user
+    /// - goal : IThing
+    ///     specified target of action
+    public class StoryArgs : System.EventArgs, Word {
+        StoryAction Command {get;set;}
+        public Verb Verb {get;set;}
+        public Regex Pattern => Verb.Pattern;
+        public string[] Grammar => Verb.Grammar;
+        public string Input {get;set;}
+        public string Message {get;set;}
+        public IThing Goal {get;set;}
+        public StoryArgs() : base() { }
+        public StoryArgs(string message) { this.Message = message; }
+        public StoryArgs(Verb verb,string input="",string message="") {
+            (this.Verb, this.Input, this.Message) = (verb, input, message); }
     }
 
+    /// Error : error
+    /// base error for the entire namespace
+    public class Error : Exception {
+        public Error(string message, Exception error) : base(message,error) { }
+        public Error(string message) : this(message, new Exception()) { } }
 
-    /// AmbiguityException : StoryException
+    /// StoryError : Exception
+    /// throw when anything is not well-formed, sensible, or reasonable
+    public class StoryError : Error {
+        public StoryError(string message="Something has gone horribly wrong.")
+            : base(message, new Exception()) { }
+        public StoryError(string message, Error error) : base(message,error) { } }
+
+    /// AmbiguityError : StoryError
     /// thrown when a command is not specific enough
-    class AmbiguityException : StoryException {
+    public class AmbiguityError : StoryError {
         internal IList<IThing> options = new List<IThing>();
-        internal AmbiguityException() : this("Be more specific.") { }
-        internal AmbiguityException(string message, params IThing[] options)
+        internal AmbiguityError() : this("Be more specific.") { }
+        internal AmbiguityError(string message, params IThing[] options)
             : this(message,new List<IThing>(options)) { }
-        internal AmbiguityException(string message, IEnumerable<IThing> options)
+        internal AmbiguityError(string message, IEnumerable<IThing> options)
             : base(message) { this.options = new List<IThing>(options); }
     }
 
-
-    /// MoralityException : StoryException
+    /// MoralityError : StoryError
     /// throw in response to any manner of moral turpitude
-    class MoralityException : StoryException {
+    public class MoralityError : StoryError {
         internal Cond cond {get;set;}
         internal StoryAction then {get;set;}
-        internal MoralityException(StoryAction then) : this("", then) { }
-        internal MoralityException(string message, StoryAction then)
+        internal MoralityError(StoryAction then) : this("", then) { }
+        internal MoralityError(string message, StoryAction then)
             : this(message, then, () => false) { }
-        internal MoralityException(string message, StoryAction then, Cond cond)
-            : base(message, new StoryException()) {
-                (this.cond, this.then) = (cond,then); }
+        internal MoralityError(string message, StoryAction then, Cond cond)
+            : base(message,new StoryError()) { (this.cond,this.then) = (cond,then); }
     }
 
+    /// RealEvent : UnityEvent
+    /// a serializable event handler to expose to the editor
+    [Serializable] public class RealEvent : UnityEvent<float> { }
+
+    /// StoryEvent : UnityEvent
+    /// a serializable event handler to expose to the editor
+    [Serializable] public class StoryEvent : UnityEvent<IThing,StoryArgs> { }
 
     /// IUsable : interface
     /// things which can be used, the base for all verb-ables
@@ -167,7 +202,6 @@ namespace Adventure {
         void Read();
     }
 
-
     namespace Puzzles {
 
         /// PuzzleArgs : StoryArgs
@@ -185,6 +219,8 @@ namespace Adventure {
         ///     ubiquitous event arguments
         public delegate void PuzzleAction<T>(IPiece<T> piece, PuzzleArgs args);
 
+        /// PuzzleEvent : UnityEvent
+        /// a serializable event handler to expose to the editor
         [Serializable]
         public class PuzzleEvent<T> : UnityEvent<IPiece<T>,PuzzleArgs> { }
     }
@@ -277,7 +313,6 @@ namespace Adventure {
             T GetItem<T>() where T : Item;
         }
     }
-
 
     namespace Statistics {
 

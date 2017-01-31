@@ -77,15 +77,14 @@ namespace Adventure.Locales {
 
         public void Lock(Thing thing) {
             if (!(thing is Key key))
-                throw new StoryException(Description["not lock"]);
+                throw new StoryError(Description["not lock"]);
             if (key!=LockKey || key.Kind!=LockKey.Kind)
-                throw new StoryException(Description["cannot lock"]);
+                throw new StoryError(Description["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
             var key = thing as Key;
-            if (!IsLocked)
-                throw new StoryException(Description["already unlocked"]);
+            if (!IsLocked) throw new StoryError(Description["already unlocked"]);
             if (!key || key==LockKey) return;
             if (key.Kind!=LockKey.Kind) return;
             StartCoroutine(Unlocking());
@@ -109,13 +108,8 @@ namespace Adventure.Locales {
             door.position = direction;
             onOpen.AddListener((o,e) => OnOpen());
             onShut.AddListener((o,e) => OnShut());
-            OpenEvent += onOpen.Invoke;
-            ShutEvent += onShut.Invoke;
-        }
-
-        protected override void OnDestroy() { base.OnDestroy();
-            OpenEvent += onOpen.Invoke;
-            ShutEvent += onShut.Invoke;
+            OpenEvent += (o,e) => onOpen?.Invoke(o,e);
+            ShutEvent += (o,e) => onShut?.Invoke(o,e);
         }
 
         new public class Data : Thing.Data {

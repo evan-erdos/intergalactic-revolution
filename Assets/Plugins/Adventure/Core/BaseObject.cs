@@ -10,31 +10,23 @@ using UnityEngine.Events;
 
 namespace Adventure {
     public abstract class BaseObject : MonoBehaviour, IObject {
-        Regex regex = new Regex("\b(object)\b");
-        Dictionary<string,Func<IEnumerator>> coroutines =
-            new Dictionary<string,Func<IEnumerator>>();
+        protected Regex regex = new Regex("\b(object)\b");
+        protected Map<Routine> coroutines = new Map<Routine>();
+        public static bool operator !(BaseObject o) => o==null;
         public bool AreAnyYielding => coroutines.Count>0;
-        public virtual float Range => 5f;
         public virtual string Name => name;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public virtual void Disable() => ClearCoroutines();
+        public virtual void Deactivate() => ClearCoroutines();
         public virtual void Create() => ClearCoroutines();
         public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public override string ToString() => "${name}";
-        public static bool operator !(BaseObject o) => o==null;
-        // responsibilities for enabling and disabling
-        // protected virtual void OnDisable() => Disable();
-        // protected virtual void OnEnable() => Create();
-
-        public void If(bool condition, Action then) { if (condition) then(); }
+        public void If(bool cond, Action then) { if (cond) then(); }
         public void If(Func<bool> cond, Action then) { if (cond()) then(); }
-
-        public Transform GetOrAdd(string name) {
-            var instance = transform.Find(name);
-            if (!instance) {
-                instance = new GameObject(name).transform;
-                instance.parent = transform; } return instance; }
+        public T Get<T>() => GetComponentOrNull<T>(GetComponent<T>());
+        public T GetParent<T>() => GetComponentOrNull<T>(GetComponentInParent<T>());
+        public T GetChild<T>() => GetComponentOrNull<T>(GetComponentInChildren<T>());
+        T GetComponentOrNull<T>(T o) => (o==null)?default(T):o;
 
         public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
         public T GetOrAdd<T,U>() where T : Component where U : T {
@@ -43,13 +35,15 @@ namespace Adventure {
             return component;
         }
 
-        public T Get<T>() => GetComponentOrNull<T>(GetComponent<T>());
-        public T GetParent<T>() => GetComponentOrNull<T>(GetComponentInParent<T>());
-        public T GetChild<T>() => GetComponentOrNull<T>(GetComponentInChildren<T>());
-        T GetComponentOrNull<T>(T o) => (o==null)?default(T):o;
+        public Transform GetOrAdd(string name) {
+            var instance = transform.Find(name);
+            if (!instance) {
+                instance = new GameObject(name).transform;
+                instance.parent = transform;
+            } return instance;
+        }
 
-        public List<T> Find<T>() where T : IThing => Find<T>(Range);
-        public List<T> Find<T>(float r) where T : IThing => Find<T>(r,transform);
+        public List<T> Find<T>(float r=5) where T : IThing => Find<T>(r,transform);
         public List<T> Find<T>(float r, Transform l) where T : IThing =>
             Find<T>(r, l.position, Mask).Cast<T>().ToList();
         protected virtual IEnumerable<Thing> Find<T>(
@@ -66,12 +60,8 @@ namespace Adventure {
             Create<T>(original, transform.position, transform.rotation);
         public T Create<T>(GameObject original,Vector3 position) =>
             Create<T>(original,position,Quaternion.identity);
-        public T Create<T>(
-                        GameObject original,
-                        Vector3 position,
-                        Quaternion rotation) =>
-            GetComponentOrNull<T>(
-                Create(original,position,rotation).GetComponent<T>());
+        public T Create<T>(GameObject original,Vector3 position,Quaternion rotation) =>
+            GetComponentOrNull<T>(Create(original,position,rotation).GetComponent<T>());
 
         public GameObject Create(GameObject original) =>
             Create(original,transform.position, transform.rotation);
@@ -81,31 +71,33 @@ namespace Adventure {
                         GameObject original,
                         Vector3 position,
                         Quaternion rotation) =>
-                Instantiate(original,position,rotation) as GameObject;
+            Instantiate(original,position,rotation) as GameObject;
 
         protected void Wait(float wait, Action func) {
-            StartCoroutine(WaitingSeconds());
-            IEnumerator WaitingSeconds() {
-                yield return new WaitForSeconds(wait); func(); } }
+            StartCoroutine(WaitSecs());
+            IEnumerator WaitSecs() { yield return new WaitForSeconds(wait); func(); } }
 
         protected Coroutine Loop(YieldInstruction wait, Action func) {
             return StartCoroutine(Looping());
             IEnumerator Looping() { while (true) yield return Wait(wait,func); } }
 
+        protected Coroutine Wait(Action func) {
+            return StartCoroutine(Waiting());
+            IEnumerator Waiting() { yield return null; func(); } }
+
         protected Coroutine Wait(YieldInstruction wait, Action func) {
             return StartCoroutine(Waiting());
             IEnumerator Waiting() { yield return wait; func(); } }
 
-        public void ClearCoroutines() => coroutines.Clear();
-        public bool IsYielding(string name) => coroutines.ContainsKey(name);
-        public void StartSemaphore(Func<IEnumerator> coroutine) =>
-            StartSemaphore(coroutine.Method.Name, coroutine);
-        public void StartSemaphore(string name, Func<IEnumerator> coroutine) {
-            if (!coroutines.ContainsKey(name))
-                StartCoroutine(Waiting(name,coroutine)); }
-        IEnumerator Waiting(string name, Func<IEnumerator> coroutine) {
-            coroutines[name] = coroutine;
-            yield return StartCoroutine(coroutine());
+        protected void ClearCoroutines() => coroutines.Clear();
+        protected bool IsYielding(string o) => coroutines.ContainsKey(o);
+        protected void StartSemaphore(Routine o) => StartSemaphore(o.Method.Name, o);
+        protected void StartSemaphore(string name, Routine func) {
+            if (!coroutines.ContainsKey(name)) StartCoroutine(Waiting(name,func)); }
+
+        IEnumerator Waiting(string name, Routine func) {
+            coroutines[name] = func;
+            yield return StartCoroutine(func());
             coroutines.Remove(name);
         }
 

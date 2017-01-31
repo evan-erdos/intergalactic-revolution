@@ -22,6 +22,10 @@ namespace Adventure.Astronautics {
     /// handler for when stuff in space get damaged
     public delegate void DamageAction(ISpaceObject sender, float damage);
 
+    /// SpaceObject : BaseObject
+    /// provides a root class for every object in the namespace
+    public abstract class SpaceObject : Adventure.BaseObject, ISpaceObject { }
+
     /// SpaceArgs : EventArgs
     /// provides a base argument type for space events
     public class SpaceArgs : EventArgs { }
@@ -30,10 +34,9 @@ namespace Adventure.Astronautics {
     /// a serializable event handler to expose to the editor
     [Serializable] public class SpaceEvent : UnityEvent<ISpaceObject,SpaceArgs> { }
 
-    /// SpaceException : error
+    /// SpaceError : error
     /// when something goes awry... in space!
-    public class SpaceException : Exception {
-        public SpaceException(string s) : base(s) { } }
+    public class SpaceError : Exception { public SpaceError(string s) : base(s) { } }
 
     /// Astronomy
     /// contains relevant measurements of spacetime, plus discrete unit bases
