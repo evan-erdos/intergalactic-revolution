@@ -179,7 +179,7 @@ namespace Adventure.Astronautics.Spaceships {
             hypertrail.Add(query);
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
             parts = new Stack<IDamageable>(GetComponentsInChildren<IDamageable>());
-            (rigidbody,audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
+            (rigidbody, audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
             (audio.clip,audio.loop, audio.playOnAwake) = (alarmClip,true,false);
             Reset();
             onKill.AddListener((o,e) => OnKill());

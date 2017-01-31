@@ -1870,7 +1870,6 @@ GameObject:
   - component: {fileID: 95126187920589022}
   - component: {fileID: 54843550568609240}
   - component: {fileID: 82369748671331424}
-  - component: {fileID: 114098847252986146}
   - component: {fileID: 114845544842532398}
   - component: {fileID: 114716676598326418}
   m_Layer: 9
@@ -10571,39 +10570,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boostParticles: {fileID: 0}
---- !u!114 &114098847252986146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1431798685936340}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d093dd1e5b70847d68dfc57c875eda27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uniqueShadowDepthShader: {fileID: 4800000, guid: 4cd1cc3fe24924d40bd04b92727549e0,
-    type: 3}
-  shadowMapSize: 8192
-  cullingDistance: 30
-  inclusionMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  useSceneCapture: 0
-  blockerSearchDistance: 24
-  blockerDistanceScale: 1
-  lightNearSize: 4
-  lightFarSize: 22
-  fallbackFilterWidth: 6
-  startFocus: 0
-  shadowFoci:
-  - autoFocus: 1
-    autoFocusRadiusBias: 0
-    target: {fileID: 4096627940895732}
-    offset: {x: 0, y: 0, z: 0}
-    radius: 0.1
-    depthBias: 0.01
-    sceneCaptureDistance: 0
 --- !u!114 &114101125367358472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11525,17 +11491,17 @@ MonoBehaviour:
   onKill:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onJump:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onDamage:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114546199857079206
 MonoBehaviour:

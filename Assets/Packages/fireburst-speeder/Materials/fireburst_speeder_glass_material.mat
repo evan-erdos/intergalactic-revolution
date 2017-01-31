@@ -7,10 +7,11 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: fireburst_speeder_glass_material
-  m_Shader: {fileID: 4800000, guid: 62d166efce1964bf9b7d141af32fe177, type: 3}
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _DETAIL_MULX2 _GLOSSYREFLECTIONS_OFF _METALLICGLOSSMAP
     _NORMALMAP _SPECGLOSSMAP _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent

@@ -8,7 +8,7 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics {
     public class PlayerCamera : SpaceObject {
-        string effectProfile = "Atmospheres/Stellar (Distant)", layer = "Distant";
+        string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
         PostProcessingBehaviour effects;
         public static Vector3 Pivot {get;set;}

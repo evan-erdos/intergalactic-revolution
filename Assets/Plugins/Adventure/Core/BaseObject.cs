@@ -31,7 +31,7 @@ namespace Adventure {
         public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
         public T GetOrAdd<T,U>() where T : Component where U : T {
             var component = Get<T>();
-            if (component is null) component = gameObject.AddComponent<U>();
+            if (!component) component = gameObject.AddComponent<U>();
             return component;
         }
 
