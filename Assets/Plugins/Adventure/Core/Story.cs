@@ -13,7 +13,7 @@ using Adventure.Inventories;
 using Adventure.Puzzles;
 
 namespace Adventure {
-    public class Story : BaseObject {
+    public class Story : Object {
         [SerializeField] public Player player;
         string path, root = "adventure";
         // Deserializer deserializer = new Deserializer();
@@ -24,7 +24,7 @@ namespace Adventure {
         public Map<Verb> commands {get;set;} = new Map<Verb>();
         public static Map<Room> Rooms = new Map<Room>();
         public static readonly Map<Type> tags = new Map<Type> {
-            ["object"] = typeof(Adventure.BaseObject.Data),
+            ["object"] = typeof(Adventure.Object.Data),
             ["thing"] = typeof(Adventure.Thing.Data),
             ["actor"] = typeof(Adventure.Actor.Data),
             ["person"] = typeof(Adventure.Person.Data),

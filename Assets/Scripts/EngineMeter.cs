@@ -19,7 +19,7 @@ public class EngineMeter : SpaceObject {
         var angle = (2*Mathf.PI/sides) * ratio;
         for (var i=0;i<sides+1;++i) circle[i] = new Vector3(
             Mathf.Cos(i*angle)*radius, Mathf.Sin(i*angle)*radius, 0);
-        renderer.numPositions = circle.Length;
+        renderer.positionCount = circle.Length;
     }
 
     void LateUpdate() => renderer.SetPositions(circle);

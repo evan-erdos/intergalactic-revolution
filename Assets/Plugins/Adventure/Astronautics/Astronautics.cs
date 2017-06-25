@@ -22,9 +22,9 @@ namespace Adventure.Astronautics {
     /// handler for when stuff in space get damaged
     public delegate void DamageAction(ISpaceObject sender, float damage);
 
-    /// SpaceObject : BaseObject
+    /// SpaceObject : Object
     /// provides a root class for every object in the namespace
-    public abstract class SpaceObject : Adventure.BaseObject, ISpaceObject { }
+    public abstract class SpaceObject : Adventure.Object, ISpaceObject { }
 
     /// SpaceArgs : EventArgs
     /// provides a base argument type for space events

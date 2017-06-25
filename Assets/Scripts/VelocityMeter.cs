@@ -20,6 +20,6 @@ public class VelocityMeter : SpaceObject {
         renderer.SetPositions(points);
     }
 
-    void Update() => renderer.numPositions =
+    void Update() => renderer.positionCount =
         (int)(length*Mathf.Min(spaceship.TopSpeed,spaceship.Speed)/spaceship.TopSpeed)+1;
 }

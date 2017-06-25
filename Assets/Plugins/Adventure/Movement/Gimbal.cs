@@ -11,17 +11,12 @@ namespace Adventure.Movement {
         int maskPlayer;
         const int iter = 16;
         float
-            roll,
-            angle = 50f,
-            curL = 0f,
-            maxL = 0.5f,
-            timeT = 0.8f,
-            inv = 1.0f/iter;
+            roll, angle = 50,
+            curL = 0, maxL = 0.5f,
+            timeT = 0.8f, inv = 1/iter;
         public float
-            modSprint = 2.1f,
-            modCrouch = 3.5f,
-            thetaL = 0f,
-            thetaT = 50f;
+            modSprint = 2.1f, modCrouch = 3.5f,
+            thetaL = 0, thetaT = 50;
         double sigma, cutoff = 0.001f;
         double[] rotArray = new double[iter];
         IMotor motor;

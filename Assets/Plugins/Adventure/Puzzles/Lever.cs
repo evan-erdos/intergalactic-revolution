@@ -90,7 +90,7 @@ namespace Adventure.Puzzles {
         }
 
         new public class Data : Piece<float>.Data {
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Lever;
                 return instance;
             }

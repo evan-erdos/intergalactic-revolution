@@ -13,7 +13,7 @@ namespace Adventure.Puzzles {
         public virtual bool IsSolved => true;
         public virtual bool Solve() => IsSolved;
         public virtual void Use() => Solve();
-        //public override bool Solve() => SolveEvent(null,new PuzzleArgs(IsSolved));
+        //public override bool Solve() => SolveEvent(null, new PuzzleArgs(IsSolved));
 
         protected virtual void OnSolve() {
             StartSemaphore(Solving);
@@ -52,9 +52,9 @@ namespace Adventure.Puzzles {
         new public class Data : Thing.Data {
             public T condition {get;set;}
             public T solution {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Piece<T>;
-                if (!instance) return default(BaseObject);
+                if (!instance) return default(Object);
                 instance.Condition = this.condition;
                 instance.Solution = this.solution;
                 return instance;

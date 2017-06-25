@@ -12,7 +12,7 @@ public class CircleLine : MonoBehaviour {
         var circle = new Vector3[sides+1];
         for (var i=0;i<sides+1;++i) circle[i] = new Vector3(
             Mathf.Cos(i*angle)*radius, Mathf.Sin(i*angle)*radius, 0);
-        renderer.numPositions = circle.Length;
+        renderer.positionCount = circle.Length;
         renderer.SetPositions(circle);
     }
 }

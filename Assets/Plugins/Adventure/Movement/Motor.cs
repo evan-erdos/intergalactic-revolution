@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Adventure.Movement {
-    public class Motor : BaseObject, IMotor {
+    public class Motor : Object, IMotor {
         Transform last;
 
         public float Volume => dash?0.2f:duck?0.05f:0.1f;

@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 namespace Adventure.Puzzles {
 
+    /// IPiece : interface
+    /// An element of a larger puzzle which can change the puzzle,
+    /// based on its own status as solved, or unsolved.
     public interface IPiece {
 
         /// SolveEvent : event
@@ -23,7 +26,7 @@ namespace Adventure.Puzzles {
 
     }
 
-    /// IPiece<T> : interface
+    /// IPiece<T> : IPiece
     /// An element of a larger puzzle which can change the puzzle,
     /// based on its own status as solved, or unsolved.
     /// In the case of more complicated base types,

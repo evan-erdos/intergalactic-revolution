@@ -22,7 +22,7 @@ namespace Adventure.Locales {
         new public class Data : Thing.Data {
             public bool safe {get;set;}
             public List<Room.Data> Rooms {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var area = base.Deserialize(o) as Area;
                 area.IsSafe = this.safe;
                 return area;

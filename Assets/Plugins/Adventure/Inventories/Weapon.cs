@@ -13,12 +13,12 @@ namespace Adventure.Inventories {
         public Transform Grip => transform;
         public override void Do() => Attack();
         public override void Use() => Attack();
-        public virtual void Attack() => Log("ahh ohhh nooo");
+        public virtual void Attack() => Log($"You attack with the {name}");
         public void Stow() { }
         public void Wear() { }
         new public class Data : Item.Data {
             public float rate {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Weapon;
                 instance.Rate = this.rate;
                 return instance;

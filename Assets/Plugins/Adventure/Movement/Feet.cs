@@ -70,7 +70,6 @@ namespace Adventure.Movement {
             foreach (var sound in sounds.Keys)
                 if (HasLanded) Land(sound,volume/list.Count());
                 else Step(sound);
-
         }
 
         void Awake() {

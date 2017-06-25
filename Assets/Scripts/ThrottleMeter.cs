@@ -19,6 +19,6 @@ public class ThrottleMeter : SpaceObject {
         for (var i=0;i<length+1;++i) points[i] = new Vector3(i*step,0,0);
     }
 
-    void Update() => renderer.numPositions = (int)(length*spaceship.Throttle)+1;
+    void Update() => renderer.positionCount = (int)(length*spaceship.Throttle)+1;
     void LateUpdate() => renderer.SetPositions(points);
 }

@@ -92,7 +92,7 @@ namespace Adventure {
                 EquippedItem.transform.rotation = hand.rotation;
             } if (!agent || !agent.enabled) return;
             agent.SetDestination(WalkTarget.position);
-            motor.Move(
+            motor?.Move(
                 move: (agent.remainingDistance>agent.stoppingDistance)
                     ? agent.desiredVelocity : Vector3.zero,
                 duck: false,
@@ -187,7 +187,7 @@ namespace Adventure {
             if (animator) animator.SetBool("Pray", true); }
 
         new public class Data : Actor.Data {
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Person;
                 return instance;
             }

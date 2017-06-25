@@ -118,7 +118,7 @@ namespace Adventure.Locales {
             public bool initiallyOpened {get;set;}
             public bool locked {get;set;}
             public bool closeAutomatically {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var door = base.Deserialize(o) as Door;
                 door.IsOpen = this.opened;
                 door.IsStuck = this.stuck;

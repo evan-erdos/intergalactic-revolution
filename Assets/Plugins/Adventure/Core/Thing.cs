@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace Adventure {
-    public class Thing : BaseObject, IThing {
+    public class Thing : Object, IThing {
         YieldInstruction wait = new WaitForSeconds(1);
         [SerializeField] protected StoryEvent onLog, onView, onFind, onTouch;
         public event StoryAction LogEvent, ViewEvent, FindEvent, TouchEvent;
@@ -49,17 +49,17 @@ namespace Adventure {
 
         void OnCollision(Collision o) => If(o.rigidbody.tag=="Player", () => Touch());
 
-        new public class Data : BaseObject.Data {
+        new public class Data : Object.Data {
             public Desc description {get;set;}
             public Map<List<string>> responses {get;set;}
 
-            public override void Merge(BaseObject.Data o) { base.Merge(o);
+            public override void Merge(Object.Data o) { base.Merge(o);
                 var root = o as Thing.Data;
                 if (root.responses!=null)
                     foreach (var pair in root.responses)
                         responses[pair.Key] = pair.Value; }
 
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Thing;
                 instance.Description.Name = instance.name;
                 if (description!=null) {

@@ -63,7 +63,7 @@ namespace Adventure.Inventories {
         new public class Data : Item.Data {
             public bool lit {get;set;}
             public float time {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Lamp;
                 instance.IsLit = this.lit;
                 instance.Time = this.time;

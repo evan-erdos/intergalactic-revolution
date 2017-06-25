@@ -86,7 +86,7 @@ namespace Adventure.Inventories {
         new public class Data : Thing.Data {
             public decimal? cost {get;set;}
             public float mass {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Item;
                 instance.Cost = this.cost;
                 instance.Mass = this.mass;

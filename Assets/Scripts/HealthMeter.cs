@@ -21,6 +21,6 @@ public class HealthMeter : SpaceObject {
         for (var i=0;i<length;++i) points[i] = new Vector3(i*step,0,0);
     }
 
-    void Update() => renderer.numPositions = (int) (length*Mathf.Clamp(Ratio,0,1));
+    void Update() => renderer.positionCount = (int) (length*Mathf.Clamp(Ratio,0,1));
     void LateUpdate() => renderer.SetPositions(points);
 }

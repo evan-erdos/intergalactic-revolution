@@ -239,7 +239,7 @@ namespace Adventure {
         new public class Data : Thing.Data {
             public bool dead {get;set;}
             public Map<Item.Data> items {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Actor;
                 instance.IsDead = this.dead;
                 var map = new Map<Item>();

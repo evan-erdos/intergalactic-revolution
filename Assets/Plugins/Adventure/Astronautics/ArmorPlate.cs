@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class ArmorPlate : Adventure.BaseObject, IDamageable {
+    public class ArmorPlate : Adventure.Object, IDamageable {
         [SerializeField] float health = 100;
         public float Health => health;
         public void Damage(float damage) {

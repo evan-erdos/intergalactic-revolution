@@ -26,7 +26,7 @@ namespace Adventure {
         }
 
         new public class Data : Person.Data {
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Player;
                 return instance;
             }

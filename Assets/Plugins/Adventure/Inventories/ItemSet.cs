@@ -13,7 +13,6 @@ namespace Adventure.Inventories {
     /// possibly different and usually quite varied subtypes for
     /// easy filtering of specific types of Items.
     public class ItemSet : Item, IList<Item>, IItemSet {
-
         public bool IsSynchronized => false;
         public bool IsReadOnly => false;
         public int Count => list.Count;
@@ -41,7 +40,7 @@ namespace Adventure.Inventories {
         public void CopyTo(Item[] arr, int n) => list.CopyTo(arr,n);
         public bool Remove(Item item) => list.Remove(item);
         public IEnumerator<Item> GetEnumerator() => list.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator) list.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)list.GetEnumerator();
     }
 
     class ItemGroup<T> : Item, IItemGroup<T> where T : Item {

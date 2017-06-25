@@ -20,7 +20,7 @@ public class BlasterMeter : SpaceObject {
             circle.Clear();
             for (var i=0;i<sides+1;++i) circle.Add(new Vector3(
                 Mathf.Cos(i*angle)*radius,Mathf.Sin(i*angle)*radius,0));
-            renderer.numPositions = sides+1;
+            renderer.positionCount = sides+1;
             renderer.SetPositions(circle.ToArray());
             yield return new WaitForEndOfFrame();
         }

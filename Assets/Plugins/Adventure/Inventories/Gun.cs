@@ -11,10 +11,14 @@ namespace Adventure.Inventories {
             countAmmo = 24, sizeClip = 7, countLoaded = 7,
             countBursts = 1, fovScoped = 30, range = 128;
         public float
-            rateSpread = 0.1f, rateCool = 0.05f, rateScope = 0.06f, rateMax = 0.3f,
-            spread = 0.1f, spreadAimed = 0.1f, spreadMax = 0.1f, spreadJam = 1,
-            timeShot = 0.05f, sinceShot = 0, timeReload = 2, sinceReload = 0,
-            forceShot = 443, damageShot = 1024, deltaShot = 256;
+            rateSpread = 0.1f, rateCool = 0.05f,
+            rateScope = 0.06f, rateMax = 0.3f,
+            spread = 0.1f, spreadAimed = 0.1f,
+            spreadMax = 0.1f, spreadJam = 1,
+            timeShot = 0.05f, sinceShot = 0,
+            timeReload = 2, sinceReload = 0,
+            forceShot = 443, damageShot = 1024,
+            deltaShot = 256;
         public string MunitionType = "9mm PARA";
         public string[] animNames, animFire, animReload;
         public enum WeaponTypes { Projectile, Ballistic, Crystal, Melee };
@@ -42,11 +46,10 @@ namespace Adventure.Inventories {
                 hitInfo: out RaycastHit hit,
                 maxDistance: range,
                 layerMask: Mask)) return;
-            var normal = Quaternion.FromToRotation(Vector3.up, hit.normal);
             Instantiate(
-                ShotParticles[Random.Range(0,ShotParticles.Length)],
-                hit.point,
-                normal);
+                original: ShotParticles[Random.Range(0,ShotParticles.Length)],
+                position: hit.point,
+                rotation: Quaternion.FromToRotation(Vector3.up, hit.normal));
             hit.rigidbody?.AddForceAtPosition(
                 force: forceShot*direction,
                 position: hit.point);
@@ -54,10 +57,8 @@ namespace Adventure.Inventories {
 
         internal void Reload() {
             if (countLoaded>=sizeClip || sinceReload<=timeReload) return;
-            if (countAmmo>(sizeClip-countLoaded))
-                countAmmo -= sizeClip-countLoaded;
-            else if (countAmmo < (sizeClip-countLoaded))
-                countLoaded = countAmmo;
+            if (countAmmo>(sizeClip-countLoaded)) countAmmo -= sizeClip-countLoaded;
+            else if (countAmmo < (sizeClip-countLoaded)) countLoaded = countAmmo;
             countAmmo = countAmmo-countLoaded;
             sinceReload = 0;
         }

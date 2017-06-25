@@ -16,7 +16,7 @@ public class HeadingMeter : SpaceObject {
     void Awake() {
         spaceship = GetParent<Spaceship>();
         renderer = Get<LineRenderer>();
-        (renderer.useWorldSpace, renderer.numPositions) = (true,2);
+        (renderer.useWorldSpace, renderer.positionCount) = (true,2);
     }
 
     void Update() {

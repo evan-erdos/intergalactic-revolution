@@ -35,7 +35,7 @@ namespace Adventure {
             public bool isTimed {get;set;}
             public bool reuse {get;set;}
             public float initialDelay {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Encounter;
                 instance.IsReusable = this.reuse;
                 instance.InitialDelay = this.initialDelay;

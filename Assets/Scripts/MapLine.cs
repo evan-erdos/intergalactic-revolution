@@ -20,7 +20,7 @@ public class MapLine : MonoBehaviour {
         for (var i=0;i<sides+1;++i)
             sphere.Add(new Vector3(0, circle[i].Item1, circle[i].Item2));
 
-        renderer.numPositions = sphere.Count;
+        renderer.positionCount = sphere.Count;
         renderer.SetPositions(sphere.ToArray());
     }
 

@@ -23,7 +23,7 @@ namespace Adventure.Inventories {
 
         new public class Data : Item.Data {
             public string Passage {get;set;}
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Book;
                 instance.Passage = this.Passage;
                 return instance;

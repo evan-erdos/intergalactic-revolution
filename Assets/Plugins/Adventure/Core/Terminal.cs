@@ -8,7 +8,7 @@ using UnityEngine;
 using ui=UnityEngine.UI;
 
 namespace Adventure {
-    public class Terminal : BaseObject {
+    public class Terminal : Object {
         bool isLocked;
         float time = 0.5f, initTime = 10;
         Coroutine coroutine;

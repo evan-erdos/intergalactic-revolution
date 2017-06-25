@@ -24,6 +24,6 @@ public class HyperspaceMeter : SpaceObject {
             Mathf.Cos(i*angle)*radius,Mathf.Sin(i*angle)*radius,0);
     }
 
-    void Update() => renderer.numPositions = (int) Mathf.Min(Ratio,sides) + 1;
+    void Update() => renderer.positionCount = (int) Mathf.Min(Ratio,sides) + 1;
     void LateUpdate() => renderer.SetPositions(points);
 }

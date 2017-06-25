@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 6
+    serializedVersion: 7
     m_Resolution: 0.1
     m_BakeResolution: 32
     m_TextureWidth: 1024
@@ -73,9 +73,21 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_StationaryBakeMode: 0
+    m_BakeBackend: 0
+    m_PVRSampling: 1
+    m_PVRSampleCount: 500
+    m_PVRBounces: 2
+    m_PVRFiltering: 0
+    m_PVRFilteringMode: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousColorSigma: 1
+    m_PVRFilteringAtrousNormalSigma: 1
+    m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 112000034, guid: 0f19c3c6e3229453bb6d91a994754565,
     type: 2}
-  m_RuntimeCPUUsage: 25
   m_ShadowMaskMode: 0
 --- !u!196 &4
 NavMeshSettings:
@@ -335,6 +347,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &64687283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,6 +549,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &175039235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,16 +716,14 @@ VideoPlayer:
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
   m_TargetMaterialName: 
   m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -914,6 +926,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &230456363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,6 +1404,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &262139328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3215,6 +3229,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &644388393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4454,16 +4469,14 @@ VideoPlayer:
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
   m_TargetMaterialName: 
   m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -6859,7 +6872,7 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1544231340}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 8c3fd333687f04ad38b81a8ebfb0aa2e, type: 3}
+  m_VideoClip: {fileID: 32700000, guid: 8c3fd333687f04ad38b81a8ebfb0aa2e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera: {fileID: 0}
   m_TargetTexture: {fileID: 0}
@@ -7560,6 +7573,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &1706565982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7731,6 +7745,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &1769086300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7868,6 +7883,7 @@ LineRenderer:
     alignment: 0
     textureMode: 1
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!114 &1773845257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8253,16 +8269,14 @@ VideoPlayer:
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
   m_TargetMaterialName: 
   m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -8430,7 +8444,7 @@ Canvas:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1981149202}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 10
@@ -8439,6 +8453,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

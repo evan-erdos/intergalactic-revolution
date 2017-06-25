@@ -133,8 +133,8 @@ namespace Adventure {
 
         public class Data {
             public string name {get;set;}
-            public virtual BaseObject Deserialize(BaseObject o) => o;
-            public virtual void Merge(BaseObject.Data data) => name = data.name;
+            public virtual Object Deserialize(Object o) => o;
+            public virtual void Merge(Object.Data o) => name = o.name;
         }
     }
 }

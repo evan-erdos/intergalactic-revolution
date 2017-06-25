@@ -26,7 +26,7 @@ namespace Adventure.Locales {
 
         new public class Data : Thing.Data {
             public string destination = "Cloister";
-            public override BaseObject Deserialize(BaseObject o) {
+            public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Path;
                 instance.Destination = Story.Rooms[destination];
                 return instance;
