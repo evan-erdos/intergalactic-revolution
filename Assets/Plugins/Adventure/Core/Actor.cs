@@ -16,7 +16,7 @@ namespace Adventure {
         public event StoryAction KillEvent;
         public event StoryAction GotoEvent;
         public virtual bool IsDead {get;set;}
-        public override float Range => 16;
+        public override float Radius => 16;
         public virtual float Mass => rigidbody.mass;
         public virtual decimal Health {get;set;} = 120;
         public virtual decimal Vitality {get;set;} = 128;
@@ -28,7 +28,7 @@ namespace Adventure {
         public virtual Transform WalkTarget {get;protected set;}
         public virtual Transform LookTarget {get;protected set;}
         public override Transform Location {set {
-            var room = value.GetComponentInParent<Room>();
+            var room = value.GetParent<Room>();
             if (room) base.Location = room.Location;
             else throw new StoryError(Description["cannot goto"]); } }
 
@@ -78,22 +78,17 @@ namespace Adventure {
         }
 
         public virtual void Take(Thing thing) {
-            if (thing==this)
-                throw new StoryError(Description["cannot take self"]);
-            if (!(thing is Item item))
-                throw new StoryError(Description["cannot take thing"]);
-            if (Items.Contains(item))
-                throw new StoryError(Description["already take thing"]);
+            if (thing==this) throw new StoryError(Description["cannot take self"]);
+            if (!(thing is Item item)) throw new StoryError(Description["cannot take thing"]);
+            if (Items.Contains(item)) throw new StoryError(Description["already take thing"]);
             item.Location = transform;
             Items.Add(item);
             item.Take();
         }
 
         public virtual void Drop(Thing thing) {
-            if (!(thing is Item item))
-                throw new StoryError(Description["cannot drop"]);
-            if (!Items.Contains(item))
-                throw new StoryError(Description["already drop"]);
+            if (!(thing is Item item)) throw new StoryError(Description["cannot drop"]);
+            if (!Items.Contains(item)) throw new StoryError(Description["already drop"]);
             item.Drop();
             Items.Remove(item);
             item.transform.parent = null;
@@ -101,20 +96,14 @@ namespace Adventure {
         }
 
         public void Lock(Thing thing) {
-            var list =
-                from item in Items
-                where item is Key
-                select item as Key;
+            var list = from item in Items where item is Key select item as Key;
             if (thing is ILockable door && !door.IsLocked)
                 list.ToList().ForEach(item => door.Lock(item));
             else throw new StoryError(Description["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
-            var list =
-                from item in Items
-                where item is Key
-                select item as Key;
+            var list = from item in Items where item is Key select item as Key;
             if (thing is ILockable door)
                 list.First(key => key==door.LockKey);
         }
@@ -125,15 +114,10 @@ namespace Adventure {
                         IEnumerable<T> list,
                         Action<Actor,Thing> then) where T : IThing {
             var query =
-                from item in Enumerable.Union(
-                    list.Cast<IThing>(), Items.Cast<IThing>())
-                where item.Fits(args.Input) && item is T
-                select item as Thing;
-            if (!query.Any())
-                throw new StoryError(Description?["cannot nearby thing"]);
-            if (query.Count()>1)
-                throw new AmbiguityError(
-                    Description?["many nearby thing"], query.Cast<IThing>());
+                from item in Enumerable.Union(list.Cast<IThing>(), Items.Cast<IThing>())
+                where item.Fits(args.Input) && item is T select item as Thing;
+            if (!query.Any()) throw new StoryError(Description?["cannot nearby thing"]);
+            if (query.Count()>1) throw new AmbiguityError(Description?["many nearby thing"], query.Cast<IThing>());
             args.Goal = query.First();
             if (thing is Actor actor) then(actor, args.Goal as Thing);
             else throw new StoryError($"You can't do that to a {thing}.");
@@ -142,68 +126,45 @@ namespace Adventure {
         public virtual void Do(Thing o, StoryArgs e) => o.Do();
         public virtual void Help(Thing o, StoryArgs e) => Help();
         public virtual void Pray(Thing o, StoryArgs e) => Pray();
-        public virtual void Kill(Thing sender, StoryArgs args) {
-            throw new MoralityError(
-                message: sender.Description["attempt kill"],
-                then: (o,e) => (o as Actor).Kill()); }
+        public virtual void Kill(Thing sender, StoryArgs args) { throw new MoralityError(
+            message: sender.Description["attempt kill"], then: (o,e) => (o as Actor).Kill()); }
 
         public virtual void View(Thing sender, StoryArgs args) => Do<Thing>(
             sender, args, sender.Find<Thing>(), (o,e) => o.View(e as Thing));
-
         public virtual void Find(Thing sender, StoryArgs args) => Do<Thing>(
             sender, args, sender.Find<Thing>(), (o,e) => o.Find(e as Thing));
-
         public virtual void Goto(Thing sender, StoryArgs args) => Do<Thing>(
             sender, args, sender.Find<Thing>(), (o,e) => o.Goto(e as Thing));
-
         public virtual void Use(Thing sender, StoryArgs args) => Do<IUsable>(
             sender, args, sender.Find<IUsable>(), (o,e) => o.Use(e as IUsable));
-
         public virtual void Sit(Thing sender, StoryArgs args) => Do<Thing>(
             sender, args, sender.Find<Thing>(), (o,e) => o.Sit(e as Thing));
-
         public virtual void Take(Thing sender, StoryArgs args) => Do<Item>(
             sender, args, sender.Find<Item>(), (o,e) => o.Take(e as Item));
-
         public virtual void Drop(Thing sender, StoryArgs args) => Do<Item>(
             sender, args, sender.Find<Item>(0), (o,e) => o.Drop(e as Item));
-
         public virtual void Read(Thing sender, StoryArgs args) => Do<IReadable>(
             sender, args, sender.Find<IReadable>(), (o,e) => o.Read(e as IReadable));
-
         public virtual void Push(Thing sender, StoryArgs args) => Do<IPushable>(
             sender, args, sender.Find<IPushable>(), (o,e) => o.Push(e as IPushable));
-
         public virtual void Pull(Thing sender, StoryArgs args) => Do<IPushable>(
             sender, args, sender.Find<IPushable>(), (o,e) => o.Pull(e as IPushable));
-
         public virtual void Open(Thing sender, StoryArgs args) => Do<IOpenable>(
             sender, args, sender.Find<IOpenable>(), (o,e) => o.Open(e as IOpenable));
-
         public virtual void Shut(Thing sender, StoryArgs args) => Do<IOpenable>(
             sender, args, sender.Find<IOpenable>(), (o,e) => o.Shut(e as IOpenable));
-
         public virtual void Wear(Thing sender, StoryArgs args) => Do<IWearable>(
             sender, args, sender.Find<IWearable>(0), (o,e) => o.Wear(e as IWearable));
-
         public virtual void Stow(Thing sender, StoryArgs args) => Do<IWearable>(
             sender, args, sender.Find<IWearable>(0), (o,e) => o.Stow(e as IWearable));
-
         public virtual void Lock(Thing sender, StoryArgs args) => Do<ILockable>(
             sender, args, sender.Find<ILockable>(), (o,e) => o.Lock(e as Thing));
-
         public virtual void Unlock(Thing sender, StoryArgs args) => Do<ILockable>(
             sender, args, sender.Find<ILockable>(), (o,e) => o.Unlock(e as Thing));
 
-        protected override IEnumerable<Thing> Find<T>(
-                        float range,
-                        Vector3 position,
-                        LayerMask mask) =>
-            from thing in Enumerable.Union(
-                base.Find<T>(range, position, mask),
-                Items.Cast<Thing>())
-            where thing is T
-            select thing as Thing;
+        protected override IEnumerable<Thing> Find<T>(float range, Vector3 position, LayerMask mask) =>
+            from thing in Enumerable.Union(base.Find<T>(range, position, mask), Items.Cast<Thing>())
+            where thing is T select thing as Thing;
 
         protected override void Awake() { base.Awake();
             rigidbody = GetComponent<Rigidbody>();

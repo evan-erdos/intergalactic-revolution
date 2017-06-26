@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class VelocityMeter : SpaceObject {
+public class VelocityMeter : Adventure.Object {
     [SerializeField] int length = 10;
     [SerializeField] float step = 0.1f;
     Vector3[] points;

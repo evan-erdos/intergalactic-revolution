@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: cc77cd34d845f4a479ddec96dd10a3f9
+timeCreated: 1484306967
+licenseType: Pro
+ShaderImporter:
+  defaultTextures:
+  - _MainTex: {fileID: 2800000, guid: ff835f78d66924752b29faa22e7342c2, type: 3}
+  - _SpecGlossMap: {fileID: 2800000, guid: 108b11eb7149b433dbad480ddf77d5c1, type: 3}
+  - _BumpMap: {fileID: 2800000, guid: 3be3a132624c243cab0e62bc6a78c128, type: 3}
+  - _ParallaxMap: {fileID: 2800000, guid: 95f8bc41fb8494a39b4c49b560a49532, type: 3}
+  - _OcclusionMap: {fileID: 2800000, guid: 26f62a7bb1d1a4848bfeefd1d5a8189f, type: 3}
+  - _EmissionMap: {fileID: 2800000, guid: 2e2a03d26d5c5405791a8ed4cf161516, type: 3}
+  - _DetailMask: {fileID: 2800000, guid: 6d5b7db9c3e804ed9a834831c701529c, type: 3}
+  - _DetailAlbedoMap: {fileID: 2800000, guid: cab13ebf2ab244340925db5d82464bd5, type: 3}
+  - _DetailNormalMap: {fileID: 2800000, guid: e3975261f06d8483ca190cac9ee85020, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

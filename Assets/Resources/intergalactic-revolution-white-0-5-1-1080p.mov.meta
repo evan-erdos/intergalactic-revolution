@@ -50,7 +50,7 @@ VideoClipImporter:
     encodedStartFrame: 0
     encodedEndFrame: 1598
     streamedResource:
-      source: Assets/Resources/intergalactic-revolution-white-0-5-1-1080p.mov
+      source: 
       offset: 0
       size: 52965441
   userData: 

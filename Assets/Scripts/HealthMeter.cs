@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class HealthMeter : SpaceObject {
+public class HealthMeter : Adventure.Object {
     [SerializeField] int length = 2;
     [SerializeField] float step = 0.1f;
     Vector3[] points = new Vector3[7];

@@ -8,7 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class SpaceshipAIController : SpaceObject {
+    public class SpaceshipAIController : Adventure.Object {
         bool isDisabled, isFiring, isBraking;
         float perlin;
         Collider[] colliders = new Collider[20];

@@ -7,7 +7,7 @@ using UnityEngine.PostProcessing;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics {
-    public class PlayerCamera : SpaceObject {
+    public class PlayerCamera : Adventure.Object {
         string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
         PostProcessingBehaviour effects;

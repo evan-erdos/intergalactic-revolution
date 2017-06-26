@@ -15,34 +15,41 @@ namespace Adventure {
     public class Desc : ILoggable {
         Map<IEnumerator<string>> routines = new Map<IEnumerator<string>>();
 
+
         /// DefiniteArticle : string
         /// article to use to refer to something specifically
         public string DefiniteArticle {get;set;} = "the";
+
 
         /// IndefiniteArticle : string
         /// article to use to refer to something when it's not known
         public string IndefiniteArticle {get;set;} = "a";
 
+
         /// Name : string
         /// a plain old name, used when reading in descriptions from files
         public string Name {get;set;} = "object";
+
 
         /// Title : string
         /// the name, but with the proper tense and prepositions
         public string Title => $"{DefiniteArticle} {Name}";
 
+
         /// Template : string
         /// a string to be used to apply formatting to the Content
         public virtual string Template => $"### {Name} ###\n{Content}";
+
 
         /// Content : string
         /// the unprocessed, raw value of the description
         public string Content {get;set;} = "An object.";
 
+
         /// Nouns : /regex/
-        /// A regex to be matched against user input, which
-        /// acts as a dynamic identifier for the object.
+        /// A regex to be used as a dynamic match descriptor of object
         public Regex Nouns {get;set;} = new Regex("\b(object)\b");
+
 
         /// Responses : { string -> string[] }
         /// A mapping from string keys to lists of response text.

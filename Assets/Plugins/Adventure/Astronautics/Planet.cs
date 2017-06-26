@@ -5,7 +5,7 @@ using System.Collections;
 using unit=Adventure.Astronautics.Astronomy;
 
 namespace Adventure.Astronautics {
-    public class Planet : SpaceObject {
+    public class Planet : Adventure.Object {
         [SerializeField] float period = 24; // days
         [SerializeField] float orbit = 365; // days
         [SerializeField] float distance = 400; // km
@@ -20,8 +20,7 @@ namespace Adventure.Astronautics {
             while (true) {
                 yield return new WaitForSeconds(1);
                 yield return new WaitForFixedUpdate();
-                transform.RotateAround(
-                    primary.position,Vector3.up,unit.Time/(orbit*unit.Day));
+                transform.RotateAround(primary.position,Vector3.up,unit.Time/(orbit*unit.Day));
                 planet.Rotate(0,unit.Time/(period*unit.Day),0);
             }
         }

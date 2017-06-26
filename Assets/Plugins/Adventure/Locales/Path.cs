@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Adventure.Locales {
-    public class Path : Thing, IPath { // where T : Room where U : Room
+    public class Path : Thing, IPath {
         [SerializeField] protected StoryEvent onTravel;
         public event StoryAction TravelEvent;
         public Room Destination {get;protected set;}

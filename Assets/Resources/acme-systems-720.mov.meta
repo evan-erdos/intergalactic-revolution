@@ -41,7 +41,7 @@ VideoClipImporter:
     encodedStartFrame: 0
     encodedEndFrame: 393
     streamedResource:
-      source: Assets/Resources/acme-systems-720.mov
+      source: 
       offset: 0
       size: 9625251
   userData: 

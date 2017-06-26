@@ -4,15 +4,15 @@ using UnityEngine;
 using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class EnergyBlast : SpaceObject, IProjectile {
+    public class EnergyBlast : Adventure.Object, IProjectile {
         new protected Rigidbody rigidbody;
         new protected Collider collider;
         new protected Renderer renderer;
         [SerializeField] float force = 50;
-        [SerializeField] protected SpaceEvent onHit = new SpaceEvent();
+        [SerializeField] protected RealityEvent onHit = new RealityEvent();
         public float Force => force;
-        public event SpaceAction HitEvent;
-        public void Hit() => HitEvent(this, new SpaceArgs());
+        public event RealityAction HitEvent;
+        public void Hit() => HitEvent(this, new RealityArgs());
 
         public virtual void Reset() {
             GetComponent<ParticleSystem>().Stop();

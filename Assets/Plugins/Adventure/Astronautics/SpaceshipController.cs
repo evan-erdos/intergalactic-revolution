@@ -19,6 +19,7 @@ namespace Adventure.Astronautics.Spaceships {
         void Update() => If(true, () => ControlInput());
         // void Update() => If(isLocalPlayer, () => ControlInput());
         void ControlInput() {
+			// foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print($"joystick: {key}");
             (roll, pitch) = (Input.GetAxis("Roll"),Input.GetAxis("Pitch"));
             (yaw, speed) = (Input.GetAxis("Yaw"), Input.GetAxis("Speed"));
             brake = Input.GetButton("Brake")?1:0;

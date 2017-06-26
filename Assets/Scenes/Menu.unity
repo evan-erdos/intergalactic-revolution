@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 7
+    serializedVersion: 8
     m_Resolution: 0.1
     m_BakeResolution: 32
     m_TextureWidth: 1024
@@ -72,9 +72,10 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_StationaryBakeMode: 0
+    m_MixedBakeMode: 0
     m_BakeBackend: 0
     m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
     m_PVRFiltering: 0
@@ -711,19 +712,20 @@ VideoPlayer:
   m_TargetCamera: {fileID: 0}
   m_TargetTexture: {fileID: 0}
   m_TargetMaterialRenderer: {fileID: 193731689}
+  m_TargetMaterialProperty: _EmissionMap
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_TargetMaterialName: 
-  m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -2141,6 +2143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7365b76fdff14c2382b808e39a5b732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   pilot: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
   star: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
   spob: Station Alpha A
@@ -4464,19 +4471,20 @@ VideoPlayer:
   m_TargetCamera: {fileID: 0}
   m_TargetTexture: {fileID: 0}
   m_TargetMaterialRenderer: {fileID: 986925618}
+  m_TargetMaterialProperty: _EmissionMap
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_TargetMaterialName: 
-  m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1
@@ -6872,11 +6880,12 @@ VideoPlayer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1544231340}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32700000, guid: 8c3fd333687f04ad38b81a8ebfb0aa2e, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 8c3fd333687f04ad38b81a8ebfb0aa2e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera: {fileID: 0}
   m_TargetTexture: {fileID: 0}
   m_TargetMaterialRenderer: {fileID: 1544231343}
+  m_TargetMaterialProperty: _EmissionMap
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
@@ -6887,8 +6896,6 @@ VideoPlayer:
   m_DirectAudioVolumes:
   - 1
   m_Url: 
-  m_TargetMaterialName: video-title
-  m_TargetMaterialProperty: _EmissionMap
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
@@ -8264,19 +8271,20 @@ VideoPlayer:
   m_TargetCamera: {fileID: 0}
   m_TargetTexture: {fileID: 0}
   m_TargetMaterialRenderer: {fileID: 1970983866}
+  m_TargetMaterialProperty: _EmissionMap
   m_RenderMode: 3
   m_AspectRatio: 2
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
-  m_TargetAudioSources: []
-  m_DirectAudioVolumes: []
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
   m_Url: 
-  m_TargetMaterialName: 
-  m_TargetMaterialProperty: _EmissionMap
-  m_EnabledAudioTracks: 
-  m_DirectAudioMutes: 
-  m_ControlledAudioTrackCount: 0
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1

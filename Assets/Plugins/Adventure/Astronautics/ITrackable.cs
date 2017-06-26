@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Adventure.Astronautics.Spaceships {
 
-    /// ITrackable : ISpaceObject
+    /// ITrackable : IObject
     /// anything which moves around and has a velocity and a position
-    public interface ITrackable : ISpaceObject {
+    public interface ITrackable : IObject {
 
         /// Velocity : (real,real,real)
         /// current rate of speed of the ship

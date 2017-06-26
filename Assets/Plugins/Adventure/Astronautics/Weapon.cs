@@ -7,7 +7,7 @@ using UnityEngine;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
-    public class Weapon : SpaceObject, IWeapon, ICreatable<BlasterProfile> {
+    public class Weapon : Adventure.Object, IWeapon, ICreatable<BlasterProfile> {
         [SerializeField] protected BlasterProfile profile;
         int next;
         Pool projectiles = new Pool();
@@ -38,16 +38,14 @@ namespace Adventure.Astronautics {
         public void Fire() => Fire(transform.forward);
         public void Fire(ITrackable o) => Fire(o.Position.tuple(), o.Velocity.tuple());
         public void Fire(Vector3 p) => Fire(p.tuple(),(0,0,0));
-        public virtual void Fire(
-                        (float,float,float) position,
-                        (float,float,float) velocity) {
+        public virtual void Fire((float,float,float) position, (float,float,float) velocity) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
                 if (sounds.Count>0) audio.PlayOneShot(sounds.Pick(),0.8f);
                 Barrel = barrels[++next%barrels.Count].position;
                 if (flash) flash.Play();
 
-                var (ratio,spray) = (10000,0.005f);
+                var (ratio, spray) = (10000,0.005f);
                 var random = Random.Range(-0.01f,0.01f);
                 var direction = position.vect()-Barrel;
                 var distance = direction.magnitude;
@@ -60,8 +58,7 @@ namespace Adventure.Astronautics {
                 if (Quaternion.Angle(rotation,transform.rotation)>Angle/3)
                     rotation = transform.rotation;
                 var rigidbody = projectiles.Create<Rigidbody>(Barrel,rotation);
-                if (rigidbody.Get<IProjectile>() is GuidedMissile missile)
-                    missile.Target = Target;
+                if (rigidbody.Get<IProjectile>() is GuidedMissile o) o.Target = Target;
                 rigidbody.Get<IResettable>()?.Reset();
                 rigidbody.transform.position = Barrel;
                 rigidbody.transform.rotation = rotation;
@@ -78,8 +75,7 @@ namespace Adventure.Astronautics {
         public void Damage(float damage) {
             Health -= damage;
             if (0<Health) return;
-            (rigidbody.isKinematic, IsDisabled) = (false,true);
-            transform.parent = null;
+            (rigidbody.isKinematic, IsDisabled, transform.parent) = (false,true,null);
         }
 
         void Awake() {

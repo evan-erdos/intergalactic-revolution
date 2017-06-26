@@ -18,19 +18,15 @@ namespace Adventure.Inventories {
         public int Count => list.Count;
         public List<Item> list = new List<Item>();
         public ItemSet() : base() { }
-        public ItemSet(List<Item> items) : base() { list.AddRange(items); }
-        public Item this[int index] {
-            get { return list[index]; }
-            set { list[index] = value; } }
-        public void Add<T>(T[] a) where T : Item => list.AddRange(a.Cast<Item>());
-        public void Add<T>(IEnumerable<T> a) where T : Item =>
-            list.AddRange(a.Where(item => item as Item).Cast<Item>());
+        public ItemSet(List<Item> items) : base() { list.Add(items); }
+        public Item this[int index] { get { return list[index]; } set { list[index] = value; } }
+        public void Add<T>(T[] a) where T : Item => list.Add(a.Cast<Item>());
+        public void Add<T>(IEnumerable<T> a) where T : Item => list.Add(a.Where(item => item as Item).Cast<Item>());
         public int IndexOf(Item item) => list.IndexOf(item);
         public void Insert(int index, Item item) => list.Insert(index, item);
         public void RemoveAt(int index) => list.RemoveAt(index);
         public T GetItem<T>() where T : Item => GetItems<T>().FirstOrDefault();
-        public List<T> GetItems<T>() where T : Item =>
-            list.Where(item => item as T).Cast<T>().ToList();
+        public List<T> GetItems<T>() where T : Item => list.Where(item => item as T).Cast<T>().ToList();
         public void ForEach(Action<Item> func) => list.ForEach(func);
         public void ForEach<T>(Action<T> func) where T : Item =>
             list.Where(item => item is T).Cast<T>().ToList().ForEach(func);
@@ -42,6 +38,7 @@ namespace Adventure.Inventories {
         public IEnumerator<Item> GetEnumerator() => list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)list.GetEnumerator();
     }
+
 
     class ItemGroup<T> : Item, IItemGroup<T> where T : Item {
         public int Count {

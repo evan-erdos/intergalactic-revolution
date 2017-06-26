@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class ThrottleMeter : SpaceObject {
+public class ThrottleMeter : Adventure.Object {
     [SerializeField] int length = 10;
     [SerializeField] float step = 0.1f;
     Vector3[] points;

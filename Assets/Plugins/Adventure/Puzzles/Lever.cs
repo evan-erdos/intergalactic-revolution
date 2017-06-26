@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Adventure.Puzzles {
     public class Lever : Piece<int>, IPushable {
         float theta, speed, squeeze, delay = 4f;
-        GameObject arm, handle;
+        Transform arm, handle;
         new AudioSource audio;
         [SerializeField] Vector2 range = new Vector2(-20,20);
         [SerializeField] Vector2 grip = new Vector2(0,-15);
@@ -25,14 +25,10 @@ namespace Adventure.Puzzles {
 
         void FixedUpdate() {
             if (IsLocked) return;
-            var rotation = Quaternion.Euler(0f,0f,theta);
-            arm.transform.localRotation = Quaternion.Slerp(
-                arm.transform.localRotation,
-                rotation, Time.deltaTime*5f);
-            var angle = Quaternion.Euler(0f,0f,squeeze);
-            handle.transform.localRotation = Quaternion.Slerp(
-                handle.transform.localRotation,
-                angle, Time.deltaTime*8f);
+            arm.localRotation = Quaternion.Slerp(
+                arm.localRotation, Quaternion.Euler(0,0,theta), Time.deltaTime*5);
+            handle.localRotation = Quaternion.Slerp(
+                handle.localRotation, Quaternion.Euler(0,0,squeeze), Time.deltaTime*8);
         }
 
         public virtual void Push() {
@@ -83,10 +79,9 @@ namespace Adventure.Puzzles {
         }
 
         protected override void Awake() { base.Awake();
-            audio = GetComponent<AudioSource>();
-            arm = transform.FindChild("arm").gameObject;
-            handle = arm.transform.FindChild("handle").gameObject;
-            if (range.x>range.y) range = new Vector2(range.y,range.x);
+            audio = Get<AudioSource>();
+            (arm, handle) = (transform.Find("arm"), arm.Find("handle"));
+            if (range.x>range.y) range = new Vector2(range.y, range.x);
         }
 
         new public class Data : Piece<float>.Data {

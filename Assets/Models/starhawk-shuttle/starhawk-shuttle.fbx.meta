@@ -1,0 +1,190 @@
+fileFormatVersion: 2
+guid: 3c38622688ca79e4ebe139bbc57558bd
+timeCreated: 1495176557
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: starhawk_airlock
+    100004: starhawk_bumper
+    100006: starhawk_bumper_l
+    100008: starhawk_bumper_r
+    100010: starhawk_canopy
+    100012: starhawk_duct_l
+    100014: starhawk_duct_r
+    100016: Starhawk_engine
+    100018: starhawk_frame
+    100020: starhawk_frame_detail
+    100022: starhawk_hood
+    100024: starhawk_intake_l
+    100026: starhawk_intake_r
+    100028: starhawk_panel_l
+    100030: starhawk_panel_l1
+    100032: starhawk_panel_r
+    100034: starhawk_panel_r1
+    100036: starhawk_porthole
+    100038: starhawk_roof
+    100040: starhawk_step
+    100042: Starhawk_engine_MeshPart0
+    100044: Starhawk_engine_MeshPart1
+    400000: //RootNode
+    400002: starhawk_airlock
+    400004: starhawk_bumper
+    400006: starhawk_bumper_l
+    400008: starhawk_bumper_r
+    400010: starhawk_canopy
+    400012: starhawk_duct_l
+    400014: starhawk_duct_r
+    400016: Starhawk_engine
+    400018: starhawk_frame
+    400020: starhawk_frame_detail
+    400022: starhawk_hood
+    400024: starhawk_intake_l
+    400026: starhawk_intake_r
+    400028: starhawk_panel_l
+    400030: starhawk_panel_l1
+    400032: starhawk_panel_r
+    400034: starhawk_panel_r1
+    400036: starhawk_porthole
+    400038: starhawk_roof
+    400040: starhawk_step
+    400042: Starhawk_engine_MeshPart0
+    400044: Starhawk_engine_MeshPart1
+    2300000: starhawk_airlock
+    2300002: starhawk_bumper
+    2300004: starhawk_bumper_l
+    2300006: starhawk_bumper_r
+    2300008: starhawk_canopy
+    2300010: starhawk_duct_l
+    2300012: starhawk_duct_r
+    2300014: Starhawk_engine
+    2300016: starhawk_frame
+    2300018: starhawk_frame_detail
+    2300020: starhawk_hood
+    2300022: starhawk_intake_l
+    2300024: starhawk_intake_r
+    2300026: starhawk_panel_l
+    2300028: starhawk_panel_l1
+    2300030: starhawk_panel_r
+    2300032: starhawk_panel_r1
+    2300034: starhawk_porthole
+    2300036: starhawk_roof
+    2300038: starhawk_step
+    2300040: Starhawk_engine_MeshPart0
+    2300042: Starhawk_engine_MeshPart1
+    3300000: starhawk_airlock
+    3300002: starhawk_bumper
+    3300004: starhawk_bumper_l
+    3300006: starhawk_bumper_r
+    3300008: starhawk_canopy
+    3300010: starhawk_duct_l
+    3300012: starhawk_duct_r
+    3300014: Starhawk_engine
+    3300016: starhawk_frame
+    3300018: starhawk_frame_detail
+    3300020: starhawk_hood
+    3300022: starhawk_intake_l
+    3300024: starhawk_intake_r
+    3300026: starhawk_panel_l
+    3300028: starhawk_panel_l1
+    3300030: starhawk_panel_r
+    3300032: starhawk_panel_r1
+    3300034: starhawk_porthole
+    3300036: starhawk_roof
+    3300038: starhawk_step
+    3300040: Starhawk_engine_MeshPart0
+    3300042: Starhawk_engine_MeshPart1
+    4300000: starhawk_frame
+    4300002: starhawk_canopy
+    4300004: starhawk_hood
+    4300006: starhawk_bumper_l
+    4300008: starhawk_bumper
+    4300010: starhawk_bumper_r
+    4300012: starhawk_porthole
+    4300014: starhawk_airlock
+    4300016: starhawk_duct_r
+    4300018: starhawk_duct_l
+    4300020: starhawk_step
+    4300022: starhawk_roof
+    4300024: starhawk_intake_l
+    4300026: starhawk_intake_r
+    4300028: starhawk_panel_r
+    4300030: starhawk_panel_l
+    4300032: starhawk_frame_detail
+    4300034: Starhawk_engine
+    4300036: starhawk_panel_r1
+    4300038: starhawk_panel_l1
+    4300040: Starhawk_engine_MeshPart0
+    4300042: Starhawk_engine_MeshPart1
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 600
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 180
+    normalImportMode: 1
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

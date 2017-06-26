@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class HeadingMeter : SpaceObject {
+public class HeadingMeter : Adventure.Object {
     enum Heading { Forward, Velocity };
     [SerializeField] float radius = 1f;
     [SerializeField] Heading heading = Heading.Forward;

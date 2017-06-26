@@ -8,7 +8,7 @@ namespace Adventure.Movement {
     public class Look : MonoBehaviour {
         uint ind, size = 8;
         float ratio;
-        public float speed = 2f;
+        public float speed = 2;
         public enum rotAxes { MouseXY, MouseX, MouseY }
         public rotAxes rotAxis = rotAxes.MouseXY;
         Vector2 Sensitivity, cr, avg; // current rotation, avg
@@ -17,11 +17,10 @@ namespace Adventure.Movement {
         Vector4 Maxima;
         Quaternion dr, lr; // delta rotation, last rotation
 
-
         void Awake() {
             ratio = Screen.width/Screen.height;
             rarr = new Vector2[(int)size];
-            Maxima.Set(-360f,360f,-90f,90f);
+            Maxima.Set(-360,360,-90,90);
             lr = transform.localRotation;
             if (GetComponent<Rigidbody>())
                 GetComponent<Rigidbody>().freezeRotation = true;
@@ -29,14 +28,10 @@ namespace Adventure.Movement {
         }
 
         void FixedUpdate() {
-            if (Input.GetMouseButtonDown(0)) {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
+            if (Input.GetMouseButtonDown(0))
+                (Cursor.visible, Cursor.lockState) = (false, CursorLockMode.Locked);
             pr = Vector3.zero;
-            //(usePrev)?transform.localEulerAngles:Vector3.zero;
-            // if (recenter) cr.Set(cr.x*0.5f,cr.y*0.5f);
-            avg.Set(0f,0f);
+            avg.Set(0,0);
             cr.x += Input.GetAxis("Mouse X")*Sensitivity.x;
             cr.y += Input.GetAxis("Mouse Y")*Sensitivity.y;
             cr.y = ClampAngle(cr.y, Maxima.z, Maxima.w);
@@ -45,12 +40,9 @@ namespace Adventure.Movement {
             avg /= (int)size;
             avg.y = ClampAngle(avg.y, Maxima.z, Maxima.w);
             switch (rotAxis) {
-                case rotAxes.MouseXY :
-                    dr = Quaternion.Euler(-avg.y,avg.x,pr.z); break;
-                case rotAxes.MouseX :
-                    dr = Quaternion.Euler(-pr.y,avg.x,pr.z); break;
-                case rotAxes.MouseY :
-                    dr = Quaternion.Euler(-avg.y,pr.x,pr.z); break;
+                case rotAxes.MouseXY : dr = Quaternion.Euler(-avg.y,avg.x,pr.z); break;
+                case rotAxes.MouseX : dr = Quaternion.Euler(-pr.y,avg.x,pr.z); break;
+                case rotAxes.MouseY : dr = Quaternion.Euler(-avg.y,pr.x,pr.z); break;
             } ind++;
             transform.localRotation = lr*dr;
             if ((int)ind >= (int)size) ind -= size;

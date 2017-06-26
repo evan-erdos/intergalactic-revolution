@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 using unit=Adventure.Astronautics.Astronomy;
 
 namespace Adventure.Astronautics {
-    public class StarSystem : SpaceObject, ICreatable<StarProfile> {
+    public class StarSystem : Adventure.Object, ICreatable<StarProfile> {
         [SerializeField] protected StarProfile profile;
         GameObject prefab;
         public Vector3 StellarPosition {get;protected set;}

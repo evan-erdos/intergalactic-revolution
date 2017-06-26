@@ -7,7 +7,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class EscapePod : SpaceObject {
+    public class EscapePod : Adventure.Object {
         public void Jettison() {
             var (parent, rb) = (GetParent<Rigidbody>(), GetOrAdd<Rigidbody>());
             (transform.parent, rb.isKinematic) = (null,false);

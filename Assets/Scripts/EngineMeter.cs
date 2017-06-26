@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class EngineMeter : SpaceObject {
+public class EngineMeter : Adventure.Object {
     [SerializeField] int sides = 6;
     [SerializeField] float radius = 2;
     Vector3[] circle = new Vector3[7];

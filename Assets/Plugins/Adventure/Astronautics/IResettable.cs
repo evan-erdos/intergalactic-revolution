@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Adventure.Astronautics {
 
-    /// IResettable : ISpaceObject
+    /// IResettable : IObject
     /// an object which can be damaged and destroyed
     public interface IResettable {
 

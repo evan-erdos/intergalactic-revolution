@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class BlasterMeter : SpaceObject {
+public class BlasterMeter : Adventure.Object {
     [SerializeField] int sides = 6;
     [SerializeField] float radius = 2;
     [SerializeField] float ratio = 1;

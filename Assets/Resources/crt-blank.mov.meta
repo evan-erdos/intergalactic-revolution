@@ -12,8 +12,8 @@ VideoClipImporter:
   frameRange: 0
   startFrame: -1
   endFrame: -1
-  frameCount: 440
-  frameRate: 33.04732131958008
+  frameCount: 377
+  frameRate: 28.30188751220703
   colorSpace: 0
   deinterlace: 0
   sourceFileSize: 18092036
@@ -48,9 +48,9 @@ VideoClipImporter:
     encodedWidth: 1728
     encodedHeight: 1080
     encodedStartFrame: 0
-    encodedEndFrame: 440
+    encodedEndFrame: 377
     streamedResource:
-      source: Assets/Resources/crt-blank.mov
+      source: 
       offset: 0
       size: 18092036
   userData: 

@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Adventure.Astronautics.Spaceships {
 
-    /// IShipComponent : ISpaceObject
+    /// IShipComponent : IObject
     /// a component of a larger ship which can be disabled
-    public interface IShipComponent : ISpaceObject {
+    public interface IShipComponent : IObject {
 
         /// Disable : () => void
         /// disables the component

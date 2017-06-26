@@ -44,7 +44,7 @@ namespace Adventure.Astronautics.Spaceships {
             IEnumerator Killing() {
                 yield return new WaitForSeconds(8);
                 PlayerCamera.Target = null;
-                SpaceManager.LoadSceneFade("Menu", Color.black);
+                Manager.LoadSceneFade("Menu", Color.black);
                 yield return new WaitForSeconds(5);
             }
         }

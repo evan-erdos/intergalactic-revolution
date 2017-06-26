@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class Turret : SpaceObject, IWeapon, IEnumerable<Weapon> {
+    public class Turret : Adventure.Object, IWeapon, IEnumerable<Weapon> {
         bool isFiring;
         new Rigidbody rigidbody;
         List<Weapon> list = new List<Weapon>();

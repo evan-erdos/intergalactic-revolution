@@ -12,132 +12,101 @@ using UnityEngine.Networking;
 namespace Adventure {
     public abstract class NetObject : NetworkBehaviour, IObject {
         Regex regex = new Regex("\b(object)\b");
-        Dictionary<string,Func<IEnumerator>> coroutines =
-            new Dictionary<string,Func<IEnumerator>>();
+        Map<Func<IEnumerator>> coroutines = new Map<Func<IEnumerator>>();
+        [SerializeField] protected RealityEvent onCreate = new RealityEvent();
         public bool AreAnyYielding => coroutines.Count>0;
-        public virtual float Range => 5f;
+        public virtual float Radius => 5;
         public virtual string Name => name;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public virtual void Deactivate() => ClearCoroutines();
-        public virtual void Create() => ClearCoroutines();
         public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public override string ToString() => "${name}";
         public static bool operator !(NetObject o) => o==null;
-        // responsibilities for enabling and disabling
-        // protected virtual void OnDisable() => Disable();
-        // protected virtual void OnEnable() => Create();
+        public event RealityAction CreateEvent;
 
-        public void If(bool condition, Action then) { if (condition) then(); }
-        public void If(Func<bool> cond, Action then) { if (cond()) then(); }
+
+        public virtual void Init() {
+            onCreate.AddListener((o,e) => ClearSemaphore());
+            CreateEvent += (o,e) => onCreate?.Invoke(o,e);
+        }
 
         public Transform GetOrAdd(string name) {
             var instance = transform.Find(name);
-            if (!instance) {
-                instance = new GameObject(name).transform;
-                instance.parent = transform; } return instance; }
+            if (instance) return instance;
+            instance = new GameObject(name).transform;
+            instance.parent = transform;
+            return instance;
+        }
 
         public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
         public T GetOrAdd<T,U>() where T : Component where U : T {
-            var component = Get<T>();
-            if (component is null) component = gameObject.AddComponent<U>();
-            return component;
+            var instance = GetComponent<T>();
+            if (instance) return instance;
+            instance = gameObject.AddComponent<U>();
+            return instance;
         }
 
-        public T Get<T>() => GetComponentOrNull<T>(GetComponent<T>());
-        public T GetParent<T>() => GetComponentOrNull<T>(GetComponentInParent<T>());
-        public T GetChild<T>() => GetComponentOrNull<T>(GetComponentInChildren<T>());
-        T GetComponentOrNull<T>(T o) => (o==null)?default(T):o;
+        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
+        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
+        public List<T> Find<T>(float radius, Transform location) where T : IThing =>
+            Find<T>(radius, location.position, Mask).Cast<T>().ToList();
 
-        public List<T> Find<T>() where T : IThing => Find<T>(Range);
-        public List<T> Find<T>(float r) where T : IThing => Find<T>(r,transform);
-        public List<T> Find<T>(float r, Transform l) where T : IThing =>
-            Find<T>(r, l.position, Mask).Cast<T>().ToList();
         protected virtual IEnumerable<Thing> Find<T>(
-                        float range,
-                        Vector3 position,
-                        LayerMask mask) where T : IThing =>
+                        float range, Vector3 position, LayerMask mask) where T : IThing =>
             from collider in Physics.OverlapSphere(position, range, mask)
             let thing = collider.GetComponentInParent<T>()
             where thing!=null
             select thing as Thing;
 
 
-        public T Create<T>(GameObject original) =>
-            Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original,Vector3 position) =>
-            Create<T>(original,position,Quaternion.identity);
-        public T Create<T>(
-                        GameObject original,
-                        Vector3 position,
-                        Quaternion rotation) =>
-            GetComponentOrNull<T>(
-                Create(original,position,rotation).GetComponent<T>());
-
-        public GameObject Create(GameObject original) =>
-            Create(original,transform.position, transform.rotation);
-        public GameObject Create(GameObject original, Vector3 position) =>
-            Create(original, transform.position, Quaternion.identity);
-
-        // public GameObject Create(
-        //                 GameObject original,
-        //                 Vector3 position,
-        //                 Quaternion rotation) =>
-        //         Instantiate(original,position,rotation) as GameObject;
-
-        public GameObject Create(
-                        GameObject original,
-                        Vector3 position,
-                        Quaternion rotation) {
-            CmdCreate(original,position,rotation);
-            return lastInstanceMade; }
-
         GameObject lastInstanceMade;
+        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
+            CmdCreate(original,position,rotation); return lastInstanceMade; }
 
-        [Command] public void CmdCreate(
-                        GameObject original,
-                        Vector3 position,
-                        Quaternion rotation) {
+        [Command] public void CmdCreate(GameObject original, Vector3 position, Quaternion rotation) {
             var instance = Instantiate(original,position,rotation) as GameObject;
-            instance.GetComponent<IObject>().Create();
-            instance.GetComponentInChildren<IObject>().Create();
+            instance.Get<IObject>().Create();
+            instance.GetChild<IObject>().Create();
             NetworkServer.Spawn(instance);
             lastInstanceMade = instance;
         }
 
-        protected void Wait(float wait, Action func) {
-            StartCoroutine(WaitingSeconds());
-            IEnumerator WaitingSeconds() {
-                yield return new WaitForSeconds(wait); func(); } }
-
-        protected Coroutine Loop(YieldInstruction wait, Action func) {
-            return StartCoroutine(Looping());
-            IEnumerator Looping() { while (true) yield return Wait(wait,func); } }
-
-        protected Coroutine Wait(YieldInstruction wait, Action func) {
-            return StartCoroutine(Waiting());
-            IEnumerator Waiting() { yield return wait; func(); } }
-
-        public void ClearCoroutines() => coroutines.Clear();
+        public void Create() => Create(this, new RealityArgs());
+        public void Create(IObject o, RealityArgs e) => CreateEvent(o,e);
+        public GameObject Create(GameObject original) => Create(original, transform.position, transform.rotation);
+        public GameObject Create(GameObject original, Vector3 position) =>
+            Create(original, transform.position, Quaternion.identity);
+        // public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) =>
+        //     Instantiate<GameObject>(original, position, rotation);
+        public T Create<T>(GameObject original) => Create<T>(original, transform.position, transform.rotation);
+        public T Create<T>(GameObject original, Vector3 position) =>
+            Create<T>(original, position, Quaternion.identity);
+        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) =>
+            Create(original,position,rotation).Get<T>();
+        public bool If(Func<bool> cond, Action then) => If (cond(), then);
+        public bool If(bool cond, Action then) { if (cond) then(); return cond; }
+        public bool If<T>(T cond, Action<T> then) { var b = cond!=null; if (b) then(cond); return b; }
+        public T Get<T>() => gameObject.Get<T>();
+        public T GetParent<T>() => gameObject.GetParent<T>();
+        public T GetChild<T>() => gameObject.GetChild<T>();
+        public List<T> GetChildren<T>() => gameObject.GetChildren<T>();
+        public void ClearSemaphore() => coroutines.Clear();
         public bool IsYielding(string name) => coroutines.ContainsKey(name);
-        public void StartSemaphore(Func<IEnumerator> coroutine) =>
-            StartSemaphore(coroutine.Method.Name, coroutine);
-        public void StartSemaphore(string name, Func<IEnumerator> coroutine) {
-            if (!coroutines.ContainsKey(name))
-                StartCoroutine(Waiting(name,coroutine)); }
-        IEnumerator Waiting(string name, Func<IEnumerator> coroutine) {
-            coroutines[name] = coroutine;
-            yield return StartCoroutine(coroutine());
-            coroutines.Remove(name);
-        }
+        protected void Wait(float wait, Action func) => StartCoroutine(WaitDelay(wait,func));
+        protected Coroutine Loop(YieldInstruction wait, Action func) => StartCoroutine(Looping(wait,func));
+        protected Coroutine Wait(YieldInstruction wait, Action func) => StartCoroutine(WaitingFor(wait,func));
+        public void StartSemaphore(Func<IEnumerator> func) {
+            if (!coroutines.ContainsKey(func.Method.Name)) StartCoroutine(Waiting(func.Method.Name,func)); }
+        IEnumerator WaitDelay(float wait, Action func) { yield return new WaitForSeconds(wait); func(); }
+        IEnumerator Looping(YieldInstruction wait, Action func) { while (true) yield return Wait(wait,func); }
+        IEnumerator WaitingFor(YieldInstruction wait, Action func) { yield return wait; func(); }
+        IEnumerator Waiting(string name, Func<IEnumerator> func) {
+            coroutines[name] = func; yield return StartCoroutine(func()); coroutines.Remove(name); }
 
         public class Data {
             public string name {get;set;}
-            public virtual Object Deserialize(Object o) => o;
-            public virtual void Merge(Object.Data o) => name = o.name;
+            public virtual Adventure.Object Deserialize(Adventure.Object o) => o;
+            public virtual void Merge(Adventure.Object.Data data) => name = data.name;
         }
     }
 }
-
-
-

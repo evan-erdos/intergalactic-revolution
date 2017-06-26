@@ -5,7 +5,7 @@ using UnityEngine;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class EnergyMeter : SpaceObject {
+public class EnergyMeter : Adventure.Object {
     [SerializeField] float radius = 2;
     [SerializeField] int sides = 6;
     Vector3[] points = new Vector3[2];

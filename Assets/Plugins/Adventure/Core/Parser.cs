@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Adventure {
 
+
     /// Parser
     /// Main class for dealing with natural language commands,
     /// the verbs that can be used on their particular "nouns",
@@ -53,6 +54,7 @@ namespace Adventure {
 
         }
 
+
         /// Process : (string) => string[]
         /// Input taken directly from the user cannot be used to
         /// issue Commands without being organized first. This
@@ -73,6 +75,7 @@ namespace Adventure {
 
         public void Failure(string input, string s="") =>
             LogEvent(null, new StoryArgs($@"<cmd>{input}</cmd>: {s}".md()));
+
 
         /// Execute : (command, string) => void
         /// When a command is parsed in and evaluated, it is
@@ -108,6 +111,7 @@ namespace Adventure {
             }
         }
 
+
         /// Evaluate : (s) => bool
         /// Parses the sent string, creates a Command
         /// and dispatches it to its Parse function for processing.
@@ -123,6 +127,7 @@ namespace Adventure {
                 foreach (var item in list) if (Execute(item,line)) return;
             }
         }
+
 
         /// Resolve : (verb, T[]) => void
         /// When a verb is ambiguous or doesn't make any sense,

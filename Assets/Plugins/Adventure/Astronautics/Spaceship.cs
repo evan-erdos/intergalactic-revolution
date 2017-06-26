@@ -9,8 +9,7 @@ using A=Adventure;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class Spaceship : SpaceObject, ISpaceship, ICreatable<SpaceshipProfile> {
-        [SerializeField] protected SpaceshipProfile profile;
+    public class Spaceship : Adventure.Object, ISpaceship, ICreatable<SpaceshipProfile> {
         float Shift, Brakes, rollAngle, pitchAngle, energyJumpFactor = 9;
         float rollEffect=1, pitchEffect=1, yawEffect=0.2f, spinEffect=1;
         float brakesEffect=3, throttleEffect=0.5f, dragEffect=0.001f;
@@ -26,19 +25,19 @@ namespace Adventure.Astronautics.Spaceships {
         List<IShipComponent> mechanics = new List<IShipComponent>();
         List<ParticleSystem> hypertrail = new List<ParticleSystem>();
         List<Weapon> weapons = new List<Weapon>();
-        List<FlightMode> modes = new List<FlightMode> {
-            FlightMode.Manual, FlightMode.Assisted};
+        List<FlightMode> modes = new List<FlightMode> { FlightMode.Manual, FlightMode.Assisted };
+        [SerializeField] protected SpaceshipProfile profile;
         [SerializeField] List<Weapon> blasters = new List<Weapon>();
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
-        [SerializeField] protected SpaceEvent onKill = new SpaceEvent();
-        [SerializeField] protected SpaceEvent onJump = new SpaceEvent();
-        [SerializeField] protected SpaceEvent onDamage = new SpaceEvent();
-        public event SpaceAction KillEvent;
-        public event SpaceAction JumpEvent;
-        public event DamageAction DamageEvent;
+        [SerializeField] protected RealityEvent onKill = new RealityEvent();
+        [SerializeField] protected RealityEvent onJump = new RealityEvent();
+        [SerializeField] protected RealityEvent onDamage = new RealityEvent();
+        public event RealityAction KillEvent;
+        public event RealityAction JumpEvent;
+        public event CombatAction DamageEvent;
+        public FlightMode Mode {get;protected set;} = FlightMode.Assisted;
         public bool IsDisabled {get;protected set;} = false;
         public bool IsDead {get;protected set;} = false;
-        public FlightMode Mode {get;protected set;} = FlightMode.Assisted;
         public int CargoSpace {get;protected set;} = 20; // tons
         public float Mass {get;protected set;} = 40; // tons
         public float Throttle {get;protected set;} = 0; // [0...1]
@@ -67,18 +66,15 @@ namespace Adventure.Astronautics.Spaceships {
         public StarSystem CurrentSystem {get;protected set;}
         public StarProfile Destination {get;protected set;}
         public StarProfile[] Stars {get;set;} = new StarProfile[1];
-        public void Kill() => KillEvent?.Invoke(this,new SpaceArgs());
-        public void Jump() => JumpEvent?.Invoke(this,new SpaceArgs());
+        public void Kill() => KillEvent?.Invoke(this, new RealityArgs());
+        public void Jump() => JumpEvent?.Invoke(this, new RealityArgs());
         public void Alarm() => audio.Play();
-        public void Damage(float damage) => DamageEvent?.Invoke(this,damage);
+        public void Damage(float damage) => DamageEvent?.Invoke(this, new CombatArgs { Damage = damage });
         public void Fire() => Fire(Target);
-        public void Fire(Vector3 position, Vector3 velocity) =>
-            Fire(position.tuple(), velocity.tuple());
-        public void Disable() =>
-            (IsDisabled,rigidbody.drag,rigidbody.angularDrag) = (true,0,0);
-        public void Reset() =>
-            (IsDisabled,IsDead,rigidbody.mass,Health,Energy) =
-                (false,false,Mass,MaxHealth,EnergyCapacity);
+        public void Fire(Vector3 position, Vector3 velocity) => Fire(position.tuple(), velocity.tuple());
+        public void Disable() => (IsDisabled, rigidbody.drag, rigidbody.angularDrag) = (true,0,0);
+        public void Reset() => (IsDisabled, IsDead, rigidbody.mass, Health, Energy) =
+            (false, false, Mass, MaxHealth, EnergyCapacity);
 
         public void Create(SpaceshipProfile profile) =>
             (Mass, Health, EnginePower,
@@ -171,16 +167,16 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Awake() {
             Create(profile);
-            mechanics.Add(GetComponentsInChildren<IShipComponent>());
+            mechanics.Add(GetChildren<IShipComponent>());
             var query =
-                from particles in GetComponentsInChildren<ParticleSystem>()
+                from particles in GetChildren<ParticleSystem>()
                 where particles.name=="Hypertrail"
                 select particles;
             hypertrail.Add(query);
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
-            parts = new Stack<IDamageable>(GetComponentsInChildren<IDamageable>());
+            parts = new Stack<IDamageable>(GetChildren<IDamageable>());
             (rigidbody, audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
-            (audio.clip,audio.loop, audio.playOnAwake) = (alarmClip,true,false);
+            (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip,true,false);
             Reset();
             onKill.AddListener((o,e) => OnKill());
             onJump.AddListener((o,e) => OnHyperJump());
@@ -207,8 +203,7 @@ namespace Adventure.Astronautics.Spaceships {
             SelectWeapon(); ChangeMode();
             while (true) {
                 yield return new WaitForSeconds(1);
-                Physics.OverlapSphereNonAlloc(
-                    rigidbody.position,radius,results,layerMask);
+                Physics.OverlapSphereNonAlloc(rigidbody.position,radius,results,layerMask);
                 yield return null;
                 foreach (var result in results) {
                     if (result?.attachedRigidbody is null) continue;
@@ -221,13 +216,13 @@ namespace Adventure.Astronautics.Spaceships {
         void OnEnable() {
             KillEvent += onKill.Invoke;
             JumpEvent += onJump.Invoke;
-            DamageEvent += (o,e) => OnDamage(e);
+            DamageEvent += (o,e) => OnDamage(e.Damage);
         }
 
         void OnDisable() {
             KillEvent -= onKill.Invoke;
             JumpEvent -= onJump.Invoke;
-            DamageEvent -= (o,e) => OnDamage(e);
+            DamageEvent -= (o,e) => OnDamage(e.Damage);
         }
 
         void FixedUpdate() => Energy += EnergyPotential*Time.fixedDeltaTime;
@@ -275,9 +270,7 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         int nextFire = -1; // on the way out
-        public void Fire(
-                        (float,float,float) position,
-                        (float,float,float) velocity) {
+        public void Fire( (float,float,float) position, (float,float,float) velocity) {
             if (PreFire()) StartSemaphore(Firing);
             bool PreFire() => !IsDisabled && !IsDead && weapons.Count>0;
             IEnumerator Firing() {
@@ -295,12 +288,8 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         public void Move(
-                        float brakes = 0,
-                        float boost = 0,
-                        float throttle = 0,
-                        float roll = 0,
-                        float pitch = 0,
-                        float yaw = 0) {
+                        float brakes=0, float boost=0, float throttle=0,
+                        float roll=0, float pitch=0, float yaw=0) {
             if (IsDisabled || IsDead) return;
             Control = (Clamp(roll), Clamp(pitch), Clamp(yaw));
             (Brakes,Boost,Shift) = (Clamp(brakes), Clamp(boost), Clamp(throttle));
@@ -364,9 +353,7 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
-        (float,float,float) CalculateThrust() =>
-            (transform.forward*BoostPower).tuple();
-
+        (float,float,float) CalculateThrust() => (transform.forward*BoostPower).tuple();
         void OnHyperJump() => hypertrail.ForEach(o => o.Stop());
 
         public void HyperJump() {
@@ -440,8 +427,7 @@ namespace Adventure.Astronautics.Spaceships {
                 Disable(); Alarm();
                 yield return new WaitForSeconds(2);
                 while (0<parts.Count) yield return Wait(
-                    wait: new WaitForSeconds(0.1f),
-                    func: () => SevereDamage());
+                    new WaitForSeconds(0.1f), () => SevereDamage());
                 StartCoroutine(Killing());
             }
 
@@ -473,9 +459,7 @@ namespace Adventure.Astronautics.Spaceships {
             var turnBanking = Mathf.Sin(rollAngle);
             if (roll==0) Control = (-rollAngle*rollAuto, pitch, yaw);
             if (pitch==0) Control =
-                (roll,
-                -pitchAngle*pitchAuto-Mathf.Abs(Mathf.Pow(turnBanking,2)*pitchTurn),
-                yaw);
+                (roll, -pitchAngle*pitchAuto-Mathf.Abs(Mathf.Pow(turnBanking,2)*pitchTurn), yaw);
         }
 
         (float,float) ControlThrottle() {
@@ -506,11 +490,9 @@ namespace Adventure.Astronautics.Spaceships {
                 rigidbody.velocity, transform.forward*ForwardSpeed,
                 aeroFactor*ForwardSpeed*AeroEffect*Time.fixedDeltaTime);
             var rotation = Quaternion.identity;
-            if (0.1f<rigidbody.velocity.sqrMagnitude)
-                rotation = Quaternion.Slerp(
-                    rigidbody.rotation,
-                    Quaternion.LookRotation(rigidbody.velocity,transform.up),
-                    aeroFactor*AeroEffect*Time.fixedDeltaTime);
+            if (0.1f<rigidbody.velocity.sqrMagnitude) rotation = Quaternion.Slerp(
+                rigidbody.rotation, Quaternion.LookRotation(rigidbody.velocity,transform.up),
+                aeroFactor*AeroEffect*Time.fixedDeltaTime);
             return (velocity, rotation);
         }
 
@@ -547,11 +529,9 @@ namespace Adventure.Astronautics.Spaceships {
             if (Mathf.Abs(spin)<=threshold) return;
             Throttle = 0;
             var direction = (0<spin)?rigidbody.velocity:-rigidbody.velocity;
-            if (0.1f<direction.sqrMagnitude)
-                rigidbody.rotation = Quaternion.Slerp(
-                    rigidbody.rotation,
-                    Quaternion.LookRotation(direction,Vector3.up),
-                    spinEffect*Time.fixedDeltaTime);
+            if (0.1f<direction.sqrMagnitude) rigidbody.rotation = Quaternion.Slerp(
+                rigidbody.rotation, Quaternion.LookRotation(direction,Vector3.up),
+                spinEffect*Time.fixedDeltaTime);
         }
 
         void CalculateManeuverThrust(float threshold=0.1f, float wingspan=4) {

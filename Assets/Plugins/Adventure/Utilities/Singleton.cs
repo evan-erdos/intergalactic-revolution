@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
    static GameObject management;
@@ -14,4 +15,5 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
       if (management is null) management = new GameObject("Management");
       instance = management.GetComponent<T>();
       if (instance is null) instance = management.AddComponent<T>();
-      return instance; } } }
+      return instance; } }
+}

@@ -11,7 +11,7 @@ namespace Adventure {
         YieldInstruction wait = new WaitForSeconds(1);
         [SerializeField] protected StoryEvent onLog, onView, onFind, onTouch;
         public event StoryAction LogEvent, ViewEvent, FindEvent, TouchEvent;
-        public virtual float Range => 5;
+        public override float Radius => 5;
         public override string Name => $"**{name}**";
         public virtual string Content => $"### {Name} ###\n{Description}";
         public virtual Transform Location {get;set;}

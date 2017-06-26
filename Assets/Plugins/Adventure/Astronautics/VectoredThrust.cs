@@ -5,7 +5,7 @@ using System.Collections;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class VectoredThrust : SpaceObject, IShipComponent, IDamageable {
+    public class VectoredThrust : Adventure.Object, IShipComponent, IDamageable {
         Spaceship spaceship;
         [SerializeField] float range = 6; // deg
         [SerializeField] protected bool reverse;

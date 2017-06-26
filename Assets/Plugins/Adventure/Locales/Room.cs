@@ -8,15 +8,15 @@ using UnityEngine;
 namespace Adventure.Locales {
     public class Room : Thing {
         new Collider collider;
-        public override float Range => 0;
+        public override float Radius => 0;
         public List<Thing> Things {get;} = new List<Thing>();
 
         protected override void Awake() { base.Awake();
-            collider = GetOrAdd<Collider>();
+            collider = Get<Collider>();
+            collider.enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Room");
             Location = transform.Find("location");
-            Things.Add(GetComponentsInChildren<Thing>());
-            collider.enabled = false;
+            Things.Add(GetChildren<Thing>());
         }
 
         new public class Data : Thing.Data {

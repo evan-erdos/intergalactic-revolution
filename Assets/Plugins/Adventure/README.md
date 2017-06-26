@@ -1,8 +1,6 @@
 
-Adventure
-=========
-
-[![v]][tag] [![build]][current]
+Adventure [![v]][tag] [![build]][current]
+=========================================
 
 A software framework for Unity, built for Adventures.
 
@@ -44,6 +42,9 @@ collections of which can be organized into `Area`s to represent travel.
 
 
 ## Changelog ##
+### [v0.3.0-alpha][tag] ###
+- ooh baby here's the big one here it goes
+
 ### [v0.2.0-alpha][tag] ###
 - all previously-static or otherwise silly callbacks converted to event
 
@@ -54,7 +55,7 @@ collections of which can be organized into `Area`s to represent travel.
 
 
 [C#]: <http://www.mono-project.com/docs/about-mono/languages/csharp/>
-[Unity]: <http://unity3d.com>
+[unity]: <http://unity3d.com>
 [overview]: <http://github.com/evan-erdos/Adventure/wiki/Namespaces/>
 [wiki]: <http://github.com/evan-erdos/Adventure/wiki>
 [mit]: <http://img.shields.io/:license-MIT-blue.svg>

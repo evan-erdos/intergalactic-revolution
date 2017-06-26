@@ -10,33 +10,21 @@ using UnityEngine.Events;
 
 namespace Adventure.Astronautics {
 
+
     /// FlightMode
     /// defines the different kinds of flight control systems
     public enum FlightMode { Navigation, Assisted, Manual, Manuevering }
 
+
     /// SpaceAction : (sender, args) => void
     /// ubiquitous event handler, with a sender and event arguments
-    public delegate void SpaceAction(ISpaceObject sender, SpaceArgs args);
+    public delegate void SpaceAction(IObject sender, RealityArgs args);
+
 
     /// DamageAction : (sender, damage) => void
     /// handler for when stuff in space get damaged
-    public delegate void DamageAction(ISpaceObject sender, float damage);
+    public delegate void DamageAction(IObject sender, float damage);
 
-    /// SpaceObject : Object
-    /// provides a root class for every object in the namespace
-    public abstract class SpaceObject : Adventure.Object, ISpaceObject { }
-
-    /// SpaceArgs : EventArgs
-    /// provides a base argument type for space events
-    public class SpaceArgs : EventArgs { }
-
-    /// SpaceEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
-    [Serializable] public class SpaceEvent : UnityEvent<ISpaceObject,SpaceArgs> { }
-
-    /// SpaceError : error
-    /// when something goes awry... in space!
-    public class SpaceError : Exception { public SpaceError(string s) : base(s) { } }
 
     /// Astronomy
     /// contains relevant measurements of spacetime, plus discrete unit bases

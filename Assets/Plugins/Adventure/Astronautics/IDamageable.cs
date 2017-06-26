@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Adventure.Astronautics {
 
-    /// IDamageable : ISpaceObject
+    /// IDamageable : IObject
     /// an object which can be damaged and destroyed
     public interface IDamageable {
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace Adventure.Astronautics {
-    public class Asteroid : SpaceObject {
+    public class Asteroid : Adventure.Object {
         IEnumerator Start() {
             var rotation = Random.insideUnitSphere*Time.fixedDeltaTime;
             var wait = new WaitForSeconds(0.1f);

@@ -5,21 +5,18 @@ using System.Collections;
 
 [RequireComponent(typeof(Renderer))]
 public class EmissionColor : MonoBehaviour {
-    [ColorUsageAttribute(true,true,0f,8f,0.125f,3f)]
+    [ColorUsageAttribute(true,true,0,8,0.125f,3)]
     [SerializeField] Color emission = new Color(1,1,1,1);
     Color color = Color.black;
     new Renderer renderer;
 
     public Color Emission {
         get { return renderer.material.GetColor("_EmissionColor"); }
-        set { foreach (var material in renderer.materials)
-            material.SetColor("_EmissionColor", value); } }
+        set { foreach (var o in renderer.materials) o.SetColor("_EmissionColor", value); } }
 
     void Awake() {
-        renderer = GetComponent<Renderer>();
-        Emission = emission;
-        foreach (var material in renderer.materials)
-            material.EnableKeyword("_EMISSION");
+        (renderer, Emission) = (GetComponent<Renderer>(), emission);
+        foreach (var o in renderer.materials) o.EnableKeyword("_EMISSION");
     }
 
     IEnumerator Start() {

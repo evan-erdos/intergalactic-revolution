@@ -6,6 +6,7 @@ using Adventure.Inventories;
 
 namespace Adventure.Locales {
 
+
     /// Door : Thing
     /// Any door which behaves in much the same manner as any other doors,
     /// and carries with it all the responsibilities one would typically

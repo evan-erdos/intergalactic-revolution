@@ -6,7 +6,7 @@ using ui=UnityEngine.UI;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class TextHUD : SpaceObject {
+public class TextHUD : Adventure.Object {
     enum ShipProperty { Mode, Speed, Cargo, System, Dest, Target, Weapon };
     [SerializeField] ShipProperty property = ShipProperty.Mode;
     string content = "None";

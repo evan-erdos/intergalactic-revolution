@@ -23,8 +23,7 @@ namespace Adventure {
         public void Clear() { logs.Enqueue(log.text); log.text = ""; }
         public void LogMessage(string o) => Log(Messages[o]);
         public void Log(string o, bool f) => LogEvent(null, new StoryArgs(o));
-        public static void Log(params string[] a) =>
-            a.ForEach(o => queue.Enqueue(Format(o)));
+        public static void Log(params string[] a) => a.ForEach(o => queue.Enqueue(Format(o)));
         public void CommandInput() => CommandInput(input.text);
         public void CommandInput(string o) {
             if (coroutine!=null) StopCoroutine(coroutine);
@@ -65,8 +64,7 @@ namespace Adventure {
                 case Styles.Paragraph: message = $"\n\n{message}"; break;
                 case Styles.Newline: message = $"\n{message}"; break;
                 case Styles.Indent:
-                    message.Split('\n').ToList().Aggregate("",
-                        (s,l) => s += $"\n    {l}");
+                    message.Split('\n').ToList().Aggregate("",(s,l) => s += $"\n    {l}");
                     break;
             } return message;
         }
@@ -122,19 +120,6 @@ namespace Adventure {
                         thing.LogEvent += (o,e) => Log(e.Message); });
                 }
             }
-        }
-
-        /// Styles : enum
-        /// This enumerates the various formatting options that the
-        /// Terminal can use. Most values have some meaning, which
-        /// are used by the formatting function. They might
-        /// be hex values for colors, sizes of headers, etc.
-        public enum Styles {
-            Inline=0, Newline=1, Paragraph=2, Refresh=3, Indent=4,
-            h1=24, h2=18, h3=16, h4=14,
-            Default=0xFFFFFF, State=0x2A98AA, Change=0xFFAE10,
-            Alert=0xFC0000, Command=0xBBBBBB, Warning=0xFA2363,
-            Help=0x9CDF91, Title=0x98C8FC, Static=0xFFDBBB
         }
     }
 }

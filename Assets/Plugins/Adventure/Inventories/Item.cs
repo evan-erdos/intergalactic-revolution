@@ -13,10 +13,8 @@ namespace Adventure.Inventories {
         public event StoryAction TakeEvent, DropEvent;
         public bool Held {get;protected set;}
         public decimal? Cost {get;protected set;}
-        public override float Range => 8;
-        public float Mass {
-            get { return rigidbody.mass; }
-            set { rigidbody.mass = value; } }
+        public override float Radius => 8;
+        public float Mass { get { return rigidbody.mass; } set { rigidbody.mass = value; } }
         protected string MassName => $"<cmd>{Mass:N}kg</cmd>";
         public override string Name => $"{base.Name} : {MassName}";
         public override string Content => $"{base.Content}\n{CostName}";
@@ -30,45 +28,37 @@ namespace Adventure.Inventories {
         public virtual void Use() => Drop();
 
         public virtual void Take() => TakeEvent(this, new StoryArgs {
-            Input = $"take {Name}",
-            Verb = new Verb(Description.Nouns, new[] { Name })});
+            Input = $"take {Name}", Verb = new Verb(Description.Nouns, new[] { Name })});
 
         public virtual void Drop() => DropEvent(this, new StoryArgs {
-            Input = $"drop {Name}",
-            Verb = new Verb(Description.Nouns, new[] { Name })});
+            Input = $"drop {Name}", Verb = new Verb(Description.Nouns, new[] { Name })});
 
         public virtual void OnTake() {
             StartSemaphore(Taking);
             IEnumerator Taking() {
                 transform.parent = Location;
-                transform.localPosition = Vector3.zero;
-                transform.localRotation = Quaternion.identity;
+                (transform.localPosition, transform.localRotation) = (Vector3.zero, Quaternion.identity);
                 Log($"<cmd>The Monk takes the {base.Name}.</cmd>");
-                rigidbody.isKinematic = true;
-                rigidbody.useGravity = false;
-                GetComponentsInChildren<Renderer>().ForEach(o => o.enabled = false);
-                GetComponentsInChildren<Collider>().ForEach(o => o.enabled = false);
+                (rigidbody.isKinematic, rigidbody.useGravity) = (true,false);
+                GetChildren<Renderer>().ForEach(o => o.enabled = false);
+                GetChildren<Collider>().ForEach(o => o.enabled = false);
                 Held = true;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1);
             }
         }
 
         public virtual void OnDrop() {
             StartSemaphore(Dropping);
             IEnumerator Dropping() {
-                AudioSource.PlayClipAtPoint(
-                    clip: sound,
-                    position: transform.position,
-                    volume: 0.9f);
+                AudioSource.PlayClipAtPoint(sound, transform.position, 0.9f);
                 rigidbody.AddForce(
                     force: Quaternion.identity.eulerAngles*4,
                     mode: ForceMode.VelocityChange);
                 Log($"<cmd>The Monk drops the {base.Name}.</cmd>");
-                rigidbody.isKinematic = false;
-                rigidbody.useGravity = true;
+                (rigidbody.isKinematic, rigidbody.useGravity) = (false, true);
                 gameObject.SetActive(true);
-                GetComponentsInChildren<Renderer>().ForEach(o => o.enabled = true);
-                GetComponentsInChildren<Collider>().ForEach(o => o.enabled = true);
+                GetChildren<Renderer>().ForEach(o => o.enabled = true);
+                GetChildren<Collider>().ForEach(o => o.enabled = true);
                 Held = false;
                 yield return new WaitForSeconds(1);
             }

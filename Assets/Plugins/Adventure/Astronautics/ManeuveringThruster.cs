@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class ManeuveringThruster : SpaceObject, IShipComponent {
+    public class ManeuveringThruster : Adventure.Object, IShipComponent {
         bool isDisabled;
         float size, lifetime;
         Color color, minColour = Color.black;

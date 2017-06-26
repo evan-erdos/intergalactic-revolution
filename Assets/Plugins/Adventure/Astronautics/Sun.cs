@@ -5,7 +5,7 @@ using System.Collections;
 using unit=Adventure.Astronautics.Astronomy;
 
 namespace Adventure.Astronautics {
-    public class Sun : SpaceObject {
+    public class Sun : Adventure.Object {
         [SerializeField] float period = 24; // days
         IEnumerator Start() {
             var sun = transform.Find("sun");

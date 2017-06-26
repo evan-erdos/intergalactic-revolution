@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Adventure.Astronautics {
 
-    /// IProjectile : ISpaceObject
+    /// IProjectile : IObject
     /// an object which can be damaged and destroyed
-    public interface IProjectile : ISpaceObject, IResettable {
+    public interface IProjectile : IObject, IResettable {
 
         /// Force : real
         /// a measure of how much damage the projectile can give
@@ -16,7 +16,7 @@ namespace Adventure.Astronautics {
 
         /// HitEvent : event
         /// raised when the projectile hits something
-        event SpaceAction HitEvent;
+        event RealityAction HitEvent;
 
         /// Hit : () => void
         /// signifies that the projectile has been hit

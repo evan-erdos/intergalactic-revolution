@@ -45,12 +45,9 @@ namespace Adventure {
                     from thing in Story.Rooms.Values
                     where thing.Fits(e.Input) && thing is Room
                     select thing;
-                if (!query.Any())
-                    throw new StoryError(Description["cannot nearby room"]);
-                if (query.Count()>1)
-                    throw new AmbiguityError(
-                        Description?["many nearby room"],
-                        query.Cast<IThing>());
+                if (!query.Any()) throw new StoryError(Description["cannot nearby room"]);
+                if (query.Count()>1) throw new AmbiguityError(
+                    Description?["many nearby room"], query.Cast<IThing>());
                 e.Goal = query.First();
                 if (e.Goal is Thing location) Goto(location);
                 else throw new StoryError($"You can't go to the {e.Goal}.");
@@ -65,7 +62,6 @@ namespace Adventure {
             rigidbodies.Remove(GetComponent<Rigidbody>());
             GetComponent<Rigidbody>().isKinematic = true;
             agent = GetComponentInChildren<ai::NavMeshAgent>();
-            // hand = FindOrAdd("hand"); // handGoal = AvatarIKGoal.LeftHand;
             if (!agent) return;
             agent.updateRotation = false;
             agent.updatePosition = true;
@@ -73,12 +69,10 @@ namespace Adventure {
 
         IEnumerator Start() {
             var lastPosition = transform.position;
-            var (delay,threshold,radius) = (1f, 1f, 0.5f);
+            var (delay,threshold,radius) = (1f,1f,0.5f);
             while (true) {
                 yield return new WaitForSeconds(delay);
-                var position = (WalkTarget)
-                    ? WalkTarget.position
-                    : transform.position;
+                var position = WalkTarget? WalkTarget.position : transform.position;
                 if (threshold>(position-lastPosition).sqrMagnitude) continue;
                 var v = UnityEngine.Random.insideUnitCircle.normalized*radius;
                 WalkTarget.position = position+new Vector3(v.x,0,v.y);
@@ -101,7 +95,6 @@ namespace Adventure {
 
         void OnAnimatorIK(int layerIndex) {
             if (!animator || !IKEnabled) return;
-
             var weight = (EquippedItem==null)?0:1;
             animator.SetLookAtWeight(0);
             animator.SetIKPositionWeight(handGoal,weight);
@@ -171,20 +164,17 @@ namespace Adventure {
             }
         }
 
-        void OnSit() {
-            Log(Description["sit"]);
-            if (animator) animator.SetBool("Sit",true); }
+        void OnSit() { Log(Description["sit"]); animator?.SetBool("Sit",true); }
 
         public override void Stand() { base.Stand();
-            Log(Description["stand"]);
-            if (animator) animator.SetBool("Sit",false); }
+            Log(Description["stand"]); animator?.SetBool("Sit",false); }
 
         public virtual void Stand(Thing thing, StoryArgs args) {
             if (animator.GetBool("Sit")) (thing as Actor).Stand();
             else throw new StoryError(thing.Description["try to stand"]); }
 
         public override void Pray() { base.Pray();
-            if (animator) animator.SetBool("Pray", true); }
+            if (animator) animator?.SetBool("Pray", true); }
 
         new public class Data : Actor.Data {
             public override Object Deserialize(Object o) {

@@ -11,7 +11,7 @@ using Adventure;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-public class SpaceMenu : SpaceObject {
+public class SpaceMenu : Adventure.Object {
     bool once;
     [SerializeField] protected PilotProfile pilot;
     [SerializeField] protected StarProfile star;
@@ -37,14 +37,10 @@ public class SpaceMenu : SpaceObject {
         Load(name,ship,star,star.Subsystems.Pick());
     void Load(string name, SpaceshipProfile ship, StarProfile star, string spob) =>
         Get<SceneLoader>().Load(() => OnLoad(name, ship, star, spob), spob);
-    void OnLoad(
-                    string name,
-                    SpaceshipProfile shipProfile,
-                    StarProfile starSystem,
-                    string spob) {
+    void OnLoad(string name,SpaceshipProfile shipData,StarProfile profile,string spob) {
         if (once) return; once = true;
-        SpaceManager.StartHost();
-        var star = Create(starSystem.prefab);
+        Manager.StartHost();
+        var star = Create(profile.prefab);
         // var user = Create<SpacePlayer>(pilot.prefab);
         var pilot = PickUser();
         var user = Create<SpacePlayer>(pilot.prefab);
@@ -52,18 +48,18 @@ public class SpaceMenu : SpaceObject {
         var scene = SceneManager.GetSceneByName(spob);
         DontDestroyOnLoad(ship.gameObject);
         // ship.Create();
-        (star.name, user.name, user.Ship) = (starSystem.name, pilot.name, ship);
+        (star.name, user.name, user.Ship) = (profile.name, pilot.name, ship);
         SceneManager.MoveGameObjectToScene(star.gameObject,scene);
         SceneManager.MoveGameObjectToScene(user.gameObject,scene);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(spob));
         user.Reset();
         DontDestroyOnLoad(user.gameObject);
-        PlayerCamera.atmosphere = starSystem.atmosphere;
+        PlayerCamera.atmosphere = profile.atmosphere;
         PlayerCamera.Target = ship.transform;
         var list = new List<NetworkStartPosition>();
         list.Add(FindObjectsOfType<NetworkStartPosition>());
         var spawn = list.Pick();
-        ship.JumpEvent += (o,e) => SpaceManager.Jump(
+        ship.JumpEvent += (o,e) => Manager.Jump(
             ship.Destination, ship.Destination.Subsystems.Pick());
         ship.transform.position = spawn.transform.position;
         ship.transform.rotation = spawn.transform.rotation;
@@ -71,21 +67,21 @@ public class SpaceMenu : SpaceObject {
         SceneManager.UnloadSceneAsync("Menu");
     }
 
-    void OnLoadGame(PilotProfile pilot, StarProfile starSystem, string spob) {
+    void OnLoadGame(PilotProfile pilot, StarProfile profile, string spob) {
         if (once) return; once = true;
-        SpaceManager.StartHost();
-        // var star = Create<StarSystem>(starSystem.prefab);
-        var star = Create(starSystem.prefab);
+        Manager.StartHost();
+        // var star = Create<StarSystem>(profile.prefab);
+        var star = Create(profile.prefab);
         var user = Create<SpacePlayer>(pilot.prefab);
         var ship = Create<Spaceship>(pilot.ship.prefab);
         var scene = SceneManager.GetSceneByName(spob);
         DontDestroyOnLoad(user.gameObject);
         DontDestroyOnLoad(ship.gameObject);
         // ship.Create();
-        ship.Stars = starSystem.NearbySystems;
-        (star.name, user.name, user.Ship) = (starSystem.name, pilot.name, ship);
+        ship.Stars = profile.NearbySystems;
+        (star.name, user.name, user.Ship) = (profile.name, pilot.name, ship);
         SceneManager.MoveGameObjectToScene(star.gameObject,scene);
-        PlayerCamera.atmosphere = starSystem.atmosphere;
+        PlayerCamera.atmosphere = profile.atmosphere;
         PlayerCamera.Target = ship.transform;
         var list = new List<NetworkStartPosition>();
         list.Add(FindObjectsOfType<NetworkStartPosition>());
@@ -104,8 +100,8 @@ public class SpaceMenu : SpaceObject {
         }
     }
 
-    PilotProfile PickUser() => SpaceManager.Pilots.ToList().Pick();
-    StarProfile PickSyst() => SpaceManager.StarSystems.Keys.ToList().Pick();
+    PilotProfile PickUser() => Manager.Pilots.ToList().Pick();
+    StarProfile PickSyst() => Manager.StarSystems.Keys.ToList().Pick();
     void Awake() => selection.Select();
     void Start() {
         Create(PickSyst().prefab);
