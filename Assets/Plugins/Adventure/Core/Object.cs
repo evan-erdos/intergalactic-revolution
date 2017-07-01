@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 
 namespace Adventure {
     public abstract class Object : MonoBehaviour, IObject {
@@ -25,49 +26,15 @@ namespace Adventure {
             CreateEvent += (o,e) => onCreate?.Invoke(o,e);
         }
 
-        public Transform GetOrAdd(string name) {
-            var instance = transform.Find(name);
-            if (instance) return instance;
-            instance = new GameObject(name).transform;
-            instance.parent = transform;
-            return instance;
-        }
-
-        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
-        public T GetOrAdd<T,U>() where T : Component where U : T {
-            var instance = GetComponent<T>();
-            if (instance) return instance;
-            instance = gameObject.AddComponent<U>();
-            return instance;
-        }
-
-        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
-        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
-        public List<T> Find<T>(float radius, Transform location) where T : IThing =>
-            Find<T>(radius, location.position, Mask).Cast<T>().ToList();
-
-        protected virtual IEnumerable<Thing> Find<T>(
-                        float range, Vector3 position, LayerMask mask) where T : IThing =>
-            from collider in Physics.OverlapSphere(position, range, mask)
-            let thing = collider.GetComponentInParent<T>()
-            where thing!=null
-            select thing as Thing;
-
-        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public void Create() => Create(this, new RealityArgs());
         public void Create(IObject o, RealityArgs e) => CreateEvent(o,e);
-        public GameObject Create(GameObject original) => Create(original, transform.position, transform.rotation);
-        public GameObject Create(GameObject original, Vector3 position) =>
-            Create(original, transform.position, Quaternion.identity);
-        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) =>
-            Instantiate<GameObject>(original, position, rotation);
-        public T Create<T>(GameObject original) => Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original, Vector3 position) =>
-            Create<T>(original, position, Quaternion.identity);
-        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) =>
-            Create(original,position,rotation).Get<T>();
+
+        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
+        public T GetOrAdd<T,U>() where T : Component where U : T { var o = GetComponent<T>(); if (!o) o = gameObject.AddComponent<U>(); return o; }
+        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public bool If(Func<bool> cond, Action then) => If (cond(), then);
         public bool If(bool cond, Action then) { if (cond) then(); return cond; }
+        public bool If<T>(Action<T> then) { var o = Get<T>(); var b = o!=null; if (b) then(o); return b; }
         public bool If<T>(T cond, Action<T> then) { var b = cond!=null; if (b) then(cond); return b; }
         public T Get<T>() => gameObject.Get<T>();
         public T GetParent<T>() => gameObject.GetParent<T>();
@@ -79,13 +46,32 @@ namespace Adventure {
         protected Coroutine Wait(float wait, Action func) => StartCoroutine(WaitDelay(wait,func));
         protected Coroutine Loop(YieldInstruction wait, Action func) => StartCoroutine(Looping(wait,func));
         protected Coroutine Wait(YieldInstruction wait, Action func) => StartCoroutine(WaitingFor(wait,func));
-        public void StartSemaphore(Func<IEnumerator> func) {
-            if (!coroutines.ContainsKey(func.Method.Name)) StartCoroutine(Waiting(func.Method.Name,func)); }
+        public void StartSemaphore(Func<IEnumerator> func) { if (IsRunning(func)) StartCoroutine(Waiting(func.Method.Name,func)); }
+        bool IsRunning(Func<IEnumerator> func) => IsRunning(func.Method.Name);
+        bool IsRunning(string name) => !coroutines.ContainsKey(name);
         IEnumerator WaitDelay(float wait, Action func) { yield return new WaitForSeconds(wait); func(); }
         IEnumerator Looping(YieldInstruction wait, Action func) { while (true) yield return Wait(wait,func); }
         IEnumerator WaitingFor(YieldInstruction wait, Action func) { yield return wait; func(); }
         IEnumerator Waiting(string name, Func<IEnumerator> func) {
             coroutines[name] = func; yield return StartCoroutine(func()); coroutines.Remove(name); }
+
+        public Transform Find(string s) { var o = transform.Find(s); if (!o) { o = new GameObject(s).transform; o.parent = transform; } return o; }
+        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
+        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
+        public List<T> Find<T>(float radius, Transform location) where T : IThing => Find<T>(radius, location.position).Cast<T>().ToList();
+        protected virtual IEnumerable<Thing> Find<T>(float range, Vector3 position) where T : IThing =>
+            from collider in Physics.OverlapSphere(position, range, Mask)
+            let thing = collider.GetComponentInParent<T>()
+            where thing!=null select thing as Thing;
+
+        public static bool operator !(Object o) => o==null;
+        public static T Create<T>(GameObject original) => Create<T>(original, Vector3.zero);
+        public static T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
+        public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) => Create(original,position,rotation).Get<T>();
+        public static GameObject Create(GameObject original) => Create(original, Vector3.zero);
+        public static GameObject Create(GameObject original, Vector3 position) => Create(original, position, Quaternion.identity);
+        public static GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
+            var o = Instantiate(original, position, rotation); var c = o.Get<ICreatable>(); if (c!=null) { c.Init(); c.Create(); } return o; }
 
         public class Data {
             public string name {get;set;}

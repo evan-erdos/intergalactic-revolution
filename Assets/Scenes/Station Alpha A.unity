@@ -258,6 +258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f75b757a07fa4f35bd27542f2a5614a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ships:
   - {fileID: 1670214515555048, guid: 6cd5c7a763063448f9d44373671addb6, type: 2}
   locations:
@@ -889,7 +894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1293747256
 Transform:
   m_ObjectHideFlags: 0
@@ -926,6 +931,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d8d2c0720324a3e8c7c15f96193fe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1312315885
 GameObject:
   m_ObjectHideFlags: 0

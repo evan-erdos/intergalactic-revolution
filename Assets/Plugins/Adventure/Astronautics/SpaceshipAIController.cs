@@ -15,7 +15,6 @@ namespace Adventure.Astronautics.Spaceships {
         RaycastHit[] results = new RaycastHit[10];
         List<ITrackable> targets = new List<ITrackable>();
         List<Weapon> weapons = new List<Weapon>();
-        new Rigidbody rigidbody;
         LayerMask mask;
         [SerializeField] float lateralWander = 5;
         [SerializeField] float wanderSpeed = 0.11f;
@@ -26,16 +25,14 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] float rollEffect = 0.2f;
         [SerializeField] float pitchEffect = 0.5f;
         [SerializeField] float throttleEffect = 0.5f;
-        [SerializeField] protected Spaceship spaceship;
-        public ITrackable Target {get;protected set;}
+        public Spaceship spaceship {get;protected set;}
+        public ITrackable Target {get;set;}
 
         public void Reset() => (isDisabled, isFiring) = (false,false);
         public void Disable() { isDisabled = true; spaceship.Disable(); }
         public void Fire() {
             if (PreFire()) spaceship.Fire(Target);
-            bool PreFire() =>
-                isFiring && !(Target is null) &&
-                Target.Position.IsNear(transform.position,aggroRange);
+            bool PreFire() => isFiring && !(Target is null) && Target.Position.IsNear(transform.position,aggroRange);
         }
 
         public void Move() {
@@ -44,12 +41,7 @@ namespace Adventure.Astronautics.Spaceships {
             var vect = Mathf.PerlinNoise(Time.time*wanderSpeed,perlin)*2-1;
             var goal = Target.Position+transform.right*vect*lateralWander;
             // goal -= Target.forward*followRange;
-            // if (Physics.SphereCast(
-            //     origin: transform.position,
-            //     radius: radius,
-            //     direction: transform.forward,
-            //     hitInfo: out var hit,
-            //     maxDistance: 100)) goal = whatever
+            // if (Physics.SphereCast(transform.position, radius, transform.forward, out var hit, 100)) goal = whatever
             var localTarget = transform.InverseTransformPoint(goal);
             var yawAngle = Mathf.Atan2(localTarget.x,localTarget.z);
             var pitchAngle = -Mathf.Atan2(localTarget.y,localTarget.z);
@@ -66,16 +58,13 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         void Awake() {
-            mask = 1<<LayerMask.NameToLayer("AI");
-            perlin = Random.Range(0,100);
-            if (!spaceship) spaceship = Get<Spaceship>();
-            rigidbody = spaceship.Get<Rigidbody>();
+            (mask, perlin) = (1<<LayerMask.NameToLayer("AI"), Random.Range(0,100));
+            spaceship = Get<Spaceship>();
             weapons.Add(spaceship.GetComponentsInChildren<Weapon>());
         }
 
         IEnumerator Start() {
-            var radius = 10000;
-            var layerMask = 1<<LayerMask.NameToLayer("Player");
+            var (radius, layerMask) = (10000, 1<<LayerMask.NameToLayer("Player"));
             StartCoroutine(Toggling());
             while (true) {
                 yield return new WaitForSeconds(2);
@@ -86,7 +75,7 @@ namespace Adventure.Astronautics.Spaceships {
                     var ship = result.attachedRigidbody.Get<ITrackable>();
                     if (!(ship is null)) targets.Add(ship);
                 } yield return null;
-                // if (0<targets.Count) Target = targets.First();
+                if (targets.Any()) Target = targets.First();
             }
 
             IEnumerator Toggling() {

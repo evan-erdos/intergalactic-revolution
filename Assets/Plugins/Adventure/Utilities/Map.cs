@@ -4,6 +4,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+
+/// IResettable : IObject
+/// an object which can be damaged and destroyed
+public interface IResettable {
+
+    /// Reset : () => fixed
+    /// puts everything back to normal
+    void Reset();
+}
+
 /// Map<T> : Dictionary<string,T>
 /// a simple wrapper for Dictionary which drastically shortens the name for maps
 public class Map<T> : Dictionary<string,T> { }

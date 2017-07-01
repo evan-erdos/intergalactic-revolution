@@ -8,12 +8,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public static class AsyncTools1 {
-    static Awaiter updateAwaiter;
-    static Awaiter fixedAwaiter;
-    static Awaiter lateUpdateAwaiter;
-    static Awaiter editorUpdateAwaiter;
-    static Awaiter threadPoolAwaiter = new ThreadPoolContextAwaiter();
+public static class AsyncTools {
+    static Awaiter updateAwaiter, fixedAwaiter, lateAwaiter, editorAwaiter, threadPoolAwaiter = new ThreadPoolContextAwaiter();
 
     public static void WhereAmI(string text) {
         if (!IsMainThread()) Debug.Log($"{text}: background thread, id: {Thread.CurrentThread.ManagedThreadId}");
@@ -31,13 +27,13 @@ public static class AsyncTools1 {
     public static Awaiter ToMainThread() => ToUpdate();
 
     /// Switches execution to the EditorUpdate context of the main thread.
-    public static Awaiter ToEditorUpdate() => editorUpdateAwaiter ?? (editorUpdateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.EditorUpdateScheduler.Context));
+    public static Awaiter ToEditorUpdate() => editorAwaiter ?? (editorAwaiter = new SynchronizationContextAwaiter(UnityScheduler.EditorUpdateScheduler.Context));
 
     /// Switches execution to the Update context of the main thread.
     public static Awaiter ToUpdate() => updateAwaiter ?? (updateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.UpdateScheduler.Context));
 
     /// Switches execution to the LateUpdate context of the main thread.
-    public static Awaiter ToLateUpdate() => lateUpdateAwaiter ?? (lateUpdateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.LateUpdateScheduler.Context));
+    public static Awaiter ToLateUpdate() => lateAwaiter ?? (lateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.LateUpdateScheduler.Context));
 
     /// Switches execution to the FixedUpdate context of the main thread.
     public static Awaiter ToFixedUpdate() => fixedAwaiter ?? (fixedAwaiter = new SynchronizationContextAwaiter(UnityScheduler.FixedUpdateScheduler.Context));
@@ -51,12 +47,6 @@ public static class AsyncTools1 {
         Task.Factory.StartNew(delegate { using (var webClient = new WebClient()) return webClient.DownloadString(address); }, cancellationToken);
 
     /// Waits for specified number of seconds or until next frame
-    ///
-    /// If the argument is zero or negative, and if called from the main thread from Update or LateUpdate context,
-    /// waits until next rendering frame.
-    ///
-    /// If the argument is zero or negative, and if called from the main thread from FixedUpdate context,
-    /// waits until next physics frame.
     public static Awaiter GetAwaiter(this int delay) => GetAwaiter((double) delay);
     public static Awaiter GetAwaiter(this float delay) => GetAwaiter((double) delay);
     public static Awaiter GetAwaiter(this double delay) {
@@ -68,7 +58,7 @@ public static class AsyncTools1 {
     /// Waits until condition is met
     public static Awaiter GetAwaiter(this Func<bool> cond) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
-        if (cond() && context != null) return new ContextActivationAwaiter(context);
+        if (cond() && context!=null) return new ContextActivationAwaiter(context);
         return new ConditionAwaiter(cond);
     }
 
@@ -76,11 +66,10 @@ public static class AsyncTools1 {
     public static Awaiter GetAwaiter(this CustomYieldInstruction coroutine) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
         if (!coroutine.keepWaiting && context != null) return new ContextActivationAwaiter(context);
-        return new YieldInstructionAwaiter(coroutine);
-        // return new ConditionAwaiter(() => !coroutine.keepWaiting);
+        return new YieldInstructionAwaiter(coroutine); // return new ConditionAwaiter(() => !coroutine.keepWaiting);
     }
 
-    /// Waits until all the tasks are completed.
+    /// waits until all the tasks are completed
     public static TaskAwaiter GetAwaiter(this IEnumerable<Task> tasks) => TaskEx.WhenAll(tasks).GetAwaiter();
 
     /// Waits until the process exits.
@@ -156,7 +145,6 @@ public static class AsyncTools1 {
         public override void OnCompleted(Action action) => Task.Factory.StartNew(
             async () => { while (coroutine.keepWaiting) await 0; action(); },
             CancellationToken.None, TaskCreationOptions.None, UnityScheduler.UpdateScheduler);
-
     }
 
     class AsyncOperationAwaiter : Awaiter {
@@ -167,5 +155,4 @@ public static class AsyncTools1 {
             async () => { while (asyncOp.isDone == false) await 0; action(); },
             CancellationToken.None, TaskCreationOptions.None, UnityScheduler.UpdateScheduler);
     }
-
 }

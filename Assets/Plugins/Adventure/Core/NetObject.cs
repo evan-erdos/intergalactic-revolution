@@ -11,78 +11,27 @@ using UnityEngine.Networking;
 
 namespace Adventure {
     public abstract class NetObject : NetworkBehaviour, IObject {
-        Regex regex = new Regex("\b(object)\b");
+        protected Regex regex = new Regex("\b(object)\b");
         Map<Func<IEnumerator>> coroutines = new Map<Func<IEnumerator>>();
         [SerializeField] protected RealityEvent onCreate = new RealityEvent();
         public bool AreAnyYielding => coroutines.Count>0;
-        public virtual float Radius => 5;
         public virtual string Name => name;
+        public virtual float Radius => 2;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
-        public override string ToString() => "${name}";
-        public static bool operator !(NetObject o) => o==null;
         public event RealityAction CreateEvent;
-
 
         public virtual void Init() {
             onCreate.AddListener((o,e) => ClearSemaphore());
             CreateEvent += (o,e) => onCreate?.Invoke(o,e);
         }
 
-        public Transform GetOrAdd(string name) {
-            var instance = transform.Find(name);
-            if (instance) return instance;
-            instance = new GameObject(name).transform;
-            instance.parent = transform;
-            return instance;
-        }
-
-        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
-        public T GetOrAdd<T,U>() where T : Component where U : T {
-            var instance = GetComponent<T>();
-            if (instance) return instance;
-            instance = gameObject.AddComponent<U>();
-            return instance;
-        }
-
-        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
-        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
-        public List<T> Find<T>(float radius, Transform location) where T : IThing =>
-            Find<T>(radius, location.position, Mask).Cast<T>().ToList();
-
-        protected virtual IEnumerable<Thing> Find<T>(
-                        float range, Vector3 position, LayerMask mask) where T : IThing =>
-            from collider in Physics.OverlapSphere(position, range, mask)
-            let thing = collider.GetComponentInParent<T>()
-            where thing!=null
-            select thing as Thing;
-
-
-        GameObject lastInstanceMade;
-        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
-            CmdCreate(original,position,rotation); return lastInstanceMade; }
-
-        [Command] public void CmdCreate(GameObject original, Vector3 position, Quaternion rotation) {
-            var instance = Instantiate(original,position,rotation) as GameObject;
-            instance.Get<IObject>().Create();
-            instance.GetChild<IObject>().Create();
-            NetworkServer.Spawn(instance);
-            lastInstanceMade = instance;
-        }
-
         public void Create() => Create(this, new RealityArgs());
         public void Create(IObject o, RealityArgs e) => CreateEvent(o,e);
-        public GameObject Create(GameObject original) => Create(original, transform.position, transform.rotation);
-        public GameObject Create(GameObject original, Vector3 position) =>
-            Create(original, transform.position, Quaternion.identity);
-        // public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) =>
-        //     Instantiate<GameObject>(original, position, rotation);
-        public T Create<T>(GameObject original) => Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original, Vector3 position) =>
-            Create<T>(original, position, Quaternion.identity);
-        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) =>
-            Create(original,position,rotation).Get<T>();
+
+        public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
+        public T GetOrAdd<T,U>() where T : Component where U : T { var o = GetComponent<T>(); if (!o) o = gameObject.AddComponent<U>(); return o; }
+        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public bool If(Func<bool> cond, Action then) => If (cond(), then);
         public bool If(bool cond, Action then) { if (cond) then(); return cond; }
         public bool If<T>(T cond, Action<T> then) { var b = cond!=null; if (b) then(cond); return b; }
@@ -92,16 +41,43 @@ namespace Adventure {
         public List<T> GetChildren<T>() => gameObject.GetChildren<T>();
         public void ClearSemaphore() => coroutines.Clear();
         public bool IsYielding(string name) => coroutines.ContainsKey(name);
-        protected void Wait(float wait, Action func) => StartCoroutine(WaitDelay(wait,func));
+        protected Coroutine Wait(Action func) => StartCoroutine(WaitDelay(0,func));
+        protected Coroutine Wait(float wait, Action func) => StartCoroutine(WaitDelay(wait,func));
         protected Coroutine Loop(YieldInstruction wait, Action func) => StartCoroutine(Looping(wait,func));
         protected Coroutine Wait(YieldInstruction wait, Action func) => StartCoroutine(WaitingFor(wait,func));
-        public void StartSemaphore(Func<IEnumerator> func) {
-            if (!coroutines.ContainsKey(func.Method.Name)) StartCoroutine(Waiting(func.Method.Name,func)); }
+        public void StartSemaphore(Func<IEnumerator> func) { if (IsRunning(func)) StartCoroutine(Waiting(func.Method.Name,func)); }
+        bool IsRunning(Func<IEnumerator> func) => IsRunning(func.Method.Name);
+        bool IsRunning(string name) => !coroutines.ContainsKey(name);
         IEnumerator WaitDelay(float wait, Action func) { yield return new WaitForSeconds(wait); func(); }
         IEnumerator Looping(YieldInstruction wait, Action func) { while (true) yield return Wait(wait,func); }
         IEnumerator WaitingFor(YieldInstruction wait, Action func) { yield return wait; func(); }
         IEnumerator Waiting(string name, Func<IEnumerator> func) {
             coroutines[name] = func; yield return StartCoroutine(func()); coroutines.Remove(name); }
+
+        public Transform Find(string s) { var o = transform.Find(s); if (!o) { o = new GameObject(s).transform; o.parent = transform; } return o; }
+        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
+        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
+        public List<T> Find<T>(float radius, Transform location) where T : IThing => Find<T>(radius, location.position).Cast<T>().ToList();
+        protected virtual IEnumerable<Thing> Find<T>(float range, Vector3 position) where T : IThing =>
+            from collider in Physics.OverlapSphere(position, range, Mask)
+            let thing = collider.GetComponentInParent<T>()
+            where thing!=null select thing as Thing;
+
+        public static bool operator !(NetObject o) => o==null;
+        public static T Create<T>(GameObject original) => Create<T>(original, Vector3.zero);
+        public static T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
+        public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) => Create(original,position,rotation).Get<T>();
+        public static GameObject Create(GameObject original) => Create(original, Vector3.zero);
+        public static GameObject Create(GameObject original, Vector3 position) => Create(original, position, Quaternion.identity);
+        public static GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
+            var o = Instantiate(original, position, rotation); var c = o.Get<ICreatable>(); if (c!=null) { c.Init(); c.Create(); } return o; }
+
+        static GameObject lastInstanceMade;
+        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation, bool isNetwork) {
+            if (isNetwork) CmdCreate(original,position,rotation); return lastInstanceMade; }
+        [Command] public void CmdCreate(GameObject original, Vector3 position, Quaternion rotation) {
+            var o = Instantiate(original,position,rotation); var c = o.Get<ICreatable>();
+            if (c!=null) { c.Init(); c.Create(); } NetworkServer.Spawn(o); lastInstanceMade = o; }
 
         public class Data {
             public string name {get;set;}

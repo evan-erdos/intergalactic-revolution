@@ -10,13 +10,12 @@ namespace Adventure.Astronautics {
     public class Weapon : Adventure.Object, IWeapon, ICreatable<BlasterProfile> {
         [SerializeField] protected BlasterProfile profile;
         int next;
-        Pool projectiles = new Pool();
+        Pool<Rigidbody> projectiles = new Pool<Rigidbody>();
         List<Transform> barrels = new List<Transform>();
         List<AudioClip> sounds = new List<AudioClip>();
-        ParticleSystem flash;
         protected new AudioSource audio;
         protected new Rigidbody rigidbody;
-        public bool IsDisabled {get; protected set;} = false;
+        public bool IsDisabled {get;protected set;} = false;
         public float Health {get;protected set;} = 1000; // N
         public float Force {get;protected set;} = 4000; // N
         public float Rate {get;protected set;} = 10; // Hz
@@ -24,8 +23,9 @@ namespace Adventure.Astronautics {
         public float Range {get;protected set;} = 1000; // m
         public float Angle {get;protected set;} = 60; // deg
         public GameObject Projectile {get;protected set;} // object
-        public Vector3 Barrel {get;protected set;}
-        public ITrackable Target {get;set;}
+        public ParticleSystem particles {get;protected set;} // particles
+        public Vector3 Barrel {get;protected set;} // position
+        public ITrackable Target {get;set;} // object
 
         public virtual void Create(BlasterProfile profile) =>
             (Health, Force, Rate, Spread, Range, Angle, Projectile, sounds) =
@@ -35,65 +35,52 @@ namespace Adventure.Astronautics {
 
         public virtual void Disable() => IsDisabled = true;
         public virtual void Enable() => IsDisabled = false;
+        public void Damage(float damage) => If ((Health-=damage)<0, () => Kill());
+        public void Kill() => (rigidbody.isKinematic, transform.parent, IsDisabled) = (false,null,true);
         public void Fire() => Fire(transform.forward);
-        public void Fire(ITrackable o) => Fire(o.Position.tuple(), o.Velocity.tuple());
-        public void Fire(Vector3 p) => Fire(p.tuple(),(0,0,0));
-        public virtual void Fire((float,float,float) position, (float,float,float) velocity) {
+        public void Fire(Vector3 position) => Fire(position.tuple(), (0,0,0), (0,0,0));
+        public void Fire(ITrackable o) => Fire(o.Position.tuple(), o.Velocity.tuple(), (0,0,0));
+        public void Fire((float,float,float) position, (float,float,float) velocity) => Fire(position,velocity,(0,0,0));
+        public virtual void Fire((float,float,float) position, (float,float,float) velocity, (float,float,float) initial) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
-                if (sounds.Count>0) audio.PlayOneShot(sounds.Pick(),0.8f);
+                if (sounds.Any()) audio.PlayOneShot(sounds.Pick(),0.8f);
                 Barrel = barrels[++next%barrels.Count].position;
-                if (flash) flash.Play();
+                particles?.Play();
 
-                var (ratio, spray) = (10000,0.005f);
-                var random = Random.Range(-0.01f,0.01f);
-                var direction = position.vect()-Barrel;
-                var distance = direction.magnitude;
-                var heading = velocity.vect().normalized;
-                var projection = heading*distance/ratio;
-                var splay = heading*random;
-                var variation = (splay+Random.insideUnitSphere*spray)*distance;
-                var prediction = position.vect()+projection+variation;
+                var (ratio, spray) = (10000, 0.005f);
+                var (direction, random) = (position.vect()-Barrel, Random.Range(-0.01f,0.01f));
+                var (distance, heading) = (direction.magnitude, velocity.vect().normalized);
+                var variation = (heading*random+Random.insideUnitSphere*spray)*distance;
+                var prediction = position.vect()+heading*distance/ratio+variation;
                 var rotation = Quaternion.LookRotation(direction,transform.up);
-                if (Quaternion.Angle(rotation,transform.rotation)>Angle/3)
-                    rotation = transform.rotation;
-                var rigidbody = projectiles.Create<Rigidbody>(Barrel,rotation);
+                if (Quaternion.Angle(rotation,transform.rotation)>Angle/3) rotation = transform.rotation;
+                var rigidbody = projectiles.Create(Barrel,rotation);
                 if (rigidbody.Get<IProjectile>() is GuidedMissile o) o.Target = Target;
                 rigidbody.Get<IResettable>()?.Reset();
-                rigidbody.transform.position = Barrel;
-                rigidbody.transform.rotation = rotation;
-                var forward = transform.forward*velocity.vect().magnitude;
-                forward *= Time.fixedDeltaTime;
+                (rigidbody.transform.position, rigidbody.transform.rotation) = (Barrel, rotation);
+                var forward = transform.forward*velocity.vect().magnitude * Time.fixedDeltaTime;
                 rigidbody.transform.position += transform.forward*4+forward;
-                var randomVector = Random.insideUnitSphere;
-                rigidbody.AddForce(rigidbody.velocity+randomVector*Spread);
+                rigidbody.AddForce(initial, ForceMode.VelocityChange);
+                rigidbody.AddForce(rigidbody.velocity+Random.insideUnitSphere*Spread);
                 rigidbody.AddForce(rigidbody.transform.forward*Force);
                 yield return new WaitForSeconds(1f/(Rate*barrels.Count));
             }
-        }
-
-        public void Damage(float damage) {
-            Health -= damage;
-            if (0<Health) return;
-            (rigidbody.isKinematic, IsDisabled, transform.parent) = (false,true,null);
         }
 
         void Awake() {
             Create(profile);
             barrels.Add(transform);
             Barrel = barrels.First().position;
-            audio = GetOrAdd<AudioSource>();
-            rigidbody = GetParent<Rigidbody>();
-            foreach (var particles in GetComponentsInChildren<ParticleSystem>())
-                if (particles.name=="flash") flash = particles;
-            for (var i=0;i<20;++i) {
-                var instance = Instantiate(Projectile) as GameObject;
+            (audio, rigidbody) = (Get<AudioSource>(), GetParent<Rigidbody>());
+            particles = GetChild<ParticleSystem>();
+            projectiles = new Pool<Rigidbody>(10, () => {
+                var instance = Create<Rigidbody>(Projectile);
                 instance.transform.parent = transform;
                 instance.transform.localPosition = Vector3.zero;
-                instance.layer = gameObject.layer;
-                instance.SetActive(false);
-                projectiles.Add(instance);
-            }
+                instance.gameObject.layer = gameObject.layer;
+                instance.gameObject.SetActive(false);
+                return instance; });
         }
     }
 }

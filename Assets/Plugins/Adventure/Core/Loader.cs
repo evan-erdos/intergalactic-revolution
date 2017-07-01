@@ -9,7 +9,7 @@ using ui=UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 namespace Adventure {
-    public class SceneLoader : MonoBehaviour {
+    public class Loader : MonoBehaviour {
         float value, ratio, speed;
         [SerializeField] RealEvent onLoad = new RealEvent();
         void Update() => OnReal(ratio=Mathf.SmoothDamp(ratio,value,ref speed,0.1f));

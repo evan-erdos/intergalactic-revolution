@@ -93,8 +93,6 @@ namespace Adventure {
     public delegate void StoryAction(IThing thing, StoryArgs args);
 
 
-
-
     /// RealityArgs : EventArgs
     /// provides a base argument type for VR events
     public class RealityArgs : EventArgs { public Vector3 Position {get;set;} }
@@ -105,8 +103,7 @@ namespace Adventure {
     public class MovementArgs : RealityArgs {
         public Vector3 Displacement {get;set;}
         public Vector3 Velocity {get;set;}
-        public Vector3 Angular {get;set;}
-    }
+        public Vector3 Angular {get;set;} }
 
 
     /// CombatArgs : MovementArgs
@@ -119,8 +116,7 @@ namespace Adventure {
     public class ButtonArgs : MovementArgs {
         public bool IsPressed {get;set;}
         public bool IsReleased {get;set;}
-        public bool IsHeld {get;set;}
-    }
+        public bool IsHeld {get;set;} }
 
 
     /// SliderArgs : ButtonArgs
@@ -140,12 +136,6 @@ namespace Adventure {
 
     /// StoryArgs : EventArgs
     /// encapsulates the event data
-    /// - verb : Verb
-    ///     Default Command struct, makes this function a StoryAction
-    /// - input : string
-    ///     raw input from the user
-    /// - goal : IThing
-    ///     specified target of action
     public class StoryArgs : System.EventArgs, Word {
         StoryAction Command {get;set;}
         public Verb Verb {get;set;}
@@ -157,47 +147,17 @@ namespace Adventure {
         public StoryArgs() : base() { }
         public StoryArgs(string message) { this.Message = message; }
         public StoryArgs(Verb verb,string input="",string message="") {
-            (this.Verb, this.Input, this.Message) = (verb, input, message); }
-    }
+            (this.Verb, this.Input, this.Message) = (verb, input, message); } }
 
 
-    /// RealEvent : event
-    /// a serializable event handler to expose to the editor
+    /// serializable event handlers to expose to the editor
     [Serializable] public class RealEvent : UnityEvent<float> { }
-
-
-    /// RealityEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class RealityEvent : UnityEvent<IObject,RealityArgs> { }
-
-
-    /// MovementEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class MovementEvent : UnityEvent<IObject,MovementArgs> { }
-
-
-    /// CombatEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class CombatEvent : UnityEvent<IObject,CombatArgs> { }
-
-
-    /// ButtonEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class ButtonEvent : UnityEvent<IObject,ButtonArgs> { }
-
-
-    /// TouchpadEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class TouchpadEvent : UnityEvent<IObject,TouchpadArgs> { }
-
-
-    /// SliderEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class SliderEvent : UnityEvent<IObject,SliderArgs> { }
-
-
-    /// StoryEvent : UnityEvent
-    /// a serializable event handler to expose to the editor
     [Serializable] public class StoryEvent : UnityEvent<IThing,StoryArgs> { }
 
 
@@ -205,29 +165,27 @@ namespace Adventure {
     /// base error for the entire namespace
     public class Error : Exception {
         public Error(string message, Exception error) : base(message,error) { }
-        public Error(string message) : this(message, new Exception()) { } }
+        public Error(string message="What have you done?") : this(message, new Exception()) { } }
 
-    /// StoryError : Exception
+    /// StoryError : error
     /// throw when anything is not well-formed, sensible, or reasonable
     public class StoryError : Error {
-        public StoryError(string message="Something has gone horribly wrong.")
-            : base(message, new Exception()) { }
+        public StoryError(string message="What have you done?") : base(message, new Error()) { }
         public StoryError(string message, Error error) : base(message,error) { } }
 
 
-    /// AmbiguityError : StoryError
+    /// AmbiguityError : error
     /// thrown when a command is not specific enough
     public class AmbiguityError : StoryError {
         internal IList<IThing> options = new List<IThing>();
         internal AmbiguityError() : this("Be more specific.") { }
         internal AmbiguityError(string message, params IThing[] options)
-            : this(message,new List<IThing>(options)) { }
+            : this(message, new List<IThing>(options)) { }
         internal AmbiguityError(string message, IEnumerable<IThing> options)
-            : base(message) { this.options = new List<IThing>(options); }
-    }
+            : base(message) { this.options = new List<IThing>(options); } }
 
 
-    /// MoralityError : StoryError
+    /// MoralityError : error
     /// throw in response to any manner of moral turpitude
     public class MoralityError : StoryError {
         internal Cond cond {get;set;}
@@ -235,8 +193,7 @@ namespace Adventure {
         internal MoralityError(StoryAction then) : this("", then) { }
         internal MoralityError(string message, StoryAction then) : this(message, then, () => false) { }
         internal MoralityError(string message, StoryAction then, Cond cond)
-            : base(message,new StoryError()) { (this.cond, this.then) = (cond, then); }
-    }
+            : base(message,new StoryError()) { (this.cond, this.then) = (cond, then); } }
 
 
     /// Noun : Word
@@ -245,9 +202,7 @@ namespace Adventure {
         public Regex Pattern {get;set;}
         public string[] Grammar {get;set;}
         public Noun(Regex pattern, string[] grammar) {
-            (this.Pattern, this.Grammar) = (pattern, grammar);
-        }
-    }
+            (this.Pattern, this.Grammar) = (pattern, grammar); } }
 
 
     /// Verb : Word
@@ -266,10 +221,8 @@ namespace Adventure {
     public struct Message : ILoggable {
         public string Name {get;set;}
         public string Content {get;set;}
-
         public Message(string content="", string name="") : this() {
             (this.Name, this.Content) = (name, content); }
-
         public void Log() => Terminal.Log(Content.md());
         public override string ToString() => Content;
         public static implicit operator string(Message o) => o.Content.md();
@@ -296,12 +249,27 @@ namespace Adventure {
 
 
     /// ICreatable
-    /// anything which can be initialized with a scriptable object
-    public interface ICreatable<T> {
+    /// any behaviour prefab which can be created at runtime
+    public interface ICreatable {
+
+        /// CreateEvent : event
+        /// event raised when the object is created
+        event RealityAction CreateEvent;
+
+        /// Init : () => void
+        /// does local setup when creating an object
+        void Init();
+
+        /// Create : (o,e) => void
+        /// calls the create event callback
+        void Create();
+        void Create(IObject o, RealityArgs e);
+    }
+
+    public interface ICreatable<T> : ICreatable {
 
         /// Create : (data) => serialized game object
         /// applies the data in the data object to the object
-        void Create();
         void Create(T data);
     }
 
@@ -323,7 +291,6 @@ namespace Adventure {
     /// IUsable : interface
     /// things which can be used, the base for all verb-ables
     public interface IUsable : IThing {
-
 
         /// Use : () => void
         /// use the thing

@@ -56,11 +56,7 @@ public class UniqueShadow : MonoBehaviour {
 
 	public void SetDownscale(int downscale) {
 		m_downscale = downscale;
-
-		if(m_shadowTexture) {
-			ReleaseTarget();
-			AllocateTarget();
-		}
+		if (m_shadowTexture) { ReleaseTarget(); AllocateTarget(); }
 	}
 
 	void Awake() {
@@ -96,17 +92,15 @@ public class UniqueShadow : MonoBehaviour {
 		m_materialInstances = new List<Material>();
 		var materialMap = new Dictionary<Material, Material>();
 		foreach(var r in GetComponentsInChildren<Renderer>()) {
-			if(!r.receiveShadows)
-				continue;
+			if (!r.receiveShadows) continue;
 
 			bool hadMaterials = false;
 			var sharedMaterials = r.sharedMaterials;
 			for(int i  = 0, n = sharedMaterials.Length; i < n; ++i) {
 				var m = sharedMaterials[i];
 				if (m==null) continue;
-
 				Material mi = null;
-				if(!materialMap.TryGetValue(m, out mi)) {
+				if (!materialMap.TryGetValue(m, out mi)) {
 					materialMap[m] = mi = new Material(m);
 					mi.name = m.name + " (uniq)";
 					mi.shaderKeywords = m.shaderKeywords;
@@ -116,10 +110,7 @@ public class UniqueShadow : MonoBehaviour {
 				}
 				sharedMaterials[i] = mi;
 				hadMaterials = true;
-			}
-
-			if(hadMaterials)
-				r.sharedMaterials = sharedMaterials;
+			} if (hadMaterials) r.sharedMaterials = sharedMaterials;
 		}
 
 		if(m_materialInstances.Count > 0) {
@@ -135,32 +126,19 @@ public class UniqueShadow : MonoBehaviour {
 		}
 	}
 
-	void OnEnable() {
-		AllocateTarget();
-		ToggleUniqueVariant();
-	}
+	void OnEnable() { AllocateTarget(); ToggleUniqueVariant(); }
 
-	void OnDisable() {
-		ReleaseTarget();
-		ToggleUniqueVariant();
-	}
+	void OnDisable() { ReleaseTarget(); ToggleUniqueVariant(); }
 
 	void OnDestroy() {
 		var mf = GetComponent<MeshFilter>();
-		if(mf)
-			Object.DestroyImmediate(mf.sharedMesh);
-
-		if(m_shadowCamera)
-			Object.DestroyImmediate(m_shadowCamera.gameObject);
+		if (mf) Object.DestroyImmediate(mf.sharedMesh);
+		if (m_shadowCamera) Object.DestroyImmediate(m_shadowCamera.gameObject);
 	}
 
 	void OnValidate() {
-		if(!Application.isPlaying || !m_shadowCamera)
-			return;
-
-		ReleaseTarget();
-		AllocateTarget();
-
+		if(!Application.isPlaying || !m_shadowCamera) return;
+		ReleaseTarget(); AllocateTarget();
 		if(m_materialInstances != null)
 			for(int i = 0, n = m_materialInstances.Count; i < n; ++i)
 				SetStaticShaderUniforms(m_materialInstances[i]);
@@ -172,7 +150,9 @@ public class UniqueShadow : MonoBehaviour {
 	}
 
 	void AllocateTarget() {
-		m_shadowTexture = new RenderTexture((int)shadowMapSize >> m_downscale, (int)shadowMapSize >> m_downscale, 16, RenderTextureFormat.Shadowmap, RenderTextureReadWrite.Linear);
+		m_shadowTexture = new RenderTexture(
+            (int)shadowMapSize >> m_downscale, (int)shadowMapSize >> m_downscale, 16,
+            RenderTextureFormat.Shadowmap, RenderTextureReadWrite.Linear);
 		m_shadowTexture.filterMode = FilterMode.Bilinear;
 		m_shadowTexture.useMipMap = false;
 		m_shadowTexture.autoGenerateMips = false;
@@ -187,18 +167,13 @@ public class UniqueShadow : MonoBehaviour {
 
 	void ToggleUniqueVariant() {
 		bool isEnable = m_lightSource;
-
 		for(int i = 0, n = m_materialInstances.Count; i < n; ++i) {
 			var m = m_materialInstances[i];
-
 			m.DisableKeyword("UNIQUE_SHADOW");
 			m.DisableKeyword("UNIQUE_SHADOW_LIGHT_COOKIE");
-
 			if(isEnable && m_shadowTexture) {
-				if(m_lightSource.cookie)
-					m.EnableKeyword("UNIQUE_SHADOW_LIGHT_COOKIE");
-				else
-					m.EnableKeyword("UNIQUE_SHADOW");
+				if (m_lightSource.cookie) m.EnableKeyword("UNIQUE_SHADOW_LIGHT_COOKIE");
+				else m.EnableKeyword("UNIQUE_SHADOW");
 			}
 		}
 	}
@@ -210,7 +185,9 @@ public class UniqueShadow : MonoBehaviour {
 		var texelsInMap = (float)(int)shadowMapSize;
 		var relativeTexelSize = texelsInMap / 2048f;
 
-		m.SetVector("u_UniqueShadowFilterWidth", new Vector2(1f / (float)(int)shadowMapSize, 1f / (float)(int)shadowMapSize) * fallbackFilterWidth * relativeTexelSize);
+		m.SetVector("u_UniqueShadowFilterWidth", new Vector2(
+            1f / (float)(int)shadowMapSize,
+            1f / (float)(int)shadowMapSize) * fallbackFilterWidth * relativeTexelSize);
 
 		var uniqueShadowBlockerWidth = relativeTexelSize * blockerSearchDistance / texelsInMap;
 		m.SetVector("u_UniqueShadowBlockerWidth", Vector4.one * uniqueShadowBlockerWidth);
@@ -225,20 +202,17 @@ public class UniqueShadow : MonoBehaviour {
 	}
 
 	bool EnsureLightSource() {
-		bool hadValidLight = m_lightSource;
-		bool hadCookie = m_lightSource && m_lightSource.cookie;
+		var hadValidLight = m_lightSource;
+		var hadCookie = m_lightSource && m_lightSource.cookie;
 		m_lightSource = UniqueShadowSun.instance;
 
-		// Only capture shadows from the light's culling mask.
-		if(useSceneCapture && m_lightSource && m_shadowCamera)
+		if (useSceneCapture && m_lightSource && m_shadowCamera)
 			m_shadowCamera.cullingMask = m_lightSource.cullingMask;
-
 		return hadValidLight != m_lightSource || hadCookie != (m_lightSource && m_lightSource.cookie);
 	}
 
 	void UpdateAutoFocus(FocusSetup focus) {
-		if(!focus.autoFocus)
-			return;
+		if(!focus.autoFocus) return;
 
 		var targetPos = focus.target.position + focus.target.right * focus.offset.x
 			+ focus.target.up * focus.offset.y + focus.target.forward * focus.offset.z;
@@ -246,29 +220,23 @@ public class UniqueShadow : MonoBehaviour {
 		var self = GetComponent<Renderer>();
 		var bounds = new Bounds(targetPos, Vector3.one * 0.1f);
 		foreach(var r in GetComponentsInChildren<Renderer>())
-			if(r != self)
-				bounds.Encapsulate(r.bounds);
+			if (r != self) bounds.Encapsulate(r.bounds);
 
 		focus.offset = bounds.center - focus.target.position;
 		focus.radius = focus.autoFocusRadiusBias + bounds.extents.magnitude;
 	}
 
 	void SetFocus(int idx) {
-		if(idx < 0 || idx >= shadowFoci.Length) {
-			Debug.LogError("Invalid active focus: " + m_activeFocus);
-			return;
-		}
-
+		if (idx < 0 || idx >= shadowFoci.Length) { Debug.LogError("Invalid active focus: " + m_activeFocus); return; }
 		m_activeFocus = idx;
-
 		var focus = shadowFoci[m_activeFocus];
 		UpdateAutoFocus(focus);
 
 		m_shadowCamera.orthographicSize = focus.radius;
 		m_shadowCamera.nearClipPlane = useSceneCapture ? -focus.sceneCaptureDistance : 0f;
 		m_shadowCamera.farClipPlane = focus.radius * 2f;
-		m_shadowCamera.projectionMatrix
-			= GL.GetGPUProjectionMatrix(Matrix4x4.Ortho(-focus.radius, focus.radius, -focus.radius, focus.radius, 0f, focus.radius * 2f), false);
+		m_shadowCamera.projectionMatrix = GL.GetGPUProjectionMatrix(
+            Matrix4x4.Ortho(-focus.radius, focus.radius, -focus.radius, focus.radius, 0f, focus.radius * 2f), false);
 
 		var isD3D9 = SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Direct3D9;
 		var isD3D = isD3D9 || SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Direct3D11;
@@ -283,7 +251,6 @@ public class UniqueShadow : MonoBehaviour {
 
 	void UpdateFocus() {
 		var focus = shadowFoci[m_activeFocus];
-
 		var targetPos = focus.target.position + focus.target.right * focus.offset.x
 			+ focus.target.up * focus.offset.y + focus.target.forward * focus.offset.z;
 		var lightDir = m_lightSource.transform.forward;
@@ -291,8 +258,6 @@ public class UniqueShadow : MonoBehaviour {
 
 		m_shadowCamera.transform.position = targetPos - lightDir * focus.radius;
 		m_shadowCamera.transform.rotation = lightOri;
-
-		//TODO: Texel snap? (probably doesn't matter too much since the targets are always animated)
 
 		var shadowViewMat = m_shadowCamera.worldToCameraMatrix;
 		var shadowProjMat = GL.GetGPUProjectionMatrix(m_shadowCamera.projectionMatrix, false);
@@ -302,18 +267,15 @@ public class UniqueShadow : MonoBehaviour {
 	bool CheckVisibility(Camera cam) {
 		var focus = shadowFoci[m_activeFocus];
 		UpdateAutoFocus(focus);
-
 		var targetPos = focus.target.position + focus.target.right * focus.offset.x
 			+ focus.target.up * focus.offset.y + focus.target.forward * focus.offset.z;
 		var bounds = new Bounds(targetPos, Vector3.one * focus.radius * 2f);
-
 		return (targetPos - cam.transform.position).sqrMagnitude < (cullingDistance * cullingDistance)
 			&& GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(/*ms_cameraPlanes,*/ cam), bounds);
 	}
 
 	bool CheckCamera(Camera cam) {
-		if(cam == Camera.main)
-			return true;
+		if (cam == Camera.main) return true;
 
 #if UNITY_EDITOR
 		if(UnityEditor.SceneView.currentDrawingSceneView)
@@ -325,18 +287,11 @@ public class UniqueShadow : MonoBehaviour {
 	}
 
 	void OnWillRenderObject() {
-		if(EnsureLightSource())
-			ToggleUniqueVariant();
-
-		if(!m_lightSource)
-			return;
-
+		if (EnsureLightSource()) ToggleUniqueVariant();
+		if (!m_lightSource) return;
 		var cam = Camera.current;
-		if(!CheckCamera(cam))
-			return;
-
-		if(!CheckVisibility(cam))
-			return;
+		if (!CheckCamera(cam)) return;
+		if (!CheckVisibility(cam)) return;
 
 		UpdateFocus();
 
@@ -355,15 +310,10 @@ public class UniqueShadow : MonoBehaviour {
 	}
 
 	void OnDrawGizmosSelected() {
-		if(shadowFoci == null)
-			return;
-
+		if (shadowFoci == null) return;
 		foreach(var f in shadowFoci) {
-			if(f.target == null)
-				continue;
-
+			if (f.target == null) continue;
 			Gizmos.color = f.autoFocus ? Color.cyan : Color.green;
-
 			var p = f.target.position + f.target.right * f.offset.x	+ f.target.up * f.offset.y + f.target.forward * f.offset.z;
 			Gizmos.DrawWireSphere(p, f.radius + (f.autoFocus ? f.autoFocusRadiusBias : 0f));
 		}

@@ -99,8 +99,8 @@ namespace Adventure.Locales {
             audio = GetOrAdd<AudioSource>();
             collider = GetOrAdd<Collider,SphereCollider>();
             audio.clip = soundOpen;
-            target = GetOrAdd("target");
-            door = GetOrAdd("door");
+            target = Find("target");
+            door = Find("door");
             initialDirection = door.position;
             openDirection = target.position;
             direction = initialDirection;

@@ -1152,11 +1152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114012488731724358
 MonoBehaviour:
@@ -1169,11 +1174,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114038120682193888
 MonoBehaviour:
@@ -1218,11 +1228,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114167580246126092
 MonoBehaviour:
@@ -1235,11 +1250,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114280343420939118
 MonoBehaviour:
@@ -1252,14 +1272,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5c84736e0174982b3ac493419448ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  spread: 100
-  power: 40000
+  spread: 50
+  power: 30000
 --- !u!114 &114332835276318088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1290,11 +1315,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114393924861219150
 MonoBehaviour:
@@ -1326,11 +1356,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114496279283770152
 MonoBehaviour:
@@ -1343,11 +1378,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114514635512567840
 MonoBehaviour:
@@ -1360,11 +1400,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114565809848926870
 MonoBehaviour:
@@ -1377,11 +1422,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114608332886705218
 MonoBehaviour:
@@ -1394,11 +1444,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114680131861731472
 MonoBehaviour:
@@ -1432,11 +1487,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114792949456072836
 MonoBehaviour:
@@ -1468,11 +1528,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   force: 5000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!135 &135145762528764736
 SphereCollider:

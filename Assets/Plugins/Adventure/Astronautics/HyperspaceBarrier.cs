@@ -5,8 +5,9 @@ using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
     public class HyperspaceBarrier : Adventure.Object {
-        void OnTriggerExit(Collider o) => If(IsValid(o), () => Jump(o.GetParent<Spaceship>()));
-        bool IsValid(Collider o) => !(o.GetParent<Spaceship>() is null);
-        void Jump(Spaceship o) => o.HyperJump(o.transform.rotation);
+        async void Start() { await 1; while (true) { await 1;
+            if (!Manager.ship.Position.IsNear(transform.position,10000))
+                Manager.ship.HyperJump(Manager.ship.transform.rotation); } }
+        // void OnTriggerExit(Collider c) => If(c.GetParent<Spaceship>(), o => o.HyperJump(o.transform.rotation));
     }
 }

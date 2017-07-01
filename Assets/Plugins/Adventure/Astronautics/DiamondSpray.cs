@@ -11,7 +11,9 @@ namespace Adventure.Astronautics.Spaceships {
         List<Rigidbody> shards = new List<Rigidbody>();
 
         void OnHit(Rigidbody o) => o.Get<ParticleSystem>().Play();
-        public override void Reset() => shards.ForEach(o => Reset(o));
+        public override void Reset() { shards.ForEach(o => Reset(o));
+            (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero); }
+
         protected override void Awake() { base.Awake();
             shards.Add(GetComponentsInChildren<Rigidbody>());
             shards.Remove(Get<Rigidbody>());
@@ -23,8 +25,7 @@ namespace Adventure.Astronautics.Spaceships {
         void Reset(Rigidbody shard) {
             shard.Get<ParticleSystem>().Stop();
             shard.transform.parent = transform;
-            shard.Get<Renderer>().enabled = true;
-            shard.Get<Collider>().enabled = true;
+            (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true, true);
             (shard.isKinematic, shard.velocity) = (false, Vector3.zero);
         }
 

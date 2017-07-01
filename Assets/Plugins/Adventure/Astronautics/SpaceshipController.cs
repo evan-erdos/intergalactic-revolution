@@ -16,26 +16,21 @@ namespace Adventure.Astronautics.Spaceships {
         void Awake() => player = Get<SpacePlayer>();
         void Start() => Ship?.ToggleView();
         void FixedUpdate() => Ship?.Move(brake,boost,speed,roll,pitch,yaw);
-        void Update() => If(true, () => ControlInput());
-        // void Update() => If(isLocalPlayer, () => ControlInput());
+        void Update() => ControlInput(); // If(isLocalPlayer, () => ControlInput());
         void ControlInput() {
-			// foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print($"joystick: {key}");
-            (roll, pitch) = (Input.GetAxis("Roll"),Input.GetAxis("Pitch"));
-            (yaw, speed) = (Input.GetAxis("Yaw"), Input.GetAxis("Speed"));
-            brake = Input.GetButton("Brake")?1:0;
-            boost = Input.GetButton("Boost")?1:0;
-            // // for xbox controllers
-            // (roll, pitch) = (Input.GetAxis("Roll"),Input.GetAxis("Pitch"));
-            // yaw = Input.GetAxis("Yaw");
-            // (speed,boost) = (Input.GetAxis("Speed"),Input.GetAxis("Boost"));
-            // if (boost<0) (boost,brake) = (0,boost);
-            if (Input.GetButton("Jump")) Ship?.HyperJump();
-            if (Input.GetButton("Fire")) Ship?.Fire();
-            if (Input.GetButtonDown("Switch")) Ship?.SelectWeapon();
-            if (Input.GetButtonDown("Mode")) Ship?.ChangeMode();
-            if (Input.GetButtonDown("Toggle")) Ship?.ToggleView();
+            // foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print(key);
+            (roll, pitch, yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Pitch"), Input.GetAxis("Yaw"));
+            (brake, boost, speed) = (Input.GetButton("Brake")?1:0, Input.GetButton("Action")?1:0, Input.GetAxis("Speed"));
+            if (GetBoost()>0) boost = GetBoost();
+            if (GetAttack()>0.8 || Input.GetButton("Fire")) Ship?.Fire();
+            if (Input.GetButton("Jump")) Ship?.HyperJump(); // Ship?.SelectSystem();
             if (Input.GetButtonDown("Select")) Ship?.SelectTarget();
-            if (Input.GetButtonDown("Hyperspace")) Ship?.SelectSystem();
+            if (Input.GetAxis("Cycle")>0) Ship?.SelectWeapon();
+            if (Input.GetAxis("Cycle")<0) Ship?.ChangeMode();
+            if (Input.GetAxis("Mode")>0) Ship?.ToggleView();
+
+            float GetBoost() => (Input.GetAxis("Attack")>0)?Input.GetAxis("Attack"):0;
+            float GetAttack() => (Input.GetAxis("Attack")<0)?-Input.GetAxis("Attack"):0;
         }
     }
 }

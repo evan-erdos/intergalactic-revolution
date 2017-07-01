@@ -10,7 +10,7 @@ namespace Adventure {
 
     /// IObject
     /// shared interface for all of the things
-    public interface IObject {
+    public interface IObject : ICreatable {
 
 
         /// Name : string
@@ -28,22 +28,6 @@ namespace Adventure {
         Vector3 Position {get;} // (float x, float y, float z)
 
 
-        /// CreateEvent : event
-        /// event raised when the object is created
-        event RealityAction CreateEvent;
-
-
-        /// Init : () => void
-        /// does local setup when creating an object
-        void Init();
-
-
-        /// Create : (o,e) => void
-        /// calls the create event callback
-        void Create();
-        void Create(IObject o, RealityArgs e);
-
-
         /// If : (() => bool, () => void) => void
         /// functional-style if statement
         bool If(bool cond, Action then);
@@ -55,11 +39,9 @@ namespace Adventure {
         /// matches the pattern for this object
         bool Fits(string pattern);
 
-
         /// StartSemaphore : (coroutine) => void
-        /// like StartCoroutine, but ignores calls until
+        /// like StartCoroutine, but ignores calls until func completes
         void StartSemaphore(Func<IEnumerator> func);
-
 
         /// Get : <T>() => T
         /// gets the component T or null
