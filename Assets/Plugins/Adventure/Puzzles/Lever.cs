@@ -2,11 +2,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Adventure.Puzzles {
-    public class Lever : Piece<int>, IPushable {
-        float theta, speed, squeeze, delay = 4f;
+    public class Lever : Piece<int,bool>, IPushable {
+        float theta, speed, delay = 4;
         Transform arm, handle;
         new AudioSource audio;
         [SerializeField] Vector2 range = new Vector2(-20,20);
@@ -17,18 +18,19 @@ namespace Adventure.Puzzles {
         public int Selections => 6;
         public float Theta {
             get { return theta; }
-            set { theta = Mathf.Clamp(value, range.x, range.y); } }
+            set { theta = Mathf.Clamp(value,range.x,range.y); } }
+
+        public override void Init() { base.Init();
+            onSolve.AddListener((o,e) => OnSolve(o,e)); }
 
         public override void Use() { if (IsSolved) Push(); else Pull(); }
 
-        void Start() => squeeze = grip.y;
-
         void FixedUpdate() {
             if (IsLocked) return;
-            arm.localRotation = Quaternion.Slerp(
-                arm.localRotation, Quaternion.Euler(0,0,theta), Time.deltaTime*5);
-            handle.localRotation = Quaternion.Slerp(
-                handle.localRotation, Quaternion.Euler(0,0,squeeze), Time.deltaTime*8);
+            arm.localRotation = Quaternion.Slerp(arm.localRotation,
+                Quaternion.Euler(0,0,theta), Time.deltaTime*5);
+            handle.localRotation = Quaternion.Slerp(handle.localRotation,
+                Quaternion.Euler(0,0,grip.y),Time.deltaTime*8);
         }
 
         public virtual void Push() {
@@ -37,14 +39,8 @@ namespace Adventure.Puzzles {
             Solve(Condition+1);
         }
 
-        public void Pull(Actor actor, StoryArgs args) {
-            StartCoroutine(Pulling(!IsSolved));
-            IEnumerator Pulling(bool t) {
-                if (t) Pull();
-                else Push();
-                yield return new WaitForSeconds(delay);
-            }
-        }
+        async void OnPull(Actor actor, StoryArgs args) {
+            if (!IsSolved) Pull(); else Push(); await delay; }
 
         public virtual void Pull() {
             audio.PlayOneShot(soundLever,0.2f);
@@ -53,9 +49,8 @@ namespace Adventure.Puzzles {
         }
 
 
-        protected override void OnSolve() =>
+        void OnSolve(IThing o, StoryArgs e) =>
             Log("You hear the sound of stone grinding in the distance.");
-
 
         public override int Pose() {
             return Posing().Current;
@@ -84,7 +79,7 @@ namespace Adventure.Puzzles {
             if (range.x>range.y) range = new Vector2(range.y, range.x);
         }
 
-        new public class Data : Piece<float>.Data {
+        new public class Data : Piece<int,bool>.Data {
             public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Lever;
                 return instance;

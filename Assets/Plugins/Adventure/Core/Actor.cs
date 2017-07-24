@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Adventure.Inventories;
 using Adventure.Locales;
@@ -11,10 +12,9 @@ using Adventure.Locales;
 namespace Adventure {
     public class Actor : Thing, IActor {
         new protected Rigidbody rigidbody;
-        [SerializeField] protected StoryEvent onKill;
-        [SerializeField] protected StoryEvent onGoto;
-        public event StoryAction KillEvent;
-        public event StoryAction GotoEvent;
+        [SerializeField] protected StoryEvent onKill = new StoryEvent();
+        [SerializeField] protected StoryEvent onGoto = new StoryEvent();
+        public event StoryAction KillEvent, GotoEvent;
         public virtual bool IsDead {get;set;}
         public override float Radius => 16;
         public virtual float Mass => rigidbody.mass;
@@ -28,16 +28,13 @@ namespace Adventure {
         public virtual Transform WalkTarget {get;protected set;}
         public virtual Transform LookTarget {get;protected set;}
         public override Transform Location {set {
-            var room = value.GetParent<Room>();
-            if (room) base.Location = room.Location;
+            if (value.GetParent<Room>() is Room o) base.Location = o.Location;
             else throw new StoryError(Description["cannot goto"]); } }
 
-        public virtual void Kill(Actor thing) => KillEvent(this, new StoryArgs {
-            Message = $"kill {thing}", Goal = thing });
-
-        public virtual void Goto(IThing thing) => GotoEvent(this, new StoryArgs {
-            Message = $"go to {thing}", Goal = thing });
-
+        public virtual void Kill(Actor o) => KillEvent(this,
+            args: new StoryArgs { Message = $"kill {o}", Goal = o });
+        public virtual void Goto(IThing o) => GotoEvent(this,
+            args: new StoryArgs { Message = $"go to {o}", Goal = o });
         public override void Do() => Talk();
         public virtual void Take() => Find<Item>().ForEach(o => Take(o));
         public virtual void Drop() => Items.ForEach(item => Drop(item as Thing));
@@ -59,108 +56,75 @@ namespace Adventure {
         public virtual void Wear(IWearable o) => o.Wear();
         public virtual void Stow(IWearable o) => o.Stow();
 
-        void OnGoto(IThing thing) {
-            StartSemaphore(GoingTo);
-            IEnumerator GoingTo() {
-                Log($"The Monk goes to the {thing}.");
-                WalkTarget.position = thing.Position;
-                yield return new WaitForSeconds(1f);
-            }
-        }
+        async Task OnGoto(IThing o, StoryArgs e) {
+            Log($"{o} goes to the {e.Goal}.");
+            WalkTarget.position = e.Goal.Position;
+            await 1; }
 
-        void OnKill() {
-            StartSemaphore(Killing);
-            IEnumerator Killing() {
-                IsDead = true;
-                Log(Description["death"]);
-                yield return new WaitForSeconds(1f);
-            }
-        }
+        async Task OnKill(IThing o, StoryArgs e) {
+            IsDead = true;
+            Log(Description["death"]);
+            await 1; }
 
-        public virtual void Take(Thing thing) {
-            if (thing==this) throw new StoryError(Description["cannot take self"]);
-            if (!(thing is Item item)) throw new StoryError(Description["cannot take thing"]);
-            if (Items.Contains(item)) throw new StoryError(Description["already take thing"]);
-            item.Location = transform;
-            Items.Add(item);
-            item.Take();
+        public virtual void Take(Thing o) {
+            if (o==this) throw new StoryError(this["cannot take self"]);
+            if (!(o is Item item)) throw new StoryError(this["cannot take thing"]);
+            if (Items.Contains(item)) throw new StoryError(this["already take thing"]);
+            item.Location = transform; Items.Add(item); item.Take();
         }
 
         public virtual void Drop(Thing thing) {
             if (!(thing is Item item)) throw new StoryError(Description["cannot drop"]);
             if (!Items.Contains(item)) throw new StoryError(Description["already drop"]);
-            item.Drop();
-            Items.Remove(item);
+            item.Drop(); Items.Remove(item);
             item.transform.parent = null;
             item.transform.position = transform.position+Vector3.forward;
         }
 
         public void Lock(Thing thing) {
             var list = from item in Items where item is Key select item as Key;
-            if (thing is ILockable door && !door.IsLocked)
-                list.ToList().ForEach(item => door.Lock(item));
+            if (thing is ILockable door && !door.IsLocked) list.ForEach(o => door.Lock(o));
             else throw new StoryError(Description["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
             var list = from item in Items where item is Key select item as Key;
-            if (thing is ILockable door)
-                list.First(key => key==door.LockKey);
-        }
+            if (thing is ILockable door) list.First(o => o==door.LockKey); }
 
-        protected void Do<T>(
-                        Thing thing,
-                        StoryArgs args,
-                        IEnumerable<T> list,
-                        Action<Actor,Thing> then) where T : IThing {
+        protected void Do<T>(Thing o, StoryArgs e, Action<Actor,IThing> f) where T : IThing => Do<T>(o,e,o.Find<T>(),f);
+        protected void Do<T>(Thing o, StoryArgs e, IEnumerable<T> a, Action<Actor,IThing> f) where T : IThing {
             var query =
-                from item in Enumerable.Union(list.Cast<IThing>(), Items.Cast<IThing>())
-                where item.Fits(args.Input) && item is T select item as Thing;
+                from item in Enumerable.Union(a.Cast<IThing>(), Items.Cast<IThing>())
+                where item.Fits(e.Input) && item is T select item as Thing;
             if (!query.Any()) throw new StoryError(Description?["cannot nearby thing"]);
             if (query.Count()>1) throw new AmbiguityError(Description?["many nearby thing"], query.Cast<IThing>());
-            args.Goal = query.First();
-            if (thing is Actor actor) then(actor, args.Goal as Thing);
-            else throw new StoryError($"You can't do that to a {thing}.");
+            e.Goal = query.First();
+            if (o is Actor actor) f(actor, e.Goal as Thing);
+            else throw new StoryError($"You can't do that to a {o}.");
         }
 
         public virtual void Do(Thing o, StoryArgs e) => o.Do();
         public virtual void Help(Thing o, StoryArgs e) => Help();
         public virtual void Pray(Thing o, StoryArgs e) => Pray();
         public virtual void Kill(Thing sender, StoryArgs args) { throw new MoralityError(
-            message: sender.Description["attempt kill"], then: (o,e) => (o as Actor).Kill()); }
+            sender.Description["attempt kill"], (o,e) => (o as Actor).Kill()); }
 
-        public virtual void View(Thing sender, StoryArgs args) => Do<Thing>(
-            sender, args, sender.Find<Thing>(), (o,e) => o.View(e as Thing));
-        public virtual void Find(Thing sender, StoryArgs args) => Do<Thing>(
-            sender, args, sender.Find<Thing>(), (o,e) => o.Find(e as Thing));
-        public virtual void Goto(Thing sender, StoryArgs args) => Do<Thing>(
-            sender, args, sender.Find<Thing>(), (o,e) => o.Goto(e as Thing));
-        public virtual void Use(Thing sender, StoryArgs args) => Do<IUsable>(
-            sender, args, sender.Find<IUsable>(), (o,e) => o.Use(e as IUsable));
-        public virtual void Sit(Thing sender, StoryArgs args) => Do<Thing>(
-            sender, args, sender.Find<Thing>(), (o,e) => o.Sit(e as Thing));
-        public virtual void Take(Thing sender, StoryArgs args) => Do<Item>(
-            sender, args, sender.Find<Item>(), (o,e) => o.Take(e as Item));
-        public virtual void Drop(Thing sender, StoryArgs args) => Do<Item>(
-            sender, args, sender.Find<Item>(0), (o,e) => o.Drop(e as Item));
-        public virtual void Read(Thing sender, StoryArgs args) => Do<IReadable>(
-            sender, args, sender.Find<IReadable>(), (o,e) => o.Read(e as IReadable));
-        public virtual void Push(Thing sender, StoryArgs args) => Do<IPushable>(
-            sender, args, sender.Find<IPushable>(), (o,e) => o.Push(e as IPushable));
-        public virtual void Pull(Thing sender, StoryArgs args) => Do<IPushable>(
-            sender, args, sender.Find<IPushable>(), (o,e) => o.Pull(e as IPushable));
-        public virtual void Open(Thing sender, StoryArgs args) => Do<IOpenable>(
-            sender, args, sender.Find<IOpenable>(), (o,e) => o.Open(e as IOpenable));
-        public virtual void Shut(Thing sender, StoryArgs args) => Do<IOpenable>(
-            sender, args, sender.Find<IOpenable>(), (o,e) => o.Shut(e as IOpenable));
-        public virtual void Wear(Thing sender, StoryArgs args) => Do<IWearable>(
-            sender, args, sender.Find<IWearable>(0), (o,e) => o.Wear(e as IWearable));
-        public virtual void Stow(Thing sender, StoryArgs args) => Do<IWearable>(
-            sender, args, sender.Find<IWearable>(0), (o,e) => o.Stow(e as IWearable));
-        public virtual void Lock(Thing sender, StoryArgs args) => Do<ILockable>(
-            sender, args, sender.Find<ILockable>(), (o,e) => o.Lock(e as Thing));
-        public virtual void Unlock(Thing sender, StoryArgs args) => Do<ILockable>(
-            sender, args, sender.Find<ILockable>(), (o,e) => o.Unlock(e as Thing));
+        public virtual void View(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.View(a as Thing));
+        public virtual void Find(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Find(a as Thing));
+        public virtual void Goto(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Goto(a as Thing));
+        public virtual void Use(Thing o, StoryArgs e) => Do<IUsable>(o,e, (t,a) => t.Use(a as IUsable));
+        public virtual void Sit(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Sit(a as Thing));
+        public virtual void Take(Thing o, StoryArgs e) => Do<Item>(o,e, (t,a) => t.Take(a as Item));
+        public virtual void Drop(Thing o, StoryArgs e) => Do<Item>(o,e, (t,a) => t.Drop(a as Item));
+        public virtual void Read(Thing o, StoryArgs e) => Do<IReadable>(o,e, (t,a) => t.Read(a as IReadable));
+        public virtual void Push(Thing o, StoryArgs e) => Do<IPushable>(o,e, (t,a) => t.Push(a as IPushable));
+        public virtual void Pull(Thing o, StoryArgs e) => Do<IPushable>(o,e, (t,a) => t.Pull(a as IPushable));
+        public virtual void Open(Thing o, StoryArgs e) => Do<IOpenable>(o,e, (t,a) => t.Open(a as IOpenable));
+        public virtual void Shut(Thing o, StoryArgs e) => Do<IOpenable>(o,e, (t,a) => t.Shut(a as IOpenable));
+        public virtual void Wear(Thing o, StoryArgs e) => Do<IWearable>(o,e, (t,a) => t.Wear(a as IWearable));
+        public virtual void Stow(Thing o, StoryArgs e) => Do<IWearable>(o,e, (t,a) => t.Stow(a as IWearable));
+        public virtual void Lock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Lock(a as Thing));
+        public virtual void Unlock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Unlock(a as Thing));
 
         protected override IEnumerable<Thing> Find<T>(float range, Vector3 position) =>
             from thing in Enumerable.Union(base.Find<T>(range, position), Items.Cast<Thing>())
@@ -168,15 +132,15 @@ namespace Adventure {
 
         protected override void Awake() { base.Awake();
             rigidbody = GetComponent<Rigidbody>();
-            WalkTarget = new GameObject($"{name}:walk-target").transform;
-            LookTarget = new GameObject($"{name}:look-target").transform;
+            WalkTarget = new GameObject($"{name} : walk to").transform;
+            LookTarget = new GameObject($"{name} : look at").transform;
             WalkTarget.position = transform.position;
             LookTarget.position = transform.position;
             LookTarget.position += transform.forward + Vector3.up;
-            onKill.AddListener((o,e) => OnKill());
-            onGoto.AddListener((o,e) => OnGoto(e.Goal));
-            KillEvent += (o,e) => onKill?.Invoke(o,e);
-            GotoEvent += (o,e) => onGoto?.Invoke(o,e);
+            onKill.AddListener((o,e) => StartAsync(() => OnKill(o,e)));
+            onGoto.AddListener((o,e) => StartAsync(() => OnGoto(o,e)));
+            KillEvent += (o,e) => onKill?.Call(o,e);
+            GotoEvent += (o,e) => onGoto?.Call(o,e);
         }
 
         class Holdall<T> : IList<T> where T : Item {
@@ -194,7 +158,7 @@ namespace Adventure {
             public bool Remove(T o) => list.Remove(o);
             public int IndexOf(T o) => list.IndexOf(o);
             public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
-            IEnumerator IEnumerable.GetEnumerator() => (IEnumerator) GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator() as IEnumerator;
         }
 
         new public class Data : Thing.Data {

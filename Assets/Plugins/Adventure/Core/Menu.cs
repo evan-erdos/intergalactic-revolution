@@ -20,7 +20,7 @@ namespace Adventure {
         [SerializeField] protected ui::Selectable selection;
 
         public string PlayerName {get;set;} = "Evan Erdos";
-        public SpaceshipProfile PlayerShip {get;set;}
+        public ShipProfile PlayerShip {get;set;}
 
         public void Play() => Click(() => LoadGame());
         public void Load() => Click(() => Load(PlayerName, PlayerShip, PickSyst()));
@@ -30,8 +30,8 @@ namespace Adventure {
         public void LoadGame(PilotProfile pilot) => LoadGame(pilot, PickSyst());
         public void LoadGame(PilotProfile pilot, StarProfile star) => LoadGame(pilot, star, star.Subsystems.Pick());
         public void LoadGame(PilotProfile pilot, StarProfile star, string spob) => Get<Loader>().Load(() => Manager.OnLoadGame(pilot,star,spob), spob);
-        void Load(string name, SpaceshipProfile ship, StarProfile star) => Load(name,ship,star,star.Subsystems.Pick());
-        void Load(string name, SpaceshipProfile ship, StarProfile star, string spob) => Get<Loader>().Load(() => Manager.OnLoad(name,ship,star,spob), spob);
+        void Load(string name, ShipProfile ship, StarProfile star) => Load(name,ship,star,star.Subsystems.Pick());
+        void Load(string name, ShipProfile ship, StarProfile star, string spob) => Get<Loader>().Load(() => Manager.OnLoad(name,ship,star,spob), spob);
         public async void Click(Action then) { AudioSource.PlayClipAtPoint(click,PlayerCamera.Location,0.5f); await 0; then(); }
         public StarProfile PickSyst() => Manager.StarSystems.Keys.ToList().Pick();
         void Awake() => selection.Select();

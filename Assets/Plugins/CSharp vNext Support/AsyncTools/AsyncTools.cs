@@ -39,40 +39,37 @@ public static class AsyncTools {
     public static Awaiter ToFixedUpdate() => fixedAwaiter ?? (fixedAwaiter = new SynchronizationContextAwaiter(UnityScheduler.FixedUpdateScheduler.Context));
 
     /// Downloads a file as an array of bytes.
-    public static Task<byte[]> DownloadAsBytesAsync(string address, CancellationToken cancellationToken = new CancellationToken()) =>
-        Task.Factory.StartNew(delegate { using (var webClient = new WebClient()) return webClient.DownloadData(address);}, cancellationToken);
+    public static Task<byte[]> DownloadAsBytesAsync(string url, CancellationToken cancellationToken = new CancellationToken()) =>
+        Task.Factory.StartNew(delegate { using (var d = new WebClient()) return d.DownloadData(url);}, cancellationToken);
 
-    /// Downloads a file as a string.
-    public static Task<string> DownloadAsStringAsync(string address, CancellationToken cancellationToken = new CancellationToken()) =>
-        Task.Factory.StartNew(delegate { using (var webClient = new WebClient()) return webClient.DownloadString(address); }, cancellationToken);
+    /// Downloads a file as a string
+    public static Task<string> DownloadAsStringAsync(string url, CancellationToken cancellationToken = new CancellationToken()) =>
+        Task.Factory.StartNew(delegate { using (var d = new WebClient()) return d.DownloadString(url); }, cancellationToken);
 
-    /// Waits for specified number of seconds or until next frame
+    /// waits for specified number of seconds or until next physics or render update based on calling context
     public static Awaiter GetAwaiter(this int delay) => GetAwaiter((double) delay);
     public static Awaiter GetAwaiter(this float delay) => GetAwaiter((double) delay);
     public static Awaiter GetAwaiter(this double delay) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
         if (delay<=0 && context != null) return new ContextActivationAwaiter(context);
-        return new DelayAwaiter(delay);
-    }
+        return new DelayAwaiter(delay); }
 
     /// Waits until condition is met
     public static Awaiter GetAwaiter(this Func<bool> cond) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
         if (cond() && context!=null) return new ContextActivationAwaiter(context);
-        return new ConditionAwaiter(cond);
-    }
+        return new ConditionAwaiter(cond); }
 
     /// Waits until coroutine is finished
     public static Awaiter GetAwaiter(this CustomYieldInstruction coroutine) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
         if (!coroutine.keepWaiting && context != null) return new ContextActivationAwaiter(context);
-        return new YieldInstructionAwaiter(coroutine); // return new ConditionAwaiter(() => !coroutine.keepWaiting);
-    }
+        return new YieldInstructionAwaiter(coroutine); }
 
     /// waits until all the tasks are completed
     public static TaskAwaiter GetAwaiter(this IEnumerable<Task> tasks) => TaskEx.WhenAll(tasks).GetAwaiter();
 
-    /// Waits until the process exits.
+    /// waits until the process exits
     public static TaskAwaiter<int> GetAwaiter(this Process process) {
         var tcs = new TaskCompletionSource<int>();
         process.EnableRaisingEvents = true;
@@ -94,7 +91,7 @@ public static class AsyncTools {
     class DelayAwaiter : Awaiter {
         readonly SynchronizationContext context;
         readonly double delay;
-        public DelayAwaiter(double delay) { (this. delay,context) = (delay, SynchronizationContext.Current); }
+        public DelayAwaiter(double delay) { (this.delay, context) = (delay, SynchronizationContext.Current); }
         public override bool IsCompleted => delay<=0;
         public override void OnCompleted(Action action) =>
             TaskEx.Delay((int)(delay * 1000)).ContinueWith(prevTask => {

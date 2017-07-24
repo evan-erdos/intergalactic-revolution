@@ -108,49 +108,220 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1232085124
-Prefab:
+--- !u!1 &429888578
+GameObject:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4625579520078798, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1765624244901394, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-      propertyPath: m_Name
-      value: Manager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
-  m_IsPrefabParent: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 429888581}
+  - component: {fileID: 429888582}
+  - component: {fileID: 429888580}
+  - component: {fileID: 429888579}
+  - component: {fileID: 429888584}
+  - component: {fileID: 429888583}
+  m_Layer: 0
+  m_Name: Management
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &429888579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Roll
+  m_VerticalAxis: Pitch
+  m_SubmitButton: Jump
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 1
+--- !u!114 &429888580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &429888581
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &429888582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2b8936a996b648d681732d6c94800dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  prefabs:
+    menu: {fileID: 1778535296600916, guid: f39d95578a4b8f54dbc0a78f7cbb4d0c, type: 2}
+    camera: {fileID: 1346981481135148, guid: 1b196c18fb62d4633bf539dfa621bc03, type: 2}
+    player: {fileID: 1865520461216274, guid: 8ed1223f1cab442db8efd10eaa060a61, type: 2}
+  StarProfiles:
+  - {fileID: 11400000, guid: fae5ae2e656754842bca442a9e1f1a13, type: 2}
+  - {fileID: 11400000, guid: e246ef2fb1b5a4f95981e17957049847, type: 2}
+  - {fileID: 11400000, guid: e4737dacda5cd40a790025d209bea148, type: 2}
+  - {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
+  - {fileID: 11400000, guid: 4d62731b42a7a40e39f23d87b7b57169, type: 2}
+  - {fileID: 11400000, guid: f2b57db131e0f4cb98b4f2db4ab0ad7e, type: 2}
+  PilotProfiles:
+  - {fileID: 11400000, guid: a412f309daa104592a750481119d421d, type: 2}
+  - {fileID: 11400000, guid: faddceac2f4f34edea1d99b18a7e9b23, type: 2}
+  - {fileID: 11400000, guid: 431583e69717a4b4d8575c72ff5148e0, type: 2}
+  - {fileID: 11400000, guid: 133f8a005cbeb464284cbe65c474d34b, type: 2}
+  - {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
+  - {fileID: 11400000, guid: 57cb3c1db5f8f4513a8d7cc9f045c7e7, type: 2}
+  - {fileID: 11400000, guid: 2af90393e6f9f4ba68ee9f44e503a1ca, type: 2}
+  - {fileID: 11400000, guid: c300d541f8fe2438fa241c7ce1cca1dc, type: 2}
+  ShipProfiles:
+  - {fileID: 11400000, guid: e3cf383ac5d934ac1ad71f813cea4f58, type: 2}
+  - {fileID: 11400000, guid: f54872c9ce5154921a7438de9a270ef9, type: 2}
+  - {fileID: 11400000, guid: 9631ccf15285f452787adee8b4f7cbad, type: 2}
+  - {fileID: 11400000, guid: 18496b2ea0590488fbb5d70090de1f97, type: 2}
+  - {fileID: 11400000, guid: 92737fa41629f458594132bc2763de34, type: 2}
+  - {fileID: 11400000, guid: c2c84f8c435f94c849436f221b1c4c06, type: 2}
+  - {fileID: 11400000, guid: d83d5f5c77531432c9dd0a95da8cb6eb, type: 2}
+  - {fileID: 11400000, guid: cc8ca331692a143a1a971645e54219e2, type: 2}
+--- !u!114 &429888583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  showGUI: 1
+  offsetX: 32
+  offsetY: 32
+--- !u!114 &429888584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429888578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -822479833, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NetworkPort: 7777
+  m_ServerBindToIP: 0
+  m_ServerBindAddress: 
+  m_NetworkAddress: localhost
+  m_DontDestroyOnLoad: 1
+  m_RunInBackground: 1
+  m_ScriptCRCCheck: 1
+  m_MaxDelay: 0.01
+  m_LogLevel: 2
+  m_PlayerPrefab: {fileID: 1865520461216274, guid: 8ed1223f1cab442db8efd10eaa060a61,
+    type: 2}
+  m_AutoCreatePlayer: 0
+  m_PlayerSpawnMethod: 1
+  m_OfflineScene: Station Alpha A
+  m_OnlineScene: Station Alpha A
+  m_SpawnPrefabs:
+  - {fileID: 1937603680827418, guid: 0c281676318b04a1293a80252482791c, type: 2}
+  - {fileID: 1431798685936340, guid: 3bc7b412a00f64625b14f95596e57433, type: 2}
+  - {fileID: 1695912349146176, guid: 3a36e32c6943b46b7a85b1b76683bd2b, type: 2}
+  - {fileID: 1774282575585514, guid: 66022f72988b44aabad443a99bb39260, type: 2}
+  - {fileID: 1042537615994610, guid: e8a24c7c780a447419e1fb5264988a3f, type: 2}
+  - {fileID: 1082745319266606, guid: e9c0dbb3895164086afb125ab8795e88, type: 2}
+  - {fileID: 1082745319266606, guid: dec1899e6431745f7b6e201e96a0d650, type: 2}
+  - {fileID: 1082745319266606, guid: 7924be7fd7afd4e8b899aa38b1efa55e, type: 2}
+  - {fileID: 1883869139232688, guid: fd8f451e9b09b4a0ea63f90d8e535c84, type: 2}
+  - {fileID: 154326, guid: 42f53ce9478624bc9bbb328c8fa8e2a9, type: 2}
+  m_CustomConfig: 0
+  m_MaxConnections: 4
+  m_ConnectionConfig:
+    m_PacketSize: 1440
+    m_FragmentSize: 500
+    m_ResendTimeout: 1200
+    m_DisconnectTimeout: 2000
+    m_ConnectTimeout: 2000
+    m_MinUpdateTimeout: 10
+    m_PingTimeout: 500
+    m_ReducedPingTimeout: 100
+    m_AllCostTimeout: 20
+    m_NetworkDropThreshold: 5
+    m_OverflowDropThreshold: 5
+    m_MaxConnectionAttempt: 10
+    m_AckDelay: 33
+    m_SendDelay: 10
+    m_MaxCombinedReliableMessageSize: 100
+    m_MaxCombinedReliableMessageCount: 10
+    m_MaxSentMessageQueueSize: 512
+    m_AcksType: 1
+    m_UsePlatformSpecificProtocols: 0
+    m_InitialBandwidth: 0
+    m_BandwidthPeakFactor: 2
+    m_WebSocketReceiveBufferMaxSize: 0
+    m_UdpSocketReceiveBufferMaxSize: 0
+    m_SSLCertFilePath: 
+    m_SSLPrivateKeyFilePath: 
+    m_SSLCAFilePath: 
+    m_Channels: []
+  m_GlobalConfig:
+    m_ThreadAwakeTimeout: 1
+    m_ReactorModel: 0
+    m_ReactorMaximumReceivedMessages: 1024
+    m_ReactorMaximumSentMessages: 1024
+    m_MaxPacketSize: 2000
+    m_MaxHosts: 16
+    m_ThreadPoolSize: 1
+    m_MinTimerTimeout: 1
+    m_MaxTimerTimeout: 12000
+    m_MinNetSimulatorTimeout: 1
+    m_MaxNetSimulatorTimeout: 12000
+  m_Channels: 0500000000000000
+  m_UseWebSockets: 0
+  m_UseSimulator: 0
+  m_SimulatedLatency: 1
+  m_PacketLossPercentage: 0
+  m_MaxBufferedPackets: 16
+  m_AllowFragmentation: 1
+  m_MatchHost: mm.unet.unity3d.com
+  m_MatchPort: 443
+  matchName: default
+  matchSize: 4
+  isNetworkActive: 0
+  matchMaker: {fileID: 0}

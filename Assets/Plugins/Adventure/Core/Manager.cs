@@ -14,7 +14,7 @@ namespace Adventure.Astronautics {
         [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
-        [SerializeField] SpaceshipProfile[] ShipProfiles = new SpaceshipProfile[1];
+        [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
         [Serializable] protected class AdventurePrefabs {
             [SerializeField] public GameObject menu;
             [SerializeField] public GameObject camera;
@@ -30,7 +30,7 @@ namespace Adventure.Astronautics {
         public static Menu menu {get;protected set;}
         public static new PlayerCamera camera {get;protected set;}
         public static PilotProfile[] Pilots {get;protected set;}
-        public static SpaceshipProfile[] Ships {get;protected set;}
+        public static ShipProfile[] Ships {get;protected set;}
         public static Map<StarProfile,StarProfile[]> StarSystems {get;} = new Map<StarProfile,StarProfile[]>();
         public static readonly Map<Type> tags = new Map<Type> {
             ["object"] = typeof(Adventure.Object),
@@ -125,7 +125,7 @@ namespace Adventure.Astronautics {
 
         public void CreateShip() => CreateShip();
         // [Command]
-        public void CmdCreateShip(SpaceActor actor, SpaceshipProfile ship) {
+        public void CmdCreateShip(SpaceActor actor, ShipProfile ship) {
             var instance = Instantiate(ship.prefab) as GameObject;
             NetworkServer.Spawn(instance);
             DontDestroyOnLoad(instance);
@@ -136,7 +136,7 @@ namespace Adventure.Astronautics {
         }
 
 
-        public static void OnLoad(string name, SpaceshipProfile shipData, StarProfile profile, string spob) {
+        public static void OnLoad(string name, ShipProfile shipData, StarProfile profile, string spob) {
             StartHost();
             var star = Create(profile.prefab);
             var pilot = Pilots.ToList().Pick();

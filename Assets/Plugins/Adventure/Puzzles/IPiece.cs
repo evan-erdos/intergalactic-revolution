@@ -1,67 +1,54 @@
-/* Ben Scott * @evan-erdos * bescott@andrew.cmu.edu * 2015-11-18 */
+/* Ben Scott * @evan-erdos * bescott@andrew.cmu.edu * 2017-07-07 */
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 namespace Adventure.Puzzles {
 
-    /// IPiece : interface
-    /// An element of a larger puzzle which can change the puzzle,
-    /// based on its own status as solved, or unsolved.
-    public interface IPiece {
+
+    /// IPiece : IObject
+    /// a part of a puzzle which determines on its own if it's solved
+    public interface IPiece : IObject {
+
+        /// IsSolved : bool
+        /// whether or not the current condition is the solution
+        bool IsSolved {get;}
 
         /// SolveEvent : event
-        /// notify subscribers in the event that they are solved
+        /// raised when the piece is solved or becomes unsolved
         event StoryAction SolveEvent;
 
-        /// IsSolved : bool
-        /// whether or not the current state is the solution
-        /// - ensure : IsSolved==(Condition==Solution)
-        bool IsSolved {get;}
-
-        /// Solve : () => bool
-        /// does not attempt a new solution, but simply checks the exiting one
-        bool Solve();
-
+        /// Solve : () => void
+        /// attempts to solve piece using current condition
+        void Solve();
     }
 
-    /// IPiece<T> : IPiece
-    /// An element of a larger puzzle which can change the puzzle,
-    /// based on its own status as solved, or unsolved.
-    /// In the case of more complicated base types,
-    /// it could represent a digit on a combination lock.
-    /// In that case, a given piece might not have its own solution,
-    /// but could represent a solved puzzle when considered in aggregate.
-    public interface IPiece<T> {
+
+    public interface IPiece<T,U> : IPiece {
 
         /// PoseEvent : event
-        /// notify subscribers in the event that they are solved
-        event PuzzleAction<T> PoseEvent;
-
-        /// IsSolved : bool
-        /// whether or not the current state is the solution
-        /// - ensure : IsSolved==(Condition==Solution)
-        bool IsSolved {get;}
+        /// the pose event is raised anytime a change is made to the piece
+        event PuzzleAction<T,U> PoseEvent;
 
         /// Condition : T
-        /// the current configuration
+        /// the current configuration of the object
         T Condition {get;}
 
         /// Solution : T
         /// if the configuration of an instance is equal to its solution
-        T Solution {get;}
+        U Solution {get;}
 
         /// Pose : () => T
         /// applies some sort of transformation to the piece,
         /// and returns a state which can be used in a solve attempt
         T Pose();
 
-        /// Solve : (T) => bool
+        /// Solve : (T) => U
         /// the action of solving might represent the pull of a lever,
         /// or the placement of a piece in an actual jigsaw puzzle
-        /// - condition : T
-        /// value to attempt to solve with
-        bool Solve(T condition);
+        U Solve(T cond);
     }
 }

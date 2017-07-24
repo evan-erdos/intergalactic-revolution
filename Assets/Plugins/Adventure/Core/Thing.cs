@@ -3,12 +3,12 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Adventure {
     public class Thing : Object, IThing {
-        YieldInstruction wait = new WaitForSeconds(1);
         [SerializeField] protected StoryEvent onLog, onView, onFind, onTouch;
         public event StoryAction LogEvent, ViewEvent, FindEvent, TouchEvent;
         public override float Radius => 5;
@@ -16,6 +16,7 @@ namespace Adventure {
         public virtual string Content => $"### {Name} ###\n{Description}";
         public virtual Transform Location {get;set;}
         public virtual Desc Description {get;protected set;} = new Desc();
+        public virtual string this[string o] { get { return Description[o]; } }
         public virtual void Do() => Touch();
         public virtual void Log() => Log(Content);
         public virtual void Log(string s) => LogEvent(null,new StoryArgs(s));
@@ -24,12 +25,8 @@ namespace Adventure {
         public virtual void Touch() => TouchEvent(this,new StoryArgs());
         public override bool Fits(string s) => Description.Fits(s);
         public virtual void OnLog(string s) => Terminal.Log(s.md());
-
-        public virtual void OnFind() => Wait(wait, () =>
-            Terminal.Log(Description["find"].md()));
-
-        public virtual void OnView() { StartSemaphore(Viewing);
-            IEnumerator Viewing() { Terminal.Log(Content.md()); yield return wait; } }
+        async Task OnView() { Terminal.Log(Content.md()); await 1; }
+        async Task OnFind() { Terminal.Log(Description["find"].md()); await 1; }
 
         protected virtual void Awake() {
             Mask =
@@ -39,15 +36,15 @@ namespace Adventure {
                 | 1 << LayerMask.NameToLayer("Actor");
             gameObject.layer = LayerMask.NameToLayer("Thing");
             onLog.AddListener((o,e) => OnLog(e.Message));
-            onFind.AddListener((o,e) => OnFind());
-            onView.AddListener((o,e) => OnView());
+            onFind.AddListener((o,e) => StartAsync(OnFind));
+            onView.AddListener((o,e) => StartAsync(OnView));
             LogEvent += (o,e) => onLog?.Invoke(o,e);
             FindEvent += (o,e) => onFind?.Invoke(o,e);
             ViewEvent += (o,e) => onView?.Invoke(o,e);
             TouchEvent += (o,e) => onTouch?.Invoke(o,e);
         }
 
-        void OnCollision(Collision o) => If(o.rigidbody.tag=="Player", () => Touch());
+        void OnCollision(Collision o) => If(o.rigidbody.tag=="Player", Do);
 
         new public class Data : Object.Data {
             public Desc description {get;set;}

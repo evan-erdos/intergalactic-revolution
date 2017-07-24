@@ -12,12 +12,12 @@ namespace Adventure.Inventories {
         public bool IsReadOnly => false;
         public int Count => list.Count;
         public List<T> list = new List<T>();
-        public T this[int index] { get { return list[index]; } set { list[index] = value; } }
+        public T this[int i] { get { return list[i]; } set { list[i] = value; } }
         public void Add(IEnumerable<T> a) => list.Add(a);
         public void Add(T[] a) => list.Add(a.Cast<T>());
         public int IndexOf(T o) => list.IndexOf(o);
-        public void Insert(int index, T o) => list.Insert(index,o);
-        public void RemoveAt(int index) => list.RemoveAt(index);
+        public void Insert(int i, T o) => list.Insert(i,o);
+        public void RemoveAt(int i) => list.RemoveAt(i);
         // public U GetItem<U>() where U : T => GetItems<T>().FirstOrDefault();
         // public List<U> GetItems<U>() where U : T => list.Where(o => o as T).Cast<U>().ToList();
         public void Add(T o) => list.Add(o);
@@ -25,7 +25,6 @@ namespace Adventure.Inventories {
         public bool Contains(T o) => list.Contains(o);
         public void CopyTo(T[] arr, int n) => list.CopyTo(arr,n);
         public bool Remove(T o) => list.Remove(o);
-        public void ForEach(Action<T> func) => list.ForEach(func);
         // public void ForEach<U>(Action<U> func) where U : T => list.Where(o => o is T).Cast<U>().ForEach(func);
         public IEnumerator<T> GetEnumerator() => list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => list.GetEnumerator() as IEnumerator;

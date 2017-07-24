@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Adventure {
@@ -39,9 +40,16 @@ namespace Adventure {
         /// matches the pattern for this object
         bool Fits(string pattern);
 
+
         /// StartSemaphore : (coroutine) => void
         /// like StartCoroutine, but ignores calls until func completes
         void StartSemaphore(Func<IEnumerator> func);
+
+
+        /// StartAsync : (thread) => void
+        /// like StartSemaphore, but ignores subsequent async calls
+        void StartAsync(Func<Task> func);
+
 
         /// Get : <T>() => T
         /// gets the component T or null

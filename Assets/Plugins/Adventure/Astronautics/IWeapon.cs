@@ -21,8 +21,6 @@ namespace Adventure.Astronautics.Spaceships {
 
         /// Fire : (position,velocity,rotation) => void
         /// fires blasters on a specified position, with a moment velocity
-        void Fire(
-            (float,float,float) position,
-            (float,float,float) velocity);
+        void Fire((float,float,float) position, (float,float,float) velocity);
     }
 }

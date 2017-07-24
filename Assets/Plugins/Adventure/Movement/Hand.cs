@@ -12,7 +12,7 @@ namespace Adventure.Movement {
         public AvatarIKGoal handGoal;
         public IWieldable heldItem;
         public bool IKEnabled {get;set;}
-        public void SwitchItem(IWieldable item) => heldItem = item;
+        public void SwitchItem(IWieldable o) => heldItem = o;
         void Start() => handGoal = AvatarIKGoal.LeftHand;
     }
 }

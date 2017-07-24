@@ -7,20 +7,20 @@ using UnityEngine;
 
 namespace Adventure.Puzzles {
 
-    /// IPuzzle : IPiece, IEnumerable<IPiece>
+    /// IPuzzle : IPiece, IPiece[]
     /// if a set of pieces is solved in a particular configuration,
     /// at which a point the puzzle is considered solved
-    public interface IPuzzle<T> : IPiece<T>, IEnumerable<IPiece<T>> {
+    public interface IPuzzle<T,U> : IPiece<T,U>, IEnumerable<IPiece<T,U>> {
 
-        /// Pieces : { IPiece<T> -> T }
+        /// Pieces : { IPiece<T> -> U }
         /// a mapping from pieces to the puzzle's solution,
         /// denoting the solved or unsolved state of the puzzle
-        Map<IPiece<T>,T> Pieces {get;}
+        Map<IPiece<T,U>,U> Pieces {get;}
 
-        /// Pose : (piece) => void
+        /// Pose : (piece) => U
         /// iterates the puzzle, attempting to solve a particular piece,
         /// which could be one piece or a whole collection of pieces,
         /// depending on how the puzzle defines it's enumerator.
-        T Pose(IPiece<T> piece);
+        U Pose(IPiece<T,U> piece);
     }
 }

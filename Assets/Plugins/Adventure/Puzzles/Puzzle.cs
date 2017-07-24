@@ -6,39 +6,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Adventure.Puzzles {
-    public abstract class Puzzle<T> : Piece<T>, IEnumerable<IPiece<T>> {
-        [SerializeField] protected List<IPiece<T>> externalPieces;
-        [SerializeField] protected List<T> solveState;
+    public abstract class Puzzle<T,U> : Piece<T,U>, IEnumerable<IPiece<T,U>> {
+        [SerializeField] protected List<IPiece<T,U>> nearby = new List<IPiece<T,U>>();
         public bool IsReadOnly => false;
         public int Count => Pieces.Count;
-        public Map<IPiece<T>,T> Pieces {get;} = new Map<IPiece<T>,T>();
-        public override bool IsSolved =>
-            Pieces.Aggregate(true, (total, next) =>
-                EqualityComparer<T>.Default.Equals(
-                    next.Key.Condition, next.Value));
+        public HashSet<IPiece<T,U>> Pieces {get;} = new HashSet<IPiece<T,U>>();
+        public override bool IsSolved => Pieces.Aggregate(true, (o,e) =>
+            comparer.Equals(e.Solve(e.Condition), e.Solution));
 
-        public override bool Solve(T condition) =>
-            Pieces.Aggregate(true, (total,next) =>
-                EqualityComparer<T>.Equals(
-                    next.Key.Solve(next.Value), next.Value));
-
-        public void Add(IPiece<T> o) => Pieces[o] = default (T);
+        public override U Solve(T cond) => Pieces.Aggregate(default (U), (o,e) => e.Solve(e.Condition));
+        public void Add(IPiece<T,U> o) => Pieces.Add(o);
         public void Clear() => Pieces.Clear();
-        public bool Contains(IPiece<T> o) => Pieces.ContainsKey(o);
-        public void CopyTo(IPiece<T>[] a, int n) => Pieces.Keys.CopyTo(a,n);
-        public bool Remove(IPiece<T> o) => Pieces.Remove(o);
+        public void CopyTo(IPiece<T,U>[] a, int n) => Pieces.CopyTo(a,n);
+        public bool Contains(IPiece<T,U> o) => Pieces.Contains(o);
+        public bool Remove(IPiece<T,U> o) => Pieces.Remove(o);
         IEnumerator IEnumerable.GetEnumerator() => Pieces.GetEnumerator();
-        public IEnumerator<IPiece<T>> GetEnumerator() =>
-            Pieces.GetEnumerator() as IEnumerator<IPiece<T>>;
+        public IEnumerator<IPiece<T,U>> GetEnumerator() => Pieces.GetEnumerator();
 
         protected override void Awake() { base.Awake();
-            var list = new List<IPiece<T>>();
+            var list = new List<IPiece<T,U>>();
             foreach (Transform child in transform) {
                 var children = child.gameObject.GetComponents<Thing>();
                 if (children==null || children.Length<=0) continue;
-                foreach (var elem in children)
-                    if (elem is IPiece<T> piece) list.Add(piece);
-            } list.ForEach(item => Pieces[item] = solveState[list.IndexOf(item)]);
+                foreach (var o in children) if (o is IPiece<T,U> piece) list.Add(piece);
+            }
         }
     }
 }

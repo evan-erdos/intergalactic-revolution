@@ -566,6 +566,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f34bc2caca3474caa216af24d65321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   profile: {fileID: 11400000, guid: eb6215ecd8a8a4df2ae5b36de7b9fbd1, type: 2}
 --- !u!114 &114282841385288090
 MonoBehaviour:
@@ -758,6 +763,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!120 &120261394677288438
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -871,6 +877,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!120 &120353896928180916
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -984,6 +991,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!120 &120425689877668136
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1097,6 +1105,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!120 &120523331631123514
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1210,6 +1219,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!120 &120875834816295938
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -1323,6 +1333,7 @@ LineRenderer:
     alignment: 0
     textureMode: 0
   m_UseWorldSpace: 0
+  m_Loop: 0
 --- !u!198 &198373320440117988
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1765,16 +1776,100 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   ShapeModule:
-    serializedVersion: 3
+    serializedVersion: 4
     enabled: 1
     type: 5
-    radius: 1
     angle: 25
     length: 5
     boxX: 1.3450027
     boxY: 0.30559546
     boxZ: 0.66780925
-    arc: 360
+    radius:
+      value: 1
+      mode: 0
+      spread: 0
+      speed:
+        minMaxState: 0
+        scalar: 1
+        maxCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 2
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        minCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 2
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    arc:
+      value: 360
+      mode: 0
+      spread: 0
+      speed:
+        minMaxState: 0
+        scalar: 1
+        maxCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 2
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        minCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 2
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     placementMode: 0
     m_Mesh: {fileID: 0}
     m_MeshRenderer: {fileID: 0}
@@ -1789,7 +1884,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
   EmissionModule:
     enabled: 1
-    serializedVersion: 3
+    serializedVersion: 4
     rateOverTime:
       minMaxState: 0
       scalar: 0
@@ -1868,19 +1963,13 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    cnt0: 50
-    cnt1: 30
-    cnt2: 30
-    cnt3: 30
-    cntmax0: 75
-    cntmax1: 30
-    cntmax2: 30
-    cntmax3: 30
-    time0: 0
-    time1: 0
-    time2: 0
-    time3: 0
     m_BurstCount: 1
+    m_Bursts:
+    - time: 0
+      minCount: 50
+      maxCount: 75
+      cycleCount: 1
+      repeatInterval: 0.01
   SizeModule:
     enabled: 1
     curve:

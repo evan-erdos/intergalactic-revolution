@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Random=System.Random;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -20,10 +21,10 @@ namespace Adventure {
     public class Settings {
         public string Name {get;set;} = "Adventure";
         public string Date {get;set;} = "2017-06-26";
-        public string Version {get;set;} = "v0.3.1";
+        public string Version {get;set;} = "0.3.2";
         public string Author {get;set;} = "Ben Scott";
         public string Handle {get;set;} = "@evan-erdos";
-        public string Email {get;set;} = "bescott@andrew.cmu.edu";
+        public string Email {get;set;} = "admin@bescott.org";
         public string Link {get;set;} = "bescott.org/adventure/";
     }
 
@@ -61,35 +62,11 @@ namespace Adventure {
     /// RealityAction : event
     /// base event delegate for movement of a tracked object
     public delegate void RealityAction(IObject o, RealityArgs e);
-
-
-    /// MovementAction : event
-    /// base event delegate for movement of a tracked object
     public delegate void MovementAction(IObject o, MovementArgs e);
-
-
-    /// CombatAction : event
-    /// base event delegate for movement of a tracked object
     public delegate void CombatAction(IObject o, CombatArgs e);
-
-
-    /// ButtonAction : event
-    /// base event delegate for clicking a binary button
     public delegate void ButtonAction(IObject o, ButtonArgs e);
-
-
-    /// TouchpadAction : event
-    /// base event delegate for clicking a binary button
     public delegate void TouchpadAction(IObject o, TouchpadArgs e);
-
-
-    /// SliderAction : event
-    /// base event delegate for clicking a binary button
     public delegate void SliderAction(IObject o, SliderArgs e);
-
-
-    /// StoryAction : event
-    /// The standard event delegate for commands
     public delegate void StoryAction(IThing thing, StoryArgs args);
 
 
@@ -390,30 +367,59 @@ namespace Adventure {
     }
 
 
+    /// Set<T> : HashSet<string,T>
+    /// a simple wrapper which makes the name for sets consistent
+    public class Set<T> : HashSet<T> { }
+
+    /// Map<T> : Dictionary<string,T>
+    /// a simple wrapper for Dictionary which drastically shortens the name for maps
+    public class Map<T> : Dictionary<string,T> { } public class Map<K,V> : Dictionary<K,V> { }
+
+    /// TypeMap<T> : (type) -> Func<T>
+    /// Maps from types (T and subclasses thereof)
+    /// to instances whose type takes the type they're keyed to as a parameter
+    public class TypeMap<T> : Map<Type,List<Func<T>>> {
+        Map<Type,List<Func<T>>> map = new Map<Type,List<Func<T>>>();
+        public new List<Func<T>> this[Type type] { get { return map[type]; } set { map[type] = value; }}
+        public List<Func<T>> Get<U>() where U : T => map[typeof(U)];
+        public void Set<U>(List<Func<T>> value) where U : T => map[typeof(U)] = (List<Func<T>>) value;
+    }
+
+    /// RandList<T> : List<T>
+    /// A simple wrapper class for lists which returns a random element
+    public class RandList<T> : List<T> {
+        Random random = new Random(); public T Next() => (Count==0) ? default(T) : this[random.Next(Count)]; }
+
+    /// IterList<T> : List<T>
+    /// A simple wrapper for lists which simply steps through the lis
+    public class IterList<T> : List<T> {
+        int Current = -1; public T Next() => (Count==0 || Current>Count) ? default(T) : this[++Current]; }
+
+    /// LoopList<T> : List<T>
+    /// A simple wrapper class for List<T>, which adds the
+    /// ability to return a random element from the list.
+    public class LoopList<T> : List<T> {
+        int Current = -1; public T Next() => (Count==0) ? default(T) : this[++Current%Count]; }
+
     namespace Puzzles {
 
 
         /// PuzzleArgs : StoryArgs
         /// encapsulates the most important part of a puzzle: is it solved?
-        public class PuzzleArgs : StoryArgs {
+        public class PuzzleArgs<T,U> : StoryArgs {
             public bool IsSolved {get;set;}
-            public PuzzleArgs(bool IsSolved) { this.IsSolved = IsSolved; }
+            public T Condition {get;set;}
+            public U Solution {get;set;}
+            public Func<(T condition, U solution)> Solver {get;set;}
         }
-
 
         /// PuzzleAction :  event
         /// when a piece is posed, its parent should be notified via this event
-        /// - piece : T
-        ///     the IPiece<T> sending this event
-        /// - args : PuzzleArgs
-        ///     ubiquitous event arguments
-        public delegate void PuzzleAction<T>(IPiece<T> piece, PuzzleArgs args);
-
+        public delegate void PuzzleAction<T,U>(IPiece<T,U> piece, PuzzleArgs<T,U> args);
 
         /// PuzzleEvent : UnityEvent
         /// a serializable event handler to expose to the editor
-        [Serializable]
-        public class PuzzleEvent<T> : UnityEvent<IPiece<T>,PuzzleArgs> { }
+        [Serializable] public class PuzzleEvent<T,U> : UnityEvent<IPiece<T,U>,PuzzleArgs<T,U>> { }
     }
 
 
@@ -530,44 +536,274 @@ namespace Adventure {
     namespace Statistics {
 
 
-    /// Damages : enum
-    /// the many varieties of damaging effects:
-    /// - Default: direct damage, factoring in no resistances
-    /// - Pierce: penetrative damage, applies to sharp and very fast things
-    /// - Crush: brute force damage, usually as a result of very heavy impacts
-    /// - Fire: burning damage, spreads and melts things
-    /// - Ice: cold damage, slows and freezes things
-    /// - Magic: magical damage, just like you expect
-    public enum Damages { Default, Pierce, Crush, Fire, Ice, Magic }
+        /// Damages : enum
+        /// the many varieties of damaging effects:
+        /// - Default: direct damage, factoring in no resistances
+        /// - Pierce: penetrative damage, applies to sharp and very fast things
+        /// - Crush: brute force damage, usually as a result of very heavy impacts
+        /// - Fire: burning damage, spreads and melts things
+        /// - Ice: cold damage, slows and freezes things
+        /// - Magic: magical damage, just like you expect
+        public enum Damages { Default, Pierce, Crush, Fire, Ice, Magic }
 
 
-    /// Hits : enum
-    /// the many types of hits:
-    /// - Default: baseline affinity, always carries out the attack
-    /// - Miss: no contact at all, attack action not taken
-    /// - Graze: a glancing blow, or extremely ineffective hit
-    /// - Hit: default hit, normal effectiveness and calculations
-    /// - Crit: a critical hit, very damaging / extremely effective
-    public enum Hits { Default, Miss, Graze, Hit, Crit }
+        /// Hits : enum
+        /// the many types of hits:
+        /// - Default: baseline affinity, always carries out the attack
+        /// - Miss: no contact at all, attack action not taken
+        /// - Graze: a glancing blow, or extremely ineffective hit
+        /// - Hit: default hit, normal effectiveness and calculations
+        /// - Crit: a critical hit, very damaging / extremely effective
+        public enum Hits { Default, Miss, Graze, Hit, Crit }
 
 
-    public enum StatKind {
-        Health, Endurance, Strength, Agility,
-        Dexterity, Perception, Intellect, Memory }
+        public enum StatKind {
+            Health, Endurance, Strength, Agility,
+            Dexterity, Perception, Intellect, Memory }
 
 
-    public enum Affinities { Default, Miss, Graze, Hit, Crit }
-    [Flags] public enum Faculties { None, Thinking, Breathing, Sensing, Moving }
+        public enum Affinities { Default, Miss, Graze, Hit, Crit }
+        [Flags] public enum Condition {
+            None, Unknown, Default, Polytrauma,
+            Dead, Maimed, Wounded, Injured,
+            Scorched, Burned, Frozen, Poisoned,
+            Paralysis, Necrosis, Infection, Fracture,
+            Ligamentitis, Radiation, Poisioning, Hemorrhage,
+            Frostbite, Thermosis, Hypothermia, Hyperthermia,
+            Hypohydratia, Inanition, Psychosis, Depression,
+            Psychotic, Shocked, Stunned, Healthy }
+        [Flags] public enum Faculties { None, Thinking, Breathing, Sensing, Moving }
 
 
-    [Flags] public enum Condition {
-        None, Unknown, Default, Polytrauma,
-        Dead, Maimed, Wounded, Injured,
-        Scorched, Burned, Frozen, Poisoned,
-        Paralysis, Necrosis, Infection, Fracture,
-        Ligamentitis, Radiation, Poisioning, Hemorrhage,
-        Frostbite, Thermosis, Hypothermia, Hyperthermia,
-        Hypohydratia, Inanition, Psychosis, Depression,
-        Psychotic, Shocked, Stunned, Healthy }
+        /// Damage : IDamage
+        /// Defines a low-level object to send statistical data
+        public struct Damage {
+            public float vitality {get;set;}
+            public int Critical {get;set;}
+            void Hit(int damage) => vitality -= damage;
+        }
+
+
+        /// Stat : object
+        /// Base class of a statistic. Can perform Checks and can be used
+        /// to process a Hit or some other roll / event based on statistics.
+        public class Stat<T> {
+            public StatKind kind;
+            public bool Check() => true;
+            public bool Check(Stat<T> stat) => true;
+            protected T value {get;set;}
+            public Stat() { }
+            public Stat(StatKind kind) { this.kind = kind; }
+            public Stat(StatKind kind, T value) : this(kind) { this.value = value; }
+            public bool Fits(string s) => kind.ToString()==s;
+            public bool Fits(Type type) => kind.ToString()==type.ToString();
+        }
+
+        public class StatSet<T> : Stat<T> {
+            List<Stat<T>> stats = new List<Stat<T>>();
+            public bool IsSynchronized => false;
+            public bool IsReadOnly => false;
+            public int Count => stats.Count;
+            public object SyncRoot => stats;
+            public StatSet() { }
+            public StatSet(Stat<T>[] stats) { this.stats.AddRange(stats); }
+            public StatSet(List<Stat<T>> stats) { this.stats.AddRange(stats); }
+            public Stat<T> this[string stat] => stats.First(o => o.Fits(stat));
+            public Stat<T> this[Type type] => stats.First(o => o.Fits(type));
+            public void CopyTo(Stat<T>[] a, int n) => stats.CopyTo(a, n);
+            public IEnumerator GetEnumerator() => stats.GetEnumerator();
+        }
+
+        public class HealthStats : StatSet<int> {
+            Faculties faculties {get;set;}
+            Condition condition {get;set;}
+            public void AddCondition(Condition cond) { }
+            public void AddConditions(params Condition[] a) => a.ForEach(o => AddCondition(o));
+        }
+    }
+
+
+    /// Extensions
+    /// a collection of helpful little snippets
+    public static partial class Extensions {
+
+        // tuple stuff
+        public static void Deconstruct(this Vector3 o,out float x,out float y,out float z) => (x,y,z) = (o.x,o.y,o.z);
+        public static void Deconstruct(this (float x,float y,float z) o,out Vector3 v) => v = new Vector3(o.Item1,o.Item2,o.Item3);
+        public static void Deconstruct(this Transform o, out Vector3 position, out Quaternion rotation) => (position,rotation) = (o.position,o.rotation);
+        public static void AddForce(this Rigidbody o, (float,float,float) force, ForceMode mode=ForceMode.Force) => o.AddForce(force.vect(), mode);
+        public static void AddTorque(this Rigidbody o, (float,float,float) force, ForceMode mode=ForceMode.Force) => o.AddTorque(force.vect(), mode);
+        public static float Angle(this Vector3 o, Vector3 v) => Vector3.Angle(o,v);
+        public static float Angle(this Vector3 o, (float,float,float) v) => o.Angle(v.vect());
+        public static float Angle(this (float,float,float) o, Vector3 v) => o.vect().Angle(v);
+        public static float Angle(this (float,float,float) o, (float,float,float) v) => o.vect().Angle(v.vect());
+        public static float magnitude(this (float,float,float) o) => o.vect().magnitude;
+        public static float sqrMagnitude(this (float,float,float) o) => o.vect().sqrMagnitude;
+        public static (float x, float y, float z) tuple(this Vector3 o) => (o.x, o.y, o.z);
+        public static Vector3 vect(this (float,float,float) o) => new Vector3(o.Item1, o.Item2, o.Item3);
+        public static Vector3 normalized(this (float,float,float) o) => o.vect().normalized;
+
+    /// IsFacing : () => bool
+    /// detects if the rotation is within a certain angle in degrees
+    public static bool IsFacing(this Quaternion o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o,rotation)<angle;
+    public static bool IsFacing(this Transform o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation)<angle;
+    public static bool IsFacing(this Transform o, Transform rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation.rotation)<angle;
+
+    /// IsNear : () => bool
+    /// detects if the transform is close to the location
+    public static bool IsNear(this Transform o, Transform location, float distance=0.01f) => o.IsNear(location.position,distance);
+    public static bool IsNear(this Transform o, Vector3 position, float distance=0.01f) => Vector3.Distance(o.position,position)<distance;
+    public static bool IsNear(this Vector3 o, Vector3 vector, float distance=float.Epsilon) => (o-vector).sqrMagnitude<distance*distance;
+    public static bool IsNear(this (float,float,float) o, Vector3 v, float dist=float.Epsilon) => v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
+
+
+        /// Distance : () => real
+        /// finds distance between transforms
+        public static float Distance(this Transform o, Transform a) => (o.position-a.position).magnitude;
+
+
+        /// ToColor : (int) => color
+        /// convert a number to a color
+        public static Color32 ToColor(this int n) => new Color32(
+            r: (byte) ((n>>16)&0xFF), g: (byte) ((n>>8)&0xFF), b: (byte) (n&0xFF), a: (byte) (0xFF));
+
+
+        /// ToColor : (string) => color
+        /// convert a string to a color
+        public static Color32 ToColor(this string s) => new Color32(
+            r: (byte)((System.Convert.ToInt32(s.Substring(1,3),16)>>16)&0xFF),
+            g: (byte)((System.Convert.ToInt32(s.Substring(4,6),16)>>8)&0xFF),
+            b: (byte)(System.Convert.ToInt32(s.Substring(7,9),16)&0xFF), a: 0xFF);
+
+        /// ToInt : (color) => int
+        /// convert a color to a number
+        public static int ToInt(this Color32 o) => (byte)((o.r>>16)&0xFF)+(byte)((o.g>>8)&0xFF)+(byte)(o.b&0xFF)+0xFF;
+
+        /// Call : (event) => event()
+        /// calls the unity event with the same syntax as literally everything else
+        public static void Call(this UnityEvent o) => o.Invoke();
+        public static void Call<A>(this UnityEvent<A> o, A a) => o.Invoke(a);
+        public static void Call<A,B>(this UnityEvent<A,B> o, A a, B b) => o.Invoke(a,b);
+        public static void Call<A,B,C>(this UnityEvent<A,B,C> o, A a, B b, C c) => o.Invoke(a,b,c);
+        public static void Call<A,B,C,D>(this UnityEvent<A,B,C,D> o, A a, B b, C c, D d) => o.Invoke(a,b,c,d);
+
+        /// IsNullOrEmpty : (string) => bool
+        /// extends the string method for cleaner call syntax
+        public static bool IsNullOrEmpty(this string o) => string.IsNullOrEmpty(o);
+
+        /// EscapeURI : (string) => URL
+        /// converts a string to a well-formed URI
+        public static string EscapeURI(this string o) => System.Uri.EscapeUriString(o);
+
+        /// Capitalize : (string) => String
+        /// capitalizes strings
+        public static string Capitalize(this string o) => o.FirstOrDefault().ToString().ToUpper()+o.Substring(1);
+
+        /// Ellipsis : (string) => string...
+        /// shortens a string to length len, and appends ellipsis
+        public static string Ellipsis(this string s, int len=100) => (s.Length<len)?s:s.Substring(0,len-1)+"…";
+
+
+        /// Hide : (Camera, layer) => void
+        /// adds / removes one layer from the culling mask
+        public static void Show(this Camera o, string s="Default") => o.cullingMask |= 1<<LayerMask.NameToLayer(s);
+        public static void Hide(this Camera o, string s="Default") => o.cullingMask &= ~(1<<LayerMask.NameToLayer(s));
+
+
+        /// Add : (T[]) => void
+        /// I just don't like that AddRange is a different name than Add
+        public static void Add<T>(this List<T> o, params T[] a) => o.AddRange(a);
+        public static void Add<T>(this List<T> o, IEnumerable<T> a) => o.AddRange(a);
+
+
+        /// Many : (T[]) => bool
+        /// true if the collection has more than one element
+        public static bool Many<T>(this IEnumerable<T> list) {
+            var enumerator = list.GetEnumerator();
+            return enumerator.MoveNext() && enumerator.MoveNext(); }
+
+
+        /// To : (int) => int[]
+        /// creates a range of numbers
+        public static IEnumerable<int> To(this int from, int to) {
+            if (from < to) while (from <= to) yield return from++;
+            else while (from >= to) yield return from--; }
+
+
+        /// ForEach : (T[]) => void
+        /// applies a function to each element of a builtin array
+        public static void ForEach<T>(this T[] list, Action<T> func) { foreach (var o in list) func(o); }
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> func) { foreach (var o in list) func(o); }
+        public static T Pick<T>(this IList<T> o) => (o.Count==0) ? default(T) : o[new System.Random().Next(o.Count)];
+
+        /// DerivesFrom<T> : (type) => bool
+        /// determines if a type is or derives from the type specified
+        public static bool DerivesFrom<T>(this Type o) => o==typeof(T) || o.IsSubclassOf(typeof(T));
+
+        /// GetTypes : (type) => type[]
+        /// gets a list of all parent types on a given type
+        public static IEnumerable<Type> GetTypes(this Type type) {
+            if (type == null || type.BaseType == null) yield break;
+            foreach (var i in type.GetInterfaces()) yield return i;
+            var currentBaseType = type.BaseType;
+            while (currentBaseType != null) {
+                yield return currentBaseType;
+                currentBaseType = currentBaseType.BaseType;
+            }
+        }
+
+        public static IEnumerable<Type> GetTypes(this Type type, Type root=null) {
+            if (type==null || type.BaseType == null) yield break;
+            if (root==null) root = typeof(object);
+            var current = type;
+            while ((current = current.BaseType)!=null)
+                if (current==root.BaseType) yield break; else yield return current;
+        }
+
+        /// md : (markdown) => html
+        /// adds Markdown formatting capability to any string and removes all <p> tags
+        public static string md(this string s) => new StringBuilder(Markdown.Transform(s))
+            .Replace("<h1>", $"<size={24}><color=#{0x98C8FC:X}>").Replace("</h1>", "</color></size>")
+            .Replace("<h2>", $"<size={18}><color=#{0x98C8FC:X}>").Replace("</h2>", "</color></size>")
+            .Replace("<h3>", $"<size={16}><color=#{0x98C8FC:X}>").Replace("</h3>","</color></size>")
+            .Replace("<h4>", $"<size={14}><color=#{0x98C8FC:X}>").Replace("</h4>","</color></size>")
+            .Replace("<pre>","").Replace("</pre>","").Replace("<code>","").Replace("</code>","")
+            .Replace("<ul>","").Replace("</ul>","").Replace("<li>","").Replace("</li>","")
+            .Replace("<warn>", $"<color=#{0xFA2363:X}>").Replace("</warn>", $"</color>")
+            .Replace("<cost>", $"<color=#{0xFFDBBB:X}>").Replace("</cost>", $"</color>")
+            .Replace("<item>", $"<color=#{0xFFFFFF:X}>").Replace("</item>", $"</color>")
+            .Replace("<cmd>", $"<color=#{0xAAAAAA:X}>").Replace("</cmd>", $"</color>")
+            .Replace("<life>", $"<color=#{0x7F1116:X}>").Replace("</life>", $"</color>")
+            .Replace("<em>","<i>").Replace("</em>","</i>").Replace("<p>","").Replace("</p>","")
+            .Replace("<blockquote>","<i>").Replace("</blockquote>","</i>")
+            .Replace("<strong>","<b>").Replace("</strong>","</b>").ToString();
+
+        public static void Disable<T>(this GameObject o) where T : Component => o.Disable<T>();
+        public static void Disable<T>(this Component o) where T : Component => o.Disable<T>();
+        public static void Disable(this Behaviour o) => o.Enable(false);
+        public static void Enable<T>(this GameObject o) where T : Component => o.Enable<T>();
+        public static void Enable<T>(this Component o) where T : Component => o.Enable<T>();
+        public static void Enable(this Behaviour o, bool isOn=true) => o.enabled = isOn;
+
+        /// Get<T> : (type) => T
+        /// gets the attached component or rigorously returns null
+        static T GetOrNull<T>(T o) => (o==null)?default(T):o;
+        public static T Get<T>(this GameObject o) => GetOrNull<T>(o.GetComponent<T>());
+        public static T Get<T>(this Component o) => GetOrNull<T>(o.GetComponent<T>());
+        public static T GetParent<T>(this GameObject o) => GetOrNull<T>(o.GetComponentInParent<T>());
+        public static T GetParent<T>(this Component o) => GetOrNull<T>(o.GetComponentInParent<T>());
+        public static T GetChild<T>(this GameObject o) => GetOrNull<T>(o.GetComponentInChildren<T>());
+        public static T GetChild<T>(this Component o) => GetOrNull<T>(o.GetComponentInChildren<T>());
+        public static List<T> GetChildren<T>(this GameObject o) => o.GetComponentsInChildren<T>().ToList();
+        public static List<T> GetChildren<T>(this Component o) => o.GetComponentsInChildren<T>().ToList();
+        public static T Create<T>(GameObject original) where T : Component =>
+            Create<T>(original, Vector3.zero, Quaternion.identity);
+        public static T Create<T>(GameObject original, Vector3 position) where T : Component =>
+            Create<T>(original, position, Quaternion.identity);
+        public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) where T : Component =>
+            UnityEngine.Object.Instantiate(original, position, rotation).GetComponent<T>();
     }
 }
+
+
+

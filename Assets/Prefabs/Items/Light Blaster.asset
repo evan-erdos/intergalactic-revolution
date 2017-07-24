@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7f172c959e9344a68401cd7e3953e12, type: 3}
+  m_Script: {fileID: 11500000, guid: 230a54133c3674e09a68427b1040de40, type: 3}
   m_Name: Light Blaster
   m_EditorClassIdentifier: 
   prefab: {fileID: 1853441245229730, guid: 6289702173fa6460c9f6736ec8cc0c0e, type: 2}
