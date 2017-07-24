@@ -126,8 +126,8 @@ namespace Adventure {
         public virtual void Lock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Lock(a as Thing));
         public virtual void Unlock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Unlock(a as Thing));
 
-        protected override IEnumerable<Thing> Find<T>(float range, Vector3 position, LayerMask mask) =>
-            from thing in Enumerable.Union(base.Find<T>(range,position,mask), Items.Cast<Thing>())
+        protected override IEnumerable<Thing> Find<T>(float range, Vector3 position) =>
+            from thing in Enumerable.Union(base.Find<T>(range, position), Items.Cast<Thing>())
             where thing is T select thing as Thing;
 
         protected override void Awake() { base.Awake();

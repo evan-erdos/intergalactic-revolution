@@ -9,8 +9,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public static class AsyncTools {
-    static Awaiter updateAwaiter, fixedAwaiter, lateUpdateAwaiter, editorUpdateAwaiter;
-    static Awaiter threadPoolAwaiter = new ThreadPoolContextAwaiter();
+    static Awaiter updateAwaiter, fixedAwaiter, lateAwaiter, editorAwaiter, threadPoolAwaiter = new ThreadPoolContextAwaiter();
 
     public static void WhereAmI(string text) {
         if (!IsMainThread()) Debug.Log($"{text}: background thread, id: {Thread.CurrentThread.ManagedThreadId}");
@@ -28,13 +27,13 @@ public static class AsyncTools {
     public static Awaiter ToMainThread() => ToUpdate();
 
     /// Switches execution to the EditorUpdate context of the main thread.
-    public static Awaiter ToEditorUpdate() => editorUpdateAwaiter ?? (editorUpdateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.EditorUpdateScheduler.Context));
+    public static Awaiter ToEditorUpdate() => editorAwaiter ?? (editorAwaiter = new SynchronizationContextAwaiter(UnityScheduler.EditorUpdateScheduler.Context));
 
     /// Switches execution to the Update context of the main thread.
     public static Awaiter ToUpdate() => updateAwaiter ?? (updateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.UpdateScheduler.Context));
 
     /// Switches execution to the LateUpdate context of the main thread.
-    public static Awaiter ToLateUpdate() => lateUpdateAwaiter ?? (lateUpdateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.LateUpdateScheduler.Context));
+    public static Awaiter ToLateUpdate() => lateAwaiter ?? (lateAwaiter = new SynchronizationContextAwaiter(UnityScheduler.LateUpdateScheduler.Context));
 
     /// Switches execution to the FixedUpdate context of the main thread.
     public static Awaiter ToFixedUpdate() => fixedAwaiter ?? (fixedAwaiter = new SynchronizationContextAwaiter(UnityScheduler.FixedUpdateScheduler.Context));
@@ -43,7 +42,7 @@ public static class AsyncTools {
     public static Task<byte[]> DownloadAsBytesAsync(string url, CancellationToken cancellationToken = new CancellationToken()) =>
         Task.Factory.StartNew(delegate { using (var d = new WebClient()) return d.DownloadData(url);}, cancellationToken);
 
-    /// Downloads a file as a string.
+    /// Downloads a file as a string
     public static Task<string> DownloadAsStringAsync(string url, CancellationToken cancellationToken = new CancellationToken()) =>
         Task.Factory.StartNew(delegate { using (var d = new WebClient()) return d.DownloadString(url); }, cancellationToken);
 
@@ -58,7 +57,7 @@ public static class AsyncTools {
     /// Waits until condition is met
     public static Awaiter GetAwaiter(this Func<bool> cond) {
         var context = SynchronizationContext.Current as UnitySynchronizationContext;
-        if (cond() && context != null) return new ContextActivationAwaiter(context);
+        if (cond() && context!=null) return new ContextActivationAwaiter(context);
         return new ConditionAwaiter(cond); }
 
     /// Waits until coroutine is finished
@@ -67,10 +66,10 @@ public static class AsyncTools {
         if (!coroutine.keepWaiting && context != null) return new ContextActivationAwaiter(context);
         return new YieldInstructionAwaiter(coroutine); }
 
-    /// Waits until all the tasks are completed.
+    /// waits until all the tasks are completed
     public static TaskAwaiter GetAwaiter(this IEnumerable<Task> tasks) => TaskEx.WhenAll(tasks).GetAwaiter();
 
-    /// Waits until the process exits.
+    /// waits until the process exits
     public static TaskAwaiter<int> GetAwaiter(this Process process) {
         var tcs = new TaskCompletionSource<int>();
         process.EnableRaisingEvents = true;
@@ -143,7 +142,6 @@ public static class AsyncTools {
         public override void OnCompleted(Action action) => Task.Factory.StartNew(
             async () => { while (coroutine.keepWaiting) await 0; action(); },
             CancellationToken.None, TaskCreationOptions.None, UnityScheduler.UpdateScheduler);
-
     }
 
     class AsyncOperationAwaiter : Awaiter {
@@ -154,5 +152,4 @@ public static class AsyncTools {
             async () => { while (asyncOp.isDone == false) await 0; action(); },
             CancellationToken.None, TaskCreationOptions.None, UnityScheduler.UpdateScheduler);
     }
-
 }

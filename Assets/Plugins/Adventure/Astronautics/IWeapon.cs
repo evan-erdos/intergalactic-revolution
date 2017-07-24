@@ -8,7 +8,7 @@ namespace Adventure.Astronautics.Spaceships {
 
     /// IWeapon : IShipComponent
     /// a weapon which can be fired out into space or at something in particular
-    public interface IWeapon : IShipComponent, IDamageable {
+    public interface IWeapon : IShipComponent {
 
         /// Fire : () => void
         /// fires blasters at nothing in particular, default targeting
@@ -21,8 +21,6 @@ namespace Adventure.Astronautics.Spaceships {
 
         /// Fire : (position,velocity,rotation) => void
         /// fires blasters on a specified position, with a moment velocity
-        void Fire(
-            (float,float,float) position,
-            (float,float,float) velocity);
+        void Fire((float,float,float) position, (float,float,float) velocity);
     }
 }

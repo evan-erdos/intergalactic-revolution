@@ -56,7 +56,7 @@ namespace Adventure.Inventories {
             animator = GetComponent<Animator>();
             lights.AddRange(GetComponentsInChildren<Light>());
             renderers.AddRange(GetComponentsInChildren<Renderer>());
-            Grip = GetOrAdd("grip");
+            Grip = Find("grip");
             Grip.parent = transform;
         }
 

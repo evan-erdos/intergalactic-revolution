@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceActor {
-        (float x,float y) mouse = (0,0);
+        (float x, float y) mouse = (0,0);
         SpaceshipController control;
 
         public override void SetShip(Spaceship ship) {
@@ -19,11 +19,10 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         // public override void OnStartLocalPlayer() => CreateShip();
-        protected override void Awake() { base.Awake();
-            control = GetOrAdd<SpaceshipController>(); }
+        protected override void Awake() { base.Awake(); control = GetOrAdd<SpaceshipController>(); }
 
         // void OnNetworkInstantiate(NetworkMessageInfo info) => CreateShip();
-        void Update() => mouse = (Input.GetAxis("Mouse X"),Input.GetAxis("Mouse Y"));
+        void Update() => mouse = (Input.GetAxis("Lateral"), Input.GetAxis("Vertical"));
         protected override void FixedUpdate() {
             transform.localRotation = Quaternion.Euler(
                 x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
@@ -31,23 +30,8 @@ namespace Adventure.Astronautics.Spaceships {
             base.FixedUpdate();
         }
 
-        void OnJump() {
-            StartSemaphore(Jumping);
-            IEnumerator Jumping() {
-                yield return new WaitForSeconds(1);
-                SceneManager.LoadSceneAsync("Moon Base Delta");
-            }
-        }
-
-        public void OnKill() {
-            StartSemaphore(Killing);
-            IEnumerator Killing() {
-                yield return new WaitForSeconds(8);
-                PlayerCamera.Target = null;
-                Manager.LoadSceneFade("Menu", Color.black);
-                yield return new WaitForSeconds(5);
-            }
-        }
+        async void OnJump() { await 1; Manager.LoadScene("Moon Base Delta"); }
+        async void OnKill() { await 8; PlayerCamera.Reset(); Manager.LoadMenu(); await 5; }
     }
 }
 

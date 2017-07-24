@@ -11,25 +11,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
   m_Name: Viper 855
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1670214515555048, guid: f39f49ac93d71419d96e0252ec1f4af7, type: 2}
-  Name: T-31 Viper 411
+  prefab: {fileID: 1946791293591508, guid: c8f597ebb56ab9c458664883be987c29, type: 2}
+  Name: T-31 Viper 857
   CargoSpace: 20
   Mass: 15
   Health: 10000
-  EnginePower: 2000
-  RollEffect: 0.5
-  PitchEffect: 0.3
-  YawEffect: 0.5
-  SpinEffect: 1
+  EnginePower: 500
+  RollEffect: 2
+  PitchEffect: 3
+  YawEffect: 1.6
+  SpinEffect: 0.4
   ThrottleEffect: 2
-  BrakesEffect: 3
-  AeroEffect: 0.02
-  DragEffect: 0.001
-  EnergyThrust: 6000
+  BrakesEffect: 20
+  AeroEffect: 1
+  DragEffect: 0.01
+  EnergyThrust: 600
   EnergyCapacity: 1100
   EnergyLoss: 50
   EnergyGain: 20
-  TopSpeed: 3000
+  TopSpeed: 1000
   ManeuveringEnergy: 200
   Pivots:
   - {x: 0, y: 6, z: -20}

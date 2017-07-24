@@ -19,13 +19,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         /// Move : (real,real,real,real,real,real) => void
         /// sends movement controls to the spaceship
-        void Move(
-            float brakes,
-            float boost,
-            float throttle,
-            float roll,
-            float pitch,
-            float yaw);
+        void Move(float brakes, float boost, float throttle, float roll, float pitch, float yaw);
 
         /// HyperJump : () => void
         /// tells the ship to jump a short distance forwards

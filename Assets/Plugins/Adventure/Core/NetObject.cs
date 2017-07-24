@@ -20,11 +20,7 @@ namespace Adventure {
         public virtual string Name => name;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
-        public override string ToString() => "${name}";
-        public static bool operator !(NetObject o) => o==null;
         public event RealityAction CreateEvent;
-
 
         public virtual void Init() {
             onCreate.AddListener((o,e) => ClearSemaphore());
@@ -40,36 +36,9 @@ namespace Adventure {
             var o = GetComponent<T>(); if (o) return o;
             o = gameObject.AddComponent<U>(); return o; }
 
-        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
-        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
-        public List<T> Find<T>(float radius, Transform location) where T : IThing =>
-            Find<T>(radius, location.position, Mask).Cast<T>().ToList();
-
-        protected virtual IEnumerable<Thing> Find<T>(
-                        float range, Vector3 position, LayerMask mask) where T : IThing =>
-            from collider in Physics.OverlapSphere(position, range, mask)
-            let thing = collider.GetComponentInParent<T>()
-            where thing!=null select thing as Thing;
-
-
-        GameObject lastInstanceMade;
-        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
-            CmdCreate(original,position,rotation); return lastInstanceMade; }
-
-        [Command] public void CmdCreate(GameObject original, Vector3 position, Quaternion rotation) {
-            var o = Instantiate(original,position,rotation);
-            if (o.Get<ICreatable>() is ICreatable c) { c.Init(); c.Create(); }
-            NetworkServer.Spawn(o); lastInstanceMade = o; }
-
+        public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
         public void Create() => Create(this, new RealityArgs());
         public void Create(IObject o, RealityArgs e) => CreateEvent(o,e);
-        public GameObject Create(GameObject original) => Create(original, transform.position, transform.rotation);
-        public GameObject Create(GameObject original, Vector3 position) => Create(original, transform.position, Quaternion.identity);
-        // public GameObject Create(GameObject original, Vector3 position, Quaternion rotation) =>
-        //     Instantiate<GameObject>(original, position, rotation);
-        public T Create<T>(GameObject original) => Create<T>(original, transform.position, transform.rotation);
-        public T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
-        public T Create<T>(GameObject original, Vector3 position, Quaternion rotation) => Create(original,position,rotation).Get<T>();
         public bool If(Func<bool> cond, Action then) => If (cond(), then);
         public bool If(bool cond, Action then) { if (cond) then(); return cond; }
         public bool If<T>(T cond, Action<T> then) { var b = cond!=null; if (b) then(cond); return b; }
@@ -92,6 +61,30 @@ namespace Adventure {
         IEnumerator WaitingFor(YieldInstruction w, Action f) { yield return w; f(); }
         IEnumerator Waiting(string s, Func<IEnumerator> f) { threads.Add(s); yield return StartCoroutine(f()); threads.Remove(s); }
 
+        public Transform Find(string s) { var o = transform.Find(s); if (!o) { o = new GameObject(s).transform; o.parent = transform; } return o; }
+        public List<T> Find<T>() where T : IThing => Find<T>(Radius);
+        public List<T> Find<T>(float radius) where T : IThing => Find<T>(radius,transform);
+        public List<T> Find<T>(float radius, Transform location) where T : IThing => Find<T>(radius, location.position).Cast<T>().ToList();
+        protected virtual IEnumerable<Thing> Find<T>(float range, Vector3 position) where T : IThing =>
+            from collider in Physics.OverlapSphere(position, range, Mask)
+            let thing = collider.GetComponentInParent<T>()
+            where thing!=null select thing as Thing;
+
+        public static bool operator !(NetObject o) => o==null;
+        public static T Create<T>(GameObject original) => Create<T>(original, Vector3.zero);
+        public static T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
+        public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) => Create(original,position,rotation).Get<T>();
+        public static GameObject Create(GameObject original) => Create(original, Vector3.zero);
+        public static GameObject Create(GameObject original, Vector3 position) => Create(original, position, Quaternion.identity);
+        public static GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
+            var o = Instantiate(original, position, rotation); var c = o.Get<ICreatable>(); if (c!=null) { c.Init(); c.Create(); } return o; }
+
+        static GameObject lastInstanceMade;
+        public GameObject Create(GameObject original, Vector3 position, Quaternion rotation, bool isNetwork) {
+            if (isNetwork) CmdCreate(original,position,rotation); return lastInstanceMade; }
+        [Command] public void CmdCreate(GameObject original, Vector3 position, Quaternion rotation) {
+            var o = Instantiate(original,position,rotation); var c = o.Get<ICreatable>();
+            if (c!=null) { c.Init(); c.Create(); } NetworkServer.Spawn(o); lastInstanceMade = o; }
 
         public class Data {
             public string name {get;set;}

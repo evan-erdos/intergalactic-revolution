@@ -9,6 +9,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour {
    protected static T instance; public static T Instance { get {
       if (!(instance is null)) return instance;
       if (!((instance = FindObjectOfType<T>()) is null)) return instance;
-      var manager = GameObject.Find($"manager") ?? new GameObject("manager");
-      instance = instance.GetComponent<T>();
+      var manager = GameObject.Find($"Manager") ?? new GameObject("Manager");
+      instance = manager.GetComponent<T>();
       if (instance is null) manager.AddComponent<T>(); return instance; } } }

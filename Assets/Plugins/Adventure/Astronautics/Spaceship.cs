@@ -14,7 +14,7 @@ namespace Adventure.Astronautics.Spaceships {
         float rollEffect=1, pitchEffect=1, yawEffect=0.2f, spinEffect=1;
         float brakesEffect=3, throttleEffect=0.5f, dragEffect=0.001f;
         float energyLoss=50, energyGain=20, maneuveringEnergy=100;
-        Pool hyperspaces;
+        Pool<Transform> hyperspaces = new Pool<Transform>();
         new AudioSource audio;
         new Rigidbody rigidbody;
         AudioClip modeClip, changeClip, selectClip, hyperspaceClip, alarmClip;
@@ -31,7 +31,7 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
         [SerializeField] protected RealityEvent onKill = new RealityEvent();
         [SerializeField] protected RealityEvent onJump = new RealityEvent();
-        [SerializeField] protected RealityEvent onDamage = new RealityEvent();
+        [SerializeField] protected CombatEvent onDamage = new CombatEvent();
         public event RealityAction KillEvent;
         public event RealityAction JumpEvent;
         public event CombatAction DamageEvent;
@@ -73,8 +73,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void Fire() => Fire(Target);
         public void Fire(Vector3 position, Vector3 velocity) => Fire(position.tuple(), velocity.tuple());
         public void Disable() => (IsDisabled, rigidbody.drag, rigidbody.angularDrag) = (true,0,0);
-        public void Reset() => (IsDisabled, IsDead, rigidbody.mass, Health, Energy) =
-            (false, false, Mass, MaxHealth, EnergyCapacity);
+        public void Reset() => (IsDisabled, IsDead, rigidbody.mass, Health, Energy) = (false, false, Mass, MaxHealth, EnergyCapacity);
 
         public void Create(ShipProfile profile) =>
             (Mass, Health, EnginePower,
@@ -119,8 +118,7 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
-        IEnumerable<ITrackable> GetTargets() {
-            while (true) foreach (var o in trackables) yield return o; }
+        IEnumerable<ITrackable> GetTargets() { while (true) foreach (var o in trackables) yield return o; }
 
         int nextCamera = -1;
         public void ToggleView() {
@@ -128,7 +126,7 @@ namespace Adventure.Astronautics.Spaceships {
             IEnumerator Toggling() {
                 var pivot = Pivots[++nextCamera%Pivots.Count];
                 PlayerCamera.Pivot = pivot;
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -165,33 +163,37 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
+        public override void Init() { base.Init();
+            KillEvent -= (o,e) => onKill?.Invoke(o,e);
+            JumpEvent -= (o,e) => onJump?.Invoke(o,e);
+            DamageEvent -= (o,e) => onDamage?.Invoke(o,e);
+            KillEvent += (o,e) => onKill?.Invoke(o,e);
+            JumpEvent += (o,e) => onJump?.Invoke(o,e);
+            DamageEvent += (o,e) => onDamage?.Invoke(o,e);
+        }
+
         void Awake() {
             Create(profile);
+            onKill.AddListener((o,e) => OnKill());
+            onJump.AddListener((o,e) => OnHyperJump());
+            onDamage.AddListener((o,e) => OnDamage(o,e));
             mechanics.Add(GetChildren<IShipComponent>());
             var query =
                 from particles in GetChildren<ParticleSystem>()
-                where particles.name=="Hypertrail"
-                select particles;
+                where particles.name=="Hypertrail" select particles;
             hypertrail.Add(query);
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
             parts = new Stack<IDamageable>(GetChildren<IDamageable>());
             (rigidbody, audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
             (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip,true,false);
             Reset();
-            onKill.AddListener((o,e) => OnKill());
-            onJump.AddListener((o,e) => OnHyperJump());
-            onDamage.AddListener((o,e) => OnDamage(1));
             if (hyperspace==null) return;
-            var hyperspaceInstances = new List<GameObject>();
-            for (var i=0;i<2;++i) {
-                var instance = Create(hyperspace);
-                var projectile = instance.Get<IProjectile>();
-                hyperspaceInstances.Add(instance);
-                instance.transform.parent = transform;
-                instance.transform.localPosition = Vector3.zero;
+            hyperspaces = new Pool<Transform>(2, () => {
+                var instance = Create<Transform>(hyperspace);
+                (instance.parent, instance.localPosition) = (transform, Vector3.zero);
                 instance.gameObject.layer = gameObject.layer;
                 instance.gameObject.SetActive(false);
-            } hyperspaces = new Pool(hyperspaceInstances);
+                return instance; });
         }
 
         IEnumerator Start() {
@@ -211,18 +213,6 @@ namespace Adventure.Astronautics.Spaceships {
                     if (!targets.Contains(ship)) targets.Add(ship);
                 } yield return null;
             }
-        }
-
-        void OnEnable() {
-            KillEvent += onKill.Invoke;
-            JumpEvent += onJump.Invoke;
-            DamageEvent += (o,e) => OnDamage(e.Damage);
-        }
-
-        void OnDisable() {
-            KillEvent -= onKill.Invoke;
-            JumpEvent -= onJump.Invoke;
-            DamageEvent -= (o,e) => OnDamage(e.Damage);
         }
 
         void FixedUpdate() => Energy += EnergyPotential*Time.fixedDeltaTime;
@@ -276,18 +266,16 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         public void Move() {
-            var (brakes,boost,throttle,roll,pitch,yaw) = (0f,0f,0f,0f,0f,0f);
+            var (brakes,boost,speed,roll,pitch,yaw) = (0f,0f,0f,0f,0f,0f);
             // insert clever fallback ship autopiloting algorithm here
-            Move(brakes,boost,throttle,roll,pitch,yaw);
+            Move(brakes,boost,speed,roll,pitch,yaw);
         }
 
-        public void Move(
-                        float brakes=0, float boost=0, float throttle=0,
-                        float roll=0, float pitch=0, float yaw=0) {
+        public void Move(float brakes=0, float boost=0, float speed=0, float roll=0, float pitch=0, float yaw=0) {
             if (IsDisabled || IsDead) return;
             Control = (Clamp(roll), Clamp(pitch), Clamp(yaw));
-            (Brakes,Boost,Shift) = (Clamp(brakes), Clamp(boost), Clamp(throttle));
-            var spin = Clamp(throttle);
+            (Brakes, Boost, Shift) = (Clamp(brakes), Clamp(boost), Clamp(speed));
+            var spin = Clamp(speed);
             ForwardSpeed = transform.InverseTransformDirection(rigidbody.velocity).z;
             ForwardSpeed = Mathf.Max(0,ForwardSpeed);
             float Clamp(float input) => Mathf.Clamp(input,-1,1);
@@ -323,8 +311,7 @@ namespace Adventure.Astronautics.Spaceships {
                 (Throttle,CurrentPower) = ControlThrottle();
                 (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
                 var aeroCoefficient = ComputeCoefficient();
-                (rigidbody.velocity, rigidbody.rotation) =
-                    CalculateAerodynamics(aeroCoefficient);
+                (rigidbody.velocity, rigidbody.rotation) = CalculateAerodynamics(aeroCoefficient);
                 rigidbody.AddForce(CalculateForce());
                 rigidbody.AddTorque(CalculateTorque(aeroCoefficient).vect());
                 CalculateManeuverThrust();
@@ -348,6 +335,15 @@ namespace Adventure.Astronautics.Spaceships {
 
         (float,float,float) CalculateThrust() => (transform.forward*BoostPower).tuple();
         void OnHyperJump() => hypertrail.ForEach(o => o.Stop());
+
+        public void Dodge(float horizontal, float vertical, float power=1000) {
+            if (Energy>=EnergyJump/4) StartSemaphore(Dodging);
+            IEnumerator Dodging() {
+                Energy -= EnergyJump/4;
+                rigidbody.AddForce(transform.up*vertical*power+transform.right*power, ForceMode.VelocityChange);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
 
         public void HyperJump() {
             if (Energy>=EnergyJump/2) StartSemaphore(Jumping);
@@ -377,6 +373,7 @@ namespace Adventure.Astronautics.Spaceships {
                     yield return Wait(new WaitForFixedUpdate(), () =>
                         rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, direction, Time.fixedDeltaTime));
                 audio.PlayOneShot(hyperspaceClip);
+                print("what the fuck");
                 Throttle = 20;
                 ControlThrottle();
                 rigidbody.AddForce(transform.forward*1000, ForceMode.Impulse);
@@ -397,13 +394,13 @@ namespace Adventure.Astronautics.Spaceships {
             if (part is Weapon blaster) blaster.Disable();
         }
 
-        void OnDamage(float damage) {
+        void OnDamage(IObject o, CombatArgs e) {
             if (IsDead) return;
-            Health -= damage;
+            Health -= e.Damage;
             StartSemaphore(Damaging);
             IEnumerator Damaging() {
                 if (!IsDisabled) audio.PlayOneShot(hitSounds.Pick(),1);
-                if (damage>200) SevereDamage();
+                if (e.Damage>200) SevereDamage();
                 if (Health<0) Kill();
                 yield return new WaitForSeconds(0.1f);
             }
@@ -471,12 +468,10 @@ namespace Adventure.Astronautics.Spaceships {
             return (drag,angularDrag);
         }
 
-        float ComputeCoefficient() =>
-            Mathf.Pow(Vector3.Dot(transform.forward,rigidbody.velocity.normalized),2);
+        float ComputeCoefficient() => Mathf.Pow(Vector3.Dot(transform.forward,rigidbody.velocity.normalized),2);
 
         (Vector3,Quaternion) CalculateAerodynamics(float aeroFactor=1) {
-            if (rigidbody.velocity.magnitude<=0)
-                return (rigidbody.velocity, rigidbody.rotation);
+            if (rigidbody.velocity.magnitude<=0) return (rigidbody.velocity, rigidbody.rotation);
             var velocity = Vector3.Lerp(
                 rigidbody.velocity, transform.forward*ForwardSpeed,
                 aeroFactor*ForwardSpeed*AeroEffect*Time.fixedDeltaTime);

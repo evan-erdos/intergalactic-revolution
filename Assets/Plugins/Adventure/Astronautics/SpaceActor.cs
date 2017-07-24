@@ -10,13 +10,11 @@ using Adventure.Astronautics.Spaceships;
 namespace Adventure.Astronautics {
     public abstract class SpaceActor : Adventure.NetObject {
         new protected Rigidbody rigidbody;
-        protected List<NetworkStartPosition> locations =
-            new List<NetworkStartPosition>();
+        protected List<NetworkStartPosition> locations = new List<NetworkStartPosition>();
         public virtual Spaceship Ship {get;set;}
         public (string star, string subsystem) Destination {get;set;}
 
-        public virtual void SetShip(Spaceship ship) =>
-            (Ship, PlayerCamera.Target) = (ship, ship.transform);
+        public virtual void SetShip(Spaceship o) => (Ship, PlayerCamera.Target) = (o, o.transform);
 
         protected virtual void Awake() {
             rigidbody = GetOrAdd<Rigidbody>();

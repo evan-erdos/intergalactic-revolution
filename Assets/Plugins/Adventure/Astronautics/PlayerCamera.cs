@@ -20,6 +20,8 @@ namespace Adventure.Astronautics {
             get { return singleton.effects.profile; }
             set { singleton.effects.profile = value; } }
 
+        public static void Reset() => Target = null;
+
         Camera CreateDistantCamera(float near=1, float far=10000) {
             var go = new GameObject("Distant Camera");
             var camera = go.AddComponent<Camera>();
@@ -34,14 +36,16 @@ namespace Adventure.Astronautics {
             return camera;
         }
 
+
+
         void Align(Transform other) =>
             (other.transform.position, other.transform.rotation) =
                 (Vector3.zero, mainCamera.transform.rotation);
 
         void Awake() {
             if (!(singleton is null)) { Destroy(gameObject); return; }
-            (singleton,effects) = (this, Get<PostProcessingBehaviour>());
-            (mainCamera,distantCamera) = (Get<Camera>(),CreateDistantCamera());
+            (singleton, effects) = (this, Get<PostProcessingBehaviour>());
+            (mainCamera, distantCamera) = (Get<Camera>(), CreateDistantCamera());
             DontDestroyOnLoad(mainCamera.gameObject);
             DontDestroyOnLoad(distantCamera.gameObject);
             distantCamera.transform.parent = transform;
