@@ -36,25 +36,24 @@ namespace Adventure.Astronautics {
         public virtual void Disable() => IsDisabled = true;
         public virtual void Enable() => IsDisabled = false;
         public void Damage(float damage) => If ((Health-=damage)<0, () => Kill());
-        public void Kill() => (rigidbody.isKinematic, transform.parent, IsDisabled) = (false,null,true);
+        public void Kill() => (rigidbody.isKinematic,transform.parent,IsDisabled) = (false,null,true);
         public void Fire() => Fire(transform.forward);
         public void Fire(Vector3 position) => Fire(position.tuple(), (0,0,0), (0,0,0));
         public void Fire(ITrackable o) => Fire(o.Position.tuple(), o.Velocity.tuple(), (0,0,0));
-        public void Fire((float,float,float) position, (float,float,float) velocity) => Fire(position,velocity,(0,0,0));
-        public virtual void Fire((float,float,float) position, (float,float,float) velocity, (float,float,float) initial) {
+        public void Fire((float,float,float) p, (float,float,float) v) => Fire(p,v,(0,0,0));
+        public virtual void Fire( (float,float,float) position, (float,float,float) velocity, (float,float,float) initial) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
                 if (sounds.Any()) audio.PlayOneShot(sounds.Pick(),0.8f);
                 Barrel = barrels[++next%barrels.Count].position;
                 particles?.Play();
-
                 var (ratio, spray) = (10000, 0.005f);
                 var (direction, random) = (position.vect()-Barrel, Random.Range(-0.01f,0.01f));
                 var (distance, heading) = (direction.magnitude, velocity.vect().normalized);
                 var variation = (heading*random+Random.insideUnitSphere*spray)*distance;
                 var prediction = position.vect()+heading*distance/ratio+variation;
                 var rotation = Quaternion.LookRotation(direction,transform.up);
-                if (Quaternion.Angle(rotation,transform.rotation)>Angle/3) rotation = transform.rotation;
+                if (transform.IsFacing(rotation,Angle/3)) rotation = transform.rotation;
                 var rigidbody = projectiles.Create(Barrel,rotation);
                 if (rigidbody.Get<IProjectile>() is GuidedMissile o) o.Target = Target;
                 rigidbody.Get<IResettable>()?.Reset();

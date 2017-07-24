@@ -26,26 +26,21 @@ public static partial class Extensions {
     public static float magnitude(this (float,float,float) o) => o.vect().magnitude;
     public static float sqrMagnitude(this (float,float,float) o) => o.vect().sqrMagnitude;
     public static (float x,float y,float z) tuple(this Vector3 o) => (o.x,o.y,o.z);
-    public static Vector3 vect(this (float,float,float) o) => new Vector3(x: o.Item1, y: o.Item2, z: o.Item3);
+    public static Vector3 vect(this (float,float,float) o) => new Vector3(o.Item1, o.Item2, o.Item3);
     public static Vector3 normalized(this (float,float,float) o) => o.vect().normalized;
 
-    /// IsNear : () => bool
-    /// detects if the transform is close to the location
-    public static bool IsNear(this Transform o, Transform location, float distance=0.01f) =>
-        o.IsNear(location.position,distance);
+    /// IsFacing : () => bool
+    /// detects if the rotation is within a certain angle in degrees
+    public static bool IsFacing(this Quaternion o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o,rotation)<angle;
+    public static bool IsFacing(this Transform o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation)<angle;
+    public static bool IsFacing(this Transform o, Transform rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation.rotation)<angle;
 
     /// IsNear : () => bool
     /// detects if the transform is close to the location
-    public static bool IsNear(this Transform o, Vector3 position, float distance=0.01f) =>
-        Vector3.Distance(o.position,position)<distance;
-
-    /// IsNear : () => bool
-    /// detects if the vector is close to the location
-    public static bool IsNear(this Vector3 o, Vector3 vector, float distance=float.Epsilon) =>
-        (o-vector).sqrMagnitude<distance*distance;
-
-    public static bool IsNear(this (float,float,float) o, Vector3 v, float dist=float.Epsilon) =>
-        v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
+    public static bool IsNear(this Transform o, Transform location, float distance=0.01f) => o.IsNear(location.position,distance);
+    public static bool IsNear(this Transform o, Vector3 position, float distance=0.01f) => Vector3.Distance(o.position,position)<distance;
+    public static bool IsNear(this Vector3 o, Vector3 vector, float distance=float.Epsilon) => (o-vector).sqrMagnitude<distance*distance;
+    public static bool IsNear(this (float,float,float) o, Vector3 v, float dist=float.Epsilon) => v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
 
 
     /// Distance : () => real
@@ -140,9 +135,8 @@ public static partial class Extensions {
     public static IEnumerable<Type> GetTypes(this Type type, Type root=null) {
         if (type==null || type.BaseType == null) yield break;
         if (root==null) root = typeof(object);
-        var current = type;
-        while ((current = current.BaseType)!=null)
-            if (current==root.BaseType) yield break; else yield return current;
+        var c = type; while ((c = c.BaseType)!=null)
+            if (c==root.BaseType) yield break; else yield return c;
     }
 
     /// md : (markdown) => html
@@ -181,11 +175,8 @@ public static partial class Extensions {
     public static T GetChild<T>(this Component o) => GetOrNull<T>(o.GetComponentInChildren<T>());
     public static List<T> GetChildren<T>(this GameObject o) => o.GetComponentsInChildren<T>().ToList();
     public static List<T> GetChildren<T>(this Component o) => o.GetComponentsInChildren<T>().ToList();
-    public static T Create<T>(GameObject original) where T : Component =>
-        Create<T>(original, Vector3.zero, Quaternion.identity);
-    public static T Create<T>(GameObject original, Vector3 position) where T : Component =>
-        Create<T>(original, position, Quaternion.identity);
+    public static T Create<T>(GameObject original) where T : Component => Create<T>(original, Vector3.zero, Quaternion.identity);
+    public static T Create<T>(GameObject original, Vector3 position) where T : Component => Create<T>(original, position, Quaternion.identity);
     public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) where T : Component =>
         UnityEngine.Object.Instantiate(original, position, rotation).GetComponent<T>();
-
 }
