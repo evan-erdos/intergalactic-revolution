@@ -144,7 +144,7 @@ namespace Adventure.Astronautics.Spaceships {
                 weapons.ForEach(o => o.gameObject.SetActive(true));
                 audio.PlayOneShot(changeClip);
                 if (0<weapons.Count) Weapon = weapons.First();
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -159,7 +159,7 @@ namespace Adventure.Astronautics.Spaceships {
                     case FlightMode.Manual: ChangeDrag(0,0); break;
                     case FlightMode.Assisted: ChangeDrag(AeroEffect); break;
                     case FlightMode.Navigation: ChangeDrag(AeroEffect,0); break;
-                } yield return new WaitForSeconds(0.05f);
+                } yield return new WaitForSeconds(0.2f);
             }
         }
 
