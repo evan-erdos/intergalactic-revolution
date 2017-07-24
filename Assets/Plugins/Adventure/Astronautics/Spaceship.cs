@@ -4,12 +4,12 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-using A=Adventure;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class Spaceship : Adventure.Object, ISpaceship, ICreatable<SpaceshipProfile> {
+    public class Spaceship : Adventure.Object, ISpaceship, ICreatable<ShipProfile> {
         float Shift, Brakes, rollAngle, pitchAngle, energyJumpFactor = 9;
         float rollEffect=1, pitchEffect=1, yawEffect=0.2f, spinEffect=1;
         float brakesEffect=3, throttleEffect=0.5f, dragEffect=0.001f;
@@ -26,7 +26,7 @@ namespace Adventure.Astronautics.Spaceships {
         List<ParticleSystem> hypertrail = new List<ParticleSystem>();
         List<Weapon> weapons = new List<Weapon>();
         List<FlightMode> modes = new List<FlightMode> { FlightMode.Manual, FlightMode.Assisted };
-        [SerializeField] protected SpaceshipProfile profile;
+        [SerializeField] protected ShipProfile profile;
         [SerializeField] List<Weapon> blasters = new List<Weapon>();
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
         [SerializeField] protected RealityEvent onKill = new RealityEvent();
@@ -76,7 +76,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void Reset() => (IsDisabled, IsDead, rigidbody.mass, Health, Energy) =
             (false, false, Mass, MaxHealth, EnergyCapacity);
 
-        public void Create(SpaceshipProfile profile) =>
+        public void Create(ShipProfile profile) =>
             (Mass, Health, EnginePower,
             rollEffect, pitchEffect, yawEffect,
             spinEffect, brakesEffect, throttleEffect,
@@ -229,32 +229,26 @@ namespace Adventure.Astronautics.Spaceships {
         void OnCollisionEnter(Collision c) => Damage(c.impulse.magnitude/4);
 
         void ChangeDrag(float aeroEffect, float dragCoefficient=0.0002f) {
-            StartSemaphore(ChangingAero);
             StartSemaphore(ChangingDrag);
-            IEnumerator ChangingAero() {
+            StartAsync(ChangingAero);
+            async Task ChangingAero() {
                 var (time, speed, smooth, max) = (0f,0f,0.125f,100f);
-                while (Mathf.Abs(AeroEffect-aeroEffect)>0.25f) yield return Wait(
-                    wait: new WaitForFixedUpdate(),
-                    func: () => AeroEffect = Mathf.SmoothDamp(
-                        current: AeroEffect,
-                        target: aeroEffect,
-                        currentVelocity: ref speed,
-                        smoothTime: smooth,
-                        maxSpeed: max,
-                        deltaTime: time+=Time.fixedDeltaTime/4));
+                while (Mathf.Abs(AeroEffect-aeroEffect)>0.25f) {
+                    await AsyncTools.ToFixedUpdate();
+                    AeroEffect = Mathf.SmoothDamp(
+                        current: AeroEffect, target: aeroEffect,
+                        currentVelocity: ref speed, smoothTime: smooth,
+                        maxSpeed: max, deltaTime: time+=Time.fixedDeltaTime/4);
+                }
             }
 
             IEnumerator ChangingDrag() {
                 var (time, speed, smooth, max) = (0f,0f,0.125f,100f);
-                while (dragEffect!=dragCoefficient) yield return Wait(
-                    wait: new WaitForFixedUpdate(),
-                    func: () => dragEffect = Mathf.SmoothDamp(
-                        current: dragEffect,
-                        target: dragCoefficient,
-                        currentVelocity: ref speed,
-                        smoothTime: smooth,
-                        maxSpeed: max,
-                        deltaTime: time+=Time.fixedDeltaTime/4));
+                while (dragEffect!=dragCoefficient) yield return Wait(new WaitForFixedUpdate(), () =>
+                    dragEffect = Mathf.SmoothDamp(
+                        current: dragEffect, target: dragCoefficient,
+                        currentVelocity: ref speed, smoothTime: smooth,
+                        maxSpeed: max, deltaTime: time+=Time.fixedDeltaTime/4));
             }
         }
 
@@ -343,8 +337,7 @@ namespace Adventure.Astronautics.Spaceships {
                 (Throttle,Shift) = ControlThrottle();
                 (rigidbody.drag, rigidbody.angularDrag) = CalculateDrag();
                 var aeroCoefficient = ComputeCoefficient();
-                (rigidbody.velocity,rigidbody.rotation) =
-                    CalculateAerodynamics(aeroCoefficient);
+                (rigidbody.velocity,rigidbody.rotation) = CalculateAerodynamics(aeroCoefficient);
                 var liftForce = CalculateLift(0).vect();
                 rigidbody.AddForce(liftForce+CalculateForce().vect());
                 rigidbody.AddTorque(CalculateTorque(aeroCoefficient).vect());
@@ -381,10 +374,8 @@ namespace Adventure.Astronautics.Spaceships {
                 (Throttle, Shift) = (0,0);
                 (rigidbody.drag, rigidbody.angularDrag) = (10,10);
                 while (Mathf.Abs(Quaternion.Dot(transform.rotation,direction))<0.999f)
-                    yield return Wait(
-                        wait: new WaitForFixedUpdate(),
-                        func: () => rigidbody.rotation = Quaternion.Slerp(
-                            rigidbody.rotation, direction, Time.fixedDeltaTime));
+                    yield return Wait(new WaitForFixedUpdate(), () =>
+                        rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, direction, Time.fixedDeltaTime));
                 audio.PlayOneShot(hyperspaceClip);
                 Throttle = 20;
                 ControlThrottle();

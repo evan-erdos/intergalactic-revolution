@@ -78,7 +78,7 @@ namespace Adventure.Movement {
         }
 
 
-        public void Kill(Actor actor, StoryArgs args) => Kill();
+        public void Kill(Actor o, StoryArgs e) => Kill();
         public void OnJump() { }
         public void OnLand() => StartCoroutine(Landed());
 
@@ -107,7 +107,7 @@ namespace Adventure.Movement {
             if (!IsDisabled) MoveMotor();
         }
 
-        public void OnCollisionEvent(Collision collision) { }
+        public void OnCollisionEvent(Collision c) { }
 
         void FixedUpdate() {
             if ((Mathf.Abs(Time.timeScale)>0.1f) && activePlatform != null) {

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -39,7 +40,7 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         public void Move() {
-            if (isDisabled || Target is null) { spaceship.Move(); return; }
+            if (isDisabled || Target is null) { spaceship?.Move(); return; }
             var (brakes, boost, yawEffect) = (0f,0f,1f);
             var vect = Mathf.PerlinNoise(Time.time*wanderSpeed,perlin)*2-1;
             var goal = Target.Position+transform.right*vect*lateralWander;
@@ -57,43 +58,32 @@ namespace Adventure.Astronautics.Spaceships {
             var maxRoll = maxRollAngle*Mathf.Deg2Rad;
             pitchAngle = Mathf.Clamp(pitchAngle,-maxClimb,maxClimb);
             var desiredRoll = Mathf.Clamp(yawAngle,-maxRoll,maxRoll);
-            var (roll,pitch,yaw) = (0f,pitchAngle,0f);
             var speed = 1+spaceship.ForwardSpeed*speedEffect;
-            roll = roll*rollEffect*speed;
-            pitch = pitch*pitchEffect*speed;
-            yaw = yaw*yawEffect*speed;
-            spaceship.Move(brakes,boost,throttleEffect,roll,pitch,yaw);
+            var (roll, pitch, yaw) = (speed,pitchAngle*speed,speed);
+            roll *= rollEffect; pitch *=pitchEffect; yaw *= yawEffect;
+            spaceship?.Move(brakes,boost,throttleEffect,roll,pitch,yaw);
         }
 
         void Awake() {
-            mask = 1<<LayerMask.NameToLayer("AI");
-            perlin = Random.Range(0,100);
+            (perlin, mask) = (Random.Range(0,100), 1<<LayerMask.NameToLayer("AI"));
             if (!spaceship) spaceship = Get<Spaceship>();
             rigidbody = spaceship.Get<Rigidbody>();
             weapons.Add(spaceship.GetComponentsInChildren<Weapon>());
         }
 
-        IEnumerator Start() {
-            var radius = 10000;
-            var layerMask = 1<<LayerMask.NameToLayer("Player");
-            StartCoroutine(Toggling());
+        async void Start() {
+            var (radius, layerMask) = (10000, 1<<LayerMask.NameToLayer("Player"));
+            StartAsync(Toggling);
+
             while (true) {
-                yield return new WaitForSeconds(2);
-                Physics.OverlapSphereNonAlloc(Position,radius,colliders,layerMask);
-                foreach (var result in colliders) {
-                    yield return null;
-                    if (result?.attachedRigidbody is null) continue;
-                    var ship = result.attachedRigidbody.Get<ITrackable>();
-                    if (!(ship is null)) targets.Add(ship);
-                } yield return null;
-                // if (0<targets.Count) Target = targets.First();
+                await Physics.OverlapSphereNonAlloc(Position,radius,colliders,layerMask);
+                foreach (var c in colliders) {
+                    if (c?.attachedRigidbody is null) continue; await 0;
+                    if (c.attachedRigidbody?.Get<ITrackable>() is ITrackable o) targets.Add(o);
+                } await 2; // if (0<targets.Count) Target = targets.First();
             }
 
-            IEnumerator Toggling() {
-                while (!isDisabled) yield return Wait(
-                    wait: new WaitForSeconds(4),
-                    func: () => (isFiring,isBraking) = (!isFiring,!isBraking));
-            }
+            async Task Toggling() { while (!isDisabled) { await 4; (isFiring,isBraking) = (!isFiring,!isBraking); } }
         }
 
         void FixedUpdate() { Move(); Fire(); }

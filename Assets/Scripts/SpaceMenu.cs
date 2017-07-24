@@ -20,7 +20,7 @@ public class SpaceMenu : Adventure.Object {
     [SerializeField] protected ui::Selectable selection;
 
     public string PlayerName {get;set;} = "Evan Erdos";
-    public SpaceshipProfile PlayerShip {get;set;}
+    public ShipProfile PlayerShip {get;set;}
 
     public void Play() => Click(() => LoadGame());
     public void Load() => Click(() => Load(PlayerName,PlayerShip,PickSyst()));
@@ -31,13 +31,12 @@ public class SpaceMenu : Adventure.Object {
     public void LoadGame(PilotProfile pilot, StarProfile star) =>
         LoadGame(pilot, star, star.Subsystems.Pick());
     public void LoadGame(PilotProfile pilot, StarProfile star, string spob) =>
-        Get<SceneLoader>().Load(() => OnLoadGame(pilot,star,spob), spob);
-
-    void Load(string name, SpaceshipProfile ship, StarProfile star) =>
+        Get<Loader>().Load(() => OnLoadGame(pilot,star,spob), spob);
+    void Load(string name, ShipProfile ship, StarProfile star) =>
         Load(name,ship,star,star.Subsystems.Pick());
-    void Load(string name, SpaceshipProfile ship, StarProfile star, string spob) =>
-        Get<SceneLoader>().Load(() => OnLoad(name, ship, star, spob), spob);
-    void OnLoad(string name,SpaceshipProfile shipData,StarProfile profile,string spob) {
+    void Load(string name, ShipProfile ship, StarProfile star, string spob) =>
+        Get<Loader>().Load(() => OnLoad(name, ship, star, spob), spob);
+    void OnLoad(string name,ShipProfile shipData,StarProfile profile,string spob) {
         if (once) return; once = true;
         Manager.StartHost();
         var star = Create(profile.prefab);
@@ -59,8 +58,7 @@ public class SpaceMenu : Adventure.Object {
         var list = new List<NetworkStartPosition>();
         list.Add(FindObjectsOfType<NetworkStartPosition>());
         var spawn = list.Pick();
-        ship.JumpEvent += (o,e) => Manager.Jump(
-            ship.Destination, ship.Destination.Subsystems.Pick());
+        ship.JumpEvent += (o,e) => Manager.Jump(ship.Destination, ship.Destination.Subsystems.Pick());
         ship.transform.position = spawn.transform.position;
         ship.transform.rotation = spawn.transform.rotation;
         user.SetShip(ship);

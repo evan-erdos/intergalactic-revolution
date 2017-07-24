@@ -2,23 +2,22 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Adventure.Puzzles {
-    public class Switch : Piece<bool>, IUsable {
+    public class Switch : Piece<bool,bool>, IUsable {
         public override void Use() => Pose();
         public override bool Pose() => Condition = !Condition;
-        public override bool Solve(bool condition) => Condition = condition;
+        public override bool Solve(bool cond) => Condition = cond;
 
-        protected override void OnSolve() {
-            StartSemaphore(Solving);
-            IEnumerator Solving() {
-                Log($"You Press the {Name}, and it clicks into place.");
-                yield return new WaitForSeconds(1);
-            }
-        }
+        public override void Init() { base.Init();
+            onSolve.AddListener((o,e) => StartAsync(() => OnSolve(o,e))); }
 
-        new public class Data : Piece<bool>.Data {
+        async Task OnSolve(IThing o, StoryArgs e) {
+            Log($"You press the {Name}."); await 1; }
+
+        new public class Data : Piece<bool,bool>.Data {
             public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Switch;
                 return instance;

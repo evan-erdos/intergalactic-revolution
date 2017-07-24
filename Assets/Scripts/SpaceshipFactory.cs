@@ -3,7 +3,9 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using Adventure;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
@@ -12,14 +14,13 @@ public class SpaceshipFactory : Adventure.Object {
     public List<Transform> locations = new List<Transform>();
     void Start() => CreateShip();
     public void CreateShip() {
-        StartSemaphore(Creating);
-        IEnumerator Creating() {
+        StartAsync(Creating);
+        async Task Creating() {
+            await 1;
             var instance = Create<Spaceship>(ships.Pick(),locations.Pick().position);
-            instance.GetChildren<Adventure.Object>().ForEach(o => o.Create());
-            instance.Create();
             instance.KillEvent += (o,e) => Create();
             instance.gameObject.name = $"Viper {Random.Range(10,999)}";
-            yield return new WaitForSeconds(8);
+            await 8;
         }
     }
 }

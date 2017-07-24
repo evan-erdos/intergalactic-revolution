@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Adventure {
@@ -59,6 +60,10 @@ namespace Adventure {
         /// StartSemaphore : (coroutine) => void
         /// like StartCoroutine, but ignores calls until
         void StartSemaphore(Func<IEnumerator> func);
+
+        /// StartAsync : (thread) => void
+        /// like StartSemaphore, but ignores subsequent async calls
+        void StartAsync(Func<Task> func);
 
 
         /// Get : <T>() => T

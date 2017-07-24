@@ -3,7 +3,6 @@
 using UnityEngine;
 
 class DestroyOnDelay : MonoBehaviour {
-    [SerializeField] float delay = 0.5f;
-    void Start() => Invoke("Destroy", delay);
-    void Destroy() => Destroy(gameObject);
+    [SerializeField] float delay = 1;
+    async void Start() { await delay; Destroy(gameObject); }
 }

@@ -16,9 +16,9 @@ namespace Adventure.Astronautics {
         [SerializeField] protected StarProfile CurrentStarSystem;
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
-        [SerializeField] SpaceshipProfile[] ShipProfiles = new SpaceshipProfile[1];
+        [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
         public static PilotProfile[] Pilots {get;protected set;}
-        public static SpaceshipProfile[] Ships {get;protected set;}
+        public static ShipProfile[] Ships {get;protected set;}
         public static Map<StarProfile,StarProfile[]> StarSystems {get;} =
             new Map<StarProfile,StarProfile[]>();
 
@@ -119,7 +119,7 @@ namespace Adventure.Astronautics {
 
         public void CreateShip() => CreateShip();
         // [Command]
-        public void CmdCreateShip(SpaceActor actor, SpaceshipProfile ship) {
+        public void CmdCreateShip(SpaceActor actor, ShipProfile ship) {
             var instance = Instantiate(ship.prefab) as GameObject;
             NetworkServer.Spawn(instance);
             DontDestroyOnLoad(instance);

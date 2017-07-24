@@ -11,6 +11,6 @@ public class PilotProfile : ScriptableObject {
     public string Nationality = "Frederation®"; // passport / twitter handle
     public int Reputation = 0; // warrants & commendations
     public int Money = 10_000; // credits & loans
-    public SpaceshipProfile ship; // spaceships
+    public ShipProfile ship; // spaceships
     public StarProfile star; // stars
 }

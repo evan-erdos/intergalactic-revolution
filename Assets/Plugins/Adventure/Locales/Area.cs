@@ -7,16 +7,13 @@ using UnityEngine;
 namespace Adventure.Locales {
     public class Area : Thing {
 
-
         /// IsSafe : bool
         /// can this Area can be traversed by default?
         public bool IsSafe {get; protected set;}
 
-
         /// rooms : Room[]
         /// a set of rooms contained by the Area
         public List<Room> Rooms {get;} = new List<Room>();
-
 
         /// areas : Area[]
         /// a set of adjacent Areas

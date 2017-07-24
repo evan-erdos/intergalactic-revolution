@@ -2,22 +2,19 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Adventure.Puzzles {
     public class Button : Piece, IUsable {
         public override void Use() => Pose();
         public virtual void Pose() => Solve();
+        public override void Init() { base.Init();
+            onSolve.AddListener((o,e) => StartAsync(() => OnSolve(o,e))); }
+        async Task OnSolve(IThing o, StoryArgs e) {
+            Log($"You press the {Name} and it clicks."); await 1; }
 
-        protected override void OnSolve() {
-            StartSemaphore(Solving);
-            IEnumerator Solving() {
-                Log($"You Press the {Name}, and it makes a clicking noise.");
-                yield return new WaitForSeconds(1);
-            }
-        }
-
-        new public class Data : Piece<bool>.Data {
+        new public class Data : Piece<bool,bool>.Data {
             public override Object Deserialize(Object o) {
                 var instance = base.Deserialize(o) as Button;
                 return instance;
