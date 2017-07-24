@@ -313,6 +313,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf785b55ed7b4ba0b1901e3a710bc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   period: 2073600
 --- !u!114 &11480182
 MonoBehaviour:
@@ -325,6 +330,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df7e8f5676fe4600ad21da89dacf675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   period: 2073600
   orbit: 31536000
   distance: 400
@@ -339,6 +349,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df7e8f5676fe4600ad21da89dacf675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   period: 103680
   orbit: 31536000
   distance: 1000
@@ -486,7 +501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1154575118252310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,13 +1196,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1511821886170240}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 1000, z: 1000}
+  m_LocalRotation: {x: -0.6020581, y: -0.6865883, z: 0.26872104, w: 0.30645}
+  m_LocalPosition: {x: 1700, y: -10754, z: -584}
+  m_LocalScale: {x: 10000, y: 10000, z: 10000}
   m_Children: []
   m_Father: {fileID: 4267416091124004}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -131.89401, z: 82.494}
 --- !u!4 &4888666688525992
 Transform:
   m_ObjectHideFlags: 1
@@ -2201,6 +2216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df7e8f5676fe4600ad21da89dacf675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   period: 103680
   orbit: 31536000
   distance: 1000

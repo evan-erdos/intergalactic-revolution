@@ -13,9 +13,6 @@ using Adventure.Astronautics.Spaceships;
 
 namespace Adventure {
     public class Menu : Adventure.Object {
-        [SerializeField] protected PilotProfile pilot;
-        [SerializeField] protected StarProfile star;
-        [SerializeField] protected string spob;
         [SerializeField] protected AudioClip click;
         [SerializeField] protected ui::Selectable selection;
 
@@ -25,7 +22,7 @@ namespace Adventure {
         public void Play() => Click(() => LoadGame());
         public void Load() => Click(() => Load(PlayerName, PlayerShip, PickSyst()));
         public void Quit() => Click(() => Application.Quit());
-        public void Continue() => Click(() => LoadGame(pilot, star, spob));
+        public void Continue() => Click(() => LoadGame(Manager.DefaultPilot, Manager.DefaultStar, Manager.DefaultSpob));
         public void LoadGame() => Click(() => LoadGame(Manager.Pilots.ToList().Pick()));
         public void LoadGame(PilotProfile pilot) => LoadGame(pilot, PickSyst());
         public void LoadGame(PilotProfile pilot, StarProfile star) => LoadGame(pilot, star, star.Subsystems.Pick());

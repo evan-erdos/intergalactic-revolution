@@ -181,6 +181,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c2c84f8c435f94c849436f221b1c4c06, type: 2}
   - {fileID: 11400000, guid: d83d5f5c77531432c9dd0a95da8cb6eb, type: 2}
   - {fileID: 11400000, guid: cc8ca331692a143a1a971645e54219e2, type: 2}
+  - {fileID: 11400000, guid: cc9afc54dbd1a4edeb9d511775c37912, type: 2}
+  pilotProfile: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
+  starProfile: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
+  spobProfile: Misstep For Mankind
 --- !u!114 &114353199547254354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalAxis: Roll
   m_VerticalAxis: Pitch
-  m_SubmitButton: Action
+  m_SubmitButton: Jump
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5

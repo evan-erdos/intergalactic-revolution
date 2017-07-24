@@ -20,8 +20,8 @@ namespace Adventure.Astronautics.Spaceships {
         void ControlInput() {
             // foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print(key);
             (roll, pitch, yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Pitch"), Input.GetAxis("Yaw"));
-            (brake, boost, speed) = (Input.GetButton("Brake")?1:0, Input.GetButton("Action")?1:0, Input.GetAxis("Speed"));
-            if (GetBoost()>0) boost = GetBoost();
+            (brake, boost, speed) = (Input.GetButton("Brake")?1:0, Input.GetButton("Action")?1:0, 1); // Input.GetAxis("Speed")
+            if (GetBoost()>0) boost = 1; // GetBoost();
             if (GetAttack()>0.8 || Input.GetButton("Fire")) Ship?.Fire();
             if (Input.GetButton("Jump")) Ship?.HyperJump(); // Ship?.SelectSystem();
             if (Input.GetButtonDown("Select")) Ship?.SelectTarget();
