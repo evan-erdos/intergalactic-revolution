@@ -21,5 +21,11 @@ namespace Adventure.Astronautics {
         /// Hit : () => void
         /// signifies that the projectile has been hit
         void Hit();
+
+        /// Fire : () => void
+        /// raises the fire event
+        void Fire();
+        void Fire(Vector3 position, Quaternion rotation, Vector3 velocity);
+        void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial);
     }
 }

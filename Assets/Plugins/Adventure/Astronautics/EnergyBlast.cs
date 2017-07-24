@@ -16,22 +16,25 @@ namespace Adventure.Astronautics.Spaceships {
         public void Hit() => HitEvent(this, new RealityArgs());
 
         public virtual void Reset() {
-            If<ParticleSystem>(o => o?.Stop());
-            (renderer.enabled, collider.enabled) = (true,true);
-            (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero);
-        }
+            (renderer.enabled, collider.enabled, rigidbody.isKinematic) = (true,true,false);
+            (rigidbody.velocity, rigidbody.angularVelocity) = (Vector3.zero, Vector3.zero);
+            If<ParticleSystem>(o => o?.Stop()); }
 
         protected virtual void OnHit() {
-            gameObject.SetActive(true);
-            If<ParticleSystem>(o => o?.Play());
-            (renderer.enabled, collider.enabled) = (false,false);
-            rigidbody.isKinematic = true;
-        }
+            gameObject.SetActive(true); If<ParticleSystem>(o => o?.Play());
+            (renderer.enabled, collider.enabled, rigidbody.isKinematic) = (false,false,true); }
+
+
+        public void Fire() => Fire(rigidbody.position, rigidbody.rotation, rigidbody.velocity);
+        public void Fire(Vector3 position, Quaternion rotation, Vector3 velocity) => Fire(position,rotation,velocity, Vector3.zero);
+        public virtual void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial) {
+            Reset(); (rigidbody.position, rigidbody.rotation) = (position,rotation);
+            rigidbody.AddForce(initial, ForceMode.VelocityChange); rigidbody.AddForce(velocity); }
+
 
         protected virtual void Awake() {
             (rigidbody,collider,renderer) = (Get<Rigidbody>(), Get<Collider>(), Get<Renderer>());
-            onHit.AddListener((o,e) => OnHit());
-            HitEvent += onHit.Invoke;
+            onHit.AddListener((o,e) => OnHit()); HitEvent += onHit.Invoke;
         }
 
         void OnCollisionEnter(Collision c) {

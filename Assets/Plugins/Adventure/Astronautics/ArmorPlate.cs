@@ -6,24 +6,21 @@ using UnityEngine;
 
 namespace Adventure.Astronautics.Spaceships {
     public class ArmorPlate : Adventure.Object, IDamageable {
+        float explosionForce = 100, explosionTorque = 50;
         [SerializeField] float health = 100;
         public float Health => health;
         public void Damage(float damage) {
             var parent = transform.parent;
             if (!gameObject || !parent) return;
-            var parentRigidbody = parent.GetComponentInParent<Rigidbody>();
-            if (!parentRigidbody || health<=0) return;
+            var ship = parent.GetParent<Rigidbody>();
+            if (!ship || health<=0) return;
             if (damage>health) health -= damage;
             transform.parent = null;
-            var velocity = parentRigidbody.velocity;
-            var angularVelocity = parentRigidbody.angularVelocity;
-            var rigidbody = GetComponent<Rigidbody>();
-            if (!rigidbody) rigidbody = gameObject.AddComponent<Rigidbody>();
-            rigidbody.useGravity = false;
-            rigidbody.isKinematic = false;
-            rigidbody.velocity = velocity;
-            rigidbody.angularVelocity = angularVelocity;
-            rigidbody.AddForce(Random.insideUnitSphere);
+            var rigidbody = GetOrAdd<Rigidbody>();
+            (rigidbody.useGravity, rigidbody.isKinematic) = (false,false);
+            (rigidbody.velocity, rigidbody.angularVelocity) = (ship.velocity, ship.angularVelocity);
+            rigidbody.AddForce(Random.insideUnitSphere*explosionForce);
+            rigidbody.AddTorque(Random.insideUnitSphere*explosionTorque);
         }
     }
 }

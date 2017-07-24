@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName="Assets/Profiles/Sounds/NewSoundProfile.asset")]
+[CreateAssetMenu(fileName="Assets/Prefabs/Sounds/NewSoundProfile.asset")]
 public class SoundProfile : ScriptableObject {
     // public GameObject prefab;
     public string Name = "New Sound";

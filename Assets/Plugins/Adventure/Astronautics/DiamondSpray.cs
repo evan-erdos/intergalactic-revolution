@@ -7,35 +7,36 @@ using System.Collections.Generic;
 namespace Adventure.Astronautics.Spaceships {
     public class DiamondSpray : EnergyBlast {
         [SerializeField] float spread = 100;
-        [SerializeField] float power = 30000;
         List<Rigidbody> shards = new List<Rigidbody>();
 
-        void OnHit(Rigidbody o) => o.Get<ParticleSystem>().Play();
         public override void Reset() { shards.ForEach(o => Reset(o));
-            (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero); }
+            (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero);
+
+            void Reset(Rigidbody shard) {
+                shard.Get<ParticleSystem>().Stop();
+                (shard.isKinematic, shard.transform.parent) = (true, transform);
+                (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true, true);
+                (shard.position, shard.rotation) = (transform.position, transform.rotation);
+                (shard.velocity, shard.angularVelocity) = (Vector3.zero, Vector3.zero);
+            }
+        }
+
+        public override void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial) {
+            Reset(); shards.ForEach(o => Fire(o));
+
+            void Fire(Rigidbody shard) {
+                (shard.isKinematic, shard.transform.parent) = (false, null);
+                (shard.position, shard.rotation) = (position, rotation);
+                shard.AddForce(initial, ForceMode.VelocityChange);
+                shard.AddForce(velocity + Random.insideUnitSphere*spread);
+            }
+        }
+
+        void OnHit(Rigidbody o) => o.Get<ParticleSystem>().Play();
 
         protected override void Awake() { base.Awake();
-            shards.Add(GetComponentsInChildren<Rigidbody>());
-            shards.Remove(Get<Rigidbody>());
+            shards.Add(GetChildren<Rigidbody>()); shards.Remove(Get<Rigidbody>());
             shards.ForEach(o => o.Get<EnergyBlast>().HitEvent += (e,a) => OnHit(o));
-        }
-
-        void Start() => shards.ForEach(o => Fire(o));
-
-        void Reset(Rigidbody shard) {
-            shard.Get<ParticleSystem>().Stop();
-            shard.transform.parent = transform;
-            (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true, true);
-            (shard.isKinematic, shard.velocity) = (false, Vector3.zero);
-        }
-
-        void Fire(Rigidbody shard) {
-            (shard.isKinematic, shard.velocity) = (false, rigidbody.velocity);
-            shard.angularVelocity = rigidbody.angularVelocity;
-            shard.angularVelocity += Random.insideUnitSphere*spread;
-            shard.velocity += Random.insideUnitSphere*spread;
-            shard.AddForce(transform.forward*power);
-            shard.transform.parent = null;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Adventure.Astronautics {
         public float Rate {get;protected set;} = 10; // Hz
         public float Spread {get;protected set;} = 100; // m
         public float Range {get;protected set;} = 1000; // m
-        public float Angle {get;protected set;} = 60; // deg
+        public float Angle {get;protected set;} = 30; // deg
         public GameObject Projectile {get;protected set;} // object
         public ParticleSystem particles {get;protected set;} // particles
         public Vector3 Barrel {get;protected set;} // position
@@ -41,7 +41,10 @@ namespace Adventure.Astronautics {
         public void Fire(Vector3 position) => Fire(position.tuple(), (0,0,0), (0,0,0));
         public void Fire(ITrackable o) => Fire(o.Position.tuple(), o.Velocity.tuple(), (0,0,0));
         public void Fire((float,float,float) p, (float,float,float) v) => Fire(p,v,(0,0,0));
-        public virtual void Fire( (float,float,float) position, (float,float,float) velocity, (float,float,float) initial) {
+        public virtual void Fire(
+                        (float,float,float) position,
+                        (float,float,float) velocity,
+                        (float,float,float) initial) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
                 if (sounds.Any()) audio.PlayOneShot(sounds.Pick(),0.8f);
@@ -53,16 +56,13 @@ namespace Adventure.Astronautics {
                 var variation = (heading*random+Random.insideUnitSphere*spray)*distance;
                 var prediction = position.vect()+heading*distance/ratio+variation;
                 var rotation = Quaternion.LookRotation(direction,transform.up);
-                if (transform.IsFacing(rotation,Angle/3)) rotation = transform.rotation;
-                var rigidbody = projectiles.Create(Barrel,rotation);
-                if (rigidbody.Get<IProjectile>() is GuidedMissile o) o.Target = Target;
-                rigidbody.Get<IResettable>()?.Reset();
-                (rigidbody.transform.position, rigidbody.transform.rotation) = (Barrel, rotation);
-                var forward = transform.forward*velocity.vect().magnitude * Time.fixedDeltaTime;
-                rigidbody.transform.position += transform.forward*4+forward;
-                rigidbody.AddForce(initial, ForceMode.VelocityChange);
-                rigidbody.AddForce(rigidbody.velocity+Random.insideUnitSphere*Spread);
-                rigidbody.AddForce(rigidbody.transform.forward*Force);
+                if (!transform.IsFacing(rotation,Angle)) rotation = transform.rotation;
+                var projectile = projectiles.Create<IProjectile>(Barrel,rotation);
+                if (projectile is GuidedMissile o) o.Target = Target;
+                projectile?.Fire(
+                    rotation: rotation, initial: initial.vect(),
+                    position: Barrel + transform.forward*(4+velocity.magnitude())*Time.fixedDeltaTime,
+                    velocity: transform.forward*Force + rigidbody.velocity + Random.insideUnitSphere*Spread);
                 yield return new WaitForSeconds(1f/(Rate*barrels.Count));
             }
         }

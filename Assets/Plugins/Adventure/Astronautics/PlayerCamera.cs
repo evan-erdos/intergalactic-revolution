@@ -22,7 +22,7 @@ namespace Adventure.Astronautics {
 
         public static void Reset() => Target = null;
 
-        Camera CreateDistantCamera(float near=1, float far=10000) {
+        Camera CreateDistantCamera(float near=10, float far=15000) {
             var go = new GameObject("Distant Camera");
             var camera = go.AddComponent<Camera>();
             var effects = go.AddComponent<PostProcessingBehaviour>();

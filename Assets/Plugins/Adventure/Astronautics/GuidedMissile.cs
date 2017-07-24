@@ -21,6 +21,13 @@ namespace Adventure.Astronautics.Spaceships {
         void Hit(IDamageable o) { if (o!=null) o.Damage(Force); Hit(); }
         void OnHit() { Create(particles); gameObject.SetActive(false); }
 
+        public void Fire() => Fire(rigidbody.position, rigidbody.rotation, rigidbody.velocity);
+        public void Fire(Vector3 position, Quaternion rotation, Vector3 velocity) => Fire(position,rotation,velocity, Vector3.zero);
+        public virtual void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial) {
+            Reset(); (rigidbody.position, rigidbody.rotation) = (position,rotation);
+            rigidbody.AddForce(initial, ForceMode.VelocityChange); rigidbody.AddForce(velocity); }
+
+
         void Awake() {
             perlin = Random.Range(1,100);
             onHit.AddListener((o,e) => OnHit());
@@ -48,6 +55,6 @@ namespace Adventure.Astronautics.Spaceships {
                 Quaternion.LookRotation(rigidbody.velocity, transform.up);
         }
 
-        void OnCollisionEnter(Collision collision) => Hit(collision.collider.Get<IDamageable>());
+        void OnCollisionEnter(Collision o) => Hit(o.collider.Get<IDamageable>());
     }
 }
