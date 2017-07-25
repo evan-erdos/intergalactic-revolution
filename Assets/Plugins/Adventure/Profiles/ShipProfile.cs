@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName="Assets/Prefabs/Ships/NewShipProfile.asset")]
-public class ShipProfile : ScriptableObject {
+public class ShipProfile : Adventure.Profile {
     public GameObject prefab;
     public string Name = "T-31 Viper 411";
     public int CargoSpace = 20; // tons

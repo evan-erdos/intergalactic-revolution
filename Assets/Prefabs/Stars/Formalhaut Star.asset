@@ -17,5 +17,7 @@ MonoBehaviour:
   atmosphere: {fileID: 11400000, guid: 21d703107ee334073bec0c88bf0a99a1, type: 2}
   Subsystems:
   - Formalhaut Spaceport II
+  Spobs:
+  - {fileID: 11400000, guid: e17f8451e3659134ab0fe698fce43463, type: 2}
   NearbySystems:
   - {fileID: 11400000, guid: fae5ae2e656754842bca442a9e1f1a13, type: 2}

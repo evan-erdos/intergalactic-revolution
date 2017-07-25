@@ -5,11 +5,10 @@ using System.Collections;
 
 namespace Adventure.Astronautics {
     public class Asteroid : Adventure.Object {
-        IEnumerator Start() {
+        async void Start() {
             var rotation = Random.insideUnitSphere*Time.fixedDeltaTime;
-            var wait = new WaitForSeconds(0.1f);
-            yield return new WaitForSeconds(Random.value);
-            while (true) { yield return wait; transform.Rotate(rotation); }
+            await Random.value;
+            while (true) { await 0.1; transform.Rotate(rotation); }
         }
     }
 }

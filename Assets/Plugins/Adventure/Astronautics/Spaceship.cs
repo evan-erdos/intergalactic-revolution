@@ -30,10 +30,10 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] List<Weapon> blasters = new List<Weapon>();
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
         [SerializeField] protected RealityEvent onKill = new RealityEvent();
-        [SerializeField] protected RealityEvent onJump = new RealityEvent();
+        [SerializeField] protected TravelEvent onJump = new TravelEvent();
         [SerializeField] protected CombatEvent onDamage = new CombatEvent();
         public event RealityAction KillEvent;
-        public event RealityAction JumpEvent;
+        public event TravelAction JumpEvent;
         public event CombatAction DamageEvent;
         public FlightMode Mode {get;protected set;} = FlightMode.Assisted;
         public bool IsDisabled {get;protected set;} = false;
@@ -64,10 +64,10 @@ namespace Adventure.Astronautics.Spaceships {
         public IWeapon Weapon {get;protected set;}
         public ITrackable Target {get;protected set;}
         public StarSystem CurrentSystem {get;protected set;}
-        public StarProfile Destination {get;protected set;}
-        public StarProfile[] Stars {get;set;} = new StarProfile[1];
+        public SpobProfile Destination {get;protected set;}
+        public SpobProfile[] Spobs {get;set;} = new SpobProfile[1];
         public void Kill() => KillEvent?.Invoke(this, new RealityArgs());
-        public void Jump() => JumpEvent?.Invoke(this, new RealityArgs());
+        public void Jump() => JumpEvent?.Invoke(this, new TravelArgs { Destination = Destination });
         public void Alarm() => audio.Play();
         public void Damage(float damage) => DamageEvent?.Invoke(this, new CombatArgs { Damage = damage });
         public void Fire() => Fire(Target);
@@ -96,20 +96,18 @@ namespace Adventure.Astronautics.Spaceships {
                 profile.explosion, profile.hyperspace);
 
         int nextSystem = -1; // gross
-        public void SelectSystem() {
-            StartSemaphore(Hyperspacing);
-            IEnumerator Hyperspacing() {
-                if (0>=Stars.Length) yield break;
-                audio.PlayOneShot(selectClip);
-                Destination = Stars[++nextSystem%Stars.Length];
-                yield return new WaitForSeconds(0.1f);
+        public void SelectSystem() { StartAsync(Hyperspacing);
+            // StartSemaphore(Hyperspacing); IEnumerator Hyperspacing() {
+            async Task Hyperspacing() {
+                if (0>=Spobs.Length) return;
+                Destination = Spobs[++nextSystem%Spobs.Length];
+                audio.PlayOneShot(selectClip); await 0.15;
             }
         }
 
         List<ITrackable> trackables = new List<ITrackable>();
         int nextTarget = -1; // ick
-        public void SelectTarget() {
-            StartSemaphore(Selecting);
+        public void SelectTarget() { StartSemaphore(Selecting);
             IEnumerator Selecting() {
                 if (0>=targets.Count) yield break;
                 audio.PlayOneShot(selectClip);
@@ -198,7 +196,8 @@ namespace Adventure.Astronautics.Spaceships {
 
         IEnumerator Start() {
             var radius = 100000;
-            var layerMask = 1<<LayerMask.NameToLayer("AI");
+            var layerMask = 1<<LayerMask.NameToLayer("NPC");
+            // var layerMask = ~(1<<LayerMask.NameToLayer("NPC"));
             var results = new Collider[32];
             blasters.ForEach(o => o.gameObject.SetActive(false));
             rockets.ForEach(o => o.gameObject.SetActive(false));
@@ -363,7 +362,8 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
         public void HyperJump(Quaternion direction) {
-            if (Energy>=EnergyJump/2) StartSemaphore(Jumping);
+            if (VerifyJump()) StartSemaphore(Jumping);
+            bool VerifyJump() => !(Destination is null) && Energy>=EnergyJump/2;
             IEnumerator Jumping() {
                 IsDisabled = true;
                 while (--Throttle>0) yield return new WaitForSeconds(0.1f);
@@ -373,11 +373,9 @@ namespace Adventure.Astronautics.Spaceships {
                     yield return Wait(new WaitForFixedUpdate(), () =>
                         rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, direction, Time.fixedDeltaTime));
                 audio.PlayOneShot(hyperspaceClip);
-                print("what the fuck");
-                Throttle = 20;
-                ControlThrottle();
+                Throttle = 20; ControlThrottle();
                 rigidbody.AddForce(transform.forward*1000, ForceMode.Impulse);
-                hypertrail.ForEach(o => {o.gameObject.SetActive(true);o.Play();});
+                hypertrail.ForEach(o => { o.gameObject.SetActive(true); o.Play(); });
                 yield return new WaitForSeconds(5);
                 hyperspaces.Create(transform.position,Quaternion.identity);
                 transform.position += transform.forward*100;
@@ -423,8 +421,8 @@ namespace Adventure.Astronautics.Spaceships {
                 Disable();
                 while (0<parts.Count) SevereDamage();
                 mechanics.ForEach(o => o.Disable());
-                var instance = Create(explosion);
-                instance.transform.parent = transform;
+                var instance = Create(explosion, transform.position, transform.rotation);
+                instance.transform.parent = transform; // or null?
                 yield return new WaitForSeconds(1);
                 enabled = false;
                 audio.Stop();

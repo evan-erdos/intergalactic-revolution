@@ -161,7 +161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4703712995545474}
   m_Layer: 0
-  m_Name: Spacedock IV
+  m_Name: Pollux Spaceport IV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

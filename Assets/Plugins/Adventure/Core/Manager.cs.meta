@@ -1,10 +1,13 @@
 fileFormatVersion: 2
 guid: e2b8936a996b648d681732d6c94800dc
-timeCreated: 1483310647
+timeCreated: 1500978256
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - pilotProfile: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
+  - starProfile: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
+  - spobProfile: {fileID: 11400000, guid: a903897fd77ae0244bb8bbf01d5c23d0, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

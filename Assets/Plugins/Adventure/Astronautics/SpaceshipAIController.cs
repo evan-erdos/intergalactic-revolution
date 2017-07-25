@@ -61,22 +61,24 @@ namespace Adventure.Astronautics.Spaceships {
             (perlin, mask) = (Random.Range(0,100), 1<<LayerMask.NameToLayer("AI"));
             if (!spaceship) spaceship = Get<Spaceship>();
             rigidbody = spaceship.Get<Rigidbody>();
-            weapons.Add(spaceship.GetComponentsInChildren<Weapon>());
+            weapons.Add(spaceship.GetChildren<Weapon>());
         }
 
-        async void Start() {
+        IEnumerator Start() {
             var (radius, layerMask) = (10000, 1<<LayerMask.NameToLayer("Player"));
-            StartAsync(Toggling);
+            StartSemaphore(Toggling);
 
             while (true) {
-                await Physics.OverlapSphereNonAlloc(Position,radius,colliders,layerMask);
+                Physics.OverlapSphereNonAlloc(Position,radius,colliders,layerMask);
                 foreach (var c in colliders) {
-                    if (c?.attachedRigidbody is null) continue; await 0;
+                    if (c==null || c?.attachedRigidbody is null) continue; yield return null;
                     if (c.attachedRigidbody?.Get<ITrackable>() is ITrackable o) targets.Add(o);
-                } await 2; // if (0<targets.Count) Target = targets.First();
+                } yield return new WaitForSeconds(2); // await 2;
+                if (0<targets.Count) Target = targets.First();
             }
 
-            async Task Toggling() { while (!isDisabled) { await 4; (isFiring,isBraking) = (!isFiring,!isBraking); } }
+            IEnumerator Toggling() { while (this!=null && enabled && !isDisabled) {
+                (isFiring, isBraking) = (!isFiring, !isBraking);  yield return new WaitForSeconds(8); } }
         }
 
         void FixedUpdate() { Move(); Fire(); }

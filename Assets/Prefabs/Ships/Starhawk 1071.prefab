@@ -7300,7 +7300,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0ba5393ed83f5e7438dbe7ba2cea28b6, type: 2}
+  - {fileID: 2100000, guid: a4950279e24dd554ab5a738650587704, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7748,7 +7748,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 0ba5393ed83f5e7438dbe7ba2cea28b6, type: 2}
+  - {fileID: 2100000, guid: a4950279e24dd554ab5a738650587704, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10430,7 +10430,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -10510,7 +10510,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -10590,7 +10590,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -10670,7 +10670,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
@@ -12538,7 +12538,7 @@ MonoBehaviour:
   onJump:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.TravelEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onDamage:
     m_PersistentCalls:

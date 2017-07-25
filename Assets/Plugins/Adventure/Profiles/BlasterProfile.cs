@@ -3,8 +3,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName="Assets/Profiles/Weapons/NewBlasterProfile.asset")]
-public class BlasterProfile : ScriptableObject {
+[CreateAssetMenu(fileName="Assets/Prefabs/Items/NewBlasterProfile.asset")]
+public class BlasterProfile : Adventure.Profile {
     public GameObject prefab;
     public string Name = "High Energy Blaster";
     public float Health = 1000; // N

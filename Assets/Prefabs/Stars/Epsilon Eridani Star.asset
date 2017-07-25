@@ -17,5 +17,7 @@ MonoBehaviour:
   atmosphere: {fileID: 11400000, guid: c7f268a18140b47109f2f8c38a5a3a6f, type: 2}
   Subsystems:
   - Station Alpha A
+  Spobs:
+  - {fileID: 11400000, guid: a903897fd77ae0244bb8bbf01d5c23d0, type: 2}
   NearbySystems:
   - {fileID: 11400000, guid: e246ef2fb1b5a4f95981e17957049847, type: 2}

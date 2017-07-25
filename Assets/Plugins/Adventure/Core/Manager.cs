@@ -12,9 +12,14 @@ using Adventure.Astronautics.Spaceships;
 namespace Adventure.Astronautics {
     public class Manager : Adventure.Object {
         [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
+        [SerializeField] SpobProfile[] SpobProfiles = new SpobProfile[1];
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
         [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
+        [SerializeField] protected PilotProfile pilotProfile;
+        [SerializeField] protected StarProfile starProfile;
+        [SerializeField] protected SpobProfile spobProfile;
+
         [Serializable] protected class AdventurePrefabs {
             [SerializeField] public GameObject menu;
             [SerializeField] public GameObject camera;
@@ -28,10 +33,13 @@ namespace Adventure.Astronautics {
         public static Player user {get;protected set;}
         public static Spaceship ship {get;protected set;}
         public static Menu menu {get;protected set;}
+        public static PilotProfile DefaultPilot {get;protected set;}
+        public static StarProfile DefaultStar {get;protected set;}
+        public static SpobProfile DefaultSpob {get;protected set;}
         public static new PlayerCamera camera {get;protected set;}
         public static PilotProfile[] Pilots {get;protected set;}
         public static ShipProfile[] Ships {get;protected set;}
-        public static Map<StarProfile,StarProfile[]> StarSystems {get;} = new Map<StarProfile,StarProfile[]>();
+        public static Map<StarProfile,StarProfile[]> Stars {get;} = new Map<StarProfile,StarProfile[]>();
         public static readonly Map<Type> tags = new Map<Type> {
             ["object"] = typeof(Adventure.Object),
             ["system"] = typeof(StarSystem),
@@ -75,26 +83,38 @@ namespace Adventure.Astronautics {
         // }
 
 
-        public static void Jump(StarProfile starSystem, string spob) {
-            var scene = SceneManager.GetSceneByName(spob);
-            var star = Create(starSystem.prefab);
-            LoadScene(spob);
+        public static void Jump(SpobProfile spob) {
+            if (spob is null) spob = DefaultSpob;
+            var scene = SceneManager.GetSceneByPath(spob.Name);
+            var star = Create(spob.Star.prefab);
+            if (!scene.IsValid()) scene = SceneManager.GetSceneByPath(DefaultSpob.Name);
+            CameraFade.StartAlphaFade(new Color(1,1,1,0.7f),false,1,0);
+            SceneManager.LoadSceneAsync(scene.name);
+
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
             SceneManager.MoveGameObjectToScene(star.gameObject,scene);
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName(spob));
+            SceneManager.SetActiveScene(SceneManager.GetSceneByPath(spob.Name));
             // var list = new List<NetworkStartPosition>();
             // list.Add(FindObjectsOfType<NetworkStartPosition>());
             // var spawn = list.Pick();
             // ship.transform.position = spawn.transform.position;
             // ship.transform.rotation = spawn.transform.rotation;
             // user.SetShip(ship);
-            PlayerCamera.atmosphere = starSystem.atmosphere;
+            PlayerCamera.atmosphere = spob.Star.atmosphere;
             // PlayerCamera.Target = ship.transform;
+
+            NetworkServer.SpawnObjects();
+            NetworkManager.singleton.ServerChangeScene(scene.name);
         }
 
 
-        public static void LoadScene(string scene) =>
-            CameraFade.StartAlphaFade(Color.black,false,1,0,() => SceneManager.LoadSceneAsync(scene));
+        // public static void LoadScene(string name) {
+        //     CameraFade.StartAlphaFade(new Color(1,1,1,0.7f),false,1,0);
+        //     var scene = SceneManager.GetSceneByPath(name);
+        //     if (!scene.isValid) scene = SceneManager.GetSceneByPath(DefaultSpob.Name);
+        //     SceneManager.LoadSceneAsync(scene);
+        //     NetworkServer.SpawnObjects();
+        // }
 
         void Awake() {
             path = $"{Application.streamingAssetsPath}/{root}/{dir}";
@@ -102,11 +122,15 @@ namespace Adventure.Astronautics {
             else { Destroy(gameObject); return; }
             network = Get<NetworkManager>();
             DontDestroyOnLoad(gameObject);
-            StarProfiles.ForEach(o => StarSystems[o] = o.NearbySystems);
+            StarProfiles.ForEach(o => Stars[o] = o.NearbySystems);
             (Pilots, Ships) = (PilotProfiles, ShipProfiles);
+            (DefaultPilot, DefaultStar, DefaultSpob) = (pilotProfile, starProfile, spobProfile);
         }
 
         void Start() { camera = Create<PlayerCamera>(prefabs.camera); LoadMenu(); }
+
+        public static void PrintInput() {
+            foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print(key); }
 
         public static void LoadMenu() => menu = Create<Menu>(singleton.prefabs.menu); // SceneManager.LoadSceneAsync("Menu");
 
@@ -136,13 +160,13 @@ namespace Adventure.Astronautics {
         }
 
 
-        public static void OnLoad(string name, ShipProfile shipData, StarProfile profile, string spob) {
+        public static void OnLoad(string name, ShipProfile shipData, StarProfile profile, SpobProfile spob) {
             StartHost();
             var star = Create(profile.prefab);
             var pilot = Pilots.ToList().Pick();
             var user = Create<SpacePlayer>(pilot.prefab);
             var ship = Create<Spaceship>(pilot.ship.prefab);
-            var scene = SceneManager.GetSceneByName(spob);
+            var scene = SceneManager.GetSceneByName(spob.Name);
             DontDestroyOnLoad(ship.gameObject);
             (star.name, user.name, user.Ship) = (profile.name, pilot.name, ship);
             SceneManager.SetActiveScene(scene);
@@ -155,7 +179,7 @@ namespace Adventure.Astronautics {
             var list = new List<NetworkStartPosition>();
             list.Add(FindObjectsOfType<NetworkStartPosition>());
             var spawn = list.Pick();
-            ship.JumpEvent += (o,e) => Manager.Jump(ship.Destination, ship.Destination.Subsystems.Pick());
+            ship.JumpEvent += (o,e) => Manager.Jump(ship.Destination);
             ship.transform.position = spawn.transform.position;
             ship.transform.rotation = spawn.transform.rotation;
             user.SetShip(ship);
@@ -163,16 +187,16 @@ namespace Adventure.Astronautics {
         }
 
 
-        public static void OnLoadGame(PilotProfile pilot, StarProfile profile, string spob) {
+        public static void OnLoadGame(PilotProfile pilot, StarProfile profile, SpobProfile spob) {
             StartHost();
             // var star = Create<StarSystem>(profile.prefab);
             var star = Create(profile.prefab);
             var user = Create<SpacePlayer>(pilot.prefab);
             var ship = Create<Spaceship>(pilot.ship.prefab);
-            var scene = SceneManager.GetSceneByName(spob);
+            var scene = SceneManager.GetSceneByPath(spob.Name);
             DontDestroyOnLoad(user.gameObject);
             DontDestroyOnLoad(ship.gameObject);
-            ship.Stars = profile.NearbySystems;
+            ship.Spobs = spob.Star.Spobs;
             (star.name, user.name, user.Ship) = (profile.name, pilot.name, ship);
             SceneManager.SetActiveScene(scene);
             SceneManager.MoveGameObjectToScene(star.gameObject,scene);
@@ -191,9 +215,9 @@ namespace Adventure.Astronautics {
         // T Deserialize<T>(EventReader o) => deserializer.Deserialize<T>(o);
         // void AddStars(StarProfile system) {
         //     foreach (var star in GetStars(system)) {
-        //         var list = StarSystems[star] ?? new List<StarProfile>();
+        //         var list = Stars[star] ?? new List<StarProfile>();
         //         if (!list.Contains(star))
-        //             StarSystems[star].AddRange(star.NearbySystems);
+        //             Stars[star].AddRange(star.NearbySystems);
         //     }
         // }
 

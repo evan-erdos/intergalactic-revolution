@@ -13,12 +13,11 @@ public class ThrottleMeter : Adventure.Object {
     new LineRenderer renderer;
 
     void Awake() {
-        renderer = Get<LineRenderer>();
-        spaceship = GetComponentInParent<Spaceship>();
         points = new Vector3[length+1];
         for (var i=0;i<length+1;++i) points[i] = new Vector3(i*step,0,0);
+        (spaceship, renderer) = (GetParent<Spaceship>(), Get<LineRenderer>());
     }
 
-    void Update() => renderer.positionCount = (int)(length*spaceship.Throttle)+1;
-    void LateUpdate() => renderer.SetPositions(points);
+    void LateUpdate() { renderer.positionCount = Ratio; renderer.SetPositions(points); }
+    int Ratio => Mathf.Min((int) (length*spaceship.Throttle)+1, length+1);
 }

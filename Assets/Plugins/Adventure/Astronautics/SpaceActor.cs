@@ -14,7 +14,7 @@ namespace Adventure.Astronautics {
         public virtual Spaceship Ship {get;set;}
         public (string star, string subsystem) Destination {get;set;}
 
-        public virtual void SetShip(Spaceship o) => (Ship, PlayerCamera.Target) = (o, o.transform);
+        public virtual void SetShip(Spaceship o) => (Ship, PlayerCamera.Target, transform.parent) = (o, o.transform, o.transform);
 
         protected virtual void Awake() {
             rigidbody = GetOrAdd<Rigidbody>();

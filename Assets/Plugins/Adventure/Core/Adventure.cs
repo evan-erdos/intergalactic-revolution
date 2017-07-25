@@ -39,8 +39,7 @@ namespace Adventure {
         h1=24, h2=18, h3=16, h4=14,
         Default=0xFFFFFF, State=0x2A98AA, Change=0xFFAE10,
         Alert=0xFC0000, Command=0xBBBBBB, Warning=0xFA2363,
-        Help=0x9CDF91, Title=0x98C8FC, Static=0xFFDBBB
-    }
+        Help=0x9CDF91, Title=0x98C8FC, Static=0xFFDBBB }
 
 
     /// Lambda : () => void
@@ -63,6 +62,7 @@ namespace Adventure {
     /// base event delegate for movement of a tracked object
     public delegate void RealityAction(IObject o, RealityArgs e);
     public delegate void MovementAction(IObject o, MovementArgs e);
+    public delegate void TravelAction(IObject o, TravelArgs e);
     public delegate void CombatAction(IObject o, CombatArgs e);
     public delegate void ButtonAction(IObject o, ButtonArgs e);
     public delegate void TouchpadAction(IObject o, TouchpadArgs e);
@@ -82,6 +82,11 @@ namespace Adventure {
         public Vector3 Velocity {get;set;}
         public Vector3 Angular {get;set;} }
 
+
+    /// TravelArgs : RealityArgs
+    /// provides a base argument type for VR events
+    public class TravelArgs : MovementArgs {
+        public SpobProfile Destination {get;set;} }
 
     /// CombatArgs : MovementArgs
     /// provides a base argument type for VR events
@@ -131,6 +136,7 @@ namespace Adventure {
     [Serializable] public class RealEvent : UnityEvent<float> { }
     [Serializable] public class RealityEvent : UnityEvent<IObject,RealityArgs> { }
     [Serializable] public class MovementEvent : UnityEvent<IObject,MovementArgs> { }
+    [Serializable] public class TravelEvent : UnityEvent<IObject,TravelArgs> { }
     [Serializable] public class CombatEvent : UnityEvent<IObject,CombatArgs> { }
     [Serializable] public class ButtonEvent : UnityEvent<IObject,ButtonArgs> { }
     [Serializable] public class TouchpadEvent : UnityEvent<IObject,TouchpadArgs> { }

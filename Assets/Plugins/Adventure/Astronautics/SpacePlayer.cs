@@ -14,7 +14,7 @@ namespace Adventure.Astronautics.Spaceships {
         public override void SetShip(Spaceship ship) {
             Ship = ship;
             Ship.KillEvent += (o,e) => OnKill();
-            Ship.JumpEvent += (o,e) => OnJump();
+            Ship.JumpEvent += (o,e) => OnJump(o,e);
             PlayerCamera.Target = Ship.transform;
         }
 
@@ -30,7 +30,7 @@ namespace Adventure.Astronautics.Spaceships {
             base.FixedUpdate();
         }
 
-        async void OnJump() { await 1; Manager.LoadScene("Moon Base Delta"); }
+        async void OnJump(IObject o, TravelArgs e) { await 1; Manager.Jump(e.Destination); }
         async void OnKill() { await 8; PlayerCamera.Reset(); Manager.LoadMenu(); await 5; }
     }
 }

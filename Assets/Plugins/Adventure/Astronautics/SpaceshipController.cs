@@ -17,14 +17,15 @@ namespace Adventure.Astronautics.Spaceships {
         void Start() => Ship?.ToggleView();
         void FixedUpdate() => Ship?.Move(brake,boost,speed,roll,pitch,yaw);
         void Update() => ControlInput(); // If(isLocalPlayer, () => ControlInput());
-        void ControlInput() {
-            // foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print(key);
+        void ControlInput() { // Manager.PrintInput();
             (roll, pitch, yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Pitch"), Input.GetAxis("Yaw"));
-            (brake, boost, speed) = (Input.GetButton("Brake")?1:0, Input.GetButton("Action")?1:0, Input.GetAxis("Speed"));
+            (brake, speed) = (Input.GetButton("Brake")?1:0, Input.GetAxis("Speed"));
+            boost = Input.GetButton("Action")?1:0;
             if (GetBoost()>0) boost = GetBoost();
             if (GetAttack()>0.8 || Input.GetButton("Fire")) Ship?.Fire();
-            if (Input.GetButton("Jump")) Ship?.HyperJump(); // Ship?.SelectSystem();
-            if (Input.GetButtonDown("Select")) Ship?.SelectTarget();
+            if (Input.GetButton("Jump")) Ship?.HyperJump();
+            if (Input.GetButtonDown("Target")) Ship?.SelectTarget();
+            if (Input.GetButtonDown("Select")) Ship?.SelectSystem();
             if (Input.GetAxis("Cycle")>0) Ship?.SelectWeapon();
             if (Input.GetAxis("Cycle")<0) Ship?.ChangeMode();
             if (Input.GetAxis("Mode")>0) Ship?.ToggleView();

@@ -8,6 +8,7 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics {
     public class PlayerCamera : Adventure.Object {
+        float distantPositionScale = 1000;
         string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
         PostProcessingBehaviour effects;
@@ -37,10 +38,8 @@ namespace Adventure.Astronautics {
         }
 
 
-
-        void Align(Transform other) =>
-            (other.transform.position, other.transform.rotation) =
-                (Vector3.zero, mainCamera.transform.rotation);
+        void Align(Transform o) => (o.transform.position, o.transform.rotation) =
+            (mainCamera.transform.position/distantPositionScale, mainCamera.transform.rotation);
 
         void Awake() {
             if (!(singleton is null)) { Destroy(gameObject); return; }
@@ -67,7 +66,7 @@ namespace Adventure.Astronautics {
         public void Jump(Quaternion rotation) {
             StartSemaphore(Jumping);
             IEnumerator Jumping() {
-                var speed = Vector3.zero;
+                var (speed, distantSpeed) = (Vector3.zero, Vector3.zero);
                 var destination = rotation*Vector3.forward*1000;
                 yield return new WaitForSeconds(1);
                 while (transform.localPosition!=destination) {
@@ -79,6 +78,10 @@ namespace Adventure.Astronautics {
                         smoothTime: 4,
                         maxSpeed: 299792458,
                         deltaTime: Time.fixedDeltaTime);
+                    distantCamera.transform.position = Vector3.SmoothDamp(
+                        current: distantCamera.transform.position, target: destination/100f,
+                        currentVelocity: ref distantSpeed, maxSpeed: 299792458,
+                        smoothTime: 4, deltaTime: Time.fixedDeltaTime);
                 }
             }
         }

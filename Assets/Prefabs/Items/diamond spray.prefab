@@ -1277,7 +1277,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  force: 15000
+  force: 20000
   onHit:
     m_PersistentCalls:
       m_Calls: []

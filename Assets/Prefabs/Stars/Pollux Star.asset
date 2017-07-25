@@ -17,5 +17,7 @@ MonoBehaviour:
   atmosphere: {fileID: 11400000, guid: a48dc1909166b446d9a0182680c49e68, type: 2}
   Subsystems:
   - Pollux Spaceport IV
+  Spobs:
+  - {fileID: 11400000, guid: 14fa3145b3c07834c97190a165780959, type: 2}
   NearbySystems:
   - {fileID: 11400000, guid: 4d62731b42a7a40e39f23d87b7b57169, type: 2}

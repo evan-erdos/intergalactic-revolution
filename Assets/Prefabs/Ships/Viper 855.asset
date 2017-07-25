@@ -16,21 +16,21 @@ MonoBehaviour:
   CargoSpace: 20
   Mass: 15
   Health: 10000
-  EnginePower: 500
-  RollEffect: 2
-  PitchEffect: 3
+  EnginePower: 200
+  RollEffect: 1
+  PitchEffect: 2
   YawEffect: 1.6
   SpinEffect: 0.4
   ThrottleEffect: 2
   BrakesEffect: 20
   AeroEffect: 1
   DragEffect: 0.01
-  EnergyThrust: 600
+  EnergyThrust: 300
   EnergyCapacity: 1100
   EnergyLoss: 50
   EnergyGain: 20
-  TopSpeed: 1000
-  ManeuveringEnergy: 200
+  TopSpeed: 200
+  ManeuveringEnergy: 150
   Pivots:
   - {x: 0, y: 6, z: -20}
   hitSounds:

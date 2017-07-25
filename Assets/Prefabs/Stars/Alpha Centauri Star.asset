@@ -17,5 +17,7 @@ MonoBehaviour:
   atmosphere: {fileID: 11400000, guid: 7f25b2803f88f4f448ba6cd7c5bda90d, type: 2}
   Subsystems:
   - Moon Base Delta
+  Spobs:
+  - {fileID: 11400000, guid: 724a1b1501acd2e4a82fbf24ec2e2a85, type: 2}
   NearbySystems:
   - {fileID: 11400000, guid: fae5ae2e656754842bca442a9e1f1a13, type: 2}
