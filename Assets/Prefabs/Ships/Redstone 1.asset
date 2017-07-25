@@ -30,7 +30,7 @@ MonoBehaviour:
   EnergyLoss: 100
   EnergyGain: 0
   TopSpeed: 4000
-  ManeuveringEnergy: 150
+  ManeuveringEnergy: 300
   Pivots:
   - {x: 0, y: 6, z: -30}
   hitSounds:

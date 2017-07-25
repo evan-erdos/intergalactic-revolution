@@ -185,7 +185,8 @@ namespace Adventure.Astronautics.Spaceships {
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
             parts = new Stack<IDamageable>(GetChildren<IDamageable>());
             (rigidbody, audio) = (Get<Rigidbody>(), GetOrAdd<AudioSource>());
-            (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip,true,false);
+            (audio.clip, audio.dopplerLevel) = (alarmClip, 0);
+            (audio.loop, audio.playOnAwake) = (true,false);
             Reset();
             if (hyperspace==null) return;
             hyperspaces = new Pool<Transform>(2, () => {
@@ -423,7 +424,7 @@ namespace Adventure.Astronautics.Spaceships {
                 Disable();
                 while (0<parts.Count) SevereDamage();
                 mechanics.ForEach(o => o.Disable());
-                var instance = Create(explosion);
+                var instance = Create(explosion, transform.position, transform.rotation);
                 instance.transform.parent = transform;
                 yield return new WaitForSeconds(1);
                 enabled = false;

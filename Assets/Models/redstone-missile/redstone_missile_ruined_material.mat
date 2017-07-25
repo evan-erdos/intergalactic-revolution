@@ -8,15 +8,17 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: redstone_missile_ruined_material
   m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: _EMISSION _NORMALMAP _PARALLAXMAP _SPECGLOSSMAP
   m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 3f09ab754b5e84013b81f75fbbc3617b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6358b063a09e24444ab09ed369b21ec8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -32,11 +34,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 4a9e76fe7588c468b87c5c78981bf431, type: 3}
+        m_Texture: {fileID: 2800000, guid: e8e0d7166d47f4e19b922bcf39ef08ad, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7260d470bb1204160a23d790fc7462be, type: 3}
+        m_Texture: {fileID: 2800000, guid: a1584d19fe02b42d4ad4f17347b5aa8d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -48,11 +50,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 2800000, guid: 3a914d4668d4e4314977923bf5111609, type: 3}
+        m_Texture: {fileID: 2800000, guid: fad40bc92e3bb4e5daa83c4011423221, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
-        m_Texture: {fileID: 2800000, guid: f8a589923a1104ebbbef8eb9588ece2a, type: 3}
+        m_Texture: {fileID: 2800000, guid: c7ac7f99d069145dd9b9ad7b9cd1c0b3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
