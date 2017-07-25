@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Intergalactic Revolution.unity
+    path: Assets/Resources/Intergalactic Revolution.unity
     guid: 8d4cd2cb3cdf94f0f93bfd172c64caa0
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
-    guid: 63c4a0ed778094ec0beb56540f682005
+    path: Assets/Scenes/Misguided Missile.unity
+    guid: a6de5da17c7e047718c611f74b21c681
   - enabled: 1
     path: Assets/Scenes/Station Alpha A.unity
     guid: 4242629b4d6ad45b8b160a3ed36641a1

@@ -14,9 +14,9 @@ MonoBehaviour:
   prefab: {fileID: 1341770985881642, guid: 36b723b5bdada46d58b84e9be5fca506, type: 2}
   Name: Redstone 1
   CargoSpace: 30
-  Mass: 22
+  Mass: 100
   Health: 14000
-  EnginePower: 5000
+  EnginePower: 4000
   RollEffect: 0.1
   PitchEffect: 0.15
   YawEffect: 0.3
@@ -25,12 +25,12 @@ MonoBehaviour:
   BrakesEffect: 0
   AeroEffect: 1
   DragEffect: 0.01
-  EnergyThrust: 10000
+  EnergyThrust: 1000
   EnergyCapacity: 2000
   EnergyLoss: 100
   EnergyGain: 0
-  TopSpeed: 8000
-  ManeuveringEnergy: 200
+  TopSpeed: 4000
+  ManeuveringEnergy: 150
   Pivots:
   - {x: 0, y: 6, z: -30}
   hitSounds:

@@ -471,7 +471,7 @@ namespace Adventure.Astronautics.Spaceships {
         float ComputeCoefficient() => Mathf.Pow(Vector3.Dot(transform.forward,rigidbody.velocity.normalized),2);
 
         (Vector3,Quaternion) CalculateAerodynamics(float aeroFactor=1) {
-            if (rigidbody.velocity.magnitude<=0) return (rigidbody.velocity, rigidbody.rotation);
+            if (rigidbody.velocity.magnitude<=0.1) return (rigidbody.velocity, rigidbody.rotation);
             var velocity = Vector3.Lerp(
                 rigidbody.velocity, transform.forward*ForwardSpeed,
                 aeroFactor*ForwardSpeed*AeroEffect*Time.fixedDeltaTime);
