@@ -184,7 +184,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc9afc54dbd1a4edeb9d511775c37912, type: 2}
   pilotProfile: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
   starProfile: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
-  spobProfile: Misstep For Mankind
+  spobProfile: Misguided Missile
 --- !u!114 &114353199547254354
 MonoBehaviour:
   m_ObjectHideFlags: 1
