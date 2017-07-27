@@ -20,5 +20,4 @@ MonoBehaviour:
   Range: 5000
   Angle: 1
   Projectile: {fileID: 154326, guid: 42f53ce9478624bc9bbb328c8fa8e2a9, type: 2}
-  sounds:
-  - {fileID: 8300000, guid: 5d27d6fbb93c34a81a8b324341c46e3a, type: 3}
+  sound: {fileID: 11400000, guid: 531920db0f9cf7e4692699eba6b0746e, type: 2}

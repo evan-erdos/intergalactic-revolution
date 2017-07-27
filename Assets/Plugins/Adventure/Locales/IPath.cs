@@ -12,19 +12,16 @@ namespace Adventure.Locales {
     /// anything which can take damage and be killed
     public interface IPath : IThing {
 
-
         /// Destination : IPath
         /// the endpoint of this path
         Room Destination {get;}
 
-
-        /// TravelEvent : event
+        /// Event<TravelArgs> : event
         /// raised when the path is traversed
-        event StoryAction TravelEvent;
-
+        event AdventureAction<TravelArgs> TravelEvent;
 
         /// Travel : (path) => void
         /// moves the user it's called on to the target destination
-        void Travel(Thing destination);
+        void Travel(TravelArgs e);
     }
 }

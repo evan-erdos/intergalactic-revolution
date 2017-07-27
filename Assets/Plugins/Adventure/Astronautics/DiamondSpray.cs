@@ -21,12 +21,13 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
-        public override void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial) {
+        public override void Fire(Vector3 position, Vector3 velocity, Vector3 initial) {
             Reset(); shards.ForEach(o => Fire(o));
 
             void Fire(Rigidbody shard) {
-                (shard.isKinematic, shard.transform.parent) = (false, null);
-                (shard.position, shard.rotation) = (position, rotation);
+                shard.Get<TrailRenderer>()?.Clear();
+                (shard.isKinematic, shard.transform.parent, shard.position) = (false,null,position);
+                shard.rotation.SetLookRotation(position-velocity, transform.up);
                 shard.AddForce(initial, ForceMode.VelocityChange);
                 shard.AddForce(velocity + Random.insideUnitSphere*spread);
             }
@@ -36,7 +37,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         protected override void Awake() { base.Awake();
             shards.Add(GetChildren<Rigidbody>()); shards.Remove(Get<Rigidbody>());
-            shards.ForEach(o => o.Get<EnergyBlast>().HitEvent += (e,a) => OnHit(o));
+            shards.ForEach(o => o.Get<EnergyBlast>().HitEvent += e => OnHit(o));
         }
     }
 }

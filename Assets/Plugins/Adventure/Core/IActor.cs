@@ -1,5 +1,6 @@
 /* Ben Scott * @evan-erdos * bescott@andrew.cmu.edu * 2016-11-02 */
 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,12 +31,12 @@ namespace Adventure {
 
         /// KillEvent : event
         /// raised when the actor is killed
-        event StoryAction KillEvent;
+        event AdventureAction<StoryArgs> KillEvent;
 
 
         /// GotoEvent : event
         /// raised when the actor goes to a thing or into a room
-        event StoryAction GotoEvent;
+        event AdventureAction<StoryArgs> GotoEvent;
 
 
         /// Hurt : (damage) => void

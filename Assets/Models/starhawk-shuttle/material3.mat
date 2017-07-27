@@ -33,6 +33,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DistortTex:
+        m_Texture: {fileID: 2800000, guid: f381757e0c4304138917c51d3358f375, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 2800000, guid: 24eb1c317e4fa5f4d8d39355cdc68814, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -70,12 +74,14 @@ Material:
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.01
+    - _Refraction: 10.9
     - _Size: 3
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 0
+    - _blurSizeXY: 0
     m_Colors:
     - _Color: {r: 0.297, g: 0.378, b: 0.503, a: 0.434}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

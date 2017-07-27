@@ -10,35 +10,29 @@ namespace Adventure.Astronautics.Spaceships {
         new Collider collider;
         [SerializeField] float track = 1;
         [SerializeField] float speed = 100;
-        [SerializeField] float force = 100;
+        [SerializeField] float damage = 100;
         [SerializeField] protected GameObject particles;
-        [SerializeField] protected RealityEvent onHit = new RealityEvent();
-        public event RealityAction HitEvent;
-        public float Force => force;
+        [SerializeField] protected Event<CombatArgs> onHit = new Event<CombatArgs>();
+        public event AdventureAction<CombatArgs> HitEvent {add{onHit.Add(value);} remove{onHit.Remove(value);}}
+        public float Damage => damage;
         public ITrackable Target {get;set;}
         public void Reset() => gameObject.SetActive(true);
-        public void Hit() => HitEvent(this,new RealityArgs());
-        void Hit(IDamageable o) { if (o!=null) o.Damage(Force); Hit(); }
-        void OnHit() { Create(particles); gameObject.SetActive(false); }
+        public void Hit(CombatArgs e=null) => onHit?.Call(e ?? new CombatArgs { Sender = this, Damage = Damage });
+        void Hit(IDamageable o) { if (o!=null) o.Damage(Damage); Hit(); }
+        void OnHit(CombatArgs e) { Create(particles); gameObject.SetActive(false); }
 
-        public void Fire() => Fire(rigidbody.position, rigidbody.rotation, rigidbody.velocity);
-        public void Fire(Vector3 position, Quaternion rotation, Vector3 velocity) => Fire(position,rotation,velocity, Vector3.zero);
-        public virtual void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial) {
-            Reset(); (rigidbody.position, rigidbody.rotation) = (position,rotation);
+        public void Fire() => Fire(rigidbody.position, rigidbody.velocity);
+        public void Fire(Vector3 position, Vector3 velocity) => Fire(position, velocity, Vector3.zero);
+        public virtual void Fire(Vector3 position, Vector3 velocity, Vector3 initial) {
+            Reset(); rigidbody.position = position;
+            rigidbody.rotation.SetLookRotation(position-velocity, transform.up);
             rigidbody.AddForce(initial, ForceMode.VelocityChange); rigidbody.AddForce(velocity); }
 
 
         void Awake() {
-            perlin = Random.Range(1,100);
-            onHit.AddListener((o,e) => OnHit());
-            HitEvent += (o,e) => onHit?.Invoke(o,e);
             (rigidbody, collider) = (Get<Rigidbody>(), Get<Collider>());
-        }
-
-        IEnumerator Start() {
-            collider.enabled = false;
-            yield return new WaitForFixedUpdate();
-            collider.enabled = true;
+            HitEvent += e => OnHit(e);
+            perlin = Random.Range(1,100);
         }
 
         void FixedUpdate() {

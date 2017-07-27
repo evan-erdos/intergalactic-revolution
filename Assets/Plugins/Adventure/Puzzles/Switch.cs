@@ -8,20 +8,14 @@ using UnityEngine;
 namespace Adventure.Puzzles {
     public class Switch : Piece<bool,bool>, IUsable {
         public override void Use() => Pose();
-        public override bool Pose() => Condition = !Condition;
-        public override bool Solve(bool cond) => Condition = cond;
-
-        public override void Init() { base.Init();
-            onSolve.AddListener((o,e) => StartAsync(() => OnSolve(o,e))); }
-
-        async Task OnSolve(IThing o, StoryArgs e) {
-            Log($"You press the {Name}."); await 1; }
+        public override bool Pose(PuzzleArgs<bool,bool> e=null) => Condition = !Condition;
+        public override bool Solve(bool o) => Condition = o;
+        public override void Init() { base.Init(); SolveEvent += e => StartAsync(() => OnSolve(e)); }
+        async Task OnSolve(StoryArgs e) { Log($"You press the {Name}."); await 1; }
 
         new public class Data : Piece<bool,bool>.Data {
             public override Object Deserialize(Object o) {
-                var instance = base.Deserialize(o) as Switch;
-                return instance;
-            }
+                var instance = base.Deserialize(o) as Switch; return instance; }
         }
     }
 }

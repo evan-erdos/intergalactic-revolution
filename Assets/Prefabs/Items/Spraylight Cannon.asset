@@ -14,16 +14,10 @@ MonoBehaviour:
   prefab: {fileID: 1777224553692168, guid: dd48cf76f564248a68ff2930ae0aa9a2, type: 2}
   Name: Spraylight Cannon
   Health: 1000
-  Force: 50000
+  Force: 1200
   Rate: 1
-  Spread: 1
+  Spread: 0.01
   Range: 2000
-  Angle: 60
+  Angle: 30
   Projectile: {fileID: 1042537615994610, guid: e8a24c7c780a447419e1fb5264988a3f, type: 2}
-  sounds:
-  - {fileID: 8300000, guid: 115bd340565de4b31b95786d8d2cc170, type: 3}
-  - {fileID: 8300000, guid: 79bedb3d9dec64a82a4936165ac2b1e9, type: 3}
-  - {fileID: 8300000, guid: fb8ff620374af4b95a6098638ba0a9bf, type: 3}
-  - {fileID: 8300000, guid: d93e84ffccd2b4f9e86d2848dc31f0e9, type: 3}
-  - {fileID: 8300000, guid: 43bfd5f3b8c284891a0f9ecf3206d512, type: 3}
-  - {fileID: 8300000, guid: 62c2af26e8eb54c6d9077de615e523c7, type: 3}
+  sound: {fileID: 11400000, guid: f96f2ad762c85a140877a022c5e9e1ec, type: 2}

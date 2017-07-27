@@ -19,11 +19,11 @@ namespace Adventure.Puzzles {
 
         /// SolveEvent : event
         /// raised when the piece is solved or becomes unsolved
-        event StoryAction SolveEvent;
+        event AdventureAction<StoryArgs> SolveEvent;
 
         /// Solve : () => void
         /// attempts to solve piece using current condition
-        void Solve();
+        void Solve(StoryArgs e=null);
     }
 
 
@@ -31,7 +31,7 @@ namespace Adventure.Puzzles {
 
         /// PoseEvent : event
         /// the pose event is raised anytime a change is made to the piece
-        event PuzzleAction<T,U> PoseEvent;
+        event AdventureAction<PuzzleArgs<T,U>> PoseEvent;
 
         /// Condition : T
         /// the current configuration of the object
@@ -44,7 +44,7 @@ namespace Adventure.Puzzles {
         /// Pose : () => T
         /// applies some sort of transformation to the piece,
         /// and returns a state which can be used in a solve attempt
-        T Pose();
+        T Pose(PuzzleArgs<T,U> e=null);
 
         /// Solve : (T) => U
         /// the action of solving might represent the pull of a lever,

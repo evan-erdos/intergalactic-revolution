@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24f237bb9cd149a08802a9c84fe33e3, type: 3}
   m_Name: Bladerunner Gun Fire
   m_EditorClassIdentifier: 
-  Name: Bladerunner Gun FIre
+  Name: Bladerunner Gun Fire
   pitch: 1
   volume: 1
   pitchVariance: 0.1

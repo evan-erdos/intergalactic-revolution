@@ -9,10 +9,8 @@ namespace Adventure.Puzzles {
     public class Button : Piece, IUsable {
         public override void Use() => Pose();
         public virtual void Pose() => Solve();
-        public override void Init() { base.Init();
-            onSolve.AddListener((o,e) => StartAsync(() => OnSolve(o,e))); }
-        async Task OnSolve(IThing o, StoryArgs e) {
-            Log($"You press the {Name} and it clicks."); await 1; }
+        public override void Init() { base.Init(); SolveEvent += e => StartAsync(() => OnSolve(e)); }
+        async Task OnSolve(StoryArgs e) { Log($"You press the {Name} and it clicks."); await 1; }
 
         new public class Data : Piece<bool,bool>.Data {
             public override Object Deserialize(Object o) {

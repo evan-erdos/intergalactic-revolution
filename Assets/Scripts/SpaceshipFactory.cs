@@ -18,7 +18,7 @@ public class SpaceshipFactory : Adventure.Object {
         async Task Creating() {
             await 1; if (!this || !this.enabled) return;
             var instance = Create<Spaceship>(ships.Pick(),locations.Pick().position);
-            instance.KillEvent += (o,e) => CreateShip();
+            instance.KillEvent += e => CreateShip();
             instance.gameObject.name = $"Viper {Random.Range(10,999)}";
             await 8;
         }

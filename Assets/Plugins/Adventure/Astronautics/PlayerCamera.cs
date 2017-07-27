@@ -8,6 +8,7 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics {
     public class PlayerCamera : Adventure.Object {
+        (float x, float y) mouse = (0,0);
         float distantPositionScale = 1000;
         string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
@@ -53,7 +54,12 @@ namespace Adventure.Astronautics {
             Align(distantCamera.transform);
         }
 
-        void FixedUpdate() => Align(distantCamera.transform);
+        void Update() => mouse = (Input.GetAxis("Lateral"), Input.GetAxis("Vertical"));
+
+        // void FixedUpdate() => Align(distantCamera.transform);
+        void FixedUpdate() => transform.localRotation = Quaternion.Euler(
+            x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
+            y: transform.localEulerAngles.y+mouse.x*10, z: 0);
 
         void LateUpdate() {
             if (!(Target is null)) {

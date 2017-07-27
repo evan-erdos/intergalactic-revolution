@@ -12,17 +12,14 @@ namespace Adventure.Puzzles {
         new AudioSource audio;
         [SerializeField] Vector2 range = new Vector2(-20,20);
         [SerializeField] Vector2 grip = new Vector2(0,-15);
-        [SerializeField] protected AudioClip soundLever, soundHandle;
+        [SerializeField] protected AudioClip soundLever;
         public bool IsInitSolved {get;protected set;}
         public bool IsLocked {get;protected set;}
         public int Selections => 6;
         public float Theta {
             get { return theta; }
             set { theta = Mathf.Clamp(value,range.x,range.y); } }
-
-        public override void Init() { base.Init();
-            onSolve.AddListener((o,e) => OnSolve(o,e)); }
-
+        public override void Init() { base.Init(); SolveEvent += e => OnSolve(e); }
         public override void Use() { if (IsSolved) Push(); else Pull(); }
 
         void FixedUpdate() {
@@ -39,8 +36,7 @@ namespace Adventure.Puzzles {
             Solve(Condition+1);
         }
 
-        async void OnPull(Actor actor, StoryArgs args) {
-            if (!IsSolved) Pull(); else Push(); await delay; }
+        async void OnPull(StoryArgs e) { if (!IsSolved) Pull(); else Push(); await delay; }
 
         public virtual void Pull() {
             audio.PlayOneShot(soundLever,0.2f);
@@ -48,11 +44,9 @@ namespace Adventure.Puzzles {
             Solve(Condition-1);
         }
 
+        void OnSolve(StoryArgs e) => Log("You hear the sound of stone grinding in the distance.");
 
-        void OnSolve(IThing o, StoryArgs e) =>
-            Log("You hear the sound of stone grinding in the distance.");
-
-        public override int Pose() {
+        public override int Pose(PuzzleArgs<int,bool> e=null) {
             return Posing().Current;
             IEnumerator<int> Posing() {
                 var increment = 1;
@@ -74,8 +68,7 @@ namespace Adventure.Puzzles {
         }
 
         protected override void Awake() { base.Awake();
-            audio = Get<AudioSource>();
-            (arm, handle) = (transform.Find("arm"), arm.Find("handle"));
+            (audio, arm, handle) = (Get<AudioSource>(), transform.Find("arm"), arm.Find("handle"));
             if (range.x>range.y) range = new Vector2(range.y, range.x);
         }
 

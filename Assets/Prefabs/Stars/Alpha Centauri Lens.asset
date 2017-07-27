@@ -33,7 +33,7 @@ MonoBehaviour:
       taaSettings:
         jitterSpread: 0.75
         sharpen: 0.3
-        stationaryBlending: 0.95
+        stationaryBlending: 0.5
         motionBlending: 0.5
   ambientOcclusion:
     m_Enabled: 1
@@ -46,7 +46,7 @@ MonoBehaviour:
       ambientOnly: 1
       highPrecision: 0
   screenSpaceReflection:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       reflection:
         blendType: 1
@@ -73,7 +73,7 @@ MonoBehaviour:
       useCameraFov: 0
       kernelSize: 2
   motionBlur:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       shutterAngle: 58
       sampleCount: 4

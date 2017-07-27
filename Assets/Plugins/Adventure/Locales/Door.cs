@@ -19,8 +19,10 @@ namespace Adventure.Locales {
         protected new Collider collider;
         protected new AudioSource audio;
         [SerializeField] protected AudioClip soundClick, soundOpen;
-        [SerializeField] protected StoryEvent onOpen, onShut;
-        public event StoryAction OpenEvent, ShutEvent;
+        [SerializeField] protected Event<StoryArgs> onOpen = new Event<StoryArgs>();
+        [SerializeField] protected Event<StoryArgs> onShut = new Event<StoryArgs>();
+        public event AdventureAction<StoryArgs> OpenEvent {add{onOpen.Add(value);} remove{onOpen.Remove(value);}}
+        public event AdventureAction<StoryArgs> ShutEvent {add{onShut.Add(value);} remove{onShut.Remove(value);}}
         public bool IsOpen {get;protected set;}
         public bool IsStuck {get;protected set;}
         public bool IsAutoClosing {get;protected set;}
@@ -28,18 +30,16 @@ namespace Adventure.Locales {
         public bool IsInitOpen {get;protected set;}
         public Key LockKey {get;protected set;}
         public void Use() { if (IsOpen) Shut(); else Open(); }
-        public void Open() => Open(null, new StoryArgs());
-        public void Shut() => Shut(null, new StoryArgs());
-        public void Open(Thing o, StoryArgs e) => OpenEvent?.Invoke(o,e);
-        public void Shut(Thing o, StoryArgs e) => ShutEvent?.Invoke(o,e);
+        public void Open(StoryArgs e=null) => onOpen?.Call(new StoryArgs { Sender = this });
+        public void Shut(StoryArgs e=null) => onShut?.Call(new StoryArgs { Sender = this });
 
-        async Task OnOpen(IThing o, StoryArgs e) {
+        async Task OnOpen(StoryArgs e) {
             if (IsOpen) { Log(Description["already open"]); return; }
             Log(Description["open"]); await Moving(openDirection);
             if (IsAutoClosing) { await time; Shut(); }
         }
 
-        async Task OnShut(IThing o, StoryArgs e) {
+        async Task OnShut(StoryArgs e) {
             if (!IsOpen) { Log(Description["already shut"]); return; }
             Log(Description["shut"]); await Moving(initDirection);
         }
@@ -62,17 +62,13 @@ namespace Adventure.Locales {
         }
 
         public void Lock(Thing thing) {
-            if (!(thing is Key key))
-                throw new StoryError(Description["not lock"]);
-            if (key!=LockKey || key.Kind!=LockKey.Kind)
-                throw new StoryError(Description["cannot lock"]);
+            if (!(thing is Key key)) throw new StoryError(Description["not lock"]);
+            if (key!=LockKey || key.Kind!=LockKey.Kind) throw new StoryError(Description["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
-            var key = thing as Key;
             if (!IsLocked) throw new StoryError(Description["already unlocked"]);
-            if (!key || key==LockKey || key.Kind!=LockKey.Kind) return;
-            StartAsync(Unlocking);
+            if (thing is Key key && key==LockKey && key.Kind==LockKey.Kind) StartAsync(Unlocking);
             async Task Unlocking() { audio.PlayOneShot(soundClick,0.8f); await 0.25; }
         }
 
@@ -82,12 +78,9 @@ namespace Adventure.Locales {
             (target, door) = (GetOrAdd("target"), GetOrAdd("door"));
             (initDirection, openDirection) = (door.position, target.position);
             direction = initDirection;
-            if (!IsInitOpen) return;
-            direction = door.position = openDirection;
-            onOpen.AddListener((o,e) => StartAsync(() => OnOpen(o,e)));
-            onShut.AddListener((o,e) => StartAsync(() => OnShut(o,e)));
-            OpenEvent += (o,e) => onOpen?.Invoke(o,e);
-            ShutEvent += (o,e) => onShut?.Invoke(o,e);
+            if (IsInitOpen) direction = door.position = openDirection;
+            OpenEvent += e => StartAsync(() => OnOpen(e));
+            ShutEvent += e => StartAsync(() => OnShut(e));
         }
 
         new public class Data : Thing.Data {

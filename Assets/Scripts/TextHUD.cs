@@ -1,30 +1,48 @@
 ﻿
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ui=UnityEngine.UI;
+using TextMesh=TMPro.TextMeshPro;
+using Adventure;
 using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
 public class TextHUD : Adventure.Object {
-    enum ShipProperty { Mode, Speed, Cargo, System, Dest, Target, Weapon };
-    [SerializeField] ShipProperty property = ShipProperty.Mode;
-    string content = "None";
-    ui::Text text;
-    Spaceship spaceship;
-    void Start() => (text,spaceship) = (Get<ui::Text>(),GetParent<Spaceship>());
-    void OnEnable() => Loop(new WaitForSeconds(0.1f), () => Log());
-    void Log() { if (text.text!=content) text.text = $"{GetShipProperty(property)}"; }
-    string GetShipProperty(ShipProperty property, string s="") {
-        switch (property) {
-            case ShipProperty.Mode: s = $"{spaceship.Mode}"; break;
-            case ShipProperty.Speed: s = $"{spaceship.ForwardSpeed} m/s"; break;
-            case ShipProperty.Cargo: s = $"{spaceship.CargoSpace} tons"; break;
-            case ShipProperty.System: s = $"{spaceship.CurrentSystem?.Name}"; break;
-            case ShipProperty.Dest: s = $"{spaceship.Destination?.Name}"; break;
-            case ShipProperty.Target: s = $"{spaceship.Target?.Name}"; break;
-            case ShipProperty.Weapon: s = $"{spaceship.Weapon?.Name}"; break;
-            default: return $"None";
-        } return string.IsNullOrEmpty(s)?"None":s;
+    enum ShipProp { Target, Speed, Mode, Weapon, Dest, Star, Spob, Cargo };
+    TextMesh text; Spaceship ship;
+    Map<ShipProp,string> map = new Map<ShipProp,string> {
+        [ShipProp.Target] = "Freighter 214", [ShipProp.Speed] = "1477.33 m/s",
+        [ShipProp.Weapon] = "Diamond Spray", [ShipProp.Cargo] = "20 tons",
+        [ShipProp.Star] = "Epsilon Eridani", [ShipProp.Spob] = "Spacedock VI",
+        [ShipProp.Dest] = "Formalhaut", [ShipProp.Mode] = "Manual" };
+
+    IEnumerator Start() {
+        (text, ship) = (Get<TextMesh>(), GetParent<Spaceship>());
+        while (enabled) { Log(); yield return new WaitForSeconds(0.1f); } }
+
+    void Log() {
+        var builder = new StringBuilder();
+        builder.AppendLine(FindProperty(ShipProp.Target));
+        builder.AppendLine(FindProperty(ShipProp.Dest));
+        builder.AppendLine(FindProperty(ShipProp.Speed));
+        builder.AppendLine(FindProperty(ShipProp.Mode));
+        builder.AppendLine(FindProperty(ShipProp.Weapon));
+        builder.AppendLine(FindProperty(ShipProp.Star));
+        builder.AppendLine(FindProperty(ShipProp.Cargo));
+        text.text = builder.ToString();
+
+        string FindProperty(ShipProp property, string s="") {
+            switch (property) {
+                case ShipProp.Mode: s = $"{ship.Mode}"; break;
+                case ShipProp.Speed: s = $"{ship.ForwardSpeed} m/s"; break;
+                case ShipProp.Cargo: s = $"{ship.CargoSpace} tons"; break;
+                case ShipProp.Star: s = $"{ship.CurrentSystem?.Name}"; break;
+                case ShipProp.Dest: s = $"{ship.Destination?.Name}"; break;
+                case ShipProp.Target: s = $"{ship.Target?.Name}"; break;
+                case ShipProp.Weapon: s = $"{ship.Weapon?.Name}"; break;
+                default: return $"None";
+            } return string.IsNullOrEmpty(s)?"None":s;
+        }
     }
 }

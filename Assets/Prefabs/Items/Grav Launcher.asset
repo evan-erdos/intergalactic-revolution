@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Grav Launcher
   m_EditorClassIdentifier: 
   prefab: {fileID: 1787043162171188, guid: 94cfd61d6f6584492b232538be91b66d, type: 2}
-  Name: 47726176696d6574726963204d697373696c65204c61756e63686572
+  Name: Grav Launcher
   Health: 1000
   Force: 5000
   Rate: 0.5
@@ -20,5 +20,4 @@ MonoBehaviour:
   Range: 10000
   Angle: 1
   Projectile: {fileID: 1883869139232688, guid: fd8f451e9b09b4a0ea63f90d8e535c84, type: 2}
-  sounds:
-  - {fileID: 8300000, guid: 5d27d6fbb93c34a81a8b324341c46e3a, type: 3}
+  sound: {fileID: 11400000, guid: 531920db0f9cf7e4692699eba6b0746e, type: 2}

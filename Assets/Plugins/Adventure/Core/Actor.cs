@@ -12,9 +12,10 @@ using Adventure.Locales;
 namespace Adventure {
     public class Actor : Thing, IActor {
         new protected Rigidbody rigidbody;
-        [SerializeField] protected StoryEvent onKill = new StoryEvent();
-        [SerializeField] protected StoryEvent onGoto = new StoryEvent();
-        public event StoryAction KillEvent, GotoEvent;
+        [SerializeField] Event<StoryArgs> onKill = new Event<StoryArgs>();
+        [SerializeField] Event<StoryArgs> onGoto = new Event<StoryArgs>();
+        public event AdventureAction<StoryArgs> KillEvent {add{onKill.Add(value);} remove{onKill.Remove(value);}}
+        public event AdventureAction<StoryArgs> GotoEvent {add{onGoto.Add(value);} remove{onGoto.Remove(value);}}
         public virtual bool IsDead {get;set;}
         public override float Radius => 16;
         public virtual float Mass => rigidbody.mass;
@@ -31,40 +32,11 @@ namespace Adventure {
             if (value.GetParent<Room>() is Room o) base.Location = o.Location;
             else throw new StoryError(Description["cannot goto"]); } }
 
-        public virtual void Kill(Actor o) => KillEvent(this,
-            args: new StoryArgs { Message = $"kill {o}", Goal = o });
-        public virtual void Goto(IThing o) => GotoEvent(this,
-            args: new StoryArgs { Message = $"go to {o}", Goal = o });
-        public override void Do() => Talk();
-        public virtual void Take() => Find<Item>().ForEach(o => Take(o));
-        public virtual void Drop() => Items.ForEach(item => Drop(item as Thing));
-        public virtual void Talk() => Log(Description["talk"]);
-        public virtual void Help() => Log(Description["help"]);
-        public virtual void Pray() => Log(Description["prayer"]);
-        public virtual void Stand() => Log(Description["stand"]);
-        public virtual void Kill() => KillEvent(this, new StoryArgs());
-        public virtual void Hurt(decimal damage) => Health -= damage;
-        public virtual void Sit(IThing o) => Log(Description["sit"]);
-        public virtual void Use(IUsable o) => o.Use();
-        public virtual void Find(IThing o) => o.Find();
-        public virtual void View(IThing o) => o.View();
-        public virtual void Push(IPushable o) => o.Push();
-        public virtual void Pull(IPushable o) => o.Pull();
-        public virtual void Open(IOpenable o) => o.Open();
-        public virtual void Shut(IOpenable o) => o.Shut();
-        public virtual void Read(IReadable o) => o.Read();
-        public virtual void Wear(IWearable o) => o.Wear();
-        public virtual void Stow(IWearable o) => o.Stow();
+        async Task OnGoto(StoryArgs e) {
+            Log($"{e.Sender} goes to the {e.Goal}.");
+            WalkTarget.position = e.Goal.Position; await 1; }
 
-        async Task OnGoto(IThing o, StoryArgs e) {
-            Log($"{o} goes to the {e.Goal}.");
-            WalkTarget.position = e.Goal.Position;
-            await 1; }
-
-        async Task OnKill(IThing o, StoryArgs e) {
-            IsDead = true;
-            Log(Description["death"]);
-            await 1; }
+        async Task OnKill(StoryArgs e) { IsDead = true; Log(Description["death"]); await 1; }
 
         public virtual void Take(Thing o) {
             if (o==this) throw new StoryError(this["cannot take self"]);
@@ -91,56 +63,77 @@ namespace Adventure {
             var list = from item in Items where item is Key select item as Key;
             if (thing is ILockable door) list.First(o => o==door.LockKey); }
 
-        protected void Do<T>(Thing o, StoryArgs e, Action<Actor,IThing> f) where T : IThing => Do<T>(o,e,o.Find<T>(),f);
-        protected void Do<T>(Thing o, StoryArgs e, IEnumerable<T> a, Action<Actor,IThing> f) where T : IThing {
+
+        public virtual void Goto(IThing o) => onGoto?.Call(new StoryArgs {
+            Sender = this, Message = $"go to {o}", Goal = o });
+
+        public override void Do() => Talk();
+        public virtual void Take() => Find<Item>().ForEach(o => Take(o));
+        public virtual void Drop() => Items.ForEach(item => Drop(item as Thing));
+        public virtual void Talk() => Log(Description["talk"]);
+        public virtual void Help() => Log(Description["help"]);
+        public virtual void Pray() => Log(Description["prayer"]);
+        public virtual void Stand() => Log(Description["stand"]);
+        public virtual void Hurt(decimal o) => Health -= o;
+        public virtual void Kill(Actor o) => Kill(new StoryArgs { Sender = this, Message = $"kill {o}", Goal = o });
+        public virtual void Sit(IThing o) => Log(Description["sit"]);
+        public virtual void Use(IUsable o) => o.Use();
+        public virtual void Find(IThing o) => o.Find();
+        public virtual void View(IThing o) => o.View();
+        public virtual void Push(IPushable o) => o.Push();
+        public virtual void Pull(IPushable o) => o.Pull();
+        public virtual void Open(IOpenable o) => o.Open();
+        public virtual void Shut(IOpenable o) => o.Shut();
+        public virtual void Read(IReadable o) => o.Read();
+        public virtual void Wear(IWearable o) => o.Wear();
+        public virtual void Stow(IWearable o) => o.Stow();
+        public override void View(StoryArgs e=null) => Do<Thing>(e,(t,a) => t.View(a as Thing));
+        public override void Find(StoryArgs e=null) => Do<Thing>(e,(t,a) => t.Find(a as Thing));
+        public virtual void Goto(StoryArgs e=null) => Do<Thing>(e,(t,a) => t.Goto(a as Thing));
+        public virtual void Use(StoryArgs e=null) => Do<IUsable>(e,(t,a) => t.Use(a as IUsable));
+        public virtual void Sit(StoryArgs e=null) => Do<Thing>(e,(t,a) => t.Sit(a as Thing));
+        public virtual void Take(StoryArgs e=null) => Do<Item>(e,(t,a) => t.Take(a as Item));
+        public virtual void Drop(StoryArgs e=null) => Do<Item>(e,(t,a) => t.Drop(a as Item));
+        public virtual void Read(StoryArgs e=null) => Do<IReadable>(e,(t,a) => t.Read(a as IReadable));
+        public virtual void Push(StoryArgs e=null) => Do<IPushable>(e,(t,a) => t.Push(a as IPushable));
+        public virtual void Pull(StoryArgs e=null) => Do<IPushable>(e,(t,a) => t.Pull(a as IPushable));
+        public virtual void Open(StoryArgs e=null) => Do<IOpenable>(e,(t,a) => t.Open(a as IOpenable));
+        public virtual void Shut(StoryArgs e=null) => Do<IOpenable>(e,(t,a) => t.Shut(a as IOpenable));
+        public virtual void Wear(StoryArgs e=null) => Do<IWearable>(e,(t,a) => t.Wear(a as IWearable));
+        public virtual void Stow(StoryArgs e=null) => Do<IWearable>(e,(t,a) => t.Stow(a as IWearable));
+        public virtual void Lock(StoryArgs e=null) => Do<ILockable>(e,(t,a) => t.Lock(a as Thing));
+        public virtual void Unlock(StoryArgs e=null) => Do<ILockable>(e,(t,a) => t.Unlock(a as Thing));
+        public virtual void Help(StoryArgs e=null) => Help();
+        public virtual void Pray(StoryArgs e=null) => Pray();
+        public virtual void Kill(StoryArgs e=null) {
+            throw new MoralityError((e.Sender as Thing)["attempt kill"], o =>
+                (o.Sender as Actor).onKill?.Call(e ?? new StoryArgs { Sender = this })); }
+        public virtual void Do(StoryArgs e=null) { if (e.Sender is IThing thing) thing.Do(); }
+        protected void Do<T>(StoryArgs e, Action<Actor,IThing> f) where T : IThing => Do<T>(e,e.Sender.Find<T>(),f);
+        protected void Do<T>(StoryArgs e, IEnumerable<T> a, Action<Actor,IThing> f) where T : IThing {
             var query =
                 from item in Enumerable.Union(a.Cast<IThing>(), Items.Cast<IThing>())
                 where item.Fits(e.Input) && item is T select item as Thing;
             if (!query.Any()) throw new StoryError(Description?["cannot nearby thing"]);
             if (query.Count()>1) throw new AmbiguityError(Description?["many nearby thing"], query.Cast<IThing>());
             e.Goal = query.First();
-            if (o is Actor actor) f(actor, e.Goal as Thing);
-            else throw new StoryError($"You can't do that to a {o}.");
+            if (e.Sender is Actor actor) f(actor, e.Goal as Thing);
+            else throw new StoryError($"You can't do that to a {e.Sender}.");
         }
-
-        public virtual void Do(Thing o, StoryArgs e) => o.Do();
-        public virtual void Help(Thing o, StoryArgs e) => Help();
-        public virtual void Pray(Thing o, StoryArgs e) => Pray();
-        public virtual void Kill(Thing sender, StoryArgs args) { throw new MoralityError(
-            sender.Description["attempt kill"], (o,e) => (o as Actor).Kill()); }
-
-        public virtual void View(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.View(a as Thing));
-        public virtual void Find(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Find(a as Thing));
-        public virtual void Goto(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Goto(a as Thing));
-        public virtual void Use(Thing o, StoryArgs e) => Do<IUsable>(o,e, (t,a) => t.Use(a as IUsable));
-        public virtual void Sit(Thing o, StoryArgs e) => Do<Thing>(o,e, (t,a) => t.Sit(a as Thing));
-        public virtual void Take(Thing o, StoryArgs e) => Do<Item>(o,e, (t,a) => t.Take(a as Item));
-        public virtual void Drop(Thing o, StoryArgs e) => Do<Item>(o,e, (t,a) => t.Drop(a as Item));
-        public virtual void Read(Thing o, StoryArgs e) => Do<IReadable>(o,e, (t,a) => t.Read(a as IReadable));
-        public virtual void Push(Thing o, StoryArgs e) => Do<IPushable>(o,e, (t,a) => t.Push(a as IPushable));
-        public virtual void Pull(Thing o, StoryArgs e) => Do<IPushable>(o,e, (t,a) => t.Pull(a as IPushable));
-        public virtual void Open(Thing o, StoryArgs e) => Do<IOpenable>(o,e, (t,a) => t.Open(a as IOpenable));
-        public virtual void Shut(Thing o, StoryArgs e) => Do<IOpenable>(o,e, (t,a) => t.Shut(a as IOpenable));
-        public virtual void Wear(Thing o, StoryArgs e) => Do<IWearable>(o,e, (t,a) => t.Wear(a as IWearable));
-        public virtual void Stow(Thing o, StoryArgs e) => Do<IWearable>(o,e, (t,a) => t.Stow(a as IWearable));
-        public virtual void Lock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Lock(a as Thing));
-        public virtual void Unlock(Thing o, StoryArgs e) => Do<ILockable>(o,e, (t,a) => t.Unlock(a as Thing));
 
         protected override IEnumerable<Thing> Find<T>(float range, Vector3 position) =>
             from thing in Enumerable.Union(base.Find<T>(range, position), Items.Cast<Thing>())
             where thing is T select thing as Thing;
 
         protected override void Awake() { base.Awake();
-            rigidbody = GetComponent<Rigidbody>();
+            rigidbody = Get<Rigidbody>();
+            KillEvent += e => StartAsync(() => OnKill(e));
+            GotoEvent += e => StartAsync(() => OnGoto(e));
             WalkTarget = new GameObject($"{name} : walk to").transform;
             LookTarget = new GameObject($"{name} : look at").transform;
             WalkTarget.position = transform.position;
             LookTarget.position = transform.position;
             LookTarget.position += transform.forward + Vector3.up;
-            onKill.AddListener((o,e) => StartAsync(() => OnKill(o,e)));
-            onGoto.AddListener((o,e) => StartAsync(() => OnGoto(o,e)));
-            KillEvent += (o,e) => onKill?.Call(o,e);
-            GotoEvent += (o,e) => onGoto?.Call(o,e);
         }
 
         class Holdall<T> : IList<T> where T : Item {
@@ -168,8 +161,7 @@ namespace Adventure {
                 var instance = base.Deserialize(o) as Actor;
                 instance.IsDead = this.dead;
                 var map = new Map<Item>();
-                var items = instance.GetComponentsInChildren<Item>();
-                foreach (var item in items) map[item.name] = item;
+                foreach (var i in instance.GetChildren<Item>()) map[i.name] = i;
                 instance.Items = map.Values.ToList();
                 return instance;
             }

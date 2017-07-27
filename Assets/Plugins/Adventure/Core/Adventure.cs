@@ -22,11 +22,10 @@ namespace Adventure {
         public string Name {get;set;} = "Adventure";
         public string Date {get;set;} = "2017-06-26";
         public string Version {get;set;} = "0.3.2";
+        public string Link {get;set;} = "bescott.org/adventure/";
         public string Author {get;set;} = "Ben Scott";
         public string Handle {get;set;} = "@evan-erdos";
-        public string Email {get;set;} = "admin@bescott.org";
-        public string Link {get;set;} = "bescott.org/adventure/";
-    }
+        public string Email {get;set;} = "admin@bescott.org"; }
 
 
     /// Styles : enum
@@ -58,21 +57,19 @@ namespace Adventure {
     public delegate void RealAction(float value);
 
 
-    /// RealityAction : event
-    /// base event delegate for movement of a tracked object
-    public delegate void RealityAction(IObject o, RealityArgs e);
-    public delegate void MovementAction(IObject o, MovementArgs e);
-    public delegate void TravelAction(IObject o, TravelArgs e);
-    public delegate void CombatAction(IObject o, CombatArgs e);
-    public delegate void ButtonAction(IObject o, ButtonArgs e);
-    public delegate void TouchpadAction(IObject o, TouchpadArgs e);
-    public delegate void SliderAction(IObject o, SliderArgs e);
-    public delegate void StoryAction(IThing thing, StoryArgs args);
+    /// AdventureAction : event
+    /// base event delegate for events in adventures
+    public delegate void AdventureAction<T>(T e=null) where T : AdventureArgs;
 
 
-    /// RealityArgs : EventArgs
+    /// AdventureArgs : EventArgs
+    /// provides a base argument type for all event arguments in adventures
+    public abstract class AdventureArgs : EventArgs { public IObject Sender {get;set;} }
+
+
+    /// RealityArgs : AdventureArgs
     /// provides a base argument type for VR events
-    public class RealityArgs : EventArgs { public Vector3 Position {get;set;} }
+    public class RealityArgs : AdventureArgs { public Vector3 Position {get;set;} }
 
 
     /// MovementArgs : RealityArgs
@@ -83,22 +80,38 @@ namespace Adventure {
         public Vector3 Angular {get;set;} }
 
 
-    /// TravelArgs : RealityArgs
-    /// provides a base argument type for VR events
-    public class TravelArgs : MovementArgs {
-        public SpobProfile Destination {get;set;} }
+    /// FlightArgs : MovementArgs
+    /// provides a base argument type for piloting spaceships
+    public class FlightArgs : MovementArgs {
+        public float Roll {get;set;}
+        public float Pitch {get;set;}
+        public float Yaw {get;set;}
+        public float Thrust {get;set;}
+        public float Lift {get;set;}
+        public float Strafe {get;set;}
+        public float Turbo {get;set;}
+        public List<Vector3> Course {get;set;} }
+
+
+    /// TravelArgs : MovementArgs
+    /// provides a base argument type for moving between stars
+    public class TravelArgs : MovementArgs { public SpobProfile Destination {get;set;} }
+
 
     /// CombatArgs : MovementArgs
     /// provides a base argument type for VR events
     public class CombatArgs : MovementArgs { public float Damage {get;set;} }
 
 
+    /// AttackArgs : CombatArgs
+    /// provides a base argument type for an attack made with a weapon
+    public class AttackArgs : CombatArgs { public ITrackable Target {get;set;} }
+
+
     /// ButtonArgs : EventArgs
     /// provides a base argument type for VR events
     public class ButtonArgs : MovementArgs {
-        public bool IsPressed {get;set;}
-        public bool IsReleased {get;set;}
-        public bool IsHeld {get;set;} }
+        public (bool IsDown, bool IsUp, bool IsHeld) Input {get;set;} }
 
 
     /// SliderArgs : ButtonArgs
@@ -118,8 +131,8 @@ namespace Adventure {
 
     /// StoryArgs : EventArgs
     /// encapsulates the event data
-    public class StoryArgs : System.EventArgs, Word {
-        StoryAction Command {get;set;}
+    public class StoryArgs : AdventureArgs, Word {
+        AdventureAction<StoryArgs> Command {get;set;}
         public Verb Verb {get;set;}
         public Regex Pattern => Verb.Pattern;
         public string[] Grammar => Verb.Grammar;
@@ -131,17 +144,17 @@ namespace Adventure {
         public StoryArgs(Verb verb,string input="",string message="") {
             (this.Verb, this.Input, this.Message) = (verb, input, message); } }
 
-
-    /// serializable event handlers to expose to the editor
     [Serializable] public class RealEvent : UnityEvent<float> { }
-    [Serializable] public class RealityEvent : UnityEvent<IObject,RealityArgs> { }
-    [Serializable] public class MovementEvent : UnityEvent<IObject,MovementArgs> { }
-    [Serializable] public class TravelEvent : UnityEvent<IObject,TravelArgs> { }
-    [Serializable] public class CombatEvent : UnityEvent<IObject,CombatArgs> { }
-    [Serializable] public class ButtonEvent : UnityEvent<IObject,ButtonArgs> { }
-    [Serializable] public class TouchpadEvent : UnityEvent<IObject,TouchpadArgs> { }
-    [Serializable] public class SliderEvent : UnityEvent<IObject,SliderArgs> { }
-    [Serializable] public class StoryEvent : UnityEvent<IThing,StoryArgs> { }
+
+    /// Event : event
+    /// base serializable event handler to expose events to editor
+    [Serializable] public class Event<T> : UnityEvent<T> where T : AdventureArgs {
+        public event AdventureAction<T> E {add{Remove(value);Add(value);} remove{Remove(value);}}
+        public void Call(T e=null) => Invoke(e);
+        public void Add(Event<T> e) => Add(e.Call);
+        public void Add(AdventureAction<T> e) => AddListener(o => e(o));
+        public void Remove(Event<T> e) => Remove(e.Call);
+        public void Remove(AdventureAction<T> e) => RemoveListener(o => e(o)); }
 
 
     /// Error : error
@@ -149,6 +162,7 @@ namespace Adventure {
     public class Error : Exception {
         public Error(string message, Exception error) : base(message,error) { }
         public Error(string message="What have you done?") : this(message, new Exception()) { } }
+
 
     /// StoryError : error
     /// throw when anything is not well-formed, sensible, or reasonable
@@ -172,10 +186,10 @@ namespace Adventure {
     /// throw in response to any manner of moral turpitude
     public class MoralityError : StoryError {
         internal Cond cond {get;set;}
-        internal StoryAction then {get;set;}
-        internal MoralityError(StoryAction then) : this("", then) { }
-        internal MoralityError(string message, StoryAction then) : this(message, then, () => false) { }
-        internal MoralityError(string message, StoryAction then, Cond cond)
+        internal AdventureAction<StoryArgs> then {get;set;}
+        internal MoralityError(AdventureAction<StoryArgs> then) : this("", then) { }
+        internal MoralityError(string message, AdventureAction<StoryArgs> then) : this(message, then, () => false) { }
+        internal MoralityError(string message, AdventureAction<StoryArgs> then, Cond cond)
             : base(message,new StoryError()) { (this.cond, this.then) = (cond, then); } }
 
 
@@ -193,8 +207,8 @@ namespace Adventure {
     public struct Verb : Word {
         public Regex Pattern {get;set;}
         public string[] Grammar {get;set;}
-        public StoryAction Command {get;set;}
-        public Verb(Regex pattern, string[] grammar, StoryAction command=null) {
+        public AdventureAction<StoryArgs> Command {get;set;}
+        public Verb(Regex pattern, string[] grammar, AdventureAction<StoryArgs> command=null) {
             (this.Pattern, this.Grammar, this.Command) = (pattern, grammar, command); }
     }
 
@@ -231,22 +245,31 @@ namespace Adventure {
     }
 
 
+    /// IResettable : IObject
+    /// an object which can be damaged and destroyed
+    public interface IResettable {
+
+        /// Reset : () => fixed
+        /// puts everything back to normal
+        void Reset();
+    }
+
+
     /// ICreatable
     /// any behaviour prefab which can be created at runtime
     public interface ICreatable {
 
         /// CreateEvent : event
         /// event raised when the object is created
-        event RealityAction CreateEvent;
+        event AdventureAction<RealityArgs> CreateEvent;
+
+        /// Create : () => void
+        /// does local setup when creating an object
+        void Create(RealityArgs e=null);
 
         /// Init : () => void
         /// does local setup when creating an object
         void Init();
-
-        /// Create : (o,e) => void
-        /// calls the create event callback
-        void Create();
-        void Create(IObject o, RealityArgs e);
     }
 
     public interface ICreatable<T> : ICreatable {
@@ -254,6 +277,15 @@ namespace Adventure {
         /// Create : (data) => serialized game object
         /// applies the data in the data object to the object
         void Create(T data);
+    }
+
+    /// ITrackable : IObject
+    /// anything which moves around and has a velocity and a position
+    public interface ITrackable : IObject {
+
+        /// Velocity : (real,real,real)
+        /// current rate of speed of the ship
+        Vector3 Velocity {get;}
     }
 
 
@@ -285,17 +317,23 @@ namespace Adventure {
     /// anything that can be opened or closed
     public interface IOpenable : IUsable {
 
+        /// OpenEvent : event
+        /// notifies everyone that we're opening
+        event AdventureAction<StoryArgs> OpenEvent;
+
+        /// ShutEvent : event
+        /// notifies everyone that we're opening
+        event AdventureAction<StoryArgs> ShutEvent;
 
         /// Open : () => void
         /// called when the object needs to be opened,
         /// and returns a boolean value denoting if it was
-        void Open();
-
+        void Open(StoryArgs e=null);
 
         /// Shut : () => void
         /// called when the object needs to be closed,
         /// and returns a boolean value denoting if it was
-        void Shut();
+        void Shut(StoryArgs e=null);
     }
 
 
@@ -361,15 +399,17 @@ namespace Adventure {
     /// Interface to anything that can be read.
     public interface IReadable : IUsable {
 
-
         /// Passage : string
         /// Represents the body of text to be read
         string Passage {get;}
 
+        /// ReadEvent: event
+        /// notifies everybody that this has been read
+        event AdventureAction<StoryArgs> ReadEvent;
 
         /// Read : () => void
-        /// Function to call when reading something.
-        void Read();
+        /// raises reading event while reading something
+        void Read(StoryArgs e=null);
     }
 
 
@@ -407,6 +447,30 @@ namespace Adventure {
     public class LoopList<T> : List<T> {
         int Current = -1; public T Next() => (Count==0) ? default(T) : this[++Current%Count]; }
 
+
+    namespace Astronautics {
+
+
+        /// FlightMode
+        /// defines the different kinds of flight control systems
+        public enum FlightMode { Navigation, Assisted, Manual, Manuevering }
+
+
+        /// Astronomy
+        /// contains relevant measurements of spacetime, plus discrete unit bases
+        public static class Astronomy {
+            public const float Day = (float) 86400; // seconds
+            public const float km = (float) 0.001; // meters
+            public const float kg = (float) 0.001; // tonnes
+            public const float AU = (float) 149_597_870_700.0; // km
+            public const float pc = (float) 206_265.0; // AU
+            public const float Mass = (float) 1.98892e27; // tons
+            public static float Time => (float) (Date-Epoch).TotalDays; // days
+            public static DateTime Epoch => new DateTime(1994,10,20); // birthday
+            public static DateTime Date = new DateTime(2017,1,20); } // apocalypse
+    }
+
+
     namespace Puzzles {
 
 
@@ -416,16 +480,13 @@ namespace Adventure {
             public bool IsSolved {get;set;}
             public T Condition {get;set;}
             public U Solution {get;set;}
+            public IPiece<T,U> Piece {get;set;}
             public Func<(T condition, U solution)> Solver {get;set;}
         }
 
         /// PuzzleAction :  event
         /// when a piece is posed, its parent should be notified via this event
-        public delegate void PuzzleAction<T,U>(IPiece<T,U> piece, PuzzleArgs<T,U> args);
-
-        /// PuzzleEvent : UnityEvent
-        /// a serializable event handler to expose to the editor
-        [Serializable] public class PuzzleEvent<T,U> : UnityEvent<IPiece<T,U>,PuzzleArgs<T,U>> { }
+        public delegate void PuzzleAction<T,U>(PuzzleArgs<T,U> e=null);
     }
 
 
@@ -491,12 +552,12 @@ namespace Adventure {
 
             /// Wear : () => void
             /// equips the object
-            void Wear();
+            void Wear(StoryArgs e=null);
 
 
             /// Stow : () => void
             /// puts away the object
-            void Stow();
+            void Stow(StoryArgs e=null);
         }
 
 
@@ -563,12 +624,9 @@ namespace Adventure {
         public enum Hits { Default, Miss, Graze, Hit, Crit }
 
 
-        public enum StatKind {
-            Health, Endurance, Strength, Agility,
-            Dexterity, Perception, Intellect, Memory }
-
-
+        public enum StatKind { Health, Endurance, Strength, Agility, Dexterity, Perception, Intellect, Memory }
         public enum Affinities { Default, Miss, Graze, Hit, Crit }
+        [Flags] public enum Faculties { None, Thinking, Breathing, Sensing, Moving }
         [Flags] public enum Condition {
             None, Unknown, Default, Polytrauma,
             Dead, Maimed, Wounded, Injured,
@@ -578,7 +636,6 @@ namespace Adventure {
             Frostbite, Thermosis, Hypothermia, Hyperthermia,
             Hypohydratia, Inanition, Psychosis, Depression,
             Psychotic, Shocked, Stunned, Healthy }
-        [Flags] public enum Faculties { None, Thinking, Breathing, Sensing, Moving }
 
 
         /// Damage : IDamage

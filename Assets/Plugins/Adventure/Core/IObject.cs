@@ -26,7 +26,7 @@ namespace Adventure {
 
         /// Position : (real,real,real)
         /// represents the object's world position
-        Vector3 Position {get;} // (float x, float y, float z)
+        Vector3 Position {get;}
 
 
         /// If : (() => bool, () => void) => void

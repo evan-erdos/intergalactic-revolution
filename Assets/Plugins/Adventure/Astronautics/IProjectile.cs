@@ -10,22 +10,22 @@ namespace Adventure.Astronautics {
     /// an object which can be damaged and destroyed
     public interface IProjectile : IObject, IResettable {
 
-        /// Force : real
+        /// Damage : real
         /// a measure of how much damage the projectile can give
-        float Force {get;}
+        float Damage {get;}
 
         /// HitEvent : event
         /// raised when the projectile hits something
-        event RealityAction HitEvent;
+        event AdventureAction<CombatArgs> HitEvent;
 
-        /// Hit : () => void
+        /// Hit : event
         /// signifies that the projectile has been hit
-        void Hit();
+        void Hit(CombatArgs e=null);
 
-        /// Fire : () => void
-        /// raises the fire event
+        /// Fire : (position, velocity, initial) => void
+        /// fires the projectile in a particular direction
         void Fire();
-        void Fire(Vector3 position, Quaternion rotation, Vector3 velocity);
-        void Fire(Vector3 position, Quaternion rotation, Vector3 velocity, Vector3 initial);
+        void Fire(Vector3 position, Vector3 velocity);
+        void Fire(Vector3 position, Vector3 velocity, Vector3 initial);
     }
 }

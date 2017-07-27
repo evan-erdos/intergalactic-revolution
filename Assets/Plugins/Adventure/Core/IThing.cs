@@ -23,19 +23,24 @@ namespace Adventure {
         Transform Location {get;}
 
 
+        /// indexer : [string] => description
+        /// allows all things to send descriptive information anywhere
+        string this[string index] {get;}
+
+
         /// ViewEvent : event
         /// raised when the thing is viewed
-        event StoryAction ViewEvent;
+        event AdventureAction<StoryArgs> ViewEvent;
 
 
         /// FindEvent : event
         /// raised when the thing is searched for
-        event StoryAction FindEvent;
+        event AdventureAction<StoryArgs> FindEvent;
 
 
         /// LogEvent : event
         /// raised when a message is to be logged
-        event StoryAction LogEvent;
+        event AdventureAction<StoryArgs> LogEvent;
 
 
         /// Do : () => void
@@ -48,13 +53,13 @@ namespace Adventure {
         /// attempts to find the thing, and notifies the find event
         /// - throw : TextException
         ///     the thing can't be found, isn't visible, or isn't nearby
-        void Find();
+        void Find(StoryArgs e=null);
 
 
         /// View : () => void
         /// attempts to view the thing, and notifies the view event
         /// - throw : TextException
         ///     the thing can't be found, or it can't be examined
-        void View();
+        void View(StoryArgs e=null);
     }
 }

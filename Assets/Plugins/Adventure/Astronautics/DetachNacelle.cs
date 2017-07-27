@@ -13,8 +13,8 @@ namespace Adventure.Astronautics.Spaceships {
             if (!enabled || damage<Health) return;
             var rigidbody = GetOrAdd<Rigidbody>();
             var (velocity, angular) = (rigidbody.velocity, rigidbody.angularVelocity);
-            (rigidbody.isKinematic, rigidbody.useGravity) = (false,false);
-            (rigidbody.mass, rigidbody.velocity, rigidbody.angularVelocity) = (10,velocity,angular);
+            (rigidbody.isKinematic, rigidbody.mass) = (false, 10);
+            (rigidbody.velocity, rigidbody.angularVelocity) = (velocity, angular);
             rigidbody.AddForce(10*transform.forward, ForceMode.Impulse);
         }
     }

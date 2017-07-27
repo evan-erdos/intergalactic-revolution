@@ -9,10 +9,8 @@ using UnityEngine.Networking;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpaceshipAudio : NetObject {
-
-        AudioSource boostAudio, engineAudio, windAudio;
-        Spaceship spaceship;
-        new Rigidbody rigidbody;
+        AudioSource thrust, engine, wind;
+        Spaceship ship;
 
         [SerializeField] protected AudioClip m_EngineSound;
         [SerializeField] protected AudioClip boostSound;
@@ -33,67 +31,49 @@ namespace Adventure.Astronautics.Spaceships {
             public float windMinDistance = 10;
             public float windMaxDistance = 100;
             public float windDopplerLevel = 1;
-            [Range(0,1)] public float windMasterVolume = 0.5f;
-        }
+            [Range(0,1)] public float windMasterVolume = 0.5f; }
 
-        void OnKill() {
-            Destroy(engineAudio); Destroy(windAudio); Destroy(boostAudio);
-            enabled = false;
-        }
-
+        void OnKill() { Delete(engine, wind, thrust); enabled = false; }
 
         void Awake() {
             if (Manager.IsOnline && !isLocalPlayer) { enabled = false; return; }
-            (rigidbody, spaceship) = (Get<Rigidbody>(), Get<Spaceship>());
-            spaceship.KillEvent += (o,e) => OnKill();
 
-            engineAudio = gameObject.AddComponent<AudioSource>();
-            engineAudio.playOnAwake = false;
-            engineAudio.clip = m_EngineSound;
-            engineAudio.minDistance = settings.engineMinDistance;
-            engineAudio.maxDistance = settings.engineMaxDistance;
-            engineAudio.loop = true;
-            engineAudio.dopplerLevel = settings.engineDopplerLevel;
+            ship = Get<Spaceship>();
+            ship.KillEvent += e => OnKill();
+            engine = gameObject.AddComponent<AudioSource>();
+            wind = gameObject.AddComponent<AudioSource>();
+            thrust = gameObject.AddComponent<AudioSource>();
 
-            windAudio = gameObject.AddComponent<AudioSource>();
-            windAudio.playOnAwake = false;
-            windAudio.clip = m_WindSound;
-            windAudio.minDistance = settings.windMinDistance;
-            windAudio.maxDistance = settings.windMaxDistance;
-            windAudio.loop = true;
-            windAudio.dopplerLevel = settings.windDopplerLevel;
+            (engine.playOnAwake, engine.loop) = (false,true);
+            engine.minDistance = settings.engineMinDistance;
+            engine.maxDistance = settings.engineMaxDistance;
+            engine.dopplerLevel = settings.engineDopplerLevel;
 
-            boostAudio = gameObject.AddComponent<AudioSource>();
-            boostAudio.playOnAwake = false;
-            boostAudio.clip = boostSound;
-            boostAudio.minDistance = settings.engineMinDistance;
-            boostAudio.maxDistance = settings.engineMaxDistance;
-            boostAudio.loop = true;
-            boostAudio.dopplerLevel = settings.engineDopplerLevel;
-            boostAudio.pitch = 1;
+            (wind.playOnAwake, wind.loop) = (false,true);
+            wind.clip = m_WindSound;
+            wind.minDistance = settings.windMinDistance;
+            wind.maxDistance = settings.windMaxDistance;
+            wind.dopplerLevel = settings.windDopplerLevel;
 
+            (thrust.playOnAwake, thrust.loop) = (false,true);
+            thrust.clip = boostSound;
+            thrust.minDistance = settings.engineMinDistance;
+            thrust.maxDistance = settings.engineMaxDistance;
+            thrust.dopplerLevel = settings.engineDopplerLevel;
+            thrust.pitch = 1;
             Update();
-
-            engineAudio.Play();
-            windAudio.Play();
-            boostAudio.Play();
+            engine.Play(); wind.Play(); thrust.Play();
         }
 
 
         void Update() {
-            var engineProportion = Mathf.InverseLerp(
-                0,spaceship.EnginePower,spaceship.CurrentPower);
-            engineAudio.pitch = Mathf.Lerp(
-                m_EngineMinThrottlePitch,m_EngineMaxThrottlePitch,engineProportion);
-            engineAudio.pitch += spaceship.Energy*m_EngineFwdSpeedMultiplier;
-            engineAudio.volume = Mathf.InverseLerp(
-                0, spaceship.EnginePower*settings.engineMasterVolume,
-                spaceship.CurrentPower);
-            boostAudio.volume = Mathf.Lerp(0,settings.engineMasterVolume,spaceship.Boost);
-            var speed = rigidbody.velocity.magnitude;
-            windAudio.pitch = m_WindBasePitch + speed*m_WindSpeedPitchFactor;
-            windAudio.volume = Mathf.InverseLerp(
-                0,m_WindMaxSpeedVolume,speed)*settings.windMasterVolume;
+            var engineProportion = Mathf.InverseLerp(0,ship.EnginePower,ship.CurrentPower);
+            engine.pitch = Mathf.Lerp(m_EngineMinThrottlePitch,m_EngineMaxThrottlePitch,engineProportion);
+            engine.pitch += ship.Energy*m_EngineFwdSpeedMultiplier;
+            engine.volume = Mathf.InverseLerp(0, ship.EnginePower*settings.engineMasterVolume, ship.CurrentPower);
+            thrust.volume = Mathf.Lerp(0,settings.engineMasterVolume,ship.Thrust);
+            wind.pitch = m_WindBasePitch + ship.Speed*m_WindSpeedPitchFactor;
+            wind.volume = Mathf.InverseLerp(0,m_WindMaxSpeedVolume,ship.Speed)*settings.windMasterVolume;
         }
     }
 }

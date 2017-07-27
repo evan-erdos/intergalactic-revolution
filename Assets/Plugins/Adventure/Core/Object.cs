@@ -14,18 +14,15 @@ namespace Adventure {
     public abstract class Object : MonoBehaviour, IObject {
         protected Regex regex = new Regex("\b(object)\b");
         HashSet<string> threads = new HashSet<string>();
-        [SerializeField] protected RealityEvent onCreate = new RealityEvent();
+        [SerializeField] protected Event<RealityArgs> onCreate = new Event<RealityArgs>();
         public bool AreAnyYielding => threads.Count>0;
         public virtual string Name => name;
         public virtual float Radius => 2;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public event RealityAction CreateEvent;
-
-        public virtual void Init() {
-            onCreate.AddListener((o,e) => ClearSemaphore());
-            CreateEvent += (o,e) => onCreate?.Invoke(o,e);
-        }
+        public event AdventureAction<RealityArgs> CreateEvent {add{onCreate.Add(value);} remove{onCreate.Remove(value);}}
+        public void Create(RealityArgs e=null) => onCreate?.Call(e ?? new RealityArgs { Sender = this });
+        public virtual void Init() => CreateEvent += e => ClearSemaphore();
 
         public Transform GetOrAdd(string name) {
             var o = transform.Find(name); if (o) return o;
@@ -33,12 +30,9 @@ namespace Adventure {
 
         public T GetOrAdd<T>() where T : Component => GetOrAdd<T,T>();
         public T GetOrAdd<T,U>() where T : Component where U : T {
-            var o = GetComponent<T>(); if (o) return o;
-            o = gameObject.AddComponent<U>(); return o; }
+            var o = GetComponent<T>(); if (o) return o; o = gameObject.AddComponent<U>(); return o; }
 
         public virtual bool Fits(string pattern) => regex.IsMatch(pattern);
-        public void Create() => Create(this, new RealityArgs());
-        public void Create(IObject o, RealityArgs e) => CreateEvent(o,e);
         public bool If(Func<bool> cond, Action then) => If (cond(), then);
         public bool If(bool cond, Action then) { if (cond) then(); return cond; }
         public bool If<T>(Action<T> then) { var o = Get<T>(); var b = o!=null; if (b) then(o); return b; }
@@ -71,6 +65,8 @@ namespace Adventure {
             let thing = collider.GetComponentInParent<T>()
             where thing!=null select thing as Thing;
 
+        public void Delete(params GameObject[] a) => a.ForEach(o => Destroy(o));
+        public void Delete(params Component[] a) => a.ForEach(o => Destroy(o));
         public static bool operator !(Object o) => o==null;
         public static T Create<T>(GameObject original) => Create<T>(original, Vector3.zero);
         public static T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
@@ -78,7 +74,7 @@ namespace Adventure {
         public static GameObject Create(GameObject original) => Create(original, Vector3.zero);
         public static GameObject Create(GameObject original, Vector3 position) => Create(original, position, Quaternion.identity);
         public static GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
-            var o = Instantiate(original, position, rotation); var c = o.Get<ICreatable>(); if (c!=null) { c.Init(); c.Create(); } return o; }
+            var o = Instantiate(original,position,rotation); if (o.Get<ICreatable>() is ICreatable c) { c.Init(); c.Create(); } return o; }
 
         public class Data {
             public string name {get;set;}

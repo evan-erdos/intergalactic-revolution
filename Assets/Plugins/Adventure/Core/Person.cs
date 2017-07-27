@@ -39,12 +39,11 @@ namespace Adventure {
         public void Kill(Person o) => Do(o.transform, () => o.Kill(1000));
         public void Kill(float force=0) => Kill(force*Vector3.one,Vector3.right);
 
-        public override void Goto(Thing o, StoryArgs e) {
+        public override void Goto(StoryArgs e=null) {
             try {
                 var query =
                     from thing in Story.Rooms.Values
-                    where thing.Fits(e.Input) && thing is Room
-                    select thing;
+                    where thing.Fits(e.Input) && thing is Room select thing;
                 if (!query.Any()) throw new StoryError(Description["cannot nearby room"]);
                 if (query.Count()>1) throw new AmbiguityError(
                     Description?["many nearby room"], query.Cast<IThing>());
@@ -55,21 +54,15 @@ namespace Adventure {
         }
 
         protected override void Awake() { base.Awake();
-            motor = GetComponentInChildren<IMotor>();
-            animator = GetComponentInChildren<Animator>();
-            rigidbodies.AddRange(GetComponentsInChildren<Rigidbody>());
-            rigidbodies.ForEach(rb => rb.isKinematic = true);
-            rigidbodies.Remove(GetComponent<Rigidbody>());
-            GetComponent<Rigidbody>().isKinematic = true;
-            agent = GetComponentInChildren<ai::NavMeshAgent>();
-            if (!agent) return;
-            agent.updateRotation = false;
-            agent.updatePosition = true;
+            (motor, agent) = (GetChild<IMotor>(), GetChild<ai::NavMeshAgent>());
+            (animator, rigidbodies) = (GetChild<Animator>(), GetChildren<Rigidbody>());
+            if (agent) (agent.updateRotation, agent.updatePosition) = (false, true);
+            rigidbodies.ForEach(o => o.isKinematic = true);
+            rigidbodies.Remove(Get<Rigidbody>()); Get<Rigidbody>().isKinematic = true;
         }
 
         IEnumerator Start() {
-            var lastPosition = transform.position;
-            var (delay,threshold,radius) = (1f,1f,0.5f);
+            var (delay,threshold,radius,lastPosition) = (1f,1f,0.5f,transform.position);
             while (true) {
                 yield return new WaitForSeconds(delay);
                 var position = WalkTarget? WalkTarget.position : transform.position;
@@ -81,10 +74,9 @@ namespace Adventure {
         }
 
         void FixedUpdate() {
-            if (EquippedItem && hand) {
-                EquippedItem.transform.position = hand.position;
-                EquippedItem.transform.rotation = hand.rotation;
-            } if (!agent || !agent.enabled) return;
+            if (hand && EquippedItem.transform is Transform t)
+                (t.position, t.rotation) = (hand.position, hand.rotation);
+            if (!agent || !agent.enabled) return;
             agent.SetDestination(WalkTarget.position);
             motor?.Move(
                 move: (agent.remainingDistance>agent.stoppingDistance)
@@ -101,22 +93,18 @@ namespace Adventure {
             animator.SetIKRotationWeight(handGoal,weight);
             animator.SetIKPosition(handGoal,EquippedItem.Grip.position);
             animator.SetIKRotation(handGoal,EquippedItem.Grip.rotation);
-            if (LookTarget != null) {
-                animator.SetLookAtWeight(0.5f);
-                animator.SetLookAtPosition(LookTarget.position);
-            }
+            if (LookTarget is null) return;
+            animator.SetLookAtWeight(0.5f);
+            animator.SetLookAtPosition(LookTarget.position);
         }
 
-        void OnCollisionEnter(Collision o) => Kill(
-            force: o.impulse/Time.fixedDeltaTime,
-            position: o.contacts.FirstOrDefault().point);
-
+        void OnCollisionEnter(Collision o) => Kill(o.impulse/Time.fixedDeltaTime, o.contacts.FirstOrDefault().point);
 
         public void Kill(Vector3 force, Vector3 position) {
             if (force.sqrMagnitude<100) return;
-            if (Get<ai::NavMeshAgent>()) Get<ai::NavMeshAgent>().enabled = false;
-            if (Get<Animator>()) Get<Animator>().enabled = false;
-            if (Get<Collider>()) Get<Collider>().enabled = false;
+            if (Get<ai::NavMeshAgent>() is ai::NavMeshAgent n) n.enabled = false;
+            if (Get<Animator>() is Animator a) a.enabled = false;
+            if (Get<Collider>() is Collider c) c.enabled = false;
             rigidbodies.ForEach(rb => rb.isKinematic = false);
             Get<Rigidbody>().isKinematic = true;
             if (force.sqrMagnitude<=100) return;
@@ -131,10 +119,8 @@ namespace Adventure {
                 var speed = Vector3.zero;
                 while (LookTarget.IsNear(location,2)) yield return Wait(() =>
                     LookTarget.position = Vector3.SmoothDamp(
-                        current: LookTarget.position,
-                        target: location.position,
-                        currentVelocity: ref speed,
-                        smoothTime: 1));
+                        current: LookTarget.position, target: location.position,
+                        currentVelocity: ref speed, smoothTime: 1));
                 yield return new WaitForSeconds(3);
             }
         }
@@ -144,10 +130,8 @@ namespace Adventure {
             if (agent) agent.enabled = false;
             transform.position = location.position;
             if (Physics.Raycast(
-                origin: transform.position,
-                direction: Vector3.down,
-                hitInfo: out RaycastHit hit,
-                maxDistance: 1)) transform.position = hit.point;
+                origin: transform.position, direction: Vector3.down,
+                hitInfo: out RaycastHit hit, maxDistance: 1)) transform.position = hit.point;
             WalkTarget = location;
             if (agent) agent.enabled = true;
             motor.IsDisabled = false;
@@ -159,8 +143,7 @@ namespace Adventure {
             StartSemaphore(Doing);
             IEnumerator Doing() {
                 yield return new WaitWhile(() => cond());
-                yield return new WaitForSeconds(0.5f);
-                then();
+                yield return new WaitForSeconds(0.5f); then();
             }
         }
 
@@ -169,12 +152,12 @@ namespace Adventure {
         public override void Stand() { base.Stand();
             Log(Description["stand"]); animator?.SetBool("Sit",false); }
 
-        public virtual void Stand(Thing thing, StoryArgs args) {
-            if (animator.GetBool("Sit")) (thing as Actor).Stand();
-            else throw new StoryError(thing.Description["try to stand"]); }
+        public virtual void Stand(StoryArgs e=null) {
+            if (!(e.Sender is Actor actor)) throw new StoryError($"The {e.Sender} can't stand.");
+            if (animator.GetBool("Sit")) actor.Stand();
+            else throw new StoryError(actor["try to stand"]); }
 
-        public override void Pray() { base.Pray();
-            if (animator) animator?.SetBool("Pray", true); }
+        public override void Pray() { base.Pray(); animator?.SetBool("Pray", true); }
 
         new public class Data : Actor.Data {
             public override Object Deserialize(Object o) {

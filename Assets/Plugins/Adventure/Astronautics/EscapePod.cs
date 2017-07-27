@@ -11,10 +11,9 @@ namespace Adventure.Astronautics.Spaceships {
         public void Jettison() {
             var (parent, rb) = (GetParent<Rigidbody>(), GetOrAdd<Rigidbody>());
             (transform.parent, rb.isKinematic) = (null,false);
-            rb.velocity = parent.velocity;
-            rb.angularVelocity = parent.angularVelocity;
+            (rb.velocity, rb.angularVelocity) = (parent.velocity, parent.angularVelocity);
             rb.AddForce(transform.up*200, ForceMode.VelocityChange);
-            GetComponentsInChildren<ParticleSystem>().ForEach(o => o.Play());
+            GetChildren<ParticleSystem>().ForEach(o => o.Play());
         }
     }
 }

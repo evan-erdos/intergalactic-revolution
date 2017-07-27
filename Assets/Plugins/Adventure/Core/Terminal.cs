@@ -13,16 +13,16 @@ namespace Adventure {
         float time = 0.5f, initTime = 10;
         Coroutine coroutine;
         Parser parser;
-        Queue<string> logs = new Queue<string>();
         ui::Text log;
         ui::InputField input;
+        Queue<string> logs = new Queue<string>();
         static Queue<string> queue = new Queue<string>();
         public static Map<Verb> Verbs = new Map<Verb>();
         public static Map<Message> Messages = new Map<Message>();
-        public event StoryAction LogEvent;
+        public event AdventureAction<StoryArgs> LogEvent;
         public void Clear() { logs.Enqueue(log.text); log.text = ""; }
         public void LogMessage(string o) => Log(Messages[o]);
-        public void Log(string o, bool f) => LogEvent(null, new StoryArgs(o));
+        public void Log(string o, bool f) => LogEvent(new StoryArgs(o));
         public static void Log(params string[] a) => a.ForEach(o => queue.Enqueue(Format(o)));
         public void CommandInput() => CommandInput(input.text);
         public void CommandInput(string o) {
@@ -69,23 +69,13 @@ namespace Adventure {
             } return message;
         }
 
-        IEnumerator Logging() {
-            while (true) {
-                if (0<queue.Count && !isLocked) OnLog(queue.Dequeue());
-                yield return new WaitForSeconds(time);
-            }
-        }
 
-        void OnEnable() => LogEvent += (o,e) => Log(e.Message);
-        void OnDisable() => LogEvent += (o,e) => Log(e.Message);
-
-        void Awake() {
-            input = GetComponentInChildren<ui::InputField>();
-            log = GetComponentInChildren<ui::Text>();
-            parser = new Parser(Verbs, (o,e) => Log(e.Message));
-        }
+        void OnEnable() => LogEvent += e => Log(e.Message);
+        void OnDisable() => LogEvent += e => Log(e.Message);
 
         void Start() {
+            (input,log) = (GetChild<ui::InputField>(), GetChild<ui::Text>());
+            parser = new Parser(Verbs, e => Log(e.Message));
             input.interactable = true;
             input.ActivateInputField();
             input.Select();
@@ -98,8 +88,7 @@ namespace Adventure {
                 OnLog(Messages["prologue"]);
                 yield return new WaitForSeconds(initTime);
                 isLocked = false;
-                var last = transform.position;
-                var position = transform.position;
+                var (last,position) = (transform.position, transform.position);
                 var range = 100f;
                 var mask =
                       1 << LayerMask.NameToLayer("Thing")
@@ -107,17 +96,21 @@ namespace Adventure {
                     | 1 << LayerMask.NameToLayer("Room")
                     | 1 << LayerMask.NameToLayer("Actor");
                 while (true) {
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(1);
                     if (transform.IsNear(last, range/9)) continue;
                     last = transform.position;
                     var query =
                         from collider in Physics.OverlapSphere(position,range,mask)
-                        let instance = collider.GetComponentInParent<Thing>()
-                        where instance!=null
-                        select instance as Thing;
-                    query.ToList().ForEach(thing => {
-                        thing.LogEvent -= (o,e) => Log(e.Message);
-                        thing.LogEvent += (o,e) => Log(e.Message); });
+                        let instance = collider.GetParent<Thing>()
+                        where instance!=null select instance as Thing;
+                    query.ToList().ForEach(o => o.LogEvent += e => Log(e.Message));
+                }
+
+                IEnumerator Logging() {
+                    while (true) {
+                        if (0<queue.Count && !isLocked) OnLog(queue.Dequeue());
+                        yield return new WaitForSeconds(time);
+                    }
                 }
             }
         }

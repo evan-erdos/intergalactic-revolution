@@ -12,8 +12,8 @@ public class Semaphore : YieldInstruction {
     Dictionary<string,Func<IEnumerator>> map = new Dictionary<string,Func<IEnumerator>>();
     public bool AreAnyYielding => map.Count>0;
     public Semaphore(Func<IEnumerator,Coroutine> action) { this.action = action; }
-    public void Clear() => map.Clear();
     public bool IsYielding(string name) => map.ContainsKey(name);
-    public void Invoke(Func<IEnumerator> func) => Invoke(func.Method.Name, func);
-    public void Invoke(string s, Func<IEnumerator> f) { if (!map.ContainsKey(s)) action(Waiting(s,f)); }
-    IEnumerator Waiting(string s, Func<IEnumerator> f) { map[s] = f; yield return action(f()); map.Remove(s); } }
+    public void Clear() => map.Clear();
+    public void Call(Func<IEnumerator> func) => Call(func.Method.Name, func);
+    public void Call(string s, Func<IEnumerator> f) { if (!map.ContainsKey(s)) action(Wait(s,f)); }
+    IEnumerator Wait(string s, Func<IEnumerator> f) { map[s]=f;yield return action(f());map.Remove(s);} }

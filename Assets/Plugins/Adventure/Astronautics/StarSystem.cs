@@ -15,8 +15,7 @@ namespace Adventure.Astronautics {
         public StarProfile[] NearbySystems {get;protected set;}
         void Awake() => Create(profile);
         // void Start() => Create(prefab);
-        public void Create(StarProfile profile) =>
-            (StellarPosition, NearbySystems, prefab) =
-                (profile.StellarPosition, profile.NearbySystems, profile.prefab);
+        public void Create(StarProfile o) =>
+            (StellarPosition, NearbySystems, prefab) = (o.StellarPosition, o.NearbySystems, o.prefab);
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: T-31 Viper 857
   CargoSpace: 20
   Mass: 15
-  Health: 10000
+  Health: 1000
   EnginePower: 200
   RollEffect: 1
   PitchEffect: 2

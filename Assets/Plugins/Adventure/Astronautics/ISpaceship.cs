@@ -13,13 +13,13 @@ namespace Adventure.Astronautics.Spaceships {
         /// the base mass of the ship, not including cargo
         float Mass {get;}
 
-        /// Move : () => void
-        /// sends idle movement controls to the spaceship
-        void Move();
+        /// MoveEvent : event
+        /// event for flight motion
+        event AdventureAction<FlightArgs> MoveEvent;
 
-        /// Move : (real,real,real,real,real,real) => void
-        /// sends movement controls to the spaceship
-        void Move(float brakes, float boost, float throttle, float roll, float pitch, float yaw);
+        /// Move : event
+        /// raises movement event and sends controls to the ship
+        void Move(FlightArgs e=null);
 
         /// HyperJump : () => void
         /// tells the ship to jump a short distance forwards

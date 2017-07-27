@@ -12,18 +12,22 @@ using Adventure.Astronautics.Spaceships;
 namespace Adventure.Astronautics {
     public class Manager : Adventure.Object {
         [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
-        [SerializeField] SpobProfile[] SpobProfiles = new SpobProfile[1];
+        [SerializeField] protected AdventureProfiles profiles = new AdventureProfiles();
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
+        [SerializeField] SpobProfile[] SpobProfiles = new SpobProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
         [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
-        [SerializeField] protected PilotProfile pilotProfile;
-        [SerializeField] protected StarProfile starProfile;
-        [SerializeField] protected SpobProfile spobProfile;
 
         [Serializable] protected class AdventurePrefabs {
             [SerializeField] public GameObject menu;
-            [SerializeField] public GameObject camera;
-            [SerializeField] public GameObject player; }
+            [SerializeField] public GameObject user;
+            [SerializeField] public GameObject cam; }
+
+
+        [Serializable] protected class AdventureProfiles {
+            [SerializeField] public PilotProfile pilot;
+            [SerializeField] public SpobProfile spob;
+            [SerializeField] public StarProfile star; }
 
         public static readonly string root = "adventure", dir = "star-systems";
         public static string path {get;protected set;}
@@ -124,10 +128,10 @@ namespace Adventure.Astronautics {
             DontDestroyOnLoad(gameObject);
             StarProfiles.ForEach(o => Stars[o] = o.NearbySystems);
             (Pilots, Ships) = (PilotProfiles, ShipProfiles);
-            (DefaultPilot, DefaultStar, DefaultSpob) = (pilotProfile, starProfile, spobProfile);
+            (DefaultPilot, DefaultSpob, DefaultStar) = (profiles.pilot, profiles.spob, profiles.star);
         }
 
-        void Start() { camera = Create<PlayerCamera>(prefabs.camera); LoadMenu(); }
+        void Start() { camera = Create<PlayerCamera>(prefabs.cam); LoadMenu(); }
 
         public static void PrintInput() {
             foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) if (Input.GetKeyDown(key)) print(key); }
@@ -179,7 +183,7 @@ namespace Adventure.Astronautics {
             var list = new List<NetworkStartPosition>();
             list.Add(FindObjectsOfType<NetworkStartPosition>());
             var spawn = list.Pick();
-            ship.JumpEvent += (o,e) => Manager.Jump(ship.Destination);
+            ship.JumpEvent += e => Manager.Jump(ship.Destination);
             ship.transform.position = spawn.transform.position;
             ship.transform.rotation = spawn.transform.rotation;
             user.SetShip(ship);

@@ -9,8 +9,8 @@ InputManager:
     m_Name: Lateral
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick button 7
-    positiveButton: joystick button 5
+    negativeButton: a
+    positiveButton: d
     altNegativeButton: 
     altPositiveButton: 
     gravity: 4
@@ -19,14 +19,14 @@ InputManager:
     snap: 0
     invert: 0
     type: 0
-    axis: 0
+    axis: 5
     joyNum: 1
   - serializedVersion: 3
     m_Name: Vertical
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick button 6
-    positiveButton: joystick button 4
+    negativeButton: s
+    positiveButton: w
     altNegativeButton: 
     altPositiveButton: 
     gravity: 4
@@ -35,7 +35,7 @@ InputManager:
     snap: 0
     invert: 1
     type: 0
-    axis: 0
+    axis: 6
     joyNum: 1
   - serializedVersion: 3
     m_Name: Roll
@@ -86,7 +86,7 @@ InputManager:
     axis: 3
     joyNum: 1
   - serializedVersion: 3
-    m_Name: Speed
+    m_Name: Thrust
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: w
@@ -97,9 +97,57 @@ InputManager:
     dead: 0.19
     sensitivity: 1
     snap: 0
+    invert: 0
+    type: 2
+    axis: 8
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: Drag
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 4
+    altNegativeButton: 
+    altPositiveButton: z
+    gravity: 1000
+    dead: 0.04
+    sensitivity: 1000
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 14
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: Lift
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.19
+    sensitivity: 1
+    snap: 0
     invert: 1
     type: 2
     axis: 4
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: Strafe
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0.19
+    sensitivity: 1
+    snap: 0
+    invert: 0
+    type: 2
+    axis: 3
     joyNum: 1
   - serializedVersion: 3
     m_Name: Attack
@@ -115,7 +163,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 2
+    axis: 9
     joyNum: 1
   - serializedVersion: 3
     m_Name: Cycle
@@ -138,16 +186,16 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
-    altNegativeButton: page up
-    altPositiveButton: page down
+    positiveButton: joystick button 8
+    altNegativeButton: 
+    altPositiveButton: q
     gravity: 0
     dead: 0.19
     sensitivity: 1
     snap: 1
     invert: 0
-    type: 2
-    axis: 6
+    type: 0
+    axis: 0
     joyNum: 1
   - serializedVersion: 3
     m_Name: Menu
@@ -185,7 +233,7 @@ InputManager:
     m_Name: Action
     descriptiveName: 
     descriptiveNegativeName: 
-    negativeButton: joystick button 8
+    negativeButton: 
     positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: space
@@ -220,7 +268,7 @@ InputManager:
     negativeButton: 
     positiveButton: joystick button 1
     altNegativeButton: 
-    altPositiveButton: left ctrl
+    altPositiveButton: left alt
     gravity: 1000
     dead: 0.001
     sensitivity: 1000
@@ -244,22 +292,6 @@ InputManager:
     invert: 0
     type: 0
     axis: 0
-    joyNum: 1
-  - serializedVersion: 3
-    m_Name: Brake
-    descriptiveName: 
-    descriptiveNegativeName: 
-    negativeButton: 
-    positiveButton: joystick button 4
-    altNegativeButton: 
-    altPositiveButton: z
-    gravity: 0
-    dead: 0.19
-    sensitivity: 1
-    snap: 0
-    invert: 0
-    type: 0
-    axis: 12
     joyNum: 1
   - serializedVersion: 3
     m_Name: Target

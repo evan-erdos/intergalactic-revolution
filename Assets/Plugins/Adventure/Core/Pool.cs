@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Adventure;
 
 /// Pool : T[]
 /// manages creation of a group of objects, memory efficient + injection

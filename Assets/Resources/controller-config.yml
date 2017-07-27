@@ -1,0 +1,19 @@
+---
+
+xbox one controller:
+  left stick: { x: x axis, y: y axis }
+  right stick: { x: 4th, y: 5th axis }
+  d-pad: { x: 6th axis, y: 7th axis }
+  triggers: { l: 9th axis, r: 10th axis }
+  a: joystick button 0
+  b: joystick button 1
+  x: joystick button 2
+  y: joystick button 3
+  lb: joystick button 4
+  rb: joystick button 5
+  back: joystick button 6
+  start: joystick button 7
+  left stick: joystick button 8
+  right stick: joystick button 9
+
+...
