@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class CameraFade : Singleton<CameraFade> {
+public class Fade : Singleton<Fade> {
     GUIStyle style = new GUIStyle();
     Texture2D fadeTexture;
     Color currentColor = new Color(0,0,0,0);

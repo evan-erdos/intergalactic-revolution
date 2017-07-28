@@ -10,26 +10,21 @@ namespace Adventure {
         public bool IsReusable {get;protected set;}
         public float InitialDelay {get;protected set;}
 
-        IEnumerator Start() {
-            collider = GetOrAdd<Collider>();
-            if (0>=InitialDelay) yield break;
-            yield return new WaitForSeconds(InitialDelay);
-            Begin();
+        async void Start() {
+            collider = GetOrAdd<Collider,BoxCollider>();
+            if (InitialDelay<0) { await InitialDelay; Begin(); }
         }
 
-        void OnTriggerEnter(Collider o) => Begin();
-
-        void Begin() {
-            StartSemaphore(Beginning);
-            IEnumerator Beginning() {
-                Log(Description);
-                if (IsReusable) {
-                    if (collider) collider.enabled = false;
-                    yield return new WaitForSeconds(1f);
-                    if (collider) collider.enabled = true;
-                } else gameObject.SetActive(false);
-            }
+        async void Begin() {
+            Log(Description);
+            if (IsReusable) {
+                if (collider) collider.enabled = false;
+                await 1;
+                if (collider) collider.enabled = true;
+            } else gameObject.SetActive(false);
         }
+
+        void OnTriggerEnter(Collider o) { if (o.GetParent<Player>() is Player player) Begin(); }
 
         new public class Data : Thing.Data {
             public bool isTimed {get;set;}

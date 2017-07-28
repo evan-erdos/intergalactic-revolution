@@ -12,10 +12,10 @@ namespace Adventure.Locales {
         public List<Thing> Things {get;} = new List<Thing>();
 
         protected override void Awake() { base.Awake();
-            collider = Get<Collider>();
-            collider.enabled = false;
             gameObject.layer = LayerMask.NameToLayer("Room");
             Location = transform.Find("location");
+            collider = Get<Collider>();
+            collider.enabled = false;
             Things.Add(GetChildren<Thing>());
         }
 

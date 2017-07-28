@@ -33,7 +33,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void Reset() => (isDisabled, isFiring) = (false,false);
         public void Disable() { isDisabled = true; ship.Disable(); }
         public void Fire() {
-            if (PreFire()) ship.Fire(new AttackArgs { Sender = this, Target = Target });
+            if (PreFire()) ship.Fire(new AttackArgs { Sender=this, Target=Target });
             bool PreFire() => isFiring && Target?.Position.IsNear(transform.position, aggroRange)==true;
         }
 

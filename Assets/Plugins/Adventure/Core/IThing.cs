@@ -51,15 +51,13 @@ namespace Adventure {
 
         /// Find : () => void
         /// attempts to find the thing, and notifies the find event
-        /// - throw : TextException
-        ///     the thing can't be found, isn't visible, or isn't nearby
+        /// - throw : the thing can't be found, isn't visible, or isn't nearby
         void Find(StoryArgs e=null);
 
 
         /// View : () => void
         /// attempts to view the thing, and notifies the view event
-        /// - throw : TextException
-        ///     the thing can't be found, or it can't be examined
+        /// - throw : the thing can't be found, or it can't be examined
         void View(StoryArgs e=null);
     }
 }

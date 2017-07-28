@@ -10,7 +10,7 @@ namespace Adventure.Puzzles {
         public override void Use() => Pose();
         public override bool Pose(PuzzleArgs<bool,bool> e=null) => Condition = !Condition;
         public override bool Solve(bool o) => Condition = o;
-        public override void Init() { base.Init(); SolveEvent += e => StartAsync(() => OnSolve(e)); }
+        public override void Init() { base.Init(); onSolve.Add(e => StartAsync(() => OnSolve(e))); }
         async Task OnSolve(StoryArgs e) { Log($"You press the {Name}."); await 1; }
 
         new public class Data : Piece<bool,bool>.Data {

@@ -14,7 +14,7 @@ namespace Adventure.Puzzles {
         public override bool IsSolved => Pieces.Aggregate(true, (o,e) =>
             comparer.Equals(e.Solve(e.Condition), e.Solution));
 
-        public override U Solve(T cond) => Pieces.Aggregate(default (U), (o,e) => e.Solve(e.Condition));
+        public override U Solve(T c) => Pieces.Aggregate(default (U), (o,e) => e.Solve(e.Condition));
         public void Add(IPiece<T,U> o) => Pieces.Add(o);
         public void Clear() => Pieces.Clear();
         public void CopyTo(IPiece<T,U>[] a, int n) => Pieces.CopyTo(a,n);

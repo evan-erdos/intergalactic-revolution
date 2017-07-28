@@ -12,12 +12,12 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] float speed = 100;
         [SerializeField] float damage = 100;
         [SerializeField] protected GameObject particles;
-        [SerializeField] protected Event<CombatArgs> onHit = new Event<CombatArgs>();
-        public event AdventureAction<CombatArgs> HitEvent {add{onHit.Add(value);} remove{onHit.Remove(value);}}
+        [SerializeField] protected CombatEvent onHit = new CombatEvent();
+        public event AdventureAction<CombatArgs> HitEvent;
         public float Damage => damage;
         public ITrackable Target {get;set;}
         public void Reset() => gameObject.SetActive(true);
-        public void Hit(CombatArgs e=null) => onHit?.Call(e ?? new CombatArgs { Sender = this, Damage = Damage });
+        public void Hit(CombatArgs e=null) => HitEvent(e ?? new CombatArgs { Sender=this, Damage=Damage });
         void Hit(IDamageable o) { if (o!=null) o.Damage(Damage); Hit(); }
         void OnHit(CombatArgs e) { Create(particles); gameObject.SetActive(false); }
 
@@ -31,7 +31,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Awake() {
             (rigidbody, collider) = (Get<Rigidbody>(), Get<Collider>());
-            HitEvent += e => OnHit(e);
+            HitEvent += e => onHit?.Call(e); onHit.Add(e => OnHit(e));
             perlin = Random.Range(1,100);
         }
 

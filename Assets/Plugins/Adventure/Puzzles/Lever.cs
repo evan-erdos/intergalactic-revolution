@@ -17,17 +17,16 @@ namespace Adventure.Puzzles {
         public bool IsLocked {get;protected set;}
         public int Selections => 6;
         public float Theta {
-            get { return theta; }
-            set { theta = Mathf.Clamp(value,range.x,range.y); } }
+            get { return theta; } set { theta = Mathf.Clamp(value,range.x,range.y); } }
         public override void Init() { base.Init(); SolveEvent += e => OnSolve(e); }
         public override void Use() { if (IsSolved) Push(); else Pull(); }
 
         void FixedUpdate() {
             if (IsLocked) return;
-            arm.localRotation = Quaternion.Slerp(arm.localRotation,
-                Quaternion.Euler(0,0,theta), Time.deltaTime*5);
-            handle.localRotation = Quaternion.Slerp(handle.localRotation,
-                Quaternion.Euler(0,0,grip.y),Time.deltaTime*8);
+            arm.localRotation = Quaternion.Slerp(
+                arm.localRotation, Quaternion.Euler(0,0,theta), Time.deltaTime*5);
+            handle.localRotation = Quaternion.Slerp(
+                handle.localRotation, Quaternion.Euler(0,0,grip.y),Time.deltaTime*8);
         }
 
         public virtual void Push() {

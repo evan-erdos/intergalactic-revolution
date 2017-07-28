@@ -24,11 +24,6 @@ namespace Adventure.Inventories {
             var rb = shell.Get<Rigidbody>();
             rb.AddRelativeForce(Vector3.up+Random.insideUnitSphere*0.2f,ForceMode.VelocityChange);
             rb.AddRelativeTorque(Vector3.up+Random.insideUnitSphere*0.1f, ForceMode.VelocityChange);
-            // Vector3 Spray(Vector3 direction, float spread) {
-            //     var delta = Random.insideUnitCircle - new Vector2(0.5f,0.5f);
-            //     var splay = new Vector2(direction.x, direction.y) + delta * spread;
-            //     return direction + new Vector3(splay.x, splay.y, 0);
-            // }
         }
     }
 }

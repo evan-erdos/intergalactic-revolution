@@ -6,14 +6,15 @@ using UnityEngine;
 
 namespace Adventure.Locales {
     public class Path : Thing, IPath {
-        [SerializeField] protected Event<TravelArgs> onTravel = new Event<TravelArgs>();
-        public event AdventureAction<TravelArgs> TravelEvent {add{onTravel.Add(value);} remove{onTravel.Remove(value);}}
+        [SerializeField] protected TravelEvent onTravel = new TravelEvent();
+        public event AdventureAction<TravelArgs> TravelEvent;
         public Room Destination {get;protected set;}
         protected virtual string PathText => $"It leads to {Destination}.";
         public override string Content => $"{base.Content}\n{PathText}.";
-        public virtual void Travel(TravelArgs e=null) => onTravel?.Call(e ?? new TravelArgs { Sender = this });
+        public virtual void Travel(TravelArgs e=null) => TravelEvent(e ?? new TravelArgs { Sender=this });
         void OnTravel(TravelArgs e) => Log($"{e.Sender.Name} travels to {Destination}");
-        protected override void Awake() { base.Awake(); TravelEvent += e => OnTravel(e); }
+        protected override void Awake() { base.Awake();
+            TravelEvent += e => onTravel?.Call(e); onTravel.Add(e => OnTravel(e)); }
 
         new public class Data : Thing.Data {
             public string destination = "Cloister";

@@ -1,3 +1,4 @@
+/* Ben Scott * @evan-erdos * bescott@andrew.cmu.edu * 2017-07-27 */
 
 using UnityEngine;
 using UnityEngine.PostProcessing;

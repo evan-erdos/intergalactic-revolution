@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Adventure.Inventories;
 
-namespace Adventure.Movement {
+namespace Adventure.Motion {
     public class Hand : MonoBehaviour {
         public bool ikActive;
         public Transform objHand;

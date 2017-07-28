@@ -19,10 +19,9 @@ namespace Adventure.Locales {
         protected new Collider collider;
         protected new AudioSource audio;
         [SerializeField] protected AudioClip soundClick, soundOpen;
-        [SerializeField] protected Event<StoryArgs> onOpen = new Event<StoryArgs>();
-        [SerializeField] protected Event<StoryArgs> onShut = new Event<StoryArgs>();
-        public event AdventureAction<StoryArgs> OpenEvent {add{onOpen.Add(value);} remove{onOpen.Remove(value);}}
-        public event AdventureAction<StoryArgs> ShutEvent {add{onShut.Add(value);} remove{onShut.Remove(value);}}
+        [SerializeField] protected StoryEvent onOpen = new StoryEvent();
+        [SerializeField] protected StoryEvent onShut = new StoryEvent();
+        public event AdventureAction<StoryArgs> OpenEvent, ShutEvent;
         public bool IsOpen {get;protected set;}
         public bool IsStuck {get;protected set;}
         public bool IsAutoClosing {get;protected set;}
@@ -30,19 +29,17 @@ namespace Adventure.Locales {
         public bool IsInitOpen {get;protected set;}
         public Key LockKey {get;protected set;}
         public void Use() { if (IsOpen) Shut(); else Open(); }
-        public void Open(StoryArgs e=null) => onOpen?.Call(new StoryArgs { Sender = this });
-        public void Shut(StoryArgs e=null) => onShut?.Call(new StoryArgs { Sender = this });
+        public void Open(StoryArgs e=null) => OpenEvent(e ?? new StoryArgs { Sender=this });
+        public void Shut(StoryArgs e=null) => ShutEvent(e ?? new StoryArgs { Sender=this });
 
         async Task OnOpen(StoryArgs e) {
-            if (IsOpen) { Log(Description["already open"]); return; }
-            Log(Description["open"]); await Moving(openDirection);
-            if (IsAutoClosing) { await time; Shut(); }
-        }
+            if (IsOpen) { Log(this["already open"]); return; }
+            Log(this["open"]); await Moving(openDirection);
+            if (IsAutoClosing) { await time; Shut(); } }
 
         async Task OnShut(StoryArgs e) {
-            if (!IsOpen) { Log(Description["already shut"]); return; }
-            Log(Description["shut"]); await Moving(initDirection);
-        }
+            if (!IsOpen) { Log(this["already shut"]); return; }
+            Log(this["shut"]); await Moving(initDirection); }
 
         async Task Moving(Vector3 direction) {
             var speed = Vector3.zero;
@@ -61,16 +58,14 @@ namespace Adventure.Locales {
             }
         }
 
-        public void Lock(Thing thing) {
-            if (!(thing is Key key)) throw new StoryError(Description["not lock"]);
-            if (key!=LockKey || key.Kind!=LockKey.Kind) throw new StoryError(Description["cannot lock"]);
-        }
+        public void Lock(Thing o) {
+            if (o is Key key && (key==LockKey || key.Kind==LockKey.Kind)) Shut();
+            else throw new StoryError(this["cannot lock"]); }
 
         public void Unlock(Thing thing) {
-            if (!IsLocked) throw new StoryError(Description["already unlocked"]);
+            if (!IsLocked) throw new StoryError(this["already unlocked"]);
             if (thing is Key key && key==LockKey && key.Kind==LockKey.Kind) StartAsync(Unlocking);
-            async Task Unlocking() { audio.PlayOneShot(soundClick,0.8f); await 0.25; }
-        }
+            async Task Unlocking() { audio.PlayOneShot(soundClick,0.8f); await 0.25; } }
 
         protected override void Awake() { base.Awake();
             (audio, collider) = (GetOrAdd<AudioSource>(), GetOrAdd<Collider,SphereCollider>());
@@ -79,8 +74,8 @@ namespace Adventure.Locales {
             (initDirection, openDirection) = (door.position, target.position);
             direction = initDirection;
             if (IsInitOpen) direction = door.position = openDirection;
-            OpenEvent += e => StartAsync(() => OnOpen(e));
-            ShutEvent += e => StartAsync(() => OnShut(e));
+            OpenEvent += e => onOpen?.Call(e); onOpen.Add(e => StartAsync(() => OnOpen(e)));
+            ShutEvent += e => onShut?.Call(e); onShut.Add(e => StartAsync(() => OnShut(e)));
         }
 
         new public class Data : Thing.Data {

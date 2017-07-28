@@ -6,6 +6,5 @@ using System.Collections.Generic;
 
 namespace Adventure {
     public class Profile : ScriptableObject {
-        [System.NonSerialized] public string Uuid;
-    }
+        [System.NonSerialized] public string Uuid; }
 }

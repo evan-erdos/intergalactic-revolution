@@ -10,10 +10,10 @@ namespace Adventure.Astronautics.Spaceships {
         new protected Collider collider;
         new protected Renderer renderer;
         [SerializeField] protected float damage = 50;
-        [SerializeField] protected Event<CombatArgs> onHit = new Event<CombatArgs>();
+        [SerializeField] protected CombatEvent onHit = new CombatEvent();
         public event AdventureAction<CombatArgs> HitEvent;
         public float Damage => damage;
-        public void Hit(CombatArgs e=null) => HitEvent(e ?? new CombatArgs { Sender = this, Damage = Damage });
+        public void Hit(CombatArgs e=null) => HitEvent(e ?? new CombatArgs { Sender=this, Damage=Damage });
 
         public virtual void Reset() {
             (renderer.enabled, collider.enabled, rigidbody.isKinematic) = (true,true,false);
@@ -25,7 +25,7 @@ namespace Adventure.Astronautics.Spaceships {
             (renderer.enabled, collider.enabled, rigidbody.isKinematic) = (false,false,true); }
 
         public void Fire() => Fire(rigidbody.position, rigidbody.velocity);
-        public void Fire(Vector3 position, Vector3 velocity) => Fire(position, velocity, Vector3.zero);
+        public void Fire(Vector3 position, Vector3 velocity) => Fire(position,velocity,Vector3.zero);
         public virtual void Fire(Vector3 position, Vector3 velocity, Vector3 initial) {
             Reset(); rigidbody.position = position;
             rigidbody.rotation.SetLookRotation(position-velocity, transform.up);
@@ -39,7 +39,7 @@ namespace Adventure.Astronautics.Spaceships {
         void OnCollisionEnter(Collision c) {
             c.rigidbody?.GetParent<IDamageable>()?.Damage(Damage);
             var hit = c.contacts.First();
-            transform.rotation = Quaternion.LookRotation(hit.point,hit.normal);
+            transform.rotation = Quaternion.LookRotation(hit.point, hit.normal);
             Hit();
         }
     }

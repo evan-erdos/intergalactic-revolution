@@ -253,39 +253,25 @@ namespace Adventure {
             return text;
         }
 
-        static string FormParagraphs(
-                        string text,
-                        bool unhash=true,
-                        bool createParagraphs=false) {
-            var grafs = newlinesMultiple.Split(
-                newlinesLeadingTrailing.Replace(text,""));
+        static string FormParagraphs(string text,bool unhash=true,bool createParagraphs=false) {
+            var grafs = newlinesMultiple.Split(newlinesLeadingTrailing.Replace(text,""));
             for (var i=0;i<grafs.Length;i++){
                 if (grafs[i].Contains("\x1AH")) {
                     if (unhash) {
-                        var sanityCheck = 50;
-                        var keepGoing = true;
-                        while (keepGoing && sanityCheck>0) {
+                        var (sanityCheck, keepGoing) = (50, true);
+                        while (keepGoing && sanityCheck-->0) {
                             keepGoing = false;
                             grafs[i] = htmlBlockHash.Replace(grafs[i], match => {
-                                keepGoing = true;
-                                return htmlBlocks[match.Value];
-                            });
-                            sanityCheck--;
+                                keepGoing = true; return htmlBlocks[match.Value]; });
                         }
                     }
-                } else grafs[i] = leadingWhitespace.Replace(
-                    RunSpanGamut(grafs[i]),
+                } else grafs[i] = leadingWhitespace.Replace(RunSpanGamut(grafs[i]),
                     createParagraphs ?"<p>":"")+(createParagraphs?"</p>":"");
             } return string.Join("\n\n", grafs);
         }
 
 
-        static void Setup() {
-            urls.Clear();
-            titles.Clear();
-            htmlBlocks.Clear();
-            listLevel = 0;
-        }
+        static void Setup() { urls.Clear(); titles.Clear(); htmlBlocks.Clear(); listLevel=0; }
 
         static void Cleanup() => Setup();
 

@@ -47,26 +47,20 @@ namespace Adventure {
             }
         }
 
-        public static string Format(string message, params Styles[] styles) {
-            if (string.IsNullOrEmpty(message) || styles==null) return message;
-            message = message.Trim();
+        public static string Format(string s, params Styles[] styles) {
+            if (string.IsNullOrEmpty(s) || styles==null) return s;
+            s = s.Trim();
             foreach (var elem in styles) switch (elem) {
-                case Styles.Command: case Styles.State:
-                case Styles.Change: case Styles.Alert:
-                    message = $"<color=#{(int) elem:X}>{message}</color>"; break; }
+                case Styles.Command: case Styles.State: case Styles.Change: case Styles.Alert:
+                    s = $"<color=#{(int) elem:X}>{s}</color>"; break; }
             foreach (var elem in styles) switch (elem) {
-                case Styles.h1: case Styles.h2:
-                case Styles.h3: case Styles.h4:
-                    message = $"<size={elem}>{message}</size>";
-                    message = $"<color=#{(int) Styles.Title:X}>{message}</color>";
-                    break;
-                case Styles.Inline: message = message.Trim(); break;
-                case Styles.Paragraph: message = $"\n\n{message}"; break;
-                case Styles.Newline: message = $"\n{message}"; break;
-                case Styles.Indent:
-                    message.Split('\n').ToList().Aggregate("",(s,l) => s += $"\n    {l}");
-                    break;
-            } return message;
+                case Styles.h1: case Styles.h2: case Styles.h3: case Styles.h4:
+                    s = $"<size={elem}><color=#{(int) Styles.Title:X}>{s}</color></size>"; break;
+                case Styles.Inline: s = s.Trim(); break;
+                case Styles.Paragraph: s = $"\n\n{s}"; break;
+                case Styles.Newline: s = $"\n{s}"; break;
+                case Styles.Indent: s.Split('\n').ToList().Aggregate("",(o,l) => o += $"\n    {l}"); break;
+            } return s;
         }
 
 
@@ -88,8 +82,7 @@ namespace Adventure {
                 OnLog(Messages["prologue"]);
                 yield return new WaitForSeconds(initTime);
                 isLocked = false;
-                var (last,position) = (transform.position, transform.position);
-                var range = 100f;
+                var (range, last, position) = (100f, transform.position, transform.position);
                 var mask =
                       1 << LayerMask.NameToLayer("Thing")
                     | 1 << LayerMask.NameToLayer("Item")

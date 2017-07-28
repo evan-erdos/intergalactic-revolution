@@ -11,14 +11,10 @@ namespace Adventure.Inventories {
             countAmmo = 24, sizeClip = 7, countLoaded = 7,
             countBursts = 1, fovScoped = 30, range = 128;
         public float
-            rateSpread = 0.1f, rateCool = 0.05f,
-            rateScope = 0.06f, rateMax = 0.3f,
-            spread = 0.1f, spreadAimed = 0.1f,
-            spreadMax = 0.1f, spreadJam = 1,
-            timeShot = 0.05f, sinceShot = 0,
-            timeReload = 2, sinceReload = 0,
-            forceShot = 443, damageShot = 1024,
-            deltaShot = 256;
+            rateSpread = 0.1f, rateCool = 0.05f, rateScope = 0.06f, rateMax = 0.3f,
+            spread = 0.1f, spreadAimed = 0.1f, spreadMax = 0.1f, spreadJam = 1,
+            timeShot = 0.05f, sinceShot = 0, timeReload = 2, sinceReload = 0,
+            forceShot = 443, damageShot = 1024, deltaShot = 256;
         public string MunitionType = "9mm PARA";
         public string[] animNames, animFire, animReload;
         public enum WeaponTypes { Projectile, Ballistic, Crystal, Melee };
@@ -41,36 +37,24 @@ namespace Adventure.Inventories {
         public override void Attack() {
             var direction = Spray(transform.forward,spread);
             if (!Physics.Raycast(
-                origin: transform.position,
-                direction: direction,
-                hitInfo: out RaycastHit hit,
-                maxDistance: range,
-                layerMask: Mask)) return;
-            Instantiate(
-                original: ShotParticles[Random.Range(0,ShotParticles.Length)],
-                position: hit.point,
-                rotation: Quaternion.FromToRotation(Vector3.up, hit.normal));
-            hit.rigidbody?.AddForceAtPosition(
-                force: forceShot*direction,
-                position: hit.point);
+                origin: transform.position, direction: direction,
+                hitInfo: out RaycastHit hit, maxDistance: range, layerMask: Mask)) return;
+            Instantiate(ShotParticles[Random.Range(0,ShotParticles.Length)], hit.point,
+                Quaternion.FromToRotation(Vector3.up, hit.normal));
+            hit.rigidbody?.AddForceAtPosition(forceShot*direction, hit.point);
         }
 
-        internal void Reload() {
+        void Reload() {
             if (countLoaded>=sizeClip || sinceReload<=timeReload) return;
             if (countAmmo>(sizeClip-countLoaded)) countAmmo -= sizeClip-countLoaded;
             else if (countAmmo < (sizeClip-countLoaded)) countLoaded = countAmmo;
-            countAmmo = countAmmo-countLoaded;
-            sinceReload = 0;
+            (countAmmo,sinceReload) = (countAmmo-countLoaded, 0);
         }
 
-        static Vector3 Spray(Vector3 direction, float spread) {
-            var splay = new Vector2(direction.x, direction.y);
-            var deviation = Random.insideUnitCircle;
-            deviation -= new Vector2(0.5f, 0.5f);
-            splay += deviation * spread;
-            direction.x += splay.x;
-            direction.y += splay.y;
-            return direction;
+        static Vector3 Spray(Vector3 direction, float spread=0.1f) {
+            var deviation = Random.insideUnitCircle - new Vector2(0.5f,0.5f);
+            var splay = new Vector2(direction.x, direction.y)+deviation*spread;
+            return direction + new Vector3(splay.x, splay.y);
         }
     }
 }

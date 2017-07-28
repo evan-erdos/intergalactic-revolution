@@ -11,21 +11,21 @@ namespace Adventure.Astronautics.Spaceships {
         new Rigidbody rigidbody;
         List<Weapon> weapons = new List<Weapon>();
         Transform turret;
-        [SerializeField] protected Event<AttackArgs> onFire = new Event<AttackArgs>();
+        [SerializeField] protected AttackEvent onFire = new AttackEvent();
+        public event AdventureAction<AttackArgs> FireEvent;
         public bool IsDisabled {get;protected set;} = false;
         public float Health {get;protected set;} = 3000;
         public Vector3 Velocity => rigidbody.velocity;
         public Weapon Current {get;protected set;}
         public ITrackable Target {get;set;}
-        public event AdventureAction<AttackArgs> FireEvent;
         public IEnumerator<Weapon> GetEnumerator() => weapons.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => weapons.GetEnumerator() as IEnumerator;
         public void Fire(AttackArgs e=null) {
             if (isFiring) StartSemaphore(Firing);
             IEnumerator Firing() {
                 if (e is null) e = new AttackArgs {
-                    Sender = this, Target = Target, Position = Target.Position,
-                    Velocity = Target.Velocity, Displacement = Velocity };
+                    Sender=this, Target=Target, Position=Target.Position,
+                    Velocity=Target.Velocity, Displacement=Velocity };
                 (Current = weapons[++current%weapons.Count]).Fire(e); FireEvent(e);
                 yield return new WaitForSeconds(Current.Rate/weapons.Count);
             }

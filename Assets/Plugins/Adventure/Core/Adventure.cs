@@ -28,7 +28,7 @@ namespace Adventure {
         public string Email {get;set;} = "admin@bescott.org"; }
 
 
-    /// Styles : enum
+    /// Styles
     /// This enumerates the various formatting options that the
     /// Terminal can use. Most values have some meaning, which
     /// are used by the formatting function. They might
@@ -39,11 +39,6 @@ namespace Adventure {
         Default=0xFFFFFF, State=0x2A98AA, Change=0xFFAE10,
         Alert=0xFC0000, Command=0xBBBBBB, Warning=0xFA2363,
         Help=0x9CDF91, Title=0x98C8FC, Static=0xFFDBBB }
-
-
-    /// Lambda : () => void
-    /// spirit animal of the action delegate from system namespace
-    public delegate void Lambda();
 
 
     /// Cond : () => bool
@@ -72,17 +67,17 @@ namespace Adventure {
     public class RealityArgs : AdventureArgs { public Vector3 Position {get;set;} }
 
 
-    /// MovementArgs : RealityArgs
+    /// MotionArgs : RealityArgs
     /// provides a base argument type for VR events
-    public class MovementArgs : RealityArgs {
+    public class MotionArgs : RealityArgs {
         public Vector3 Displacement {get;set;}
         public Vector3 Velocity {get;set;}
         public Vector3 Angular {get;set;} }
 
 
-    /// FlightArgs : MovementArgs
+    /// FlightArgs : MotionArgs
     /// provides a base argument type for piloting spaceships
-    public class FlightArgs : MovementArgs {
+    public class FlightArgs : MotionArgs {
         public float Roll {get;set;}
         public float Pitch {get;set;}
         public float Yaw {get;set;}
@@ -93,14 +88,14 @@ namespace Adventure {
         public List<Vector3> Course {get;set;} }
 
 
-    /// TravelArgs : MovementArgs
+    /// TravelArgs : MotionArgs
     /// provides a base argument type for moving between stars
-    public class TravelArgs : MovementArgs { public SpobProfile Destination {get;set;} }
+    public class TravelArgs : MotionArgs { public SpobProfile Destination {get;set;} }
 
 
-    /// CombatArgs : MovementArgs
+    /// CombatArgs : MotionArgs
     /// provides a base argument type for VR events
-    public class CombatArgs : MovementArgs { public float Damage {get;set;} }
+    public class CombatArgs : MotionArgs { public float Damage {get;set;} }
 
 
     /// AttackArgs : CombatArgs
@@ -108,9 +103,9 @@ namespace Adventure {
     public class AttackArgs : CombatArgs { public ITrackable Target {get;set;} }
 
 
-    /// ButtonArgs : EventArgs
+    /// ButtonArgs : MotionArgs
     /// provides a base argument type for VR events
-    public class ButtonArgs : MovementArgs {
+    public class ButtonArgs : MotionArgs {
         public (bool IsDown, bool IsUp, bool IsHeld) Input {get;set;} }
 
 
@@ -119,14 +114,9 @@ namespace Adventure {
     public class SliderArgs : ButtonArgs { public float Value {get;set;} }
 
 
-    /// CursorArgs : EventArgs
+    /// CursorArgs : ButtonArgs
     /// provides arguments for VR cursors
     public class CursorArgs : ButtonArgs { public IObject Target {get;set;} }
-
-
-    /// TouchpadArgs : EventArgs
-    /// provides a base argument type for VR events
-    public class TouchpadArgs : ButtonArgs { public (float x, float y) TouchPosition {get;set;} }
 
 
     /// StoryArgs : EventArgs
@@ -146,22 +136,37 @@ namespace Adventure {
 
     [Serializable] public class RealEvent : UnityEvent<float> { }
 
+
     /// Event : event
     /// base serializable event handler to expose events to editor
     [Serializable] public class Event<T> : UnityEvent<T> where T : AdventureArgs {
         public event AdventureAction<T> E {add{Remove(value);Add(value);} remove{Remove(value);}}
         public void Call(T e=null) => Invoke(e);
-        public void Add(Event<T> e) => Add(e.Call);
         public void Add(AdventureAction<T> e) => AddListener(o => e(o));
-        public void Remove(Event<T> e) => Remove(e.Call);
-        public void Remove(AdventureAction<T> e) => RemoveListener(o => e(o)); }
+        public void Remove(AdventureAction<T> e) => RemoveListener(o => e(o));
+        // public static Event<T> implicit operator Event<T>(Event<T> o) => (Event<T>) o;
+        public static Event<T> operator +(Event<T> o, AdventureAction<T> e) { o?.Add(e); return o; }
+        public static Event<T> operator -(Event<T> o, AdventureAction<T> e) { o?.Remove(e); return o; }
+    }
+
+    /// unfortunately necessary for editor serialization
+    [Serializable] public class RealityEvent : Event<RealityArgs> { }
+    [Serializable] public class StoryEvent : Event<StoryArgs> { }
+    [Serializable] public class TravelEvent : Event<TravelArgs> { }
+    [Serializable] public class MotionEvent : Event<MotionArgs> { }
+    [Serializable] public class FlightEvent : Event<FlightArgs> { }
+    [Serializable] public class CombatEvent : Event<CombatArgs> { }
+    [Serializable] public class AttackEvent : Event<AttackArgs> { }
+    [Serializable] public class ButtonEvent : Event<ButtonArgs> { }
+    [Serializable] public class SliderEvent : Event<SliderArgs> { }
+    [Serializable] public class CursorEvent : Event<CursorArgs> { }
 
 
     /// Error : error
     /// base error for the entire namespace
     public class Error : Exception {
         public Error(string message, Exception error) : base(message,error) { }
-        public Error(string message="What have you done?") : this(message, new Exception()) { } }
+        public Error(string message="What have you done?") : this(message,new Exception()) { } }
 
 
     /// StoryError : error
@@ -279,6 +284,7 @@ namespace Adventure {
         void Create(T data);
     }
 
+
     /// ITrackable : IObject
     /// anything which moves around and has a velocity and a position
     public interface ITrackable : IObject {
@@ -355,16 +361,14 @@ namespace Adventure {
 
         /// Lock : (thing) => bool
         /// called when an attempt is made to lock the object
-        /// - thing : Key
-        ///     optional key to use to lock the object
-        void Lock(Thing thing);
+        /// - thing : optional key to use to lock the object
+        void Lock(Thing thing=null);
 
 
         /// Unlock : (thing) => bool
         /// called when an attempt is made to unlock the object
-        /// - thing : Key
-        ///     optional key to use to unlock the object
-        void Unlock(Thing thing);
+        /// - thing : optional key to use to unlock the object
+        void Unlock(Thing thing=null);
     }
 
 
@@ -426,26 +430,39 @@ namespace Adventure {
     /// to instances whose type takes the type they're keyed to as a parameter
     public class TypeMap<T> : Map<Type,List<Func<T>>> {
         Map<Type,List<Func<T>>> map = new Map<Type,List<Func<T>>>();
-        public new List<Func<T>> this[Type type] { get { return map[type]; } set { map[type] = value; }}
+        public new List<Func<T>> this[Type o] { get { return map[o]; } set { map[o]=value; } }
         public List<Func<T>> Get<U>() where U : T => map[typeof(U)];
-        public void Set<U>(List<Func<T>> value) where U : T => map[typeof(U)] = (List<Func<T>>) value;
+        public void Set<U>(List<Func<T>> o) where U : T => map[typeof(U)] = (List<Func<T>>) o;
     }
 
     /// RandList<T> : List<T>
     /// A simple wrapper class for lists which returns a random element
-    public class RandList<T> : List<T> {
-        Random random = new Random(); public T Next() => (Count==0) ? default(T) : this[random.Next(Count)]; }
+    public class RandList<T> : List<T> { Random r = new Random();
+        public T Next() => (Count==0)?default(T):this[r.Next(Count)]; }
 
     /// IterList<T> : List<T>
-    /// A simple wrapper for lists which simply steps through the lis
+    /// A simple wrapper for lists which simply steps through lists
     public class IterList<T> : List<T> {
-        int Current = -1; public T Next() => (Count==0 || Current>Count) ? default(T) : this[++Current]; }
+        int Current = -1; public T Next() => (Count==0 || Current>Count)?default(T):this[++Current]; }
 
     /// LoopList<T> : List<T>
-    /// A simple wrapper class for List<T>, which adds the
-    /// ability to return a random element from the list.
+    /// cycles over a list
     public class LoopList<T> : List<T> {
         int Current = -1; public T Next() => (Count==0) ? default(T) : this[++Current%Count]; }
+
+    /// Semaphore : YieldInstruction
+    /// encapsulates a blocking pattern, only starting a new call if the prior has finished
+    public class Semaphore : YieldInstruction {
+        Func<IEnumerator,Coroutine> action;
+        Dictionary<string,Func<IEnumerator>> map = new Dictionary<string,Func<IEnumerator>>();
+        public bool AreAnyYielding => map.Count>0;
+        public Semaphore(Func<IEnumerator,Coroutine> action) { this.action = action; }
+        public bool IsYielding(string name) => map.ContainsKey(name);
+        public void Clear() => map.Clear();
+        public void Call(Func<IEnumerator> func) => Call(func.Method.Name, func);
+        public void Call(string s, Func<IEnumerator> f) { if (!map.ContainsKey(s)) action(Wait(s,f)); }
+        IEnumerator Wait(string s, Func<IEnumerator> f) { map[s]=f;yield return action(f());map.Remove(s);} }
+
 
 
     namespace Astronautics {
@@ -453,7 +470,7 @@ namespace Adventure {
 
         /// FlightMode
         /// defines the different kinds of flight control systems
-        public enum FlightMode { Navigation, Assisted, Manual, Manuevering }
+        public enum FlightMode { Navigation, Assisted, Manual }
 
 
         /// Astronomy
@@ -474,6 +491,11 @@ namespace Adventure {
     namespace Puzzles {
 
 
+        /// PuzzleAction :  event
+        /// when a piece is posed, its parent should be notified via this event
+        public delegate void PuzzleAction<T,U>(PuzzleArgs<T,U> e=null);
+
+
         /// PuzzleArgs : StoryArgs
         /// encapsulates the most important part of a puzzle: is it solved?
         public class PuzzleArgs<T,U> : StoryArgs {
@@ -481,12 +503,8 @@ namespace Adventure {
             public T Condition {get;set;}
             public U Solution {get;set;}
             public IPiece<T,U> Piece {get;set;}
-            public Func<(T condition, U solution)> Solver {get;set;}
+            public Func<(T condition,U solution)> Solver {get;set;}
         }
-
-        /// PuzzleAction :  event
-        /// when a piece is posed, its parent should be notified via this event
-        public delegate void PuzzleAction<T,U>(PuzzleArgs<T,U> e=null);
     }
 
 
@@ -628,14 +646,10 @@ namespace Adventure {
         public enum Affinities { Default, Miss, Graze, Hit, Crit }
         [Flags] public enum Faculties { None, Thinking, Breathing, Sensing, Moving }
         [Flags] public enum Condition {
-            None, Unknown, Default, Polytrauma,
-            Dead, Maimed, Wounded, Injured,
-            Scorched, Burned, Frozen, Poisoned,
-            Paralysis, Necrosis, Infection, Fracture,
-            Ligamentitis, Radiation, Poisioning, Hemorrhage,
-            Frostbite, Thermosis, Hypothermia, Hyperthermia,
-            Hypohydratia, Inanition, Psychosis, Depression,
-            Psychotic, Shocked, Stunned, Healthy }
+            None, Unknown, Default, Polytrauma, Dead, Maimed, Wounded, Injured, Scorched,
+            Burned, Frozen, Poisoned, Paralysis, Necrosis, Infection, Fracture, Ligamentitis,
+            Radiation, Poisioning, Hemorrhage, Frostbite, Thermosis, Hypothermia, Hyperthermia,
+            Hypohydratia, Inanition, Psychosis, Depression, Psychotic, Shocked, Stunned, Healthy }
 
 
         /// Damage : IDamage
@@ -847,6 +861,9 @@ namespace Adventure {
         public static void Enable<T>(this GameObject o) where T : Component => o.Enable<T>();
         public static void Enable<T>(this Component o) where T : Component => o.Enable<T>();
         public static void Enable(this Behaviour o, bool isOn=true) => o.enabled = isOn;
+
+        public static void MatchLightColor(this GameObject o) =>
+            o.Get<Renderer>().material.SetColor("_EmissionColor", o.Get<Light>().color);
 
         /// Get<T> : (type) => T
         /// gets the attached component or rigorously returns null

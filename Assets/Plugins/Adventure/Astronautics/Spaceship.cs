@@ -29,11 +29,11 @@ namespace Adventure.Astronautics.Spaceships {
         [SerializeField] protected ShipProfile profile;
         [SerializeField] List<Weapon> blasters = new List<Weapon>();
         [SerializeField] List<Weapon> rockets = new List<Weapon>();
-        [SerializeField] protected Event<RealityArgs> onKill = new Event<RealityArgs>();
-        [SerializeField] protected Event<FlightArgs> onMove = new Event<FlightArgs>();
-        [SerializeField] protected Event<TravelArgs> onJump = new Event<TravelArgs>();
-        [SerializeField] protected Event<CombatArgs> onHit = new Event<CombatArgs>();
-        [SerializeField] protected Event<AttackArgs> onFire = new Event<AttackArgs>();
+        [SerializeField] protected RealityEvent onKill = new RealityEvent();
+        [SerializeField] protected FlightEvent onMove = new FlightEvent();
+        [SerializeField] protected TravelEvent onJump = new TravelEvent();
+        [SerializeField] protected CombatEvent onHit = new CombatEvent();
+        [SerializeField] protected AttackEvent onFire = new AttackEvent();
         public event AdventureAction<RealityArgs> KillEvent;
         public event AdventureAction<FlightArgs> MoveEvent;
         public event AdventureAction<TravelArgs> JumpEvent;
@@ -72,9 +72,9 @@ namespace Adventure.Astronautics.Spaceships {
         public StarSystem CurrentSystem {get;protected set;}
         public SpobProfile Destination {get;protected set;}
         public SpobProfile[] Spobs {get;set;} = new SpobProfile[1];
-        public void Damage(float damage) => HitEvent(new CombatArgs { Sender = this, Damage = damage });
-        public void Kill(RealityArgs e=null) => KillEvent(e ?? new RealityArgs { Sender = this });
-        public void Jump(TravelArgs e=null) => JumpEvent(e ?? new TravelArgs { Sender = this, Destination = Destination });
+        public void Damage(float damage) => HitEvent(new CombatArgs { Sender=this, Damage=damage });
+        public void Kill(RealityArgs e=null) => KillEvent(e ?? new RealityArgs { Sender=this });
+        public void Jump(TravelArgs e=null) => JumpEvent(e ?? new TravelArgs { Sender=this, Destination=Destination });
 
         public void Disable() => (IsDisabled, rigidbody.drag, rigidbody.angularDrag) = (true,0,0);
         public void Reset() => (IsDisabled, IsDead, rigidbody.mass, Health, Energy) = (false,false,Mass,MaxHealth,EnergyCapacity);
@@ -189,8 +189,8 @@ namespace Adventure.Astronautics.Spaceships {
             KillEvent += e => onKill?.Call(e); onKill.Add(e => OnKill());
             JumpEvent += e => onJump?.Call(e); onJump.Add(e => OnHyperJump());
             HitEvent += e => onHit?.Call(e); onHit.Add(e => OnHit(e));
-            MoveEvent += e => onMove?.Call(e); // onMove.Add(OnMove());
-            FireEvent += e => onFire?.Call(e); // onFire.Add(OnFire());
+            MoveEvent += e => onMove?.Call(e); // onMove.Add(e => OnMove());
+            FireEvent += e => onFire?.Call(e); // onFire.Add(e => OnFire());
             Create(profile);
             var query =
                 from particles in GetChildren<ParticleSystem>()
@@ -232,9 +232,9 @@ namespace Adventure.Astronautics.Spaceships {
             IEnumerator Firing() {
                 var blaster = weapons[(++nextFire%weapons.Count)];
                 var args = new AttackArgs {
-                    Sender = this, Target = Target, Displacement = Velocity,
-                    Velocity = Target?.Velocity ?? Vector3.zero,
-                    Position = Target?.Position ?? transform.forward };
+                    Sender=this, Target=Target, Displacement=Velocity,
+                    Velocity=Target?.Velocity ?? Vector3.zero,
+                    Position=Target?.Position ?? transform.forward };
                 if (!(Target is null)) blaster.Target = Target;
                 blaster?.Fire(e ?? args); FireEvent(e ?? args);
                 yield return new WaitForSeconds(1f/(blaster.Rate*weapons.Count));
@@ -243,7 +243,7 @@ namespace Adventure.Astronautics.Spaceships {
 
         public void Move(FlightArgs e=null) {
             if (IsDisabled || IsDead) return; // insert clever autopilot here
-            if (e is null) e = new FlightArgs { Sender = this };
+            if (e is null) e = new FlightArgs { Sender=this };
             Control = (Clamp(e.Roll), Clamp(e.Pitch), Clamp(e.Yaw));
             (Thrust, Lift, Strafe) = (Clamp(e.Thrust) + e.Turbo, Clamp(e.Lift), Clamp(e.Strafe));
             ForwardSpeed = Mathf.Max(0,transform.InverseTransformDirection(rigidbody.velocity).z);

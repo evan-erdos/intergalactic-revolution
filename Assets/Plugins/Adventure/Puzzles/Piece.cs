@@ -10,27 +10,27 @@ using UnityEngine.Events;
 namespace Adventure.Puzzles {
 
     public abstract class Piece : Thing, IPiece {
-        [SerializeField] protected Event<StoryArgs> onSolve = new Event<StoryArgs>();
+        [SerializeField] protected StoryEvent onSolve = new StoryEvent();
         public virtual event AdventureAction<StoryArgs> SolveEvent;
         public virtual bool IsSolved => true;
-        public virtual void Solve(StoryArgs e=null) => SolveEvent(e ?? new StoryArgs { Sender = this });
         public virtual void Use() => Solve();
+        public virtual void Solve(StoryArgs e=null) => SolveEvent(e ?? new StoryArgs { Sender=this });
         async void OnSolve() { Log($"{Name} solved!"); await 1; }
-        public override void Init() { base.Init(); SolveEvent += e => OnSolve(); }
+        public override void Init() { base.Init(); SolveEvent += e => onSolve?.Call(e); }
     }
 
     public abstract class Piece<T,U> : Piece, IPiece<T,U> {
         protected EqualityComparer<U> comparer = EqualityComparer<U>.Default;
-        [SerializeField] protected Event<PuzzleArgs<T,U>> onPose = new Event<PuzzleArgs<T,U>>();
-        public event AdventureAction<PuzzleArgs<T,U>> PoseEvent {add{onPose.Add(value);} remove{onPose.Remove(value);}}
+        [SerializeField] protected Event<PuzzleArgs<T,U>> onPose;
+        public event AdventureAction<PuzzleArgs<T,U>> PoseEvent;
         public override bool IsSolved => comparer.Equals(Solver(Condition),Solution);
         public virtual T Condition {get;protected set;}
         public virtual U Solution {get;protected set;}
         public virtual Func<T,U> Solver {get;protected set;}
         public abstract T Pose(PuzzleArgs<T,U> e=null);
         public abstract U Solve(T cond);
-        public override void Init() { base.Init(); PoseEvent += e =>  OnPose(); }
         async void OnPose() { Log($"{Name} posed!"); await 0; }
+        public override void Init() { base.Init(); onPose += e => OnPose(); }
 
         new public class Data : Thing.Data {
             public T condition {get;set;}

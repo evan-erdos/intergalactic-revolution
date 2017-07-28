@@ -6,13 +6,14 @@ using UnityEngine;
 
 namespace Adventure.Inventories {
     public class Book : Item, IReadable {
-        [SerializeField] protected Event<StoryArgs> onRead = new Event<StoryArgs>();
-        public event AdventureAction<StoryArgs> ReadEvent {add{onRead.Add(value);} remove{onRead.Remove(value);}}
+        [SerializeField] protected StoryEvent onRead = new StoryEvent();
+        public event AdventureAction<StoryArgs> ReadEvent;
         public virtual string Passage {get;set;}
         public override void Drop(StoryArgs e=null) => Log(Description["attempt drop"]);
-        public virtual void Read(StoryArgs e=null) => onRead?.Call(e ?? new StoryArgs { Sender = this });
+        public virtual void Read(StoryArgs e=null) => ReadEvent(e ?? new StoryArgs { Sender=this });
         async void OnRead(StoryArgs e) { Log($"{Passage}"); await 2; }
-        protected override void Awake() { base.Awake(); ReadEvent += e => OnRead(e); }
+        protected override void Awake() { base.Awake();
+            ReadEvent += e => onRead?.Call(e); onRead.Add(e => OnRead(e)); }
 
         new public class Data : Item.Data {
             public string Passage {get;set;}

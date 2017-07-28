@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Adventure.Movement {
+namespace Adventure.Motion {
     public class Motor : Object, IMotor {
         bool wait, newPlatform, recentlyLanded;
         uint massPlayer = 80;

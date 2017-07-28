@@ -10,8 +10,8 @@ using Adventure.Astronautics;
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceActor {
         FlightArgs args = new FlightArgs();
-        public override void OnStartLocalPlayer() => DontDestroyOnLoad(gameObject);
         void Start() { args.Sender = this; Ship?.ToggleView(); }
+        public override void OnStartLocalPlayer() => DontDestroyOnLoad(gameObject);
         protected override void FixedUpdate() { base.FixedUpdate(); Ship?.Move(args); }
         void Update() => ControlInput(); // if (isLocalPlayer) ControlInput();
         void ControlInput() { // Manager.PrintInput();

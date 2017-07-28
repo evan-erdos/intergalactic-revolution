@@ -8,14 +8,14 @@ using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics {
     public class Weapon : Adventure.Object, IWeapon, ICreatable<BlasterProfile> {
-        [SerializeField] protected BlasterProfile profile;
-        [SerializeField] protected Event<AttackArgs> onFire = new Event<AttackArgs>();
         int next;
         Pool<Rigidbody> projectiles = new Pool<Rigidbody>();
         List<Transform> barrels = new List<Transform>();
         List<AudioClip> sounds = new List<AudioClip>();
         protected new AudioSource audio;
         protected new Rigidbody rigidbody;
+        [SerializeField] protected BlasterProfile profile;
+        [SerializeField] protected AttackEvent onFire = new AttackEvent();
         public event AdventureAction<AttackArgs> FireEvent;
         public bool IsDisabled {get;protected set;} = false;
         public float Health {get;protected set;} = 1000; // N
@@ -61,8 +61,8 @@ namespace Adventure.Astronautics {
                     solution = transform.forward*Force + rigidbody.velocity + variation;
                 projectile?.Fire(start, solution, initial);
                 FireEvent(new AttackArgs {
-                    Sender = this, Target = Target, Damage = projectile.Damage,
-                    Position = start, Velocity = solution, Displacement = initial });
+                    Sender=this, Target=Target, Damage=projectile.Damage,
+                    Position=start, Velocity=solution, Displacement=initial });
                 yield return new WaitForSeconds(1f/(Rate*barrels.Count));
             }
         }
@@ -74,7 +74,7 @@ namespace Adventure.Astronautics {
             barrels.Add(transform);
             (particles, Barrel) = (GetChild<ParticleSystem>(), barrels.First().position);
             (audio, rigidbody) = (Get<AudioSource>(), GetParent<Rigidbody>());
-            onFire.Add(e => OnFire()); FireEvent += e => onFire?.Call(e);
+            FireEvent += e => onFire?.Call(e); onFire.Add(e => OnFire());
             projectiles = new Pool<Rigidbody>(10, () => {
                 var instance = Create<Rigidbody>(Projectile);
                 instance.transform.parent = transform;

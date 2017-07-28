@@ -14,15 +14,15 @@ namespace Adventure {
     public abstract class NetObject : NetworkBehaviour, IObject {
         Regex regex = new Regex("\b(object)\b");
         HashSet<string> threads = new HashSet<string>();
-        [SerializeField] protected Event<RealityArgs> onCreate = new Event<RealityArgs>();
+        [SerializeField] protected RealityEvent onCreate = new RealityEvent();
         public bool AreAnyYielding => threads.Count>0;
         public virtual float Radius => 5;
         public virtual string Name => name;
         public virtual Vector3 Position => transform.position;
         public virtual LayerMask Mask {get;protected set;}
-        public event AdventureAction<RealityArgs> CreateEvent {add{onCreate.Add(value);} remove{onCreate.Remove(value);}}
-        public void Create(RealityArgs e=null) => onCreate?.Call(e ?? new RealityArgs { Sender = this });
-        public virtual void Init() => CreateEvent += e => ClearSemaphore();
+        public event AdventureAction<RealityArgs> CreateEvent;
+        public void Create(RealityArgs e=null) => CreateEvent(e ?? new RealityArgs { Sender = this });
+        public virtual void Init() { CreateEvent += e => onCreate?.Call(e); onCreate.Add(e => ClearSemaphore()); }
 
         public Transform GetOrAdd(string name) {
             var o = transform.Find(name); if (o) return o;

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Adventure.Movement {
+namespace Adventure.Motion {
     public class Feet : Adventure.Object {
         bool dash, duck, isLanding;
         float volume = 0.6f;

@@ -47,7 +47,8 @@ namespace Adventure {
         IEnumerable<string> Process(List<string> query) =>
             from elem in query where !string.IsNullOrEmpty(elem) select elem;
 
-        public void Failure(string input, string s="") => LogEvent(new StoryArgs($@"<cmd>{input}</cmd>: {s}".md()));
+        public void Failure(string i, string s="") => LogEvent(new StoryArgs($@"<cmd>{i}</cmd>: {s}".md()));
+
 
         /// Execute : (command, string) => void
         /// When a command is parsed in and evaluated, it is

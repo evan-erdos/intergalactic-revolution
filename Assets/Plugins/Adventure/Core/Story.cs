@@ -11,6 +11,7 @@ using UnityEngine;
 using Adventure.Locales;
 using Adventure.Inventories;
 using Adventure.Puzzles;
+using Object=Adventure.Object;
 
 namespace Adventure {
     public class Story : Object {
@@ -24,31 +25,19 @@ namespace Adventure {
         public Map<Verb> commands {get;set;} = new Map<Verb>();
         public static Map<Room> Rooms = new Map<Room>();
         public static readonly Map<Type> tags = new Map<Type> {
-            ["object"] = typeof(Adventure.Object.Data),
-            ["thing"] = typeof(Adventure.Thing.Data),
-            ["actor"] = typeof(Adventure.Actor.Data),
-            ["person"] = typeof(Adventure.Person.Data),
-            ["player"] = typeof(Adventure.Player.Data),
-            ["area"] = typeof(Adventure.Locales.Area.Data),
-            ["room"] = typeof(Adventure.Locales.Room.Data),
-            ["path"] = typeof(Adventure.Locales.Path.Data),
-            ["door"] = typeof(Adventure.Locales.Door.Data),
-            ["message"] = typeof(Adventure.Message),
-            ["encounter"] = typeof(Adventure.Encounter.Data),
-            ["item"] = typeof(Adventure.Inventories.Item.Data),
-            ["lamp"] = typeof(Adventure.Inventories.Lamp.Data),
-            ["book"] = typeof(Adventure.Inventories.Book.Data),
-            ["bag"] = typeof(Adventure.Inventories.Bag.Data),
-            ["key"] = typeof(Adventure.Inventories.Key.Data),
-            ["weapon"] = typeof(Adventure.Inventories.Weapon.Data),
-            ["button"] = typeof(Adventure.Puzzles.Button.Data),
-            ["lever"] = typeof(Adventure.Puzzles.Lever.Data),
-            ["settings"] = typeof(Adventure.Settings)};
+            ["object"] = typeof(Object.Data), ["thing"] = typeof(Thing.Data),
+            ["actor"] = typeof(Actor.Data), ["person"] = typeof(Person.Data),
+            ["player"] = typeof(Player.Data), ["area"] = typeof(Area.Data),
+            ["room"] = typeof(Room.Data), ["path"] = typeof(Locales.Path.Data),
+            ["door"] = typeof(Door.Data), ["message"] = typeof(Message),
+            ["encounter"] = typeof(Encounter.Data), ["item"] = typeof(Item.Data),
+            ["lamp"] = typeof(Lamp.Data), ["book"] = typeof(Book.Data),
+            ["bag"] = typeof(Bag.Data), ["key"] = typeof(Key.Data),
+            ["weapon"] = typeof(Weapon.Data), ["button"] = typeof(Button.Data),
+            ["lever"] = typeof(Lever.Data), ["settings"] = typeof(Adventure.Settings)};
 
         void Awake() {
             path = $"{Application.streamingAssetsPath}/{root}";
-            // deserializer = YamlReader.GetDefaultDeserializer();
-            // ParseDefaults($"{path}/adventure.yml");
             var everything = FindObjectsOfType(typeof(Thing)) as Thing[];
             foreach (var thing in everything) {
                 var type = thing.GetType();

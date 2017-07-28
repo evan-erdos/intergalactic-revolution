@@ -14,7 +14,6 @@ namespace Adventure {
     public class Menu : Adventure.Object {
         [SerializeField] protected AudioClip click;
         [SerializeField] protected ui::Selectable selection;
-
         public string PlayerName {get;set;} = "Evan Erdos";
         public ShipProfile PlayerShip {get;set;}
 
@@ -23,7 +22,7 @@ namespace Adventure {
         public void Load() => Click(() => Load(PlayerName, PlayerShip, PickSyst()));
         void Load(string name, ShipProfile ship, StarProfile star) => Load(name,ship,star,star.Spobs.Pick());
         void Load(string name, ShipProfile ship, StarProfile star, SpobProfile spob) =>
-            Get<Loader>().Load(() => Manager.OnLoad(name,ship,star,spob), spob.Name);
+            Get<Loader>().Load(() => Manager.OnLoad(ship,star,spob), spob.Name);
 
         public void Continue() => Click(() => LoadGame(Manager.DefaultPilot, Manager.DefaultStar, Manager.DefaultSpob));
         public void LoadGame() => Click(() => LoadGame(Manager.Pilots.ToList().Pick()));
@@ -32,17 +31,14 @@ namespace Adventure {
         public void LoadGame(PilotProfile pilot, StarProfile star, SpobProfile spob) =>
             Get<Loader>().Load(() => Manager.OnLoadGame(pilot,star,spob), spob.Name);
 
-
-        public async void Click(Action then) { AudioSource.PlayClipAtPoint(click,PlayerCamera.Location,0.5f); await 0; then(); }
+        public async void Click(Action f) { AudioSource.PlayClipAtPoint(click,PlayerCamera.Location,0.5f); await 0; f(); }
         StarProfile PickSyst() => Manager.Stars.Keys.ToList().Pick();
 
-        void Awake() => selection.Select();
         void Start() {
+            selection.Select();
             Create(PickSyst().prefab).transform.parent = transform;
-            CameraFade.StartAlphaFade(Color.black,true,1,0);
-            PlayerCamera.main.transform.parent = null;
-            PlayerCamera.main.transform.position = Vector3.zero;
-            PlayerCamera.main.transform.rotation = Quaternion.identity;
+            var cam = PlayerCamera.main.transform;
+            cam.parent = null; cam.position = Vector3.zero; cam.rotation = Quaternion.identity;
         }
     }
 }

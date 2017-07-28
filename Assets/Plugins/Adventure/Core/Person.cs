@@ -10,8 +10,7 @@ using UnityEngine.SceneManagement;
 using ai=UnityEngine.AI;
 using Adventure.Locales;
 using Adventure.Inventories;
-using Adventure.Statistics;
-using Adventure.Movement;
+using Adventure.Motion;
 
 namespace Adventure {
     public class Person : Actor {
@@ -45,8 +44,7 @@ namespace Adventure {
                     from thing in Story.Rooms.Values
                     where thing.Fits(e.Input) && thing is Room select thing;
                 if (!query.Any()) throw new StoryError(Description["cannot nearby room"]);
-                if (query.Count()>1) throw new AmbiguityError(
-                    Description?["many nearby room"], query.Cast<IThing>());
+                if (query.Many()) throw new AmbiguityError(Description?["many nearby room"],query.Cast<IThing>());
                 e.Goal = query.First();
                 if (e.Goal is Thing location) Goto(location);
                 else throw new StoryError($"You can't go to the {e.Goal}.");
@@ -78,11 +76,8 @@ namespace Adventure {
                 (t.position, t.rotation) = (hand.position, hand.rotation);
             if (!agent || !agent.enabled) return;
             agent.SetDestination(WalkTarget.position);
-            motor?.Move(
-                move: (agent.remainingDistance>agent.stoppingDistance)
-                    ? agent.desiredVelocity : Vector3.zero,
-                duck: false,
-                jump: false);
+            var step = (agent.remainingDistance>agent.stoppingDistance)?agent.desiredVelocity:Vector3.zero;
+            motor?.Move(move: step, duck: false, jump: false);
         }
 
         void OnAnimatorIK(int layerIndex) {

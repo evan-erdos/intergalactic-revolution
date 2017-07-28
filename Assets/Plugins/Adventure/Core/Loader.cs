@@ -23,8 +23,7 @@ namespace Adventure {
                 var current = 0;
                 foreach (var scene in scenes) {
                     var task = SceneManager.LoadSceneAsync(scene,LoadSceneMode.Additive);
-                    while (task?.isDone!=true) {
-                        value = (current+task.progress)/scenes.Length; yield return null; }
+                    while (task?.isDone!=true) { value = (current+task.progress)/scenes.Length; yield return null; }
                 } yield return new WaitForSeconds(0.1f); then();
             }
         }

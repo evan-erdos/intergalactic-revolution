@@ -12,10 +12,9 @@ using Adventure.Locales;
 namespace Adventure {
     public class Actor : Thing, IActor {
         new protected Rigidbody rigidbody;
-        [SerializeField] Event<StoryArgs> onKill = new Event<StoryArgs>();
-        [SerializeField] Event<StoryArgs> onGoto = new Event<StoryArgs>();
-        public event AdventureAction<StoryArgs> KillEvent {add{onKill.Add(value);} remove{onKill.Remove(value);}}
-        public event AdventureAction<StoryArgs> GotoEvent {add{onGoto.Add(value);} remove{onGoto.Remove(value);}}
+        [SerializeField] StoryEvent onKill = new StoryEvent();
+        [SerializeField] StoryEvent onGoto = new StoryEvent();
+        public event AdventureAction<StoryArgs> KillEvent, GotoEvent;
         public virtual bool IsDead {get;set;}
         public override float Radius => 16;
         public virtual float Mass => rigidbody.mass;
@@ -30,13 +29,12 @@ namespace Adventure {
         public virtual Transform LookTarget {get;protected set;}
         public override Transform Location {set {
             if (value.GetParent<Room>() is Room o) base.Location = o.Location;
-            else throw new StoryError(Description["cannot goto"]); } }
+            else throw new StoryError(this["cannot goto"]); } }
 
-        async Task OnGoto(StoryArgs e) {
-            Log($"{e.Sender} goes to the {e.Goal}.");
-            WalkTarget.position = e.Goal.Position; await 1; }
+        async Task OnGoto(StoryArgs e) { WalkTarget.position = e.Goal.Position;
+            Log($"{e.Sender} goes to the {e.Goal}."); await 1; }
 
-        async Task OnKill(StoryArgs e) { IsDead = true; Log(Description["death"]); await 1; }
+        async Task OnKill(StoryArgs e) { IsDead = true; Log(this["death"]); await 1; }
 
         public virtual void Take(Thing o) {
             if (o==this) throw new StoryError(this["cannot take self"]);
@@ -46,8 +44,8 @@ namespace Adventure {
         }
 
         public virtual void Drop(Thing thing) {
-            if (!(thing is Item item)) throw new StoryError(Description["cannot drop"]);
-            if (!Items.Contains(item)) throw new StoryError(Description["already drop"]);
+            if (!(thing is Item item)) throw new StoryError(this["cannot drop"]);
+            if (!Items.Contains(item)) throw new StoryError(this["already drop"]);
             item.Drop(); Items.Remove(item);
             item.transform.parent = null;
             item.transform.position = transform.position+Vector3.forward;
@@ -55,8 +53,8 @@ namespace Adventure {
 
         public void Lock(Thing thing) {
             var list = from item in Items where item is Key select item as Key;
-            if (thing is ILockable door && !door.IsLocked) list.ForEach(o => door.Lock(o));
-            else throw new StoryError(Description["cannot lock"]);
+            if (thing is ILockable d && !d.IsLocked) list.ForEach(o => d.Lock(o));
+            else throw new StoryError(this["cannot lock"]);
         }
 
         public void Unlock(Thing thing) {
@@ -64,19 +62,17 @@ namespace Adventure {
             if (thing is ILockable door) list.First(o => o==door.LockKey); }
 
 
-        public virtual void Goto(IThing o) => onGoto?.Call(new StoryArgs {
-            Sender = this, Message = $"go to {o}", Goal = o });
-
+        public virtual void Goto(IThing o) => GotoEvent(new StoryArgs { Sender=this, Message=$"go to {o}", Goal=o });
+        public virtual void Kill(Actor o) => Kill(new StoryArgs { Sender=this, Message=$"kill {o}", Goal=o });
         public override void Do() => Talk();
         public virtual void Take() => Find<Item>().ForEach(o => Take(o));
-        public virtual void Drop() => Items.ForEach(item => Drop(item as Thing));
-        public virtual void Talk() => Log(Description["talk"]);
-        public virtual void Help() => Log(Description["help"]);
-        public virtual void Pray() => Log(Description["prayer"]);
-        public virtual void Stand() => Log(Description["stand"]);
+        public virtual void Drop() => Items.ForEach(o => Drop(o as Thing));
+        public virtual void Talk() => Log(this["talk"]);
+        public virtual void Help() => Log(this["help"]);
+        public virtual void Pray() => Log(this["prayer"]);
+        public virtual void Stand() => Log(this["stand"]);
         public virtual void Hurt(decimal o) => Health -= o;
-        public virtual void Kill(Actor o) => Kill(new StoryArgs { Sender = this, Message = $"kill {o}", Goal = o });
-        public virtual void Sit(IThing o) => Log(Description["sit"]);
+        public virtual void Sit(IThing o) => Log(this["sit"]);
         public virtual void Use(IUsable o) => o.Use();
         public virtual void Find(IThing o) => o.Find();
         public virtual void View(IThing o) => o.View();
@@ -107,17 +103,16 @@ namespace Adventure {
         public virtual void Pray(StoryArgs e=null) => Pray();
         public virtual void Kill(StoryArgs e=null) {
             throw new MoralityError((e.Sender as Thing)["attempt kill"], o =>
-                (o.Sender as Actor).onKill?.Call(e ?? new StoryArgs { Sender = this })); }
-        public virtual void Do(StoryArgs e=null) { if (e.Sender is IThing thing) thing.Do(); }
-        protected void Do<T>(StoryArgs e, Action<Actor,IThing> f) where T : IThing => Do<T>(e,e.Sender.Find<T>(),f);
+                (o.Sender as Actor).KillEvent(e ?? new StoryArgs { Sender=this })); }
+        public virtual void Do(StoryArgs e=null) { if (e.Sender is IThing o) o.Do(); }
+        void Do<T>(StoryArgs e, Action<Actor,IThing> f) where T : IThing => Do<T>(e,e.Sender.Find<T>(),f);
         protected void Do<T>(StoryArgs e, IEnumerable<T> a, Action<Actor,IThing> f) where T : IThing {
             var query =
                 from item in Enumerable.Union(a.Cast<IThing>(), Items.Cast<IThing>())
                 where item.Fits(e.Input) && item is T select item as Thing;
-            if (!query.Any()) throw new StoryError(Description?["cannot nearby thing"]);
-            if (query.Count()>1) throw new AmbiguityError(Description?["many nearby thing"], query.Cast<IThing>());
-            e.Goal = query.First();
-            if (e.Sender is Actor actor) f(actor, e.Goal as Thing);
+            if (!query.Any()) throw new StoryError(this["cannot nearby thing"]);
+            if (query.Many()) throw new AmbiguityError(this["many nearby thing"], query.Cast<IThing>());
+            if (e.Sender is Actor actor) f(actor, (e.Goal=query.First()) as Thing);
             else throw new StoryError($"You can't do that to a {e.Sender}.");
         }
 
@@ -127,8 +122,8 @@ namespace Adventure {
 
         protected override void Awake() { base.Awake();
             rigidbody = Get<Rigidbody>();
-            KillEvent += e => StartAsync(() => OnKill(e));
-            GotoEvent += e => StartAsync(() => OnGoto(e));
+            KillEvent += e => onKill?.Call(e); onKill.Add(e => StartAsync(() => OnKill(e)));
+            GotoEvent += e => onGoto?.Call(e); onGoto.Add(e => StartAsync(() => OnKill(e)));
             WalkTarget = new GameObject($"{name} : walk to").transform;
             LookTarget = new GameObject($"{name} : look at").transform;
             WalkTarget.position = transform.position;
