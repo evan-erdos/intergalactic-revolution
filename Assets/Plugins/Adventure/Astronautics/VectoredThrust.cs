@@ -5,13 +5,14 @@ using System.Collections;
 using Adventure.Astronautics.Spaceships;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class VectoredThrust : Adventure.Object, IShipComponent, IDamageable {
+    public class VectoredThrust : Adventure.Object, IShipPart, IDamageable {
         Spaceship spaceship;
         [SerializeField] float range = 6; // deg
         [SerializeField] protected bool reverse;
+        public bool IsAlive => 0<Health;
         public float Health {get;protected set;} = 100000;
         public void Disable() => enabled = false;
-        public void Damage(float damage) => If ((Health -= damage)<0, Detonate);
+        public void Hit(float damage=0) { if (0<(Health -= damage)) Detonate(); }
         public void Detonate() {
             var rigidbody = GetComponent<Rigidbody>();
             if (!rigidbody) rigidbody = gameObject.AddComponent<Rigidbody>();

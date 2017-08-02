@@ -19,7 +19,7 @@ public class SpaceshipFactory : Adventure.Object {
             await 1; if (!this || !this.enabled) return;
             var instance = Create<Spaceship>(ships.Pick(),locations.Pick().position);
             instance.KillEvent += e => CreateShip();
-            instance.gameObject.name = $"Viper {Random.Range(10,999)}";
+            instance.gameObject.name = $"Speeder {Random.Range(10,999)}";
             await 8;
         }
     }

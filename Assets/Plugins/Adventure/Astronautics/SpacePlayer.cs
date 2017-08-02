@@ -9,23 +9,25 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceActor {
-        FlightArgs args = new FlightArgs();
-        void Start() { args.Sender = this; Ship?.ToggleView(); }
+        FlightArgs e = new FlightArgs();
+        [SerializeField] PilotProfile profile;
+        void Start() { e.Sender = this; Ship?.ToggleView(); }
         public override void OnStartLocalPlayer() => DontDestroyOnLoad(gameObject);
-        protected override void FixedUpdate() { base.FixedUpdate(); Ship?.Move(args); }
-        void Update() => ControlInput(); // if (isLocalPlayer) ControlInput();
+        protected override void FixedUpdate() { base.FixedUpdate(); Ship?.Move(e); }
+        void Update() => ControlInput(); // if (isLocalPlayer) ControlInput(); }
         void ControlInput() { // Manager.PrintInput();
-            (args.Roll, args.Yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Yaw"));
-            (args.Pitch, args.Turbo) = (Input.GetAxis("Pitch"), Input.GetButton("Action")?1:0);
-            (args.Lift, args.Strafe) = (Input.GetAxis("Lift"), Input.GetAxis("Strafe"));
-            args.Thrust = Input.GetAxis("Thrust")-(Input.GetButton("Drag")?2:0);
-            if (Input.GetButton("Fire") || 0.7<Input.GetAxis("Attack")) Ship?.Fire();
+            e.Thrust = Input.GetAxis("Thrust")-(Input.GetButton("Drag")?2:0);
+            // e.Spin = Input.GetButton("Mode")?e.Pitch:0;
+            (e.Roll, e.Pitch, e.Yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Pitch"), Input.GetAxis("Yaw"));
+            if (Input.GetButton("Fire") || 0.8<Input.GetAxis("Attack")) Ship?.Fire();
             if (Input.GetButton("Jump")) Ship?.HyperJump();
             if (Input.GetButtonDown("Target")) Ship?.SelectTarget();
             if (Input.GetButtonDown("Select")) Ship?.SelectSystem();
             if (Input.GetAxis("Cycle")>0) Ship?.SelectWeapon();
-            if (Input.GetAxis("Cycle")<0) Ship?.ChangeMode();
-            if (Input.GetButtonDown("Mode")) Ship?.ToggleView();
+            if (Input.GetAxis("Cycle")<0) Ship?.ToggleView();
+            if (Input.GetButton("Shift")) (e.Roll, e.Yaw, e.Lift, e.Strafe) =
+                (0, Input.GetAxis("Roll"), Input.GetAxis("Lift"), Input.GetAxis("Strafe"));
+            else (e.Lift, e.Strafe) = (0,0);
         }
 
         public override void SetShip(Spaceship o) {

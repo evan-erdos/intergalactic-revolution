@@ -5,11 +5,12 @@ using System.Collections;
 using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class DetachNacelle : Adventure.Object, IShipComponent, IDamageable {
+    public class DetachNacelle : Adventure.Object, IShipPart, IDamageable {
+        public bool IsAlive => 0<Health;
         public float Health => 10000;
         public void Disable() => enabled = true;
-        public void Detach() => Damage(Health+1);
-        public void Damage(float damage) {
+        public void Detach() => Hit(Health+1);
+        public void Hit(float damage=0) {
             if (!enabled || damage<Health) return;
             var rigidbody = GetOrAdd<Rigidbody>();
             var (velocity, angular) = (rigidbody.velocity, rigidbody.angularVelocity);

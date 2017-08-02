@@ -7,11 +7,15 @@ namespace Adventure.Astronautics.Spaceships {
 
     /// ISpaceship : IDamageable
     /// a spaceship which can fly around and fire weapons
-    public interface ISpaceship : ITrackable, IWeapon {
+    public interface ISpaceship : IWeapon, ITrackable, IDamageable {
 
         /// Mass : tonnes
         /// the base mass of the ship, not including cargo
         float Mass {get;}
+
+        /// Shield : kN/m^3
+        /// protective, regenerating shield that avoids major damage
+        float Shield {get;}
 
         /// MoveEvent : event
         /// event for flight motion

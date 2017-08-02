@@ -18,7 +18,7 @@ namespace Adventure.Astronautics.Spaceships {
         public ITrackable Target {get;set;}
         public void Reset() => gameObject.SetActive(true);
         public void Hit(CombatArgs e=null) => HitEvent(e ?? new CombatArgs { Sender=this, Damage=Damage });
-        void Hit(IDamageable o) { if (o!=null) o.Damage(Damage); Hit(); }
+        void Hit(IDamageable o) { if (o!=null) o.Hit(Damage); Hit(); }
         void OnHit(CombatArgs e) { Create(particles); gameObject.SetActive(false); }
 
         public void Fire() => Fire(rigidbody.position, rigidbody.velocity);

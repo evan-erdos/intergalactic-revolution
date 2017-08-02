@@ -41,8 +41,8 @@ namespace Adventure {
 
         /// Process : (string) => string[]
         /// input taken directly from the user
-        public List<string> Process(string input) => Process(new List<string>(input
-            .Trim().ToLower().Replace("\bthe\b","").Replace("\ba\b","").Split('.'))).ToList();
+        public List<string> Process(string input) => Process(new List<string>(
+            input.Trim().ToLower().Replace("\bthe\b","").Replace("\ba\b","").Split('.'))).ToList();
 
         IEnumerable<string> Process(List<string> query) =>
             from elem in query where !string.IsNullOrEmpty(elem) select elem;

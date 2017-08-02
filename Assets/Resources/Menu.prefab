@@ -2878,11 +2878,8 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  pilot: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
-  star: {fileID: 11400000, guid: 1b26d6e8d01b54e17881535740ae4c05, type: 2}
-  spob: Station Alpha A
   click: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
   selection: {fileID: 114782742824377492}
 --- !u!114 &114024198996980388
@@ -3090,7 +3087,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114479314239987430}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114016473383412500}
+        m_MethodName: HostGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114121202655774646

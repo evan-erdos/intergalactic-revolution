@@ -15,21 +15,21 @@ MonoBehaviour:
   Name: Starhawk 1071
   CargoSpace: 30
   Mass: 22
-  Health: 14000
+  Health: 12000
   EnginePower: 400
   RollEffect: 0.2
   PitchEffect: 0.15
   YawEffect: 0.3
   SpinEffect: 0.4
   ThrottleEffect: 0.5
-  BrakesEffect: 100
+  BrakesEffect: 50
   AeroEffect: 1
   DragEffect: 0.01
-  EnergyThrust: 1000
+  EnergyThrust: 600
   EnergyCapacity: 2000
   EnergyLoss: 60
-  EnergyGain: 20
-  TopSpeed: 900
+  EnergyGain: 40
+  TopSpeed: 520
   ManeuveringEnergy: 160
   Pivots:
   - {x: 0, y: 1.6, z: 0.3}

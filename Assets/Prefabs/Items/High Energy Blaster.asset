@@ -14,10 +14,10 @@ MonoBehaviour:
   prefab: {fileID: 1876452983408560, guid: 2e545de8eee1843518544a82685a5779, type: 2}
   Name: High Energy Blaster
   Health: 1000
-  Force: 6000
-  Rate: 10
-  Spread: 100
+  Force: 1000
+  Rate: 12
+  Spread: 0.01
   Range: 1000
-  Angle: 60
+  Angle: 10
   Projectile: {fileID: 1082745319266606, guid: e9c0dbb3895164086afb125ab8795e88, type: 2}
   sound: {fileID: 11400000, guid: b8b39b482e19f5e40802a8e14866f17f, type: 2}

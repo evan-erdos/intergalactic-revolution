@@ -2747,24 +2747,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1655304343309778
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4530319320417970}
-  - component: {fileID: 114394026157609380}
-  - component: {fileID: 82673870742739078}
-  - component: {fileID: 95141062174612768}
-  m_Layer: 9
-  m_Name: Radar Missile Launcher
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1657981739088506
 GameObject:
   m_ObjectHideFlags: 1
@@ -4210,6 +4192,8 @@ Transform:
   - {fileID: 4829749230350794}
   - {fileID: 4499349088617390}
   - {fileID: 4904714604812178}
+  - {fileID: 4588239497706688}
+  - {fileID: 4486101384708140}
   m_Father: {fileID: 4582822863361176}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4466,7 +4450,7 @@ Transform:
   - {fileID: 4103558458972202}
   - {fileID: 4964569032873746}
   m_Father: {fileID: 4582822863361176}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -180, y: 0, z: 14.999985}
 --- !u!4 &4202740854699494
 Transform:
@@ -5480,14 +5464,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1245720534337554}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -2.373, y: 1.2509999, z: 3.5509996}
-  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4222369565086612}
   - {fileID: 4306740168766702}
-  m_Father: {fileID: 4582822863361176}
-  m_RootOrder: 7
+  m_Father: {fileID: 4122136666023796}
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
 --- !u!4 &4489242554391242
 Transform:
@@ -5603,19 +5587,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4143452781322270}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4530319320417970
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1655304343309778}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -0.00017976761, y: -1.4999919, z: -2.0000525}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4582822863361176}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4534420728922980
 Transform:
@@ -5737,12 +5708,9 @@ Transform:
   m_Children:
   - {fileID: 4279463757601836}
   - {fileID: 4122136666023796}
-  - {fileID: 4530319320417970}
+  - {fileID: 4196787062599654}
   - {fileID: 4016709054995004}
   - {fileID: 4932402781412676}
-  - {fileID: 4588239497706688}
-  - {fileID: 4196787062599654}
-  - {fileID: 4486101384708140}
   m_Father: {fileID: 4096627940895732}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -5758,8 +5726,8 @@ Transform:
   m_Children:
   - {fileID: 4310146203142174}
   - {fileID: 4761860241400478}
-  m_Father: {fileID: 4582822863361176}
-  m_RootOrder: 5
+  m_Father: {fileID: 4122136666023796}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4596107082200946
 Transform:
@@ -7233,7 +7201,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7297,7 +7265,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7329,7 +7297,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7361,7 +7329,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7393,7 +7361,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7745,7 +7713,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7777,7 +7745,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8001,7 +7969,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8033,7 +8001,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8449,7 +8417,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 14609f49fffb54ff3ab4d6826192ba3f, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8641,7 +8609,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8961,7 +8929,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9185,7 +9153,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9473,7 +9441,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 80037dbe4aa1a403c90feaafcca5e1a8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10327,86 +10295,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!82 &82673870742739078
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1655304343309778}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!82 &82962113340841264
 AudioSource:
   m_ObjectHideFlags: 1
@@ -10513,23 +10401,6 @@ Animator:
   m_GameObject: {fileID: 1431798685936340}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 3c38622688ca79e4ebe139bbc57558bd, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95141062174612768
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1655304343309778}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -10986,6 +10857,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 0.3
   heading: 0
 --- !u!114 &114023213094212860
@@ -10999,6 +10875,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114044035377618662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11010,9 +10891,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 1
-  reverse: 0
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114053827186969446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11024,6 +10907,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af09837023f44e51a97e13b01062df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1.1
   sides: 48
 --- !u!114 &114081810392357046
@@ -11095,6 +10983,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 3
   heading: 0
 --- !u!114 &114164317942838392
@@ -11121,6 +11014,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4e905f6008f4615b02b0ba04a1563f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
   step: 0.2
 --- !u!114 &114170001970146562
@@ -11134,6 +11032,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e4e905f6008f4615b02b0ba04a1563f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
   step: 0.2
 --- !u!114 &114193479292646552
@@ -11160,6 +11063,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114210387748788948
 MonoBehaviour:
@@ -11198,6 +11106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 1000
 --- !u!114 &114224575947261944
 MonoBehaviour:
@@ -11236,9 +11149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 1
-  reverse: 1
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114265759664162160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11250,9 +11165,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 1
-  reverse: 1
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114269207390289702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11327,6 +11244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114306345196121586
 MonoBehaviour:
@@ -11339,6 +11261,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 0.3
   heading: 1
 --- !u!114 &114366330614157646
@@ -11352,7 +11279,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293f144697b474326b72409ee6bdaa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 20
+  step: 0.1
 --- !u!114 &114372267735421698
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11364,6 +11297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114374466756290288
 MonoBehaviour:
@@ -11388,7 +11326,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293f144697b474326b72409ee6bdaa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
+  step: 0.1
 --- !u!114 &114378534260511468
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11413,6 +11357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1
   heading: 1
 --- !u!114 &114393389708974680
@@ -11426,21 +11375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 2
-  reverse: 0
-  landing: 1
---- !u!114 &114394026157609380
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1655304343309778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92f34bc2caca3474caa216af24d65321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: 23e3db1d0f110473091cac3954c61be1, type: 2}
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114397300412830742
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11476,6 +11415,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c7c84eb74fa43a8833927c533d0542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   m_EngineSound: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
   boostSound: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
   m_EngineMinThrottlePitch: 0.4
@@ -11505,6 +11449,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0edcd35c28cff43e895b966533b7f9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1.5
   sides: 6
 --- !u!114 &114455039852132746
@@ -11531,6 +11480,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114464297648408282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11542,6 +11496,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114466427940945360
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11553,6 +11512,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 1000
 --- !u!114 &114482475803755738
 MonoBehaviour:
@@ -11565,9 +11529,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 1
-  reverse: 0
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114485960413602016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11579,6 +11545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08eb533e16f24fe78cc1f55c678f4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 11
   step: 0.2
 --- !u!114 &114495049304484812
@@ -11592,6 +11563,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08eb533e16f24fe78cc1f55c678f4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
   step: 0.2
 --- !u!114 &114495130859437800
@@ -11605,6 +11581,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0edcd35c28cff43e895b966533b7f9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1.5
   sides: 6
 --- !u!114 &114496926958015566
@@ -11618,6 +11599,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 600
 --- !u!114 &114502005741148968
 MonoBehaviour:
@@ -11655,6 +11641,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114515288076683452
 MonoBehaviour:
@@ -11667,7 +11658,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f34bc2caca3474caa216af24d65321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   profile: {fileID: 11400000, guid: eb6215ecd8a8a4df2ae5b36de7b9fbd1, type: 2}
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114517808611433966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11691,6 +11692,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 0.1
   heading: 0
 --- !u!114 &114530852444372772
@@ -11704,9 +11710,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 3
-  reverse: 0
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114532983160843820
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11730,12 +11738,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9547ccf7aed734ecea0fbf814e04b3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   profile: {fileID: 11400000, guid: d722d7de986a92942b10142a2f21a116, type: 2}
-  blasters:
-  - {fileID: 114515288076683452}
-  - {fileID: 114799414268625230}
-  rockets:
-  - {fileID: 114394026157609380}
+  onKill:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.ObjectEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onMove:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.FlightEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onJump:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.TravelEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114548266047791752
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11760,6 +11793,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114597533276396112
 MonoBehaviour:
@@ -11772,9 +11810,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 3
-  reverse: 1
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114621111310054294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11786,6 +11826,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114633593472075964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11797,7 +11842,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293f144697b474326b72409ee6bdaa02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
+  step: 0.1
 --- !u!114 &114639483258649388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11809,6 +11860,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eb4756e275aa480e8a7e70f7887ea70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   sides: 32
   radius: 1.125
 --- !u!114 &114643732060046958
@@ -11822,6 +11878,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114664605101762882
 MonoBehaviour:
@@ -11834,6 +11895,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114689247061873194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11845,6 +11911,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 600
 --- !u!114 &114704230765680386
 MonoBehaviour:
@@ -11857,6 +11928,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114708438610274264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11868,6 +11944,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114709935753371884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11879,6 +11960,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a08eb533e16f24fe78cc1f55c678f4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   length: 10
   step: 0.2
 --- !u!114 &114712501167965002
@@ -11892,6 +11978,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 3
   heading: 1
 --- !u!114 &114716676598326418
@@ -11938,6 +12029,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da6cc48468d5490ab193fbc91eb2ee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114774255944575344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12074,7 +12170,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f34bc2caca3474caa216af24d65321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   profile: {fileID: 11400000, guid: eb6215ecd8a8a4df2ae5b36de7b9fbd1, type: 2}
+  onFire:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114810988833166084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12086,6 +12192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114845544842532398
 MonoBehaviour:
@@ -12142,6 +12253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1
   heading: 0
 --- !u!114 &114855743041291380
@@ -12168,6 +12284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eb4756e275aa480e8a7e70f7887ea70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   sides: 32
   radius: 1.125
 --- !u!114 &114917685039425312
@@ -12181,6 +12302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9d93d5cc6b940ed9a5a8c4e7e99291, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   health: 100
 --- !u!114 &114934795164776562
 MonoBehaviour:
@@ -12193,6 +12319,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af09837023f44e51a97e13b01062df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 1.1
   sides: 48
 --- !u!114 &114939869373242526
@@ -12206,6 +12337,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e59f961b7eb04d6596804395540dda6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114954444097200570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12217,6 +12353,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1976af7ad29774b1d8b63107e1ae9e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   radius: 0.1
   heading: 1
 --- !u!114 &114962292087960762
@@ -12355,9 +12496,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1639fe4d22a5450bbec276a90d847ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: 2
-  reverse: 1
-  landing: 1
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!120 &120002586249522206
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -22942,7 +23085,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -941162799
+  randomSeed: -1512265433
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -25111,12 +25254,12 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 1
     light: {fileID: 108901593304630554}
     randomDistribution: 1
-    color: 1
-    range: 0
+    color: 0
+    range: 1
     intensity: 0
     rangeCurve:
       minMaxState: 0
@@ -25196,7 +25339,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 4
+    maxLights: 6
   TrailModule:
     enabled: 0
     ratio: 1
@@ -25910,7 +26053,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 67703561
+  randomSeed: -1845190973
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -28851,7 +28994,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 2
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
   randomSeed: 198212178
@@ -31810,7 +31953,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1321214123
+  randomSeed: -82513441
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -33979,12 +34122,12 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 1
     light: {fileID: 108991727290026018}
     randomDistribution: 1
-    color: 1
-    range: 0
+    color: 0
+    range: 1
     intensity: 0
     rangeCurve:
       minMaxState: 0
@@ -34064,7 +34207,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 4
+    maxLights: 6
   TrailModule:
     enabled: 0
     ratio: 1
@@ -34778,7 +34921,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1612963779
+  randomSeed: 1110177603
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -61526,7 +61669,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -537208901
+  randomSeed: -1144919541
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -76338,10 +76481,10 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 2
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -276362025
+  randomSeed: 1060899552
   InitialModule:
     serializedVersion: 3
     enabled: 1

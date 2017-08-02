@@ -16,8 +16,8 @@ MonoBehaviour:
   Health: 1000
   Force: 3000
   Rate: 5
-  Spread: 10
-  Range: 600
-  Angle: 30
+  Spread: 0.01
+  Range: 400
+  Angle: 20
   Projectile: {fileID: 1082745319266606, guid: dec1899e6431745f7b6e201e96a0d650, type: 2}
   sound: {fileID: 11400000, guid: dbe0598a5e6391348a78fa5dabdeea9f, type: 2}

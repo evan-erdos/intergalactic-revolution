@@ -20,9 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4625579520078798}
   - component: {fileID: 114272691579209216}
+  - component: {fileID: 114079700339823460}
   - component: {fileID: 114637913450739232}
   - component: {fileID: 114353199547254354}
-  - component: {fileID: 114079700339823460}
+  - component: {fileID: 114298587720676864}
   - component: {fileID: 114716813808842784}
   m_Layer: 0
   m_Name: Manager
@@ -150,7 +151,7 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   prefabs:
     menu: {fileID: 1778535296600916, guid: f39d95578a4b8f54dbc0a78f7cbb4d0c, type: 2}
@@ -192,6 +193,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d83d5f5c77531432c9dd0a95da8cb6eb, type: 2}
   - {fileID: 11400000, guid: d722d7de986a92942b10142a2f21a116, type: 2}
   - {fileID: 11400000, guid: cc8ca331692a143a1a971645e54219e2, type: 2}
+--- !u!114 &114298587720676864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1765624244901394}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1553936188, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BroadcastPort: 47777
+  m_BroadcastKey: 2222
+  m_BroadcastVersion: 1
+  m_BroadcastSubVersion: 1
+  m_BroadcastInterval: 1000
+  m_UseNetworkManager: 0
+  m_BroadcastData: HELLO
+  m_ShowGUI: 0
+  m_OffsetX: 0
+  m_OffsetY: 0
 --- !u!114 &114353199547254354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -236,6 +258,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  showGUI: 1
+  showGUI: 0
   offsetX: 32
   offsetY: 32

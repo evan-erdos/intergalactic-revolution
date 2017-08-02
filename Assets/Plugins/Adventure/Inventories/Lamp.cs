@@ -31,8 +31,7 @@ namespace Adventure.Inventories {
 
         IEnumerator LateSetBool(string s, bool t) {
             yield return new WaitForEndOfFrame();
-            if (animator && animator.enabled) animator.SetBool(s,t);
-        }
+            if (animator && animator.enabled) animator.SetBool(s,t); }
 
         public override void Take(StoryArgs e=null) { base.Take(e);
             renderers.ForEach(o => o.enabled = true); Wear(); }

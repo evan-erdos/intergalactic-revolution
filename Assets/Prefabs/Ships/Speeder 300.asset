@@ -13,26 +13,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1988634568274006, guid: 0558eda40f9834a369eaaa793bc60751, type: 2}
   Name: Speeder 300
-  CargoSpace: 40
+  CargoSpace: 10
   Mass: 20
   Health: 10000
-  EnginePower: 2000
+  EnginePower: 200
   RollEffect: 0.2
   PitchEffect: 0.15
   YawEffect: 0.4
   SpinEffect: 1
   ThrottleEffect: 2
-  BrakesEffect: 2
+  BrakesEffect: 30
   AeroEffect: 2
   DragEffect: 0.1
-  EnergyThrust: 2500
+  EnergyThrust: 450
   EnergyCapacity: 600
-  EnergyLoss: 60
-  EnergyGain: 10
-  TopSpeed: 1500
-  ManeuveringEnergy: 75
+  EnergyLoss: 50
+  EnergyGain: 45
+  TopSpeed: 300
+  ManeuveringEnergy: 100
   Pivots:
-  - {x: 0, y: 0.375, z: 0.62}
+  - {x: 0, y: 0.25, z: -1}
   - {x: 0, y: 4, z: -20}
   hitSounds:
   - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}

@@ -7,9 +7,7 @@ using UnityEngine;
 namespace Adventure.Inventories {
     public class Gun : Weapon {
         public bool isAuto, isBurst, isPrimary;
-        public uint
-            countAmmo = 24, sizeClip = 7, countLoaded = 7,
-            countBursts = 1, fovScoped = 30, range = 128;
+        public uint countAmmo = 24, sizeClip = 7, countLoaded = 7, countBursts = 1, fovScoped = 30, range = 128;
         public float
             rateSpread = 0.1f, rateCool = 0.05f, rateScope = 0.06f, rateMax = 0.3f,
             spread = 0.1f, spreadAimed = 0.1f, spreadMax = 0.1f, spreadJam = 1,

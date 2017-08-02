@@ -26,6 +26,7 @@ namespace Adventure {
 
         public void Continue() => Click(() => LoadGame(Manager.DefaultPilot, Manager.DefaultStar, Manager.DefaultSpob));
         public void LoadGame() => Click(() => LoadGame(Manager.Pilots.ToList().Pick()));
+        public void HostGame() => Click(() => Manager.LoadNetGame());
         public void LoadGame(PilotProfile pilot) => LoadGame(pilot, PickSyst());
         public void LoadGame(PilotProfile pilot, StarProfile star) => LoadGame(pilot, star, star.Spobs.Pick());
         public void LoadGame(PilotProfile pilot, StarProfile star, SpobProfile spob) =>

@@ -16,6 +16,7 @@ namespace Adventure.Inventories {
         public virtual void Attack() => Log($"You attack with the {name}");
         public void Stow(StoryArgs e=null) { }
         public void Wear(StoryArgs e=null) { }
+
         new public class Data : Item.Data {
             public float rate {get;set;}
             public override Object Deserialize(Object o) {

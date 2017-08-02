@@ -261,10 +261,10 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   ships:
-  - {fileID: 1670214515555048, guid: 6cd5c7a763063448f9d44373671addb6, type: 2}
+  - {fileID: 1988634568274006, guid: c53b14672c4adb744926601d520802ae, type: 2}
   locations:
   - {fileID: 198958168}
 --- !u!4 &280016243 stripped
@@ -889,7 +889,7 @@ GameObject:
   - component: {fileID: 1293747258}
   - component: {fileID: 1293747257}
   m_Layer: 0
-  m_Name: Hyperspace Barrier
+  m_Name: Boundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -934,7 +934,12 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.ObjectEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &1312315885
 GameObject:

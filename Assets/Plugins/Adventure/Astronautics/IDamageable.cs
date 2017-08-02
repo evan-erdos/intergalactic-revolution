@@ -8,7 +8,11 @@ namespace Adventure.Astronautics {
 
     /// IDamageable : IObject
     /// an object which can be damaged and destroyed
-    public interface IDamageable {
+    public interface IDamageable : IObject {
+
+        /// IsAlive : bool
+        /// if the thing is still functional / alive or not
+        bool IsAlive {get;}
 
         /// Health : real
         /// a measure of how much more damage the object can take
@@ -16,6 +20,6 @@ namespace Adventure.Astronautics {
 
         /// Damage : (real) => lower health
         /// removes the value of damage from this object's health
-        void Damage(float damage);
+        void Hit(float damage=0);
     }
 }

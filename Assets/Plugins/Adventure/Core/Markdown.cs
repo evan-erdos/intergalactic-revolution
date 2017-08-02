@@ -20,8 +20,7 @@ namespace Adventure {
         struct Token {
             public TokenType Type;
             public string Value;
-            public Token(TokenType type, string value) {
-                (this.Type, this.Value) = (type, value); }
+            public Token(TokenType type, string value) { (this.Type, this.Value) = (type, value); }
         }
 
         const int nestDepth = 6;

@@ -7,9 +7,10 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using Adventure.Astronautics;
 using Adventure.Astronautics.Spaceships;
 
-namespace Adventure.Astronautics {
+namespace Adventure {
     public class Manager : Adventure.Object {
         [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
         [SerializeField] protected AdventureProfiles profiles = new AdventureProfiles();
@@ -42,6 +43,7 @@ namespace Adventure.Astronautics {
         public static new PlayerCamera camera {get;protected set;}
         public static PilotProfile[] Pilots {get;protected set;}
         public static ShipProfile[] Ships {get;protected set;}
+        public static List<NetworkStartPosition> StartPositions {get;protected set;} = new List<NetworkStartPosition>();
         public static Map<StarProfile,StarProfile[]> Stars {get;} = new Map<StarProfile,StarProfile[]>();
         public static readonly Map<Type> tags = new Map<Type> {
             ["object"] = typeof(Adventure.Object), ["star"] = typeof(StarSystem),
@@ -84,6 +86,14 @@ namespace Adventure.Astronautics {
         //     SceneManager.UnloadSceneAsync("Menu");
         // }
 
+        // if (spawnPositions.Any()) {
+        //     if (spawnMethod==PlayerSpawnMethod.Random)
+        //         return spawnPositions[Random.Range(0, spawnPositions.Count)];
+        //     if (spawnMethod==PlayerSpawnMethod.RoundRobin) {
+        //         if (s_StartPositionIndex >= spawnPositions.Count) s_StartPositionIndex = 0;
+        //         return spawnPositions[s_StartPositionIndex++];
+        //     }
+        // }
 
         public static void Jump(SpobProfile spob) {
             if (spob is null) spob = DefaultSpob;
@@ -104,7 +114,7 @@ namespace Adventure.Astronautics {
             PlayerCamera.atmosphere = spob.Star.atmosphere;
             // PlayerCamera.Target = ship.transform;
             NetworkServer.SpawnObjects();
-            NetworkManager.singleton.ServerChangeScene(scene.name);
+            network.ServerChangeScene(scene.name);
         }
 
 
@@ -163,7 +173,7 @@ namespace Adventure.Astronautics {
 
 
         public static void OnLoad(ShipProfile shipData, StarProfile star, SpobProfile spob) {
-            StartHost();
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()); StartHost();
             var sun = Create(star.prefab);
             var pilot = Pilots.ToList().Pick();
             var user = Create<SpacePlayer>(pilot.prefab);
@@ -178,9 +188,8 @@ namespace Adventure.Astronautics {
             DontDestroyOnLoad(user.gameObject);
             PlayerCamera.atmosphere = star.atmosphere;
             PlayerCamera.Target = ship.transform;
-            var list = new List<NetworkStartPosition>();
-            list.Add(FindObjectsOfType<NetworkStartPosition>());
-            var spawn = list.Pick();
+            StartPositions = FindObjectsOfType<NetworkStartPosition>().ToList();
+            var spawn = StartPositions.Pick();
             ship.JumpEvent += e => Manager.Jump(ship.Destination);
             ship.transform.position = spawn.transform.position;
             ship.transform.rotation = spawn.transform.rotation;
@@ -190,29 +199,70 @@ namespace Adventure.Astronautics {
 
 
         public static void OnLoadGame(PilotProfile pilot, StarProfile star, SpobProfile spob) {
-            StartHost();
-            // var star = Create<StarSystem>(star.prefab);
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()); StartHost();
             var sun = Create(star.prefab);
             var user = Create<SpacePlayer>(pilot.prefab);
             var ship = Create<Spaceship>(pilot.ship.prefab);
             var scene = SceneManager.GetSceneByPath(spob.Name);
             DontDestroyOnLoad(user.gameObject);
             DontDestroyOnLoad(ship.gameObject);
-            // DontDestroyOnLoad(ship.gameObject);
             ship.Spobs = spob.Star.Spobs;
             (sun.name, user.name, user.Ship) = (star.name, pilot.name, ship);
             SceneManager.SetActiveScene(scene);
+            // network.ServerChangeScene(SceneManager.GetActiveScene().name);
             SceneManager.MoveGameObjectToScene(sun.gameObject,scene);
             PlayerCamera.atmosphere = star.atmosphere;
             PlayerCamera.Target = ship.transform;
             Manager.ship = ship;
-            var list = FindObjectsOfType<NetworkStartPosition>().ToList();
-            var spawn = list.Pick();
+            StartPositions = FindObjectsOfType<NetworkStartPosition>().ToList();
+            var spawn = StartPositions.Pick();
             ship.transform.position = spawn.transform.position;
             ship.transform.rotation = spawn.transform.rotation;
             user.SetShip(ship);
             Destroy(menu.gameObject);
         }
+
+        public async static void LoadNetGame() {
+            // var scene = SceneManager.GetSceneByPath(DefaultSpob.Name);
+            var task = SceneManager.LoadSceneAsync(DefaultSpob.Name,LoadSceneMode.Additive);
+            await task; await 0.1;
+            LoadNetGame(DefaultPilot, DefaultStar, DefaultSpob);
+        }
+
+        public static void LoadNetGame(PilotProfile pilot, StarProfile star, SpobProfile spob) {
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene()); StartHost();
+            var sun = Create(star.prefab);
+            var user = Create<SpacePlayer>(pilot.prefab);
+            var ship = Create<Spaceship>(pilot.ship.prefab);
+            var scene = SceneManager.GetSceneByPath(spob.Name);
+            DontDestroyOnLoad(user.gameObject);
+            DontDestroyOnLoad(ship.gameObject);
+            ship.Spobs = spob.Star.Spobs;
+            (sun.name, user.name, user.Ship) = (star.name, pilot.name, ship);
+            SceneManager.SetActiveScene(scene);
+            network.ServerChangeScene(SceneManager.GetActiveScene().name);
+            NetworkServer.Spawn(user.gameObject);
+            NetworkServer.Spawn(ship.gameObject);
+            NetworkServer.SpawnObjects();
+            SceneManager.MoveGameObjectToScene(sun.gameObject,scene);
+            PlayerCamera.atmosphere = star.atmosphere;
+            PlayerCamera.Target = ship.transform;
+            Manager.ship = ship;
+            StartPositions = FindObjectsOfType<NetworkStartPosition>().ToList();
+            var spawn = StartPositions.Pick();
+            ship.transform.position = spawn.transform.position;
+            ship.transform.rotation = spawn.transform.rotation;
+            user.SetShip(ship);
+            Destroy(menu.gameObject);
+        }
+
+
+        // public virtual void OnServerAddPlayer(NetworkConnection c, short id) {
+        //     var location = StartPositions.Pick();
+        //     var player = Create(prefabs.user, location.position, location.rotation);
+        //     network.AddPlayerForConnection(c, player, id);
+        // }
+
 
 
         // T Deserialize<T>(EventReader o) => deserializer.Deserialize<T>(o);

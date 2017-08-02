@@ -69,7 +69,7 @@ namespace Adventure.Astronautics.Spaceships {
             var (position,distance) = (target.position, target.position-transform.position);
             var velocity = Get<Rigidbody>().velocity; velocity = Vector3.zero; // haha nope
             var prediction = position+speed*distance.magnitude/rate;
-            foreach (var o in weapons) o.Fire(new AttackArgs {
+            foreach (var o in weapons) o.Fire(new CombatArgs {
                 Sender = this, Target = target.Get<ITrackable>(), Position = position,
                 Velocity = target.Get<Rigidbody>().velocity, Displacement = velocity });
             bool PreFire() => target?.IsNear(transform,dist)==false

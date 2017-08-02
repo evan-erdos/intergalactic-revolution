@@ -2175,7 +2175,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114012488731724358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2187,7 +2197,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114038120682193888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2231,7 +2251,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114122391063006966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2262,7 +2292,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114280343420939118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2274,8 +2314,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc5c84736e0174982b3ac493419448ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   damage: 888
-  spread: 80
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  spread: 60
 --- !u!114 &114332835276318088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2306,7 +2356,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114357583607348730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2356,7 +2416,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114496279283770152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2368,7 +2438,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114514635512567840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2380,7 +2460,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114565809848926870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2392,7 +2482,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114608332886705218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2404,7 +2504,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114680131861731472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2437,7 +2547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114792949456072836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2487,7 +2607,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 551
+  onCreate:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  damage: 71
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!135 &135145762528764736
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -2687,13 +2817,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -870614784
+  randomSeed: 594690885
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2732,7 +2862,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5648,13 +5778,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1114003496
+  randomSeed: 20169486
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5693,7 +5823,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -8609,13 +8739,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 2073175315
+  randomSeed: -2009134020
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -8654,7 +8784,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11570,13 +11700,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -451546368
+  randomSeed: 2001583651
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11615,7 +11745,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14531,13 +14661,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2115457351
+  randomSeed: -1619046471
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -14576,7 +14706,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -17492,13 +17622,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2092791612
+  randomSeed: 2099899186
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -17537,7 +17667,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -20453,13 +20583,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -684159782
+  randomSeed: -738467767
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -20498,7 +20628,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -23414,13 +23544,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1127436762
+  randomSeed: 970219258
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -23459,7 +23589,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -26375,13 +26505,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1726460035
+  randomSeed: 726826531
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -26420,7 +26550,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -29336,13 +29466,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 703197801
+  randomSeed: -1702138276
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -29381,7 +29511,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -32297,13 +32427,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 138582876
+  randomSeed: 1241179413
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -32342,7 +32472,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -35258,13 +35388,13 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1365699318
+  randomSeed: 2075713835
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -35303,7 +35433,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       minMaxState: 3
-      scalar: 80
+      scalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:

@@ -42,7 +42,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1082745319266606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 280.02, y: 679.68, z: -1261.34}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -94,7 +94,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1082745319266606}
   serializedVersion: 2
-  m_Mass: 0.1
+  m_Mass: 0.02
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -160,13 +160,13 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  damage: 2000
+  damage: 1000
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114913553834421174
 MonoBehaviour:
@@ -244,7 +244,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1041012950
+  randomSeed: -734366666
   InitialModule:
     serializedVersion: 3
     enabled: 1

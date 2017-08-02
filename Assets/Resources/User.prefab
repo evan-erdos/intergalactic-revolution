@@ -56,8 +56,9 @@ MonoBehaviour:
   onCreate:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
+    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  profile: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
 --- !u!114 &114386858864168352
 MonoBehaviour:
   m_ObjectHideFlags: 1

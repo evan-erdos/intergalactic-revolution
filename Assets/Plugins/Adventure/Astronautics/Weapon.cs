@@ -15,8 +15,8 @@ namespace Adventure.Astronautics {
         protected new AudioSource audio;
         protected new Rigidbody rigidbody;
         [SerializeField] protected BlasterProfile profile;
-        [SerializeField] protected AttackEvent onFire = new AttackEvent();
-        public event AdventureAction<AttackArgs> FireEvent;
+        [SerializeField] protected CombatEvent onFire = new CombatEvent();
+        public event AdventureAction<CombatArgs> FireEvent;
         public bool IsDisabled {get;protected set;} = false;
         public float Health {get;protected set;} = 1000; // N
         public float Force {get;protected set;} = 4000; // N
@@ -35,34 +35,34 @@ namespace Adventure.Astronautics {
 
         public virtual void Disable() => IsDisabled = true;
         public virtual void Enable() => IsDisabled = false;
-        public void Damage(float damage) => If ((Health-=damage)<0, () => Kill());
+        public void Damage(float damage) { if ((Health-=damage)<0) Kill(); }
         public void Kill() => (rigidbody.isKinematic,transform.parent,IsDisabled) = (false,null,true);
-        public virtual void Fire(AttackArgs e=null) {
+        public virtual void Fire(CombatArgs e=null) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
                 Barrel = barrels[++next%barrels.Count].position;
+                var start = Barrel+transform.forward*Time.fixedDeltaTime;
                 var (position, velocity, initial) = (e.Position, e.Velocity, e.Displacement);
-                var (direction, random) = (position-Barrel, Random.Range(-0.01f,0.01f));
+                var (direction, random) = (position-start, Random.Range(-0.01f,0.01f));
                 var (distance, heading) = (direction.magnitude, e.Velocity.normalized);
                 var variation = (heading*random+Random.insideUnitSphere*Spread)*distance;
                 var rotation = Quaternion.LookRotation(transform.forward, transform.up);
                 var projectile = projectiles.Create<IProjectile>(Barrel, rotation);
                 if (projectile is GuidedMissile o) o.Target = Target;
-                var start = Barrel+transform.forward*Time.fixedDeltaTime;
                 var time = distance/Force/projectile.Get<Rigidbody>().mass;
-                var prediction = position+velocity.normalized*time;
-                var solution = start - position + prediction + variation;
-                rotation = Quaternion.LookRotation(solution, transform.up);
-                // if (name=="Diamond Spray Cannon") {
-                //     Debug.DrawLine(position, solution, Color.white, 1, true);
+                var prediction = position + velocity.normalized*time + variation;
+                if (prediction.magnitude>float.Epsilon)
+                    rotation = Quaternion.LookRotation(prediction, transform.up);
+                // if (LayerMask.LayerToName(gameObject.layer)=="Player") {
+                //     Debug.DrawLine(position, prediction, Color.white, 1, true);
                 //     Debug.DrawLine(start, position, Color.blue, 1, true);
-                //     Debug.DrawLine(start, solution, Color.red, 1, true); }
+                //     Debug.DrawLine(start, prediction, Color.red, 1, true); }
                 if (!transform.IsFacing(rotation,Angle))
-                    solution = transform.forward*Force + rigidbody.velocity + variation;
-                projectile?.Fire(start, solution, initial);
-                FireEvent(new AttackArgs {
+                    prediction = transform.forward*Force + rigidbody.velocity + variation;
+                projectile?.Fire(start, prediction, initial);
+                FireEvent(new CombatArgs {
                     Sender=this, Target=Target, Damage=projectile.Damage,
-                    Position=start, Velocity=solution, Displacement=initial });
+                    Position=start, Velocity=prediction, Displacement=initial });
                 yield return new WaitForSeconds(1f/(Rate*barrels.Count));
             }
         }

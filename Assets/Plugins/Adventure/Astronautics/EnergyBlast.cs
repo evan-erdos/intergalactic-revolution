@@ -9,6 +9,7 @@ namespace Adventure.Astronautics.Spaceships {
         new protected Rigidbody rigidbody;
         new protected Collider collider;
         new protected Renderer renderer;
+        LayerMask mask;
         [SerializeField] protected float damage = 50;
         [SerializeField] protected CombatEvent onHit = new CombatEvent();
         public event AdventureAction<CombatArgs> HitEvent;
@@ -21,6 +22,7 @@ namespace Adventure.Astronautics.Spaceships {
             If<ParticleSystem>(o => o?.Stop()); }
 
         protected virtual void OnHit(CombatArgs e) {
+            if (e.Target is IDamageable d) d.Hit(e.Damage);
             gameObject.SetActive(true); If<ParticleSystem>(o => o?.Play());
             (renderer.enabled, collider.enabled, rigidbody.isKinematic) = (false,false,true); }
 
@@ -32,15 +34,24 @@ namespace Adventure.Astronautics.Spaceships {
             rigidbody.AddForce(initial, ForceMode.VelocityChange); rigidbody.AddForce(velocity); }
 
         protected virtual void Awake() {
+            mask = (LayerMask.LayerToName(gameObject.layer)=="Player"
+                ? LayerMask.NameToLayer("NPC") : LayerMask.NameToLayer("Player"));
             (rigidbody, collider, renderer) = (Get<Rigidbody>(), Get<Collider>(), Get<Renderer>());
             HitEvent += e => onHit?.Call(e); onHit.Add(e => OnHit(e));
         }
 
+        void FixedUpdate() { if (Physics.Raycast(
+            origin: rigidbody.position, direction: rigidbody.velocity,
+            hitInfo: out var hit, layerMask: mask, maxDistance: rigidbody.velocity.magnitude))
+                Hit(new CombatArgs { Sender=this, Target=hit.rigidbody?.GetParent<IDamageable>(),
+                    Damage=Damage, Position=hit.point, Displacement=hit.normal }); }
+
         void OnCollisionEnter(Collision c) {
-            c.rigidbody?.GetParent<IDamageable>()?.Damage(Damage);
-            var hit = c.contacts.First();
+            var (rb, hit) = (c.rigidbody, c.contacts.First());
+            var target = rb?.Get<IDamageable>() ?? rb?.GetParent<IDamageable>();
             transform.rotation = Quaternion.LookRotation(hit.point, hit.normal);
-            Hit();
+            Hit(new CombatArgs { Sender=this, Target=target, Damage=Damage,
+                Position=hit.point, Displacement=hit.normal });
         }
     }
 }

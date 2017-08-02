@@ -62,30 +62,23 @@ namespace Adventure {
     public abstract class AdventureArgs : EventArgs { public IObject Sender {get;set;} }
 
 
-    /// RealityArgs : AdventureArgs
+    /// SpatialArgs : AdventureArgs
     /// provides a base argument type for VR events
-    public class RealityArgs : AdventureArgs { public Vector3 Position {get;set;} }
+    public class SpatialArgs : AdventureArgs { public Vector3 Position {get;set;} }
 
 
-    /// MotionArgs : RealityArgs
+    /// ObjectArgs : SpatialArgs
+    /// supplies a target object for the event to act upon
+    public class ObjectArgs : SpatialArgs { public IObject Target {get;set;} }
+
+
+    /// MotionArgs : SpatialArgs
     /// provides a base argument type for VR events
-    public class MotionArgs : RealityArgs {
+    public class MotionArgs : ObjectArgs {
         public Vector3 Displacement {get;set;}
         public Vector3 Velocity {get;set;}
-        public Vector3 Angular {get;set;} }
-
-
-    /// FlightArgs : MotionArgs
-    /// provides a base argument type for piloting spaceships
-    public class FlightArgs : MotionArgs {
-        public float Roll {get;set;}
-        public float Pitch {get;set;}
-        public float Yaw {get;set;}
-        public float Thrust {get;set;}
-        public float Lift {get;set;}
-        public float Strafe {get;set;}
-        public float Turbo {get;set;}
-        public List<Vector3> Course {get;set;} }
+        public Vector3 Angular {get;set;}
+    }
 
 
     /// TravelArgs : MotionArgs
@@ -96,11 +89,6 @@ namespace Adventure {
     /// CombatArgs : MotionArgs
     /// provides a base argument type for VR events
     public class CombatArgs : MotionArgs { public float Damage {get;set;} }
-
-
-    /// AttackArgs : CombatArgs
-    /// provides a base argument type for an attack made with a weapon
-    public class AttackArgs : CombatArgs { public ITrackable Target {get;set;} }
 
 
     /// ButtonArgs : MotionArgs
@@ -114,9 +102,18 @@ namespace Adventure {
     public class SliderArgs : ButtonArgs { public float Value {get;set;} }
 
 
-    /// CursorArgs : ButtonArgs
-    /// provides arguments for VR cursors
-    public class CursorArgs : ButtonArgs { public IObject Target {get;set;} }
+    /// FlightArgs : MotionArgs
+    /// provides a base argument type for piloting spaceships
+    public class FlightArgs : MotionArgs {
+        public float Strafe {get;set;} // linear x axis
+        public float Lift {get;set;} // linear y axis
+        public float Thrust {get;set;} // linear z axis
+        public float Roll {get;set;} // angular x axis
+        public float Pitch {get;set;} // angular y axis
+        public float Yaw {get;set;} // angular z axis
+        public float Spin {get;set;} // leeward, dynamic axis
+        public List<(Vector3 position, Quaternion rotation)> Course {get;set;} // [(heading, bearing)]
+    }
 
 
     /// StoryArgs : EventArgs
@@ -150,16 +147,15 @@ namespace Adventure {
     }
 
     /// unfortunately necessary for editor serialization
-    [Serializable] public class RealityEvent : Event<RealityArgs> { }
+    [Serializable] public class SpatialEvent : Event<SpatialArgs> { }
     [Serializable] public class StoryEvent : Event<StoryArgs> { }
+    [Serializable] public class ObjectEvent : Event<ObjectArgs> { }
     [Serializable] public class TravelEvent : Event<TravelArgs> { }
     [Serializable] public class MotionEvent : Event<MotionArgs> { }
     [Serializable] public class FlightEvent : Event<FlightArgs> { }
     [Serializable] public class CombatEvent : Event<CombatArgs> { }
-    [Serializable] public class AttackEvent : Event<AttackArgs> { }
     [Serializable] public class ButtonEvent : Event<ButtonArgs> { }
     [Serializable] public class SliderEvent : Event<SliderArgs> { }
-    [Serializable] public class CursorEvent : Event<CursorArgs> { }
 
 
     /// Error : error
@@ -266,11 +262,11 @@ namespace Adventure {
 
         /// CreateEvent : event
         /// event raised when the object is created
-        event AdventureAction<RealityArgs> CreateEvent;
+        event AdventureAction<SpatialArgs> CreateEvent;
 
         /// Create : () => void
         /// does local setup when creating an object
-        void Create(RealityArgs e=null);
+        void Create(SpatialArgs e=null);
 
         /// Init : () => void
         /// does local setup when creating an object
@@ -720,18 +716,19 @@ namespace Adventure {
         public static Vector3 vect(this (float,float,float) o) => new Vector3(o.Item1, o.Item2, o.Item3);
         public static Vector3 normalized(this (float,float,float) o) => o.vect().normalized;
 
-    /// IsFacing : () => bool
-    /// detects if the rotation is within a certain angle in degrees
-    public static bool IsFacing(this Quaternion o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o,rotation)<angle;
-    public static bool IsFacing(this Transform o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation)<angle;
-    public static bool IsFacing(this Transform o, Transform rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation.rotation)<angle;
+        /// IsFacing : () => bool
+        /// detects if the rotation is within a certain angle in degrees
+        public static bool IsFacing(this Quaternion o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o,rotation)<angle;
+        public static bool IsFacing(this Transform o, Quaternion rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation)<angle;
+        public static bool IsFacing(this Transform o, Transform rotation, float angle=0.01f) => Quaternion.Angle(o.rotation,rotation.rotation)<angle;
 
-    /// IsNear : () => bool
-    /// detects if the transform is close to the location
-    public static bool IsNear(this Transform o, Transform location, float distance=0.01f) => o.IsNear(location.position,distance);
-    public static bool IsNear(this Transform o, Vector3 position, float distance=0.01f) => Vector3.Distance(o.position,position)<distance;
-    public static bool IsNear(this Vector3 o, Vector3 vector, float distance=float.Epsilon) => (o-vector).sqrMagnitude<distance*distance;
-    public static bool IsNear(this (float,float,float) o, Vector3 v, float dist=float.Epsilon) => v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
+        /// IsNear : () => bool
+        /// detects if the transform is close to the location
+        public static bool IsNear(this IObject o, IObject location, float distance=0.01f) => o?.Position.IsNear(location.Position,distance) ?? false;
+        public static bool IsNear(this Transform o, Transform location, float distance=0.01f) => o.IsNear(location.position,distance);
+        public static bool IsNear(this Transform o, Vector3 position, float distance=0.01f) => Vector3.Distance(o.position,position)<distance;
+        public static bool IsNear(this Vector3 o, Vector3 vector, float distance=float.Epsilon) => (o-vector).sqrMagnitude<distance*distance;
+        public static bool IsNear(this (float,float,float) o, Vector3 v, float dist=float.Epsilon) => v.IsNear(new Vector3(o.Item1, o.Item2, o.Item3),dist);
 
 
         /// Distance : () => real

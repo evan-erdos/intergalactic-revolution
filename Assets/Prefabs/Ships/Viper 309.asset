@@ -15,8 +15,8 @@ MonoBehaviour:
   Name: T-31 Viper 309
   CargoSpace: 30
   Mass: 12
-  Health: 8000
-  EnginePower: 2000
+  Health: 2000
+  EnginePower: 100
   RollEffect: 0.2
   PitchEffect: 0.15
   YawEffect: 0.3
@@ -25,12 +25,12 @@ MonoBehaviour:
   BrakesEffect: 2
   AeroEffect: 0.02
   DragEffect: 0.001
-  EnergyThrust: 1000
-  EnergyCapacity: 800
+  EnergyThrust: 125
+  EnergyCapacity: 700
   EnergyLoss: 50
   EnergyGain: 10
-  TopSpeed: 2500
-  ManeuveringEnergy: 100
+  TopSpeed: 120
+  ManeuveringEnergy: 50
   Pivots:
   - {x: 0, y: 6, z: -20}
   hitSounds:
