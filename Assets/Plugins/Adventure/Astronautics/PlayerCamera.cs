@@ -14,7 +14,7 @@ namespace Adventure.Astronautics {
         Camera mainCamera, distantCamera;
         PostProcessingBehaviour effects;
         public static Vector3 Pivot {get;set;}
-        public static Vector3 Location => main.transform.position;
+        public static Vector3 CameraPosition => main.transform.position;
         public static Transform Target {get;set;}
         public static Camera main => singleton?.mainCamera;
         public static PlayerCamera singleton {get;private set;}

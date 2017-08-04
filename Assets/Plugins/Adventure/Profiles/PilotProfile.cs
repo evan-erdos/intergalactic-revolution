@@ -13,5 +13,5 @@ public class PilotProfile : Adventure.Profile {
     public int Reputation = 0; // warrants & commendations
     public int Money = 10_000; // credits & loans
     public ShipProfile ship; // spaceships
-    public StarProfile star; // stars
+    public SpobProfile spob; // current location
 }

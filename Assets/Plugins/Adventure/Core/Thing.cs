@@ -17,7 +17,6 @@ namespace Adventure {
         public override float Radius => 5;
         public override string Name => $"**{name}**";
         public virtual string Content => $"### {Name} ###\n{Description}";
-        public virtual Transform Location {get;set;}
         public virtual Desc Description {get;protected set;} = new Desc();
         public virtual string this[string o] { get { return Description[o]; } }
         public virtual void Do() => Touch();

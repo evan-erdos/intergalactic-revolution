@@ -27,9 +27,6 @@ namespace Adventure {
         public virtual List<Item> Items {get;set;} = new List<Item>();
         public virtual Transform WalkTarget {get;protected set;}
         public virtual Transform LookTarget {get;protected set;}
-        public override Transform Location {set {
-            if (value.GetParent<Room>() is Room o) base.Location = o.Location;
-            else throw new StoryError(this["cannot goto"]); } }
 
         async Task OnGoto(StoryArgs e) { WalkTarget.position = e.Goal.Position;
             Log($"{e.Sender} goes to the {e.Goal}."); await 1; }
@@ -40,7 +37,7 @@ namespace Adventure {
             if (o==this) throw new StoryError(this["cannot take self"]);
             if (!(o is Item item)) throw new StoryError(this["cannot take thing"]);
             if (Items.Contains(item)) throw new StoryError(this["already take thing"]);
-            item.Location = transform; Items.Add(item); item.Take();
+            item.Location.parent = transform; Items.Add(item); item.Take();
         }
 
         public virtual void Drop(Thing thing) {

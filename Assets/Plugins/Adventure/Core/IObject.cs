@@ -29,6 +29,11 @@ namespace Adventure {
         Vector3 Position {get;}
 
 
+        /// Location : (Transform, (real,real,real), Quaternion)
+        /// represents the object's world position
+        Transform Location {get;}
+
+
         /// If : (() => bool, () => void) => void
         /// functional-style if statement
         bool If(bool cond, Action then);

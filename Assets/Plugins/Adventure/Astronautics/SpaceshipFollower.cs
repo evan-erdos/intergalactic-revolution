@@ -43,11 +43,9 @@ namespace Adventure.Astronautics.Spaceships {
             if (disabled) { ship.Move(); return; }
             args.Thrust = 0.5f - (isSlowing?2:0);
             var vect = Mathf.PerlinNoise(Time.time*lateralWanderSpeed,perlin)*2-1;
-            var wander = isInFormation?0:lateralWanderDistance;
-            if (target) args.Position = target.position-target.forward*followDistance;
-            else if (followTarget) args.Position = followTarget.transform.position+formationOffset;
-            else args.Position = Vector3.zero;
-            args.Position += transform.right*vect*wander;
+            args.Position = target?.position-target?.forward*followDistance ?? Vector3.zero;
+            args.Position = (followTarget)?followTarget.transform.position+formationOffset:Vector3.zero;
+            args.Position += transform.right*vect*(isInFormation?0:lateralWanderDistance);
             var localTarget = transform.InverseTransformPoint(args.Position);
             var speedEffect = 1 + ship.ForwardSpeed*m_SpeedEffect;
             var (maxPitch, maxRoll) = (m_MaxClimbAngle*Mathf.Deg2Rad, m_MaxRollAngle*Mathf.Deg2Rad);
@@ -72,8 +70,7 @@ namespace Adventure.Astronautics.Spaceships {
             foreach (var o in weapons) o.Fire(new CombatArgs {
                 Sender = this, Target = target.Get<ITrackable>(), Position = position,
                 Velocity = target.Get<Rigidbody>().velocity, Displacement = velocity });
-            bool PreFire() => target?.IsNear(transform,dist)==false
-                || target.Get<Spaceship>().Health<0 || isFiring;
+            bool PreFire() => target?.IsNear(transform,dist)==false || target.Get<Spaceship>().Health<0 || isFiring;
         }
     }
 }

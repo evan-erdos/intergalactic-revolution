@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 81678589763489300}
   - component: {fileID: 114743029837135692}
   - component: {fileID: 114506234208585352}
+  - component: {fileID: 114730402297324408}
   m_Layer: 9
   m_Name: Camera
   m_TagString: MainCamera
@@ -119,11 +120,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15b1ee74161e245adab3af38c3b7132e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCreate:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Adventure.RealityEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+--- !u!114 &114730402297324408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1346981481135148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eed1d9cbe64423499f1fefc0ce50417, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Resolution: 1
+  DefaultSpotCookie: {fileID: 2800000, guid: 5157bf6d690b6df458f6c0ce0c06d329, type: 3}
 --- !u!114 &114743029837135692
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -14,30 +14,32 @@ MonoBehaviour:
   prefab: {fileID: 1988634568274006, guid: 30d3d9659035dc6448b8bf2b79be692e, type: 2}
   Name: Speeder 515
   CargoSpace: 4
-  Mass: 16
+  Mass: 24
   Health: 10000
-  EnginePower: 500
-  RollEffect: 0.2
+  EnginePower: 600
+  RollEffect: 0.1
   PitchEffect: 0.15
   YawEffect: 0.4
   SpinEffect: 1
   ThrottleEffect: 2
-  BrakesEffect: 30
+  BrakesEffect: 50
   AeroEffect: 2
   DragEffect: 100
-  EnergyThrust: 1200
+  EnergyThrust: 1000
   EnergyCapacity: 2000
-  EnergyLoss: 100
-  EnergyGain: 68
-  TopSpeed: 500
-  ManeuveringEnergy: 150
-  linearEnergy: 1600
+  EnergyLoss: 30
+  EnergyGain: 22
+  TopSpeed: 400
+  ManeuveringEnergy: 800
+  linearEnergy: 500
   Pivots:
   - {x: 0, y: 0.25, z: -1}
   - {x: 0, y: 4, z: -20}
   hitSounds:
   - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
   - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}
+  shieldSounds:
+  - {fileID: 8300000, guid: 98a26c41b6bac4f8a850a3e2972eabcf, type: 3}
   modeClip: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
   changeClip: {fileID: 8300000, guid: 9815425169548454a9e8264c159581f8, type: 3}
   selectClip: {fileID: 8300000, guid: 75024edad0464486381177a71b449093, type: 3}
@@ -45,3 +47,6 @@ MonoBehaviour:
   alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}
   explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
   hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}
+  thruster: {fileID: 1384512921504776, guid: 8dade565380980244b2f5e73cc327343, type: 2}
+  motesOfLight: {fileID: 1793020942131998, guid: f07658781d1c9304bb3dd383da17d41e,
+    type: 2}

@@ -9,25 +9,31 @@ namespace Adventure.Astronautics.Spaceships {
     /// a spaceship which can fly around and fire weapons
     public interface ISpaceship : IWeapon, ITrackable, IDamageable {
 
+
         /// Mass : tonnes
         /// the base mass of the ship, not including cargo
         float Mass {get;}
+
 
         /// Shield : kN/m^3
         /// protective, regenerating shield that avoids major damage
         float Shield {get;}
 
+
         /// MoveEvent : event
         /// event for flight motion
         event AdventureAction<FlightArgs> MoveEvent;
+
 
         /// Move : event
         /// raises movement event and sends controls to the ship
         void Move(FlightArgs e=null);
 
+
         /// HyperJump : () => void
         /// tells the ship to jump a short distance forwards
         void HyperJump();
+
 
         /// HyperJump : (quaternion) => void
         /// tells the ship to jump all the way to a new system

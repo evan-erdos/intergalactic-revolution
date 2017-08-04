@@ -13,21 +13,16 @@ using Adventure.Astronautics.Spaceships;
 namespace Adventure {
     public class Manager : Adventure.Object {
         [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
-        [SerializeField] protected AdventureProfiles profiles = new AdventureProfiles();
         [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
         [SerializeField] SpobProfile[] SpobProfiles = new SpobProfile[1];
         [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
         [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
 
         [Serializable] protected class AdventurePrefabs {
+            [SerializeField] public PilotProfile pilot;
             [SerializeField] public GameObject menu;
             [SerializeField] public GameObject user;
             [SerializeField] public GameObject cam; }
-
-        [Serializable] protected class AdventureProfiles {
-            [SerializeField] public PilotProfile pilot;
-            [SerializeField] public SpobProfile spob;
-            [SerializeField] public StarProfile star; }
 
         public static readonly string root = "adventure", dir = "star-systems";
         public static string path {get;protected set;}
@@ -134,7 +129,7 @@ namespace Adventure {
             DontDestroyOnLoad(gameObject);
             StarProfiles.ForEach(o => Stars[o] = o.NearbySystems);
             (Pilots, Ships) = (PilotProfiles, ShipProfiles);
-            (DefaultPilot, DefaultSpob, DefaultStar) = (profiles.pilot, profiles.spob, profiles.star);
+            DefaultPilot = prefabs.pilot; DefaultSpob = DefaultPilot.spob; DefaultStar = DefaultSpob.Star;
         }
 
         void Start() { camera = Create<PlayerCamera>(prefabs.cam); LoadMenu(); }

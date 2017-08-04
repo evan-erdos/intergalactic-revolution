@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 3
+  m_CurrentQuality: 5
   m_QualitySettings:
   - serializedVersion: 2
     name: Fastest
@@ -140,10 +140,10 @@ QualitySettings:
     name: Unreasonable
     pixelLightCount: 16
     shadows: 2
-    shadowResolution: 3
+    shadowResolution: 2
     shadowProjection: 1
     shadowCascades: 4
-    shadowDistance: 2000
+    shadowDistance: 10000
     shadowNearPlaneOffset: 1000
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.19874206, y: 0.39916128, z: 0.4998118}
@@ -158,7 +158,7 @@ QualitySettings:
     vSyncCount: 1
     lodBias: 2
     maximumLODLevel: 0
-    particleRaycastBudget: 4096
+    particleRaycastBudget: 8192
     asyncUploadTimeSlice: 2
     asyncUploadBufferSize: 4
     excludedTargetPlatforms: []

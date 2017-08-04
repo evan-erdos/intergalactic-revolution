@@ -20,8 +20,8 @@ namespace Adventure {
 
         void OnTriggerEnter(Collider other) {
             var room = other.GetComponentInParent<Room>();
-            if (!room || this.Location==room) return;
-            this.Location = room.transform;
+            if (!room || this.Location.parent==room) return;
+            Location.parent = room.transform;
             room.View();
         }
 

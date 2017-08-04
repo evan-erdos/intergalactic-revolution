@@ -26,10 +26,8 @@ public class TextHUD : Adventure.Object {
         builder.AppendLine(FindProperty(ShipProp.Target));
         builder.AppendLine(FindProperty(ShipProp.Dest));
         builder.AppendLine(FindProperty(ShipProp.Speed));
-        builder.AppendLine(FindProperty(ShipProp.Mode));
         builder.AppendLine(FindProperty(ShipProp.Weapon));
         builder.AppendLine(FindProperty(ShipProp.Star));
-        builder.AppendLine(FindProperty(ShipProp.Cargo));
         text.text = builder.ToString();
 
         string FindProperty(ShipProp property, string s="") {

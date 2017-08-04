@@ -102,7 +102,7 @@ InputManager:
     axis: 8
     joyNum: 1
   - serializedVersion: 3
-    m_Name: Drag
+    m_Name: Target
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -294,7 +294,7 @@ InputManager:
     axis: 0
     joyNum: 1
   - serializedVersion: 3
-    m_Name: Target
+    m_Name: Spin
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -315,6 +315,22 @@ InputManager:
     descriptiveNegativeName: 
     negativeButton: 
     positiveButton: joystick button 9
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 1000
+    dead: 0.001
+    sensitivity: 1000
+    snap: 0
+    invert: 0
+    type: 0
+    axis: 12
+    joyNum: 1
+  - serializedVersion: 3
+    m_Name: Drag
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: joystick button 8
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

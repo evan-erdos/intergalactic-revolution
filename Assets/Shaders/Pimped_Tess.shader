@@ -150,5 +150,5 @@
             ENDCG
         }
         FallBack "Standard"
-        CustomEditor "TessellationShaderEditor"
+        CustomEditor "TessellationEditor"
     }

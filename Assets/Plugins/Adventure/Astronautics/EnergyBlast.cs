@@ -9,6 +9,7 @@ namespace Adventure.Astronautics.Spaceships {
         new protected Rigidbody rigidbody;
         new protected Collider collider;
         new protected Renderer renderer;
+        float minimumSpeed = 400;
         LayerMask mask;
         [SerializeField] protected float damage = 50;
         [SerializeField] protected CombatEvent onHit = new CombatEvent();
@@ -31,7 +32,9 @@ namespace Adventure.Astronautics.Spaceships {
         public virtual void Fire(Vector3 position, Vector3 velocity, Vector3 initial) {
             Reset(); rigidbody.position = position;
             rigidbody.rotation.SetLookRotation(position-velocity, transform.up);
-            rigidbody.AddForce(initial, ForceMode.VelocityChange); rigidbody.AddForce(velocity); }
+            var minimum = (velocity.magnitude<minimumSpeed)?transform.forward*minimumSpeed:Vector3.zero;
+            rigidbody.AddForce(initial+minimum, ForceMode.VelocityChange); rigidbody.AddForce(velocity);
+        }
 
         protected virtual void Awake() {
             mask = (LayerMask.LayerToName(gameObject.layer)=="Player"
@@ -43,7 +46,7 @@ namespace Adventure.Astronautics.Spaceships {
         void FixedUpdate() { if (Physics.Raycast(
             origin: rigidbody.position, direction: rigidbody.velocity,
             hitInfo: out var hit, layerMask: mask, maxDistance: rigidbody.velocity.magnitude))
-                Hit(new CombatArgs { Sender=this, Target=hit.rigidbody?.GetParent<IDamageable>(),
+                Hit(new CombatArgs { Sender=this, Target=hit.rigidbody?.Get<IDamageable>(),
                     Damage=Damage, Position=hit.point, Displacement=hit.normal }); }
 
         void OnCollisionEnter(Collision c) {

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: HE Blaster Fire
   m_EditorClassIdentifier: 
   Name: HE Blaster Fire
-  pitch: 1
-  volume: 1
+  pitch: 0.8
+  volume: 0.6
   pitchVariance: 0.1
   volumeVariance: 0.1
   sounds:

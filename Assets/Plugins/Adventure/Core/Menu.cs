@@ -32,14 +32,15 @@ namespace Adventure {
         public void LoadGame(PilotProfile pilot, StarProfile star, SpobProfile spob) =>
             Get<Loader>().Load(() => Manager.OnLoadGame(pilot,star,spob), spob.Name);
 
-        public async void Click(Action f) { AudioSource.PlayClipAtPoint(click,PlayerCamera.Location,0.5f); await 0; f(); }
+        public async void Click(Action f) { AudioSource.PlayClipAtPoint(click,PlayerCamera.CameraPosition,0.5f); await 0; f(); }
         StarProfile PickSyst() => Manager.Stars.Keys.ToList().Pick();
 
         void Start() {
             selection.Select();
-            Create(PickSyst().prefab).transform.parent = transform;
-            var cam = PlayerCamera.main.transform;
-            cam.parent = null; cam.position = Vector3.zero; cam.rotation = Quaternion.identity;
+            var (star,cam) = (PickSyst(), PlayerCamera.main.transform);
+            Create(star.prefab).transform.parent = transform; PlayerCamera.atmosphere = star.atmosphere;
+            (cam.parent, PlayerCamera.atmosphere) = (null, star.atmosphere);
+            (cam.position, cam.rotation) = (Vector3.zero, Quaternion.identity);
         }
     }
 }

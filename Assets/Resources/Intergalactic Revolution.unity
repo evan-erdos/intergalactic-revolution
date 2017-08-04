@@ -55,8 +55,8 @@ LightmapSettings:
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 8
-    m_Resolution: 2
-    m_BakeResolution: 40
+    m_Resolution: 0.1
+    m_BakeResolution: 32
     m_TextureWidth: 1024
     m_TextureHeight: 1024
     m_AO: 0
@@ -86,7 +86,7 @@ LightmapSettings:
     m_PVRFilteringAtrousColorSigma: 1
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 78bc15c0a01fc1a47a65a49978a41617,
+  m_LightingDataAsset: {fileID: 112000028, guid: b859b9969caeb51499b1210d916d717c,
     type: 2}
   m_ShadowMaskMode: 2
 --- !u!196 &4
@@ -148,19 +148,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114272691579209216, guid: 6c5be69ea19a8e842bff3feb9a6fa61c,
-        type: 2}
-      propertyPath: profiles.spob
-      value: 
-      objectReference: {fileID: 11400000, guid: e17f8451e3659134ab0fe698fce43463,
-        type: 2}
-    - target: {fileID: 114272691579209216, guid: 6c5be69ea19a8e842bff3feb9a6fa61c,
-        type: 2}
-      propertyPath: profiles.star
-      value: 
-      objectReference: {fileID: 11400000, guid: e4737dacda5cd40a790025d209bea148,
-        type: 2}
-    m_RemovedComponents:
-    - {fileID: 114298587720676864, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c5be69ea19a8e842bff3feb9a6fa61c, type: 2}
   m_IsPrefabParent: 0

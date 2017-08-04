@@ -27,10 +27,13 @@ public class ShipProfile : Adventure.Profile {
     public float TopSpeed = 1500; // m/s
     public float ManeuveringEnergy = 100; // kN
     public float linearEnergy = 800; // kN
+    // public Color accentColor = Color.grey; // color
+    // public Color energyColor = Color.white; // color
     // public AnimationCurve ThrustResponse = new AnimationCurve(new Keyframe(0,1), new Keyframe(1,1));
     // public AnimationCurve LateralResponse = new AnimationCurve(new Keyframe(0,1), new Keyframe(1,1));
     public List<Vector3> Pivots = new List<Vector3> { new Vector3(0,0.5f,-0.25f) };
     public List<AudioClip> hitSounds = new List<AudioClip>();
+    public List<AudioClip> shieldSounds = new List<AudioClip>();
     public AudioClip modeClip;
     public AudioClip changeClip;
     public AudioClip selectClip;
@@ -38,4 +41,6 @@ public class ShipProfile : Adventure.Profile {
     public AudioClip alarmClip;
     public GameObject explosion;
     public GameObject hyperspace;
+    public GameObject thruster;
+    public GameObject motesOfLight;
 }

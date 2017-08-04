@@ -13,7 +13,7 @@ namespace Adventure.Astronautics.Spaceships {
             (rigidbody.isKinematic, rigidbody.velocity) = (false, Vector3.zero);
 
             void Reset(Rigidbody shard) {
-                shard.Get<ParticleSystem>().Stop(); shard.Get<TrailRenderer>()?.Clear();
+                shard.Get<ParticleSystem>().Stop(); // shard.Get<TrailRenderer>()?.Clear();
                 (shard.isKinematic, shard.transform.parent) = (true, transform);
                 (shard.Get<Renderer>().enabled, shard.Get<Collider>().enabled) = (true, true);
                 (shard.position, shard.rotation) = (transform.position, transform.rotation);

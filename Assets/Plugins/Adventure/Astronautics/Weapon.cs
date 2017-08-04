@@ -26,6 +26,7 @@ namespace Adventure.Astronautics {
         public float Angle {get;protected set;} = 30; // deg
         public GameObject Projectile {get;protected set;} // object
         public ParticleSystem particles {get;protected set;} // particles
+        public Vector3 Offset => transform.forward*8; // m
         public Vector3 Barrel {get;protected set;} // position
         public ITrackable Target {get;set;} // object
 
@@ -40,10 +41,9 @@ namespace Adventure.Astronautics {
         public virtual void Fire(CombatArgs e=null) {
             if (!IsDisabled) StartSemaphore(Firing);
             IEnumerator Firing() {
-                Barrel = barrels[++next%barrels.Count].position;
-                var start = Barrel+transform.forward*Time.fixedDeltaTime;
+                Barrel = barrels[++next%barrels.Count].position+Offset;
                 var (position, velocity, initial) = (e.Position, e.Velocity, e.Displacement);
-                var (direction, random) = (position-start, Random.Range(-0.01f,0.01f));
+                var (direction, random) = (position-Barrel, Random.Range(-0.01f,0.01f));
                 var (distance, heading) = (direction.magnitude, e.Velocity.normalized);
                 var variation = (heading*random+Random.insideUnitSphere*Spread)*distance;
                 var rotation = Quaternion.LookRotation(transform.forward, transform.up);
@@ -55,19 +55,18 @@ namespace Adventure.Astronautics {
                     rotation = Quaternion.LookRotation(prediction, transform.up);
                 // if (LayerMask.LayerToName(gameObject.layer)=="Player") {
                 //     Debug.DrawLine(position, prediction, Color.white, 1, true);
-                //     Debug.DrawLine(start, position, Color.blue, 1, true);
-                //     Debug.DrawLine(start, prediction, Color.red, 1, true); }
+                //     Debug.DrawLine(Barrel, position, Color.blue, 1, true);
+                //     Debug.DrawLine(Barrel, prediction, Color.red, 1, true); }
                 if (!transform.IsFacing(rotation,Angle))
-                    prediction = transform.forward*Force + rigidbody.velocity + variation;
-                projectile?.Fire(start, prediction, initial);
-                FireEvent(new CombatArgs {
-                    Sender=this, Target=Target, Damage=projectile.Damage,
-                    Position=start, Velocity=prediction, Displacement=initial });
+                    prediction = transform.forward*Force - initial/2 + variation;
+                projectile?.Fire(Barrel, prediction, initial);
+                FireEvent(new CombatArgs { Sender=this, Target=Target, Damage=projectile.Damage,
+                    Position=Barrel, Velocity=prediction, Displacement=initial });
                 yield return new WaitForSeconds(1f/(Rate*barrels.Count));
             }
         }
 
-        void OnFire() { particles?.Play(); if (sounds.Any()) audio.PlayOneShot(sounds.Pick(),0.8f); }
+        void OnFire() { particles?.Play(); if (sounds.Any()) audio.PlayOneShot(sounds.Pick()); }
 
         void Awake() {
             Create(profile);
@@ -75,7 +74,7 @@ namespace Adventure.Astronautics {
             (particles, Barrel) = (GetChild<ParticleSystem>(), barrels.First().position);
             (audio, rigidbody) = (Get<AudioSource>(), GetParent<Rigidbody>());
             FireEvent += e => onFire?.Call(e); onFire.Add(e => OnFire());
-            projectiles = new Pool<Rigidbody>(10, () => {
+            projectiles = new Pool<Rigidbody>(32, () => {
                 var instance = Create<Rigidbody>(Projectile);
                 instance.transform.parent = transform;
                 instance.transform.localPosition = Vector3.zero;

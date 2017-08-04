@@ -12,7 +12,7 @@ public class EnergyMeter : Adventure.Object {
     new LineRenderer renderer;
     Spaceship spaceship;
 
-    float Ratio => spaceship.Energy / spaceship.EnergyCapacity;
+    float Ratio => spaceship.Energy / spaceship.MaxEnergy;
 
     void Awake() {
         renderer = Get<LineRenderer>();

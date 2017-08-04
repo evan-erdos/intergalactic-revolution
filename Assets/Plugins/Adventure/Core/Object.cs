@@ -14,11 +14,12 @@ namespace Adventure {
     public abstract class Object : MonoBehaviour, IObject {
         protected Regex regex = new Regex("\b(object)\b");
         HashSet<string> threads = new HashSet<string>();
-        [SerializeField] protected SpatialEvent onCreate = new SpatialEvent();
+        protected SpatialEvent onCreate = new SpatialEvent(); // avoids clutter to not serialize
         public bool AreAnyYielding => threads.Count>0;
         public virtual string Name => name;
         public virtual float Radius => 2;
         public virtual Vector3 Position => transform.position;
+        public Transform Location => transform;
         public virtual LayerMask Mask {get;protected set;}
         public event AdventureAction<SpatialArgs> CreateEvent;
         public void Create(SpatialArgs e=null) => CreateEvent(e ?? new SpatialArgs { Sender=this });

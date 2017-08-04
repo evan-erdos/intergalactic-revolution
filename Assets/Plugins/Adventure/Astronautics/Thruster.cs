@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 namespace Adventure.Astronautics.Spaceships {
-    public class Thruster : Adventure.Object, IShipPart {
+    public class Thruster : Adventure.Object, IThruster {
         enum LinearAxis { None, Sway, Heave, Surge }
         enum AngularAxis { None, Roll, Pitch, Yaw }
         bool isDisabled, isFlipped, isReverse;
@@ -13,13 +13,14 @@ namespace Adventure.Astronautics.Spaceships {
         float size, life;
         Color color;
         ParticleSystem particles;
-        Spaceship ship;
+        ISpaceship ship;
 
         public void Disable() => isDisabled = true;
+        public void SetShip(ISpaceship o) { if (o!=null) { ship = o; ship.MoveEvent += e => OnMove(e); } }
 
         void Start() {
-            (ship, particles) = (GetParent<Spaceship>(), GetChild<ParticleSystem>());
-            ship.MoveEvent += e => OnMove(e);
+            SetShip(ship ?? GetParent<Spaceship>());
+            particles = GetChild<ParticleSystem>();
             (move, spin, isFlipped, isReverse) = CalculateOrientation();
             life = particles.main.startLifetimeMultiplier;
             size = particles.main.startSizeMultiplier;
@@ -32,8 +33,8 @@ namespace Adventure.Astronautics.Spaceships {
 
         (LinearAxis, AngularAxis, bool, bool) CalculateOrientation(float min=0.2f) {
             // InverseTransformDirection, InverseTransformVector, TransformDirection
-            var offset = ship.transform.InverseTransformPoint(transform.position);
-            var direction = ship.transform.InverseTransformDirection(transform.forward);
+            var offset = ship.Location.InverseTransformPoint(transform.position);
+            var direction = ship.Location.InverseTransformDirection(transform.forward);
             var (linear, angular, flipped, reverse) = (LinearAxis.None, AngularAxis.None, false, false);
             if ((direction-Vector3.up).magnitude<min) {
                 if (min>Mathf.Abs(offset.x)) return (LinearAxis.Heave, AngularAxis.Pitch, false, 0<offset.z);
@@ -41,14 +42,10 @@ namespace Adventure.Astronautics.Spaceships {
             if ((direction-Vector3.down).magnitude<min) {
                 if (min>Mathf.Abs(offset.x)) return (LinearAxis.Heave, AngularAxis.Pitch, true, offset.z<0);
                 else return (LinearAxis.Heave, AngularAxis.Roll, true, offset.x<0); }
-            if ((direction-Vector3.left).magnitude<min)
-                return (LinearAxis.Sway, AngularAxis.Yaw, true, offset.z<0);
-            if ((direction-Vector3.right).magnitude<min)
-                return (LinearAxis.Sway, AngularAxis.Yaw, false, offset.z>0);
-            if ((direction-Vector3.forward).magnitude<min)
-                return (LinearAxis.Surge, AngularAxis.None, true, false);
-            if ((direction-Vector3.back).magnitude<min)
-                return (LinearAxis.Surge, AngularAxis.None, false, true);
+            if ((direction-Vector3.left).magnitude<min) return (LinearAxis.Sway, AngularAxis.Yaw, true, offset.z<0);
+            if ((direction-Vector3.right).magnitude<min) return (LinearAxis.Sway, AngularAxis.Yaw, false, 0<offset.z);
+            if ((direction-Vector3.forward).magnitude<min) return (LinearAxis.Surge, AngularAxis.None, true, false);
+            if ((direction-Vector3.back).magnitude<min) return (LinearAxis.Surge, AngularAxis.None, false, true);
             throw new Error($"thruster {name} not aligned");
         }
 

@@ -18,11 +18,6 @@ namespace Adventure {
         LayerMask Mask {get;}
 
 
-        /// Location : Transform
-        /// the location and context of the thing (transform parent)
-        Transform Location {get;}
-
-
         /// indexer : [string] => description
         /// allows all things to send descriptive information anywhere
         string this[string index] {get;}

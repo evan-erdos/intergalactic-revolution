@@ -15,7 +15,7 @@ public class BlasterMeter : Adventure.Object {
         var renderer = Get<LineRenderer>();
         var spaceship = GetComponentInParent<Spaceship>();
         while (true) {
-            ratio = spaceship.Energy/spaceship.EnergyCapacity;
+            ratio = spaceship.Energy/spaceship.MaxEnergy;
             var angle = (2*Mathf.PI/sides) * ratio;
             circle.Clear();
             for (var i=0;i<sides+1;++i) circle.Add(new Vector3(

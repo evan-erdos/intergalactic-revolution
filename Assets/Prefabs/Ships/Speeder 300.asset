@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
   m_Name: Speeder 300
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1988634568274006, guid: 0558eda40f9834a369eaaa793bc60751, type: 2}
+  prefab: {fileID: 1988634568274006, guid: c53b14672c4adb744926601d520802ae, type: 2}
   Name: Speeder 300
   CargoSpace: 10
   Mass: 20
@@ -31,6 +31,9 @@ MonoBehaviour:
   EnergyGain: 45
   TopSpeed: 300
   ManeuveringEnergy: 100
+  linearEnergy: 800
+  accentColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  energyColor: {r: 1, g: 1, b: 1, a: 1}
   Pivots:
   - {x: 0, y: 0.25, z: -1}
   - {x: 0, y: 4, z: -20}
@@ -44,3 +47,4 @@ MonoBehaviour:
   alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}
   explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
   hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}
+  thruster: {fileID: 1384512921504776, guid: 8dade565380980244b2f5e73cc327343, type: 2}

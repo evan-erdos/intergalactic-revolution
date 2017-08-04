@@ -16,5 +16,5 @@ MonoBehaviour:
   Nationality: Space Germany
   Reputation: 2
   Money: 1000
-  ship: {fileID: 11400000, guid: d722d7de986a92942b10142a2f21a116, type: 2}
+  ship: {fileID: 11400000, guid: e556c3b91a0f5624c8cb1113df0263e2, type: 2}
   star: {fileID: 11400000, guid: e246ef2fb1b5a4f95981e17957049847, type: 2}
