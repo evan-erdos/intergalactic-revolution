@@ -30,7 +30,7 @@ MonoBehaviour:
   EnergyLoss: 60
   EnergyGain: 40
   TopSpeed: 520
-  ManeuveringEnergy: 200
+  ManeuveringEnergy: 500
   linearEnergy: 900
   Pivots:
   - {x: 0, y: 1.6, z: 0.3}
