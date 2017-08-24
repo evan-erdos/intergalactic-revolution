@@ -1,0 +1,535 @@
+fileFormatVersion: 2
+guid: 0c6bccc28767341a2a141174bce6d941
+timeCreated: 1503549214
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: aft_engine_cover_port
+    100002: aft_engine_cover_starboard
+    100004: aft_panel_port_bottom
+    100006: aft_panel_port_top
+    100008: aft_panel_starboard_bottom
+    100010: aft_panel_starboard_top
+    100012: bonnet
+    100014: bow
+    100016: cabin_frame
+    100018: canopy
+    100020: chassis
+    100022: dashboard
+    100024: deck
+    100026: door
+    100028: Dueesenberg_engine_wires
+    100030: //RootNode
+    100032: engine
+    100034: engine 1
+    100036: engine_cover
+    100038: engine_frame_aft_port
+    100040: engine_frame_aft_starboard
+    100042: engine_frame_fore_port
+    100044: engine_frame_fore_starboard
+    100046: engine_frame_wires
+    100048: engine_frame_wires 1
+    100050: engine_lateral
+    100052: engine_lateral 1
+    100054: engine_lateral_frame_wires
+    100056: engine_lateral_frame_wires 1
+    100058: engine_lateral_wires
+    100060: engine_lateral_wires 1
+    100062: engine_port_frame
+    100064: engine_starboard
+    100066: engine_starboard 1
+    100068: engine_starboard_frame
+    100070: engine_starboard_wires
+    100072: engine_starboard_wires 1
+    100074: engine_wires
+    100076: engine_wires 1
+    100078: engine_wires 2
+    100080: fore_engine_cover_port
+    100082: fore_engine_cover_starboard
+    100084: fore_frame
+    100086: fore_panel_port
+    100088: fore_panel_starboard
+    100090: fore_tanks
+    100092: fuel_hoses
+    100094: grill
+    100096: handle
+    100098: hatch
+    100100: headlight_frame
+    100102: headlight_port
+    100104: headlight_starboard
+    100106: hood
+    100108: horns
+    100110: hose_connections
+    100112: keel
+    100114: manifold
+    100116: midships_frame
+    100118: ornament
+    100120: radiator_cap
+    100122: seat
+    100124: stern
+    100126: stern_frame
+    100128: stern_panel_belly
+    100130: stern_panel_starboard
+    100132: stern_tanks
+    100134: thruster
+    100136: thruster1
+    100138: thruster10
+    100140: thruster11
+    100142: thruster2
+    100144: thruster3
+    100146: thruster4
+    100148: thruster5
+    100150: thruster6
+    100152: thruster7
+    100154: thruster8
+    100156: thruster9
+    100158: thruster_wires
+    100160: thruster_wires 1
+    100162: thruster_wires 10
+    100164: thruster_wires 11
+    100166: thruster_wires 2
+    100168: thruster_wires 3
+    100170: thruster_wires 4
+    100172: thruster_wires 5
+    100174: thruster_wires 6
+    100176: thruster_wires 7
+    100178: thruster_wires 8
+    100180: thruster_wires 9
+    100182: windshield
+    400000: aft_engine_cover_port
+    400002: aft_engine_cover_starboard
+    400004: aft_panel_port_bottom
+    400006: aft_panel_port_top
+    400008: aft_panel_starboard_bottom
+    400010: aft_panel_starboard_top
+    400012: bonnet
+    400014: bow
+    400016: cabin_frame
+    400018: canopy
+    400020: chassis
+    400022: dashboard
+    400024: deck
+    400026: door
+    400028: Dueesenberg_engine_wires
+    400030: //RootNode
+    400032: engine
+    400034: engine 1
+    400036: engine_cover
+    400038: engine_frame_aft_port
+    400040: engine_frame_aft_starboard
+    400042: engine_frame_fore_port
+    400044: engine_frame_fore_starboard
+    400046: engine_frame_wires
+    400048: engine_frame_wires 1
+    400050: engine_lateral
+    400052: engine_lateral 1
+    400054: engine_lateral_frame_wires
+    400056: engine_lateral_frame_wires 1
+    400058: engine_lateral_wires
+    400060: engine_lateral_wires 1
+    400062: engine_port_frame
+    400064: engine_starboard
+    400066: engine_starboard 1
+    400068: engine_starboard_frame
+    400070: engine_starboard_wires
+    400072: engine_starboard_wires 1
+    400074: engine_wires
+    400076: engine_wires 1
+    400078: engine_wires 2
+    400080: fore_engine_cover_port
+    400082: fore_engine_cover_starboard
+    400084: fore_frame
+    400086: fore_panel_port
+    400088: fore_panel_starboard
+    400090: fore_tanks
+    400092: fuel_hoses
+    400094: grill
+    400096: handle
+    400098: hatch
+    400100: headlight_frame
+    400102: headlight_port
+    400104: headlight_starboard
+    400106: hood
+    400108: horns
+    400110: hose_connections
+    400112: keel
+    400114: manifold
+    400116: midships_frame
+    400118: ornament
+    400120: radiator_cap
+    400122: seat
+    400124: stern
+    400126: stern_frame
+    400128: stern_panel_belly
+    400130: stern_panel_starboard
+    400132: stern_tanks
+    400134: thruster
+    400136: thruster1
+    400138: thruster10
+    400140: thruster11
+    400142: thruster2
+    400144: thruster3
+    400146: thruster4
+    400148: thruster5
+    400150: thruster6
+    400152: thruster7
+    400154: thruster8
+    400156: thruster9
+    400158: thruster_wires
+    400160: thruster_wires 1
+    400162: thruster_wires 10
+    400164: thruster_wires 11
+    400166: thruster_wires 2
+    400168: thruster_wires 3
+    400170: thruster_wires 4
+    400172: thruster_wires 5
+    400174: thruster_wires 6
+    400176: thruster_wires 7
+    400178: thruster_wires 8
+    400180: thruster_wires 9
+    400182: windshield
+    2300000: aft_engine_cover_port
+    2300002: aft_engine_cover_starboard
+    2300004: aft_panel_port_bottom
+    2300006: aft_panel_port_top
+    2300008: aft_panel_starboard_bottom
+    2300010: aft_panel_starboard_top
+    2300012: bonnet
+    2300014: bow
+    2300016: cabin_frame
+    2300018: canopy
+    2300020: chassis
+    2300022: dashboard
+    2300024: deck
+    2300026: door
+    2300028: Dueesenberg_engine_wires
+    2300030: engine
+    2300032: engine 1
+    2300034: engine_cover
+    2300036: engine_frame_aft_port
+    2300038: engine_frame_aft_starboard
+    2300040: engine_frame_fore_port
+    2300042: engine_frame_fore_starboard
+    2300044: engine_frame_wires
+    2300046: engine_frame_wires 1
+    2300048: engine_lateral
+    2300050: engine_lateral 1
+    2300052: engine_lateral_frame_wires
+    2300054: engine_lateral_frame_wires 1
+    2300056: engine_lateral_wires
+    2300058: engine_lateral_wires 1
+    2300060: engine_port_frame
+    2300062: engine_starboard
+    2300064: engine_starboard 1
+    2300066: engine_starboard_frame
+    2300068: engine_starboard_wires
+    2300070: engine_starboard_wires 1
+    2300072: engine_wires
+    2300074: engine_wires 1
+    2300076: engine_wires 2
+    2300078: fore_engine_cover_port
+    2300080: fore_engine_cover_starboard
+    2300082: fore_frame
+    2300084: fore_panel_port
+    2300086: fore_panel_starboard
+    2300088: fore_tanks
+    2300090: fuel_hoses
+    2300092: grill
+    2300094: handle
+    2300096: hatch
+    2300098: headlight_frame
+    2300100: headlight_port
+    2300102: headlight_starboard
+    2300104: hood
+    2300106: horns
+    2300108: hose_connections
+    2300110: keel
+    2300112: manifold
+    2300114: midships_frame
+    2300116: ornament
+    2300118: radiator_cap
+    2300120: seat
+    2300122: stern
+    2300124: stern_frame
+    2300126: stern_panel_belly
+    2300128: stern_panel_starboard
+    2300130: stern_tanks
+    2300132: thruster
+    2300134: thruster1
+    2300136: thruster10
+    2300138: thruster11
+    2300140: thruster2
+    2300142: thruster3
+    2300144: thruster4
+    2300146: thruster5
+    2300148: thruster6
+    2300150: thruster7
+    2300152: thruster8
+    2300154: thruster9
+    2300156: thruster_wires
+    2300158: thruster_wires 1
+    2300160: thruster_wires 10
+    2300162: thruster_wires 11
+    2300164: thruster_wires 2
+    2300166: thruster_wires 3
+    2300168: thruster_wires 4
+    2300170: thruster_wires 5
+    2300172: thruster_wires 6
+    2300174: thruster_wires 7
+    2300176: thruster_wires 8
+    2300178: thruster_wires 9
+    2300180: windshield
+    3300000: aft_engine_cover_port
+    3300002: aft_engine_cover_starboard
+    3300004: aft_panel_port_bottom
+    3300006: aft_panel_port_top
+    3300008: aft_panel_starboard_bottom
+    3300010: aft_panel_starboard_top
+    3300012: bonnet
+    3300014: bow
+    3300016: cabin_frame
+    3300018: canopy
+    3300020: chassis
+    3300022: dashboard
+    3300024: deck
+    3300026: door
+    3300028: Dueesenberg_engine_wires
+    3300030: engine
+    3300032: engine 1
+    3300034: engine_cover
+    3300036: engine_frame_aft_port
+    3300038: engine_frame_aft_starboard
+    3300040: engine_frame_fore_port
+    3300042: engine_frame_fore_starboard
+    3300044: engine_frame_wires
+    3300046: engine_frame_wires 1
+    3300048: engine_lateral
+    3300050: engine_lateral 1
+    3300052: engine_lateral_frame_wires
+    3300054: engine_lateral_frame_wires 1
+    3300056: engine_lateral_wires
+    3300058: engine_lateral_wires 1
+    3300060: engine_port_frame
+    3300062: engine_starboard
+    3300064: engine_starboard 1
+    3300066: engine_starboard_frame
+    3300068: engine_starboard_wires
+    3300070: engine_starboard_wires 1
+    3300072: engine_wires
+    3300074: engine_wires 1
+    3300076: engine_wires 2
+    3300078: fore_engine_cover_port
+    3300080: fore_engine_cover_starboard
+    3300082: fore_frame
+    3300084: fore_panel_port
+    3300086: fore_panel_starboard
+    3300088: fore_tanks
+    3300090: fuel_hoses
+    3300092: grill
+    3300094: handle
+    3300096: hatch
+    3300098: headlight_frame
+    3300100: headlight_port
+    3300102: headlight_starboard
+    3300104: hood
+    3300106: horns
+    3300108: hose_connections
+    3300110: keel
+    3300112: manifold
+    3300114: midships_frame
+    3300116: ornament
+    3300118: radiator_cap
+    3300120: seat
+    3300122: stern
+    3300124: stern_frame
+    3300126: stern_panel_belly
+    3300128: stern_panel_starboard
+    3300130: stern_tanks
+    3300132: thruster
+    3300134: thruster1
+    3300136: thruster10
+    3300138: thruster11
+    3300140: thruster2
+    3300142: thruster3
+    3300144: thruster4
+    3300146: thruster5
+    3300148: thruster6
+    3300150: thruster7
+    3300152: thruster8
+    3300154: thruster9
+    3300156: thruster_wires
+    3300158: thruster_wires 1
+    3300160: thruster_wires 10
+    3300162: thruster_wires 11
+    3300164: thruster_wires 2
+    3300166: thruster_wires 3
+    3300168: thruster_wires 4
+    3300170: thruster_wires 5
+    3300172: thruster_wires 6
+    3300174: thruster_wires 7
+    3300176: thruster_wires 8
+    3300178: thruster_wires 9
+    3300180: windshield
+    4300000: bow
+    4300002: radiator_cap
+    4300004: ornament
+    4300006: bonnet
+    4300008: hood
+    4300010: engine_cover
+    4300012: keel
+    4300014: manifold
+    4300016: fuel_hoses
+    4300018: hose_connections
+    4300020: grill
+    4300022: fore_tanks
+    4300024: horns
+    4300026: headlight_frame
+    4300028: headlight_port
+    4300030: headlight_starboard
+    4300032: fore_frame
+    4300034: thruster1
+    4300036: thruster_wires
+    4300038: thruster2
+    4300040: thruster_wires
+    4300042: thruster3
+    4300044: thruster_wires
+    4300046: thruster4
+    4300048: thruster_wires
+    4300050: thruster5
+    4300052: thruster_wires
+    4300054: thruster6
+    4300056: thruster_wires
+    4300058: engine_starboard_frame
+    4300060: engine_lateral_frame_wires
+    4300062: engine_lateral
+    4300064: engine_lateral_wires
+    4300066: engine_port_frame
+    4300068: engine_lateral_frame_wires
+    4300070: engine_lateral
+    4300072: engine_lateral_wires
+    4300074: engine_frame_fore_starboard
+    4300076: engine_starboard
+    4300078: engine_wires
+    4300080: engine_starboard_wires
+    4300082: fore_panel_starboard
+    4300084: fore_engine_cover_starboard
+    4300086: engine_frame_fore_port
+    4300088: engine
+    4300090: Dueesenberg_engine_wires
+    4300092: engine_frame_wires
+    4300094: fore_panel_port
+    4300096: fore_engine_cover_port
+    4300098: chassis
+    4300100: windshield
+    4300102: dashboard
+    4300104: door
+    4300106: handle
+    4300108: seat
+    4300110: hatch
+    4300112: canopy
+    4300114: midships_frame
+    4300116: cabin_frame
+    4300118: stern
+    4300120: deck
+    4300122: stern_panel_starboard
+    4300124: stern_panel_belly
+    4300126: stern_tanks
+    4300128: stern_frame
+    4300130: thruster
+    4300132: thruster_wires
+    4300134: thruster7
+    4300136: thruster_wires
+    4300138: thruster8
+    4300140: thruster_wires
+    4300142: thruster9
+    4300144: thruster_wires
+    4300146: thruster10
+    4300148: thruster_wires
+    4300150: thruster11
+    4300152: thruster_wires
+    4300154: engine_frame_aft_port
+    4300156: engine
+    4300158: engine_wires
+    4300160: engine_frame_wires
+    4300162: aft_engine_cover_port
+    4300164: aft_panel_port_bottom
+    4300166: aft_panel_port_top
+    4300168: engine_frame_aft_starboard
+    4300170: engine_starboard
+    4300172: engine_wires
+    4300174: engine_starboard_wires
+    4300176: aft_engine_cover_starboard
+    4300178: aft_panel_starboard_bottom
+    4300180: aft_panel_starboard_top
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 2
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 75
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -16,5 +16,5 @@ MonoBehaviour:
   Nationality: Frederation
   Reputation: 0
   Money: 15000
-  ship: {fileID: 11400000, guid: e556c3b91a0f5624c8cb1113df0263e2, type: 2}
+  ship: {fileID: 11400000, guid: 7c1a194026b84d5488c3f288c3c60a7a, type: 2}
   spob: {fileID: 11400000, guid: 1052603c9975ce249be121b87b835048, type: 2}
