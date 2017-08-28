@@ -13,13 +13,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1695556556375878, guid: aef41e920e8d72d4991770d385968f39, type: 2}
   Name: Duesenberg Speedster
-  CargoSpace: 5
-  Mass: 23
+  CargoSpace: 3
+  Mass: 10
   Health: 20000
   EnginePower: 600
-  RollEffect: 0.1
-  PitchEffect: 0.12
-  YawEffect: 0.2
+  RollEffect: 0.2
+  PitchEffect: 0.3
+  YawEffect: 0.3
   SpinEffect: 0.1
   ThrottleEffect: 2
   BrakesEffect: 25
@@ -33,9 +33,10 @@ MonoBehaviour:
   ManeuveringEnergy: 200
   linearEnergy: 300
   Pivots:
-  - {x: -0.5, y: 1.5, z: -2.2}
+  - {x: -0.5, y: 2.5, z: -4}
   - {x: 0, y: 3, z: -20}
   - {x: -5, y: 0, z: -12}
+  - {x: -0.5, y: 1.5, z: -2.2}
   hitSounds:
   - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
   - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}

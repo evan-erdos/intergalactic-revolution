@@ -12,6 +12,7 @@ namespace Adventure.Astronautics {
         float distantPositionScale = 1000;
         string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
+        Transform distantPivot;
         PostProcessingBehaviour effects;
         public static Vector3 Pivot {get;set;}
         public static Vector3 CameraPosition => main.transform.position;
@@ -24,23 +25,23 @@ namespace Adventure.Astronautics {
 
         public static void Reset() => Target = null;
 
-        Camera CreateDistantCamera(float near=10, float far=15000) {
+        Camera CreateDistantCamera(float near=1, float far=15000) {
             var go = new GameObject("Distant Camera");
             var camera = go.AddComponent<Camera>();
             var effects = go.AddComponent<PostProcessingBehaviour>();
             effects.profile = Resources.Load(effectProfile) as PostProcessingProfile;
             (camera.cullingMask, camera.depth) = (1<<LayerMask.NameToLayer(layer),-2);
-            (camera.useOcclusionCulling, camera.layerCullSpherical) = (false,false);
-            (camera.nearClipPlane, camera.farClipPlane) = (near,far);
-            (camera.allowHDR, camera.allowMSAA) = (false,false);
-            (camera.layerCullSpherical, camera.stereoMirrorMode) = (true,true);
-            (camera.stereoConvergence, camera.stereoSeparation) = (0,0);
+            (camera.useOcclusionCulling, camera.layerCullSpherical) = (false, false);
+            (camera.nearClipPlane, camera.farClipPlane) = (near, far);
+            (camera.allowHDR, camera.allowMSAA) = (false, false);
+            (camera.layerCullSpherical, camera.stereoMirrorMode) = (true, true);
+            (camera.stereoConvergence, camera.stereoSeparation) = (0, 0);
             return camera;
         }
 
 
-        void Align(Transform o) => (o.transform.position, o.transform.rotation) =
-            (mainCamera.transform.position/distantPositionScale, mainCamera.transform.rotation);
+        void Align(Transform o) { if (o!=null) (o.transform.position, o.transform.rotation) =
+            (mainCamera.transform.position/distantPositionScale,mainCamera.transform.rotation); }
 
         void Awake() {
             if (!(singleton is null)) { Destroy(gameObject); return; }
@@ -48,15 +49,16 @@ namespace Adventure.Astronautics {
             (mainCamera, distantCamera) = (Get<Camera>(), CreateDistantCamera());
             DontDestroyOnLoad(mainCamera.gameObject);
             DontDestroyOnLoad(distantCamera.gameObject);
-            distantCamera.transform.parent = transform;
+            distantPivot = distantCamera.transform;
+            distantPivot.parent = transform;
             distantCamera.rect = mainCamera.rect;
-            distantCamera.fieldOfView = mainCamera.fieldOfView;
-            Align(distantCamera.transform);
+            // distantCamera.fieldOfView = mainCamera.fieldOfView; // not in VR
+            Align(distantPivot);
         }
 
         void Update() => mouse = (Input.GetAxis("Lateral"), Input.GetAxis("Vertical"));
 
-        // void FixedUpdate() => Align(distantCamera.transform);
+        // void FixedUpdate() => Align(distantPivot);
         void FixedUpdate() => transform.localRotation = Quaternion.Euler(
             x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
             y: transform.localEulerAngles.y+mouse.x*10, z: 0);
@@ -66,7 +68,7 @@ namespace Adventure.Astronautics {
                 main.transform.parent = Target;
                 main.transform.localPosition = Pivot;
                 main.transform.localRotation = Quaternion.identity;
-            } Align(distantCamera.transform);
+            } Align(distantPivot);
         }
 
         public void Jump(Quaternion rotation) {
@@ -78,14 +80,11 @@ namespace Adventure.Astronautics {
                 while (transform.localPosition!=destination) {
                     yield return new WaitForFixedUpdate();
                     transform.localPosition = Vector3.SmoothDamp(
-                        current: transform.localPosition,
-                        target: destination,
-                        currentVelocity: ref speed,
-                        smoothTime: 4,
-                        maxSpeed: 299792458,
-                        deltaTime: Time.fixedDeltaTime);
-                    distantCamera.transform.position = Vector3.SmoothDamp(
-                        current: distantCamera.transform.position, target: destination/100f,
+                        current: transform.localPosition, target: destination,
+                        currentVelocity: ref speed, maxSpeed: 299792458,
+                        smoothTime: 4, deltaTime: Time.fixedDeltaTime);
+                    distantPivot.position = Vector3.SmoothDamp(
+                        current: distantPivot.position, target: destination/100f,
                         currentVelocity: ref distantSpeed, maxSpeed: 299792458,
                         smoothTime: 4, deltaTime: Time.fixedDeltaTime);
                 }

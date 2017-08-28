@@ -25,7 +25,7 @@ MonoBehaviour:
         motionVectorsResolution: 24
         motionVectorsAmplitude: 64
   antialiasing:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       method: 1
       fxaaSettings:
@@ -46,7 +46,7 @@ MonoBehaviour:
       ambientOnly: 1
       highPrecision: 0
   screenSpaceReflection:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       reflection:
         blendType: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
       useCameraFov: 0
       kernelSize: 2
   motionBlur:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       shutterAngle: 40
       sampleCount: 4
