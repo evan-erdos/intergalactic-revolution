@@ -53,11 +53,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d390130551f4b82ab7785f1f3627f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCreate:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   profile: {fileID: 11400000, guid: 6d8a568af087749b98eb1f84852dad71, type: 2}
 --- !u!114 &114386858864168352
 MonoBehaviour:

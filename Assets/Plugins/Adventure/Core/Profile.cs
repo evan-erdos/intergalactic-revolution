@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Adventure {
-    public class Profile : ScriptableObject {
-        [System.NonSerialized] public string Uuid; }
+
+    public class Profile : ScriptableObject { [System.NonSerialized] public string Uuid; }
+
+    public class Profile<T> : Profile where T : Profile { protected T prototype; }
 }

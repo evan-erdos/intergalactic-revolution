@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.PostProcessing;
 
 [CreateAssetMenu(fileName="Assets/Prefabs/Spobs/NewSpobProfile.asset")]
-public class SpobProfile : Adventure.Profile {
+public class SpobProfile : Adventure.Profile<SpobProfile> {
     public string Name = "Station Alpha A";
     public string Faction = "Frederation";
     public StarProfile Star;

@@ -10,13 +10,18 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
     public class Spaceship : Adventure.Object, ISpaceship, ICreatable<ShipProfile> {
-        float Shift, Spin, rollAngle, pitchAngle, energy = 8000, SpinEnergy = 200;
-        float energyJumpFactor = 9, energyLoss=50, energyGain=20, maneuveringEnergy=100;
-        float rollEffect=1, pitchEffect=1, yawEffect=0.2f, dragEffect=0.001f;
+        float Shift, Spin, rollAngle, pitchAngle, energy=8000, jumpForce=1000;
+        float energyJumpFactor=9, energyLoss=50, energyGain=20, maneuveringEnergy=100;
+        float rollEffect=1, pitchEffect=1, yawEffect=0.2f, dragEffect=0.001f, SpinEnergy=20;
         float brakesEffect=3, thrustEffect=0.5f, linearEnergy=800, linearEnergyMax=3000;
+        float engineMasterVolume, windMasterVolume, engineMinDistance, engineMaxDistance;
+        float engineMinPitch, engineMaxPitch, engineForwardFactor, engineDopplerLevel=1;
+        float windPitch, windMinDistance, windMaxDistance, windPitchSpeed, windMaxSpeed;
         Animator animator; new AudioSource audio; new Rigidbody rigidbody;
         ParticleSystem particles;
-        AudioClip modeClip, changeClip, selectClip, hyperspaceClip, alarmClip;
+        AudioSource thrust, engine, wind;
+        AudioClip modeClip, changeClip, selectClip, alarmClip;
+        AudioClip engineClip, windClip, boostClip, hyperspaceClip;
         GameObject explosionPrefab, hyperspacePrefab, thrusterPrefab, motesOfLightPrefab;
         Pool<Transform> hyperspaces = new Pool<Transform>();
         List<AudioClip> hitSounds = new List<AudioClip>();
@@ -82,7 +87,7 @@ namespace Adventure.Astronautics.Spaceships {
         public void Jump(TravelArgs e=null) => JumpEvent(e ?? new TravelArgs { Sender=this, Destination=Destination });
 
         public void Disable() => (IsEnabled, rigidbody.drag, rigidbody.angularDrag) = (false,0,0);
-        public void Reset() => (IsEnabled, IsAlive, rigidbody.mass, Health, Energy) = (true,true,Mass,MaxHealth,MaxEnergy);
+        public void Reset() => (IsEnabled, IsAlive, Health, Energy) = (true, true, MaxHealth, MaxEnergy);
         public void Alarm() => audio.Play();
 
         public void Create(ShipProfile o) {
@@ -92,12 +97,18 @@ namespace Adventure.Astronautics.Spaceships {
             (energyLoss, energyGain, MaxEnergy) = (o.EnergyLoss, o.EnergyGain, o.EnergyCapacity);
             (dragEffect, EnergyThrust, Pivots) = (o.DragEffect, o.EnergyThrust, o.Pivots);
             (TopSpeed, maneuveringEnergy, linearEnergy) = (o.TopSpeed, o.ManeuveringEnergy, o.linearEnergy);
-            (hitSounds, shieldSounds, modeClip, changeClip) = (o.hitSounds, shieldSounds, o.modeClip, o.changeClip);
-            (selectClip, hyperspaceClip, alarmClip) = (o.selectClip, o.hyperspaceClip, o.alarmClip);
-            (explosionPrefab, hyperspacePrefab, thrusterPrefab, motesOfLightPrefab) = (o.explosion, o.hyperspace, o.thruster, o.motesOfLight);
-            particles = Create<ParticleSystem>(motesOfLightPrefab);
-            foreach (var i in GetChildren<ThrusterSocket>()) {
-                var t = Create<IThruster>(thrusterPrefab); t.SetShip(this); thrusters.Add(t); i.SetTarget(t); }
+            (hitSounds, shieldSounds, hyperspaceClip) = (o.hitSounds, o.shieldSounds, o.hyperspaceClip);
+            (selectClip, modeClip, changeClip, alarmClip) = (o.selectClip, o.modeClip, o.changeClip, o.alarmClip);
+            (engineClip, windClip, boostClip) = (o.engineClip, o.windClip, o.boostClip);
+            (explosionPrefab, hyperspacePrefab) = (o.explosion, o.hyperspace);
+            (thrusterPrefab, motesOfLightPrefab) = (o.thruster, o.motesOfLight);
+            (engineMasterVolume, windMasterVolume) = (o.engineMasterVolume, o.windMasterVolume);
+            (engineMinDistance, engineMaxDistance) = (o.engineMinDistance, o.engineMaxDistance);
+            (windMinDistance, windMaxDistance) = (o.windMinDistance, o.windMaxDistance);
+            (engineMinPitch, engineMaxPitch) = (o.engineMinPitch, o.engineMaxPitch);
+            (engineForwardFactor, engineDopplerLevel) = (o.engineForwardFactor, o.engineDopplerLevel);
+            (windPitch, windPitchSpeed, windMaxSpeed) = (o.windPitch, o.windPitchSpeed, o.windMaxSpeed);
+            if (motesOfLightPrefab) particles = Create<ParticleSystem>(motesOfLightPrefab);
         }
 
         int nextSystem = -1; // gross
@@ -185,10 +196,11 @@ namespace Adventure.Astronautics.Spaceships {
 
         void Awake() {
             (animator, rigidbody, audio) = (Get<Animator>(), Get<Rigidbody>(), GetOrAdd<AudioSource>());
-            (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip,true,false);
-            (mechanics, shields) = (GetChildren<IShipPart>(), GetChildren<IShield>());
+            (audio.clip, audio.loop, audio.playOnAwake) = (alarmClip, true, false);
+            (mechanics, shields, thrusters) = (GetChildren<IShipPart>(), GetChildren<IShield>(), GetChildren<IThruster>());
             parts = new Stack<IDamageable>(GetChildren<IDamageable>().Where(o => !(o is IShield)));
             blasters[typeof(IWeapon)] = GetChildren<IWeapon>().Where(o => !(o is ISpaceship)).ToList();
+            foreach (var t in thrusters) t.SetShip(this);
             foreach (var a in blasters) foreach (var b in a.Value) b.Location.gameObject.SetActive(false);
             foreach (var r in GetChildren<Renderer>())
                 if (r.CompareTag("Destroyed")) destroyable.Add(r); else degradable.Add(r);
@@ -204,6 +216,25 @@ namespace Adventure.Astronautics.Spaceships {
             hypertrail.Add(query);
             hypertrail.ForEach(o => o.gameObject.SetActive(false));
             Reset();
+
+            engine = gameObject.AddComponent<AudioSource>();
+            wind = gameObject.AddComponent<AudioSource>();
+            thrust = gameObject.AddComponent<AudioSource>();
+
+            (engine.clip, engine.playOnAwake, engine.loop) = (engineClip, false, true);
+            (engine.spatialBlend, engine.dopplerLevel) = (1, engineDopplerLevel);
+            (engine.minDistance, engine.maxDistance) = (engineMinDistance, engineMaxDistance);
+
+            (wind.clip, wind.playOnAwake, wind.loop) = (windClip, false, true);
+            (wind.spatialBlend, wind.dopplerLevel) = (1, 0);
+            (wind.minDistance, wind.maxDistance) = (windMinDistance, windMaxDistance);
+
+            (thrust.clip, thrust.playOnAwake, thrust.loop) = (boostClip, false, true);
+            (thrust.spatialBlend, thrust.dopplerLevel) = (1, 0);
+            (thrust.minDistance, thrust.maxDistance) = (engineMinDistance, engineMaxDistance);
+
+            BalanceAudio(); engine.Play(); wind.Play(); thrust.Play();
+
             if (hyperspacePrefab!=null) hyperspaces = new Pool<Transform>(2, () => {
                 var instance = Create<Transform>(hyperspacePrefab);
                 (instance.parent, instance.localPosition) = (transform, Vector3.zero);
@@ -226,12 +257,14 @@ namespace Adventure.Astronautics.Spaceships {
             }
         }
 
+        void Update() => BalanceAudio();
+
         void FixedUpdate() {
             if (Shield<MaxShield) Shield += EnergyPotential*Time.fixedDeltaTime;
             else Energy += EnergyPotential*Time.fixedDeltaTime; }
 
         void OnCollisionEnter(Collision c) => Hit(new CombatArgs { Sender=this,
-            Target=c.contacts.First().thisCollider?.Get<IShield>(), Damage=c.impulse.magnitude/4f });
+            Target=c.contacts.First().thisCollider?.Get<IShield>(), Damage=c.impulse.magnitude/100f });
 
         int nextFire = -1; // on the way out
         public void Fire(CombatArgs e=null) {
@@ -459,7 +492,7 @@ namespace Adventure.Astronautics.Spaceships {
             if (Energy>=EnergyJump/2) StartSemaphore(Jumping);
             IEnumerator Jumping() {
                 Energy -= EnergyJump/2;
-                rigidbody.AddForce(transform.forward*10000,ForceMode.Impulse);
+                rigidbody.AddForce(transform.forward*jumpForce,ForceMode.Impulse);
                 hypertrail.ForEach(o => {o.gameObject.SetActive(true);o.Play();});
                 yield return new WaitForFixedUpdate();
                 hyperspaces.Create(transform.position);
@@ -498,9 +531,21 @@ namespace Adventure.Astronautics.Spaceships {
         }
 
 
+        void BalanceAudio() {
+            if (!IsAlive) return;
+            var engineProportion = Mathf.InverseLerp(0,EnginePower,CurrentPower);
+            engine.pitch = Mathf.Lerp(engineMinPitch,engineMaxPitch,engineProportion);
+            engine.pitch += Energy*engineForwardFactor;
+            engine.volume = Mathf.InverseLerp(0, EnginePower*engineMasterVolume, CurrentPower);
+            thrust.volume = Mathf.Lerp(0,engineMasterVolume,Thrust);
+            wind.pitch = windPitch + Speed*windPitchSpeed;
+            wind.volume = Mathf.InverseLerp(0,windMaxSpeed,Speed)*windMasterVolume;
+        }
+
+
         void OnHit(CombatArgs e) {
             if (!IsAlive) return;
-            if (e.Target is IShield s) { s.Hit(e.Damage); audio.PlayOneShot(shieldSounds.Pick(),0.8f); return; }
+            if (e.Target is IShield s) { s.Hit(e.Damage); audio.PlayOneShot(shieldSounds.Pick(),0.5f); return; }
             // if (Shield>e.Damage) { Shield -= e.Damage; return; }
             Health -= e.Damage;
             StartSemaphore(Damaging);
@@ -532,8 +577,9 @@ namespace Adventure.Astronautics.Spaceships {
 
         void OnKill() {
             if (!IsAlive) return; IsAlive = false;
-            if (-400<Health) StartSemaphore(HaltAndCatchFire);
-            else StartSemaphore(Detonating);
+            if (-100<Health) StartSemaphore(HaltAndCatchFire);
+            else StartSemaphore(Killing);
+            Delete(engine, wind, thrust);
 
             IEnumerator HaltAndCatchFire() {
                 Disable(); Alarm();
@@ -541,15 +587,11 @@ namespace Adventure.Astronautics.Spaceships {
                 StartCoroutine(Killing());
             }
 
-            IEnumerator Detonating() {
-                destroyable.ForEach(o => { o.enabled = true; o.transform.parent = null; });
-                degradable.ForEach(o => o.enabled = false);
-                yield return StartCoroutine(Killing());
-            }
-
             IEnumerator Killing() {
                 Disable();
                 while (0<parts.Count) DestroyPart();
+                destroyable.ForEach(o => { o.enabled = true; o.transform.parent = null; });
+                degradable.ForEach(o => o.enabled = false);
                 mechanics.ForEach(o => o.Disable());
                 var instance = Create(explosionPrefab, transform.position, transform.rotation);
                 instance.transform.parent = transform;

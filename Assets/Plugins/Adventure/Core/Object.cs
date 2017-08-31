@@ -60,12 +60,17 @@ namespace Adventure {
         public void Delete(params Component[] a) => a.ForEach(o => Destroy(o));
         public static bool operator !(Object o) => o==null;
         public static T Create<T>(GameObject original) => Create<T>(original, Vector3.zero);
+        public static T Create<T>(GameObject original, Transform parent) => Create(original,parent).Get<T>();
         public static T Create<T>(GameObject original, Vector3 position) => Create<T>(original, position, Quaternion.identity);
         public static T Create<T>(GameObject original, Vector3 position, Quaternion rotation) => Create(original,position,rotation).Get<T>();
         public static GameObject Create(GameObject original) => Create(original, Vector3.zero);
         public static GameObject Create(GameObject original, Vector3 position) => Create(original,position,Quaternion.identity);
+        public static GameObject Create(GameObject original, Transform parent) {
+            var o = Create(original, parent.position, parent.rotation); o.transform.parent = parent;
+            o.transform.localPosition = Vector3.zero; o.transform.localRotation = Quaternion.identity; return o; }
         public static GameObject Create(GameObject original, Vector3 position, Quaternion rotation) {
-            var o = Instantiate(original,position,rotation); if (o.Get<ICreatable>() is ICreatable c) { c.Init(); c.Create(); } return o; }
+            var o = Instantiate(original, position, rotation);
+            if (o.Get<ICreatable>() is ICreatable c) { c.Init(); c.Create(); } return o; }
 
         public class Data {
             public string name {get;set;}

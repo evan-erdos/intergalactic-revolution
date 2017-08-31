@@ -9,22 +9,27 @@ using Adventure.Astronautics;
 
 namespace Adventure.Astronautics.Spaceships {
     public class SpacePlayer : SpaceActor {
+        static bool isVR = true;
+        static string vrTouch = " VR", vr = "";
         FlightArgs e = new FlightArgs();
         [SerializeField] PilotProfile profile;
+        void Start() => vr = isVR?vrTouch:"";
         public override void OnStartLocalPlayer() => DontDestroyOnLoad(gameObject);
         protected override void FixedUpdate() { base.FixedUpdate(); Ship?.Move(e); }
         void Update() { // if (isLocalPlayer) ControlInput(); }
-            (e.Sender, e.Thrust) = (this, Input.GetAxis("Thrust")-(Input.GetButton("Drag")?2:0));
-            (e.Roll, e.Pitch, e.Yaw) = (Input.GetAxis("Roll"), Input.GetAxis("Pitch"), Input.GetAxis("Yaw"));
-            (e.Lift, e.Strafe, e.Spin) = (Input.GetAxis("Lift"), Input.GetAxis("Strafe"), Input.GetButton("Spin")?1:0);
-            if (Input.GetButton("Fire") || 0.8<Input.GetAxis("Attack")) Ship?.Fire();
-            if (Input.GetButton("Jump")) Ship?.HyperJump();
-            if (Input.GetButtonDown("Target")) Ship?.SelectTarget();
-            if (Input.GetButtonDown("Select")) Ship?.SelectSystem();
-            if (Input.GetAxis("Cycle")>0) Ship?.SelectWeapon();
-            if (Input.GetAxis("Cycle")<0) Ship?.ToggleView();
-            if (Input.GetButton("Shift")) (e.Roll, e.Yaw) = (0, Input.GetAxis("Roll"));
-            else (e.Lift, e.Strafe) = (0,0);
+            (e.Sender, e.Thrust) = (this, GetAxis("Thrust")-(GetButton("Drag")?2:0));
+            (e.Roll, e.Pitch, e.Yaw) = (GetAxis("Roll"), GetAxis("Pitch"), GetAxis("Yaw"));
+            (e.Lift, e.Strafe, e.Spin) = (GetAxis("Lift"), GetAxis("Strafe"), GetAxis("Spin"));
+            if (GetButton("Fire") || 0.1<GetAxis("Attack")) Ship?.Fire();
+            if (GetButton("Jump")) Ship?.HyperJump();
+            if (GetButtonDown("Target")) Ship?.SelectTarget();
+            // if (Input.GetButtonDown("Select")) Ship?.SelectSystem();
+            if (GetButton("Shift")) (e.Roll, e.Yaw) = (0, GetAxis("Roll"));
+            else (e.Lift, e.Strafe) = (0,0); // Manager.PrintInput();
+
+            float GetAxis(string o) => Input.GetAxis($"{o}{vr}");
+            bool GetButton(string o) => Input.GetButton($"{o}{vr}");
+            bool GetButtonDown(string o) => Input.GetButtonDown($"{o}{vr}");
         }
 
         public override void SetShip(Spaceship o) {

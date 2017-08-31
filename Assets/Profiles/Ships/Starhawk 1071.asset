@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
+  m_Name: Starhawk 1071
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1971663455059580, guid: 7633dd62c9b096946a065b7f6bb81ce9, type: 2}
+  Name: Starhawk 1071
+  CargoSpace: 5
+  Mass: 15
+  Health: 2100
+  EnginePower: 180
+  RollEffect: 0.2
+  PitchEffect: 0.15
+  YawEffect: 0.3
+  SpinEffect: 0.4
+  ThrottleEffect: 2
+  BrakesEffect: 100
+  AeroEffect: 1
+  DragEffect: 50
+  EnergyThrust: 250
+  EnergyCapacity: 3000
+  EnergyLoss: 60
+  EnergyGain: 40
+  TopSpeed: 360
+  ManeuveringEnergy: 200
+  linearEnergy: 400
+  Pivots:
+  - {x: 0, y: 1.6, z: 0.3}
+  - {x: 0, y: 4, z: -20}
+  hitSounds:
+  - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
+  - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}
+  shieldSounds:
+  - {fileID: 8300000, guid: 98a26c41b6bac4f8a850a3e2972eabcf, type: 3}
+  explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
+  hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}
+  thruster: {fileID: 1410588492707920, guid: 3880aca961dda4be887ce4e134a2f292, type: 2}
+  motesOfLight: {fileID: 1793020942131998, guid: f07658781d1c9304bb3dd383da17d41e,
+    type: 2}
+  engineMasterVolume: 0.5
+  windMasterVolume: 0.2
+  engineMinPitch: 0.4
+  engineMaxPitch: 1
+  engineForwardFactor: 0.0002
+  engineClip: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
+  boostClip: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
+  windClip: {fileID: 8300000, guid: 9db9336e9f17c9744847c5fe94c1650f, type: 3}
+  windPitch: 0.2
+  windPitchSpeed: 0.004
+  windMaxSpeed: 2000
+  engineMinDistance: 50
+  engineMaxDistance: 1000
+  engineDopplerLevel: 1
+  windMinDistance: 10
+  windMaxDistance: 100
+  windDopplerLevel: 1
+  modeClip: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
+  changeClip: {fileID: 8300000, guid: 9815425169548454a9e8264c159581f8, type: 3}
+  selectClip: {fileID: 8300000, guid: 75024edad0464486381177a71b449093, type: 3}
+  hyperspaceClip: {fileID: 8300000, guid: 9b4760fb4beea4ff7a92a9daf28ebe03, type: 3}
+  alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName="Assets/Profiles/Pilots/NewPilotProfile.asset")]
-public class PilotProfile : Adventure.Profile {
+public class PilotProfile : Adventure.Profile<PilotProfile> {
     public GameObject prefab;
     public string Name = "Evan Erdos"; // twitter handle
     public string Nationality = "Frederation®"; // passport

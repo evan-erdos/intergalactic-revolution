@@ -157,12 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCreate:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  damage: 600
+  damage: 30
   onHit:
     m_PersistentCalls:
       m_Calls: []

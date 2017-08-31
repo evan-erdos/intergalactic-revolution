@@ -58,7 +58,7 @@ namespace Adventure.Astronautics.Spaceships {
         IEnumerator Start() {
             perlin = Random.Range(0,100);
             if (ship is null) ship = Get<Spaceship>();
-            (rigidbody,weapons) = (ship.Get<Rigidbody>(), ship.GetChildren<Weapon>());
+            (rigidbody, weapons) = (ship.Get<Rigidbody>(), ship.GetChildren<Weapon>());
             var (radius, mask) = (10000, 1<<LayerMask.NameToLayer("Player"));
             StartSemaphore(Toggling);
 

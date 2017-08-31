@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName="Assets/Prefabs/Items/NewBlasterProfile.asset")]
-public class BlasterProfile : Adventure.Profile {
+public class BlasterProfile : Adventure.Profile<BlasterProfile> {
     public GameObject prefab;
     public string Name = "Energy Blaster";
     public float Health = 1000; // N
@@ -14,6 +14,7 @@ public class BlasterProfile : Adventure.Profile {
     public float Spread = 100; // m
     public float Range = 1000; // m
     public float Angle = 60; // deg
+    public GameObject particles;
     public GameObject Projectile;
     public SoundProfile sound;
 }

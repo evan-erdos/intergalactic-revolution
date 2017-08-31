@@ -9,10 +9,10 @@ using Adventure.Astronautics;
 namespace Adventure.Astronautics {
     public class PlayerCamera : Adventure.Object {
         (float x, float y) mouse = (0,0);
-        float distantPositionScale = 1000;
+        float distantScale = 1000;
         string effectProfile = "DefaultAtmosphere", layer = "Distant";
         Camera mainCamera, distantCamera;
-        Transform distantPivot;
+        Transform mainRoot, distantPivot, distantRoot;
         PostProcessingBehaviour effects;
         public static Vector3 Pivot {get;set;}
         public static Vector3 CameraPosition => main.transform.position;
@@ -26,7 +26,9 @@ namespace Adventure.Astronautics {
         public static void Reset() => Target = null;
 
         Camera CreateDistantCamera(float near=1, float far=15000) {
-            var go = new GameObject("Distant Camera");
+            distantRoot = new GameObject("Distant Camera").transform;
+            var go = new GameObject("Camera");
+            go.transform.parent = distantRoot.transform;
             var camera = go.AddComponent<Camera>();
             var effects = go.AddComponent<PostProcessingBehaviour>();
             effects.profile = Resources.Load(effectProfile) as PostProcessingProfile;
@@ -34,42 +36,32 @@ namespace Adventure.Astronautics {
             (camera.useOcclusionCulling, camera.layerCullSpherical) = (false, false);
             (camera.nearClipPlane, camera.farClipPlane) = (near, far);
             (camera.allowHDR, camera.allowMSAA) = (false, false);
-            (camera.layerCullSpherical, camera.stereoMirrorMode) = (true, true);
+            // (camera.layerCullSpherical, camera.stereoMirrorMode) = (true, true);
             (camera.stereoConvergence, camera.stereoSeparation) = (0, 0);
             return camera;
         }
 
 
-        void Align(Transform o) { if (o!=null) (o.transform.position, o.transform.rotation) =
-            (mainCamera.transform.position/distantPositionScale,mainCamera.transform.rotation); }
+        void Align() => (distantRoot.position, distantRoot.rotation) =
+            (mainRoot.position/distantScale, mainRoot.parent?.rotation ?? Quaternion.identity);
 
         void Awake() {
             if (!(singleton is null)) { Destroy(gameObject); return; }
             (singleton, effects) = (this, Get<PostProcessingBehaviour>());
             (mainCamera, distantCamera) = (Get<Camera>(), CreateDistantCamera());
-            DontDestroyOnLoad(mainCamera.gameObject);
-            DontDestroyOnLoad(distantCamera.gameObject);
-            distantPivot = distantCamera.transform;
-            distantPivot.parent = transform;
+            // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(distantRoot.gameObject);
+            (mainRoot, distantPivot) = (mainCamera.transform, distantCamera.transform);
             distantCamera.rect = mainCamera.rect;
             // distantCamera.fieldOfView = mainCamera.fieldOfView; // not in VR
-            Align(distantPivot);
+            Align();
         }
-
-        void Update() => mouse = (Input.GetAxis("Lateral"), Input.GetAxis("Vertical"));
-
-        // void FixedUpdate() => Align(distantPivot);
-        void FixedUpdate() => transform.localRotation = Quaternion.Euler(
-            x: Mathf.Clamp(transform.localEulerAngles.x+mouse.y*10,-60,60),
-            y: transform.localEulerAngles.y+mouse.x*10, z: 0);
 
         void LateUpdate() {
-            if (!(Target is null)) {
-                main.transform.parent = Target;
-                main.transform.localPosition = Pivot;
-                main.transform.localRotation = Quaternion.identity;
-            } Align(distantPivot);
+            if (!(Target is null)) { mainRoot.parent = Target; mainRoot.localPosition = Pivot; }
+            Align(); // mainRoot.localRotation = Quaternion.identity;
         }
+
 
         public void Jump(Quaternion rotation) {
             StartSemaphore(Jumping);

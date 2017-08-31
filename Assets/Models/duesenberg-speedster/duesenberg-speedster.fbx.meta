@@ -462,6 +462,97 @@ ModelImporter:
     4300176: aft_engine_cover_starboard
     4300178: aft_panel_starboard_bottom
     4300180: aft_panel_starboard_top
+    6400000: aft_engine_cover_port
+    6400002: aft_engine_cover_starboard
+    6400004: aft_panel_port_bottom
+    6400006: aft_panel_port_top
+    6400008: aft_panel_starboard_bottom
+    6400010: aft_panel_starboard_top
+    6400012: bonnet
+    6400014: bow
+    6400016: cabin_frame
+    6400018: canopy
+    6400020: chassis
+    6400022: dashboard
+    6400024: deck
+    6400026: door
+    6400028: Dueesenberg_engine_wires
+    6400030: engine
+    6400032: engine 1
+    6400034: engine_cover
+    6400036: engine_frame_aft_port
+    6400038: engine_frame_aft_starboard
+    6400040: engine_frame_fore_port
+    6400042: engine_frame_fore_starboard
+    6400044: engine_frame_wires
+    6400046: engine_frame_wires 1
+    6400048: engine_lateral
+    6400050: engine_lateral 1
+    6400052: engine_lateral_frame_wires
+    6400054: engine_lateral_frame_wires 1
+    6400056: engine_lateral_wires
+    6400058: engine_lateral_wires 1
+    6400060: engine_port_frame
+    6400062: engine_starboard
+    6400064: engine_starboard 1
+    6400066: engine_starboard_frame
+    6400068: engine_starboard_wires
+    6400070: engine_starboard_wires 1
+    6400072: engine_wires
+    6400074: engine_wires 1
+    6400076: engine_wires 2
+    6400078: fore_engine_cover_port
+    6400080: fore_engine_cover_starboard
+    6400082: fore_frame
+    6400084: fore_panel_port
+    6400086: fore_panel_starboard
+    6400088: fore_tanks
+    6400090: fuel_hoses
+    6400092: grill
+    6400094: handle
+    6400096: hatch
+    6400098: headlight_frame
+    6400100: headlight_port
+    6400102: headlight_starboard
+    6400104: hood
+    6400106: horns
+    6400108: hose_connections
+    6400110: keel
+    6400112: manifold
+    6400114: midships_frame
+    6400116: ornament
+    6400118: radiator_cap
+    6400120: seat
+    6400122: stern
+    6400124: stern_frame
+    6400126: stern_panel_belly
+    6400128: stern_panel_starboard
+    6400130: stern_tanks
+    6400132: thruster
+    6400134: thruster1
+    6400136: thruster10
+    6400138: thruster11
+    6400140: thruster2
+    6400142: thruster3
+    6400144: thruster4
+    6400146: thruster5
+    6400148: thruster6
+    6400150: thruster7
+    6400152: thruster8
+    6400154: thruster9
+    6400156: thruster_wires
+    6400158: thruster_wires 1
+    6400160: thruster_wires 10
+    6400162: thruster_wires 11
+    6400164: thruster_wires 2
+    6400166: thruster_wires 3
+    6400168: thruster_wires 4
+    6400170: thruster_wires 5
+    6400172: thruster_wires 6
+    6400174: thruster_wires 7
+    6400176: thruster_wires 8
+    6400178: thruster_wires 9
+    6400180: windshield
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -490,8 +581,8 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 75
-    meshCompression: 0
-    addColliders: 0
+    meshCompression: 1
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0

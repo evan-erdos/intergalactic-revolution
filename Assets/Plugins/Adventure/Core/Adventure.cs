@@ -826,6 +826,10 @@ namespace Adventure {
             }
         }
 
+        public static void SetLayer(this Transform o, string layer) => o.SetLayer(LayerMask.NameToLayer(layer));
+        public static void SetLayer(this Transform o, int layer) {
+            o.gameObject.layer = layer; foreach (Transform t in o) t.SetLayer(layer); }
+
         public static IEnumerable<Type> GetTypes(this Type type, Type root=null) {
             if (type==null || type.BaseType == null) yield break;
             if (root==null) root = typeof(object);

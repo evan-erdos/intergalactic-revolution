@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
+  m_Name: Speeder 441
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1997343155729908, guid: 3fcb0e47dee997a4c9bbc6f18840ed7f, type: 2}
+  Name: Speeder 441
+  CargoSpace: 10
+  Mass: 20
+  Health: 450
+  EnginePower: 70
+  RollEffect: 0.2
+  PitchEffect: 0.15
+  YawEffect: 0.4
+  SpinEffect: 0.5
+  ThrottleEffect: 2
+  BrakesEffect: 10
+  AeroEffect: 2
+  DragEffect: 20
+  EnergyThrust: 80
+  EnergyCapacity: 300
+  EnergyLoss: 50
+  EnergyGain: 40
+  TopSpeed: 110
+  ManeuveringEnergy: 100
+  linearEnergy: 100
+  Pivots:
+  - {x: 0, y: 0.375, z: 0.62}
+  - {x: 0, y: 4, z: -20}
+  hitSounds:
+  - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
+  - {fileID: 8300000, guid: 2928ed0a430c94820a04523ea9100006, type: 3}
+  shieldSounds: []
+  explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
+  hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}
+  thruster: {fileID: 1384512921504776, guid: 8dade565380980244b2f5e73cc327343, type: 2}
+  motesOfLight: {fileID: 0}
+  engineMasterVolume: 0.5
+  windMasterVolume: 0.5
+  engineMinPitch: 0.4
+  engineMaxPitch: 1
+  engineForwardFactor: 0.0002
+  engineClip: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
+  boostClip: {fileID: 8300000, guid: 44644a76b84f742c9b7b34449664945c, type: 3}
+  windClip: {fileID: 8300000, guid: 9db9336e9f17c9744847c5fe94c1650f, type: 3}
+  windPitch: 0.2
+  windPitchSpeed: 0.004
+  windMaxSpeed: 2000
+  engineMinDistance: 50
+  engineMaxDistance: 1000
+  engineDopplerLevel: 1
+  windMinDistance: 10
+  windMaxDistance: 100
+  windDopplerLevel: 1
+  modeClip: {fileID: 8300000, guid: 90bf8646db68741b28f7c87b8565b2d4, type: 3}
+  changeClip: {fileID: 8300000, guid: 9815425169548454a9e8264c159581f8, type: 3}
+  selectClip: {fileID: 8300000, guid: 75024edad0464486381177a71b449093, type: 3}
+  hyperspaceClip: {fileID: 8300000, guid: 9b4760fb4beea4ff7a92a9daf28ebe03, type: 3}
+  alarmClip: {fileID: 8300000, guid: 1727325c8006b42849c557677f7e45f6, type: 3}

@@ -56,8 +56,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1883869139232688}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5532.4, y: -612.12164, z: 305}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4910585358259788}
   m_Father: {fileID: 0}
@@ -178,7 +178,7 @@ TrailRenderer:
   m_Time: 1
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 4
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -296,14 +296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 382bc19b38d2e41a4b57ed8e01c5a619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onCreate:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Adventure.SpatialEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   track: 6000
   speed: 3000
-  damage: 100
+  damage: 1000
   particles: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
   onHit:
     m_PersistentCalls:

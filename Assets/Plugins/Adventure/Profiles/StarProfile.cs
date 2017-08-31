@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName="Assets/Profiles/StarSystems/NewStarProfile.asset")]
-public class StarProfile : Adventure.Profile {
+public class StarProfile : Adventure.Profile<StarProfile> {
     public GameObject prefab;
     public string Name = "Sol";
     public Vector3 StellarPosition = new Vector3(0,0,0);

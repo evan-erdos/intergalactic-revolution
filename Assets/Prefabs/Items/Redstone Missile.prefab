@@ -1686,12 +1686,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: 1000
   speed: 5000
-  force: 10000
+  damage: 10000
   particles: {fileID: 194686, guid: 2855641ec9f614e5b9b7e54451b67424, type: 2}
   onHit:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Adventure.Astronautics.SpaceEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Adventure.CombatEvent, Assembly-CSharp-firstpass, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!205 &205459327605843554
 LODGroup:

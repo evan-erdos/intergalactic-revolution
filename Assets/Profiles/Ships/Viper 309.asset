@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e2f8b61b08649f985401b5c6039522, type: 3}
+  m_Name: Viper 309
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1695912349146176, guid: 3a36e32c6943b46b7a85b1b76683bd2b, type: 2}
+  Name: T-31 Viper 309
+  CargoSpace: 30
+  Mass: 12
+  Health: 300
+  EnginePower: 10
+  RollEffect: 0.2
+  PitchEffect: 0.15
+  YawEffect: 0.3
+  SpinEffect: 0.5
+  ThrottleEffect: 1
+  BrakesEffect: 1
+  AeroEffect: 0.02
+  DragEffect: 10
+  EnergyThrust: 20
+  EnergyCapacity: 300
+  EnergyLoss: 50
+  EnergyGain: 10
+  TopSpeed: 120
+  ManeuveringEnergy: 50
+  linearEnergy: 200
+  Pivots:
+  - {x: 0, y: 6, z: -20}
+  hitSounds:
+  - {fileID: 8300000, guid: acd41b7f61b8d442d840711654be0b87, type: 3}
+  - {fileID: 8300000, guid: d9787d776a39f43639e032181b3cdbf5, type: 3}
+  shieldSounds:
+  - {fileID: 8300000, guid: 98a26c41b6bac4f8a850a3e2972eabcf, type: 3}
+  explosion: {fileID: 124090, guid: c3792690eba27449abc1fb6dd5b26b61, type: 2}
+  hyperspace: {fileID: 1138945117141054, guid: 5ee25d2ab81004a4cbbe51b7a21c9b95, type: 2}
+  thruster: {fileID: 0}
+  motesOfLight: {fileID: 0}
+  engineMasterVolume: 0.25
+  windMasterVolume: 0.5
+  engineMinPitch: 0.4
+  engineMaxPitch: 1
+  engineForwardFactor: 0.0002
+  engineClip: {fileID: 0}
+  boostClip: {fileID: 0}
+  windClip: {fileID: 0}
+  windPitch: 0.2
+  windPitchSpeed: 0.001
+  windMaxSpeed: 2000
+  engineMinDistance: 50
+  engineMaxDistance: 1000
+  engineDopplerLevel: 1
+  windMinDistance: 10
+  windMaxDistance: 100
+  windDopplerLevel: 1
+  modeClip: {fileID: 0}
+  changeClip: {fileID: 0}
+  selectClip: {fileID: 0}
+  hyperspaceClip: {fileID: 0}
+  alarmClip: {fileID: 0}

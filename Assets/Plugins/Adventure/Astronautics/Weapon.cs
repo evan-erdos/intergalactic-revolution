@@ -30,9 +30,12 @@ namespace Adventure.Astronautics {
         public Vector3 Barrel {get;protected set;} // position
         public ITrackable Target {get;set;} // object
 
-        public virtual void Create(BlasterProfile o) =>
-            (Health, Force, Rate, Spread, Range, Angle, Projectile, sounds) =
-                (o.Health, o.Force, o.Rate, o.Spread, o.Range, o.Angle, o.Projectile, o.sound.sounds);
+        public virtual void Create(BlasterProfile o) {
+            (Health, Force, Rate) = (o.Health, o.Force, o.Rate);
+            (Spread, Range, Angle) = (o.Spread, o.Range, o.Angle);
+            (Projectile, sounds) = (o.Projectile, o.sound.sounds);
+            if (o.particles) particles = Create<ParticleSystem>(o.particles, transform);
+        }
 
         public virtual void Disable() => IsDisabled = true;
         public virtual void Enable() => IsDisabled = false;
@@ -51,7 +54,7 @@ namespace Adventure.Astronautics {
                 if (projectile is GuidedMissile o) o.Target = Target;
                 var time = distance/Force/projectile.Get<Rigidbody>().mass;
                 var prediction = position + velocity.normalized*time + variation;
-                if (prediction.magnitude>float.Epsilon)
+                if (prediction.magnitude>0.01)
                     rotation = Quaternion.LookRotation(prediction, transform.up);
                 // if (LayerMask.LayerToName(gameObject.layer)=="Player") {
                 //     Debug.DrawLine(position, prediction, Color.white, 1, true);

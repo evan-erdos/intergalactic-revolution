@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6803e4bd434c0469690abec487ffa77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2000
+  damage: 900
   onHit:
     m_PersistentCalls:
       m_Calls: []

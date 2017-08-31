@@ -49,8 +49,6 @@ namespace Adventure.Astronautics.Spaceships {
             throw new Error($"thruster {name} not aligned");
         }
 
-        // void LateUpdate() => OnMove(); // remove
-
         void OnMove(FlightArgs e=null) {
             if (isDisabled) { enabled = false; return; }
             var (thrust, particleSystem) = (0f, particles.main);

@@ -12,18 +12,7 @@ using Adventure.Astronautics.Spaceships;
 
 namespace Adventure {
     public class Manager : Adventure.Object {
-        [SerializeField] protected AdventurePrefabs prefabs = new AdventurePrefabs();
-        [SerializeField] StarProfile[] StarProfiles = new StarProfile[1];
-        [SerializeField] SpobProfile[] SpobProfiles = new SpobProfile[1];
-        [SerializeField] PilotProfile[] PilotProfiles = new PilotProfile[1];
-        [SerializeField] ShipProfile[] ShipProfiles = new ShipProfile[1];
-
-        [Serializable] protected class AdventurePrefabs {
-            [SerializeField] public PilotProfile pilot;
-            [SerializeField] public GameObject menu;
-            [SerializeField] public GameObject user;
-            [SerializeField] public GameObject cam; }
-
+        [SerializeField] protected GameProfile profile;
         public static readonly string root = "adventure", dir = "star-systems";
         public static string path {get;protected set;}
         public static Manager singleton {get;private set;}
@@ -40,10 +29,7 @@ namespace Adventure {
         public static ShipProfile[] Ships {get;protected set;}
         public static List<NetworkStartPosition> StartPositions {get;protected set;} = new List<NetworkStartPosition>();
         public static Map<StarProfile,StarProfile[]> Stars {get;} = new Map<StarProfile,StarProfile[]>();
-        public static readonly Map<Type> tags = new Map<Type> {
-            ["object"] = typeof(Adventure.Object), ["star"] = typeof(StarSystem),
-            ["settings"] = typeof(Adventure.Settings) };
-
+        public static readonly Map<Type> tags = new Map<Type> { ["object"] = typeof(Adventure.Object) };
         public static bool IsOnline => false;
         public static void StopHost() => network.StopHost();
         public static void StartHost() => network.StartHost();
@@ -127,19 +113,19 @@ namespace Adventure {
             else { Destroy(gameObject); return; }
             network = Get<NetworkManager>();
             DontDestroyOnLoad(gameObject);
-            StarProfiles.ForEach(o => Stars[o] = o.NearbySystems);
-            (Pilots, Ships) = (PilotProfiles, ShipProfiles);
-            DefaultPilot = prefabs.pilot; DefaultSpob = DefaultPilot.spob; DefaultStar = DefaultSpob.Star;
+            profile.StarProfiles.ForEach(o => Stars[o] = o.NearbySystems);
+            (Pilots, Ships) = (profile.PilotProfiles, profile.ShipProfiles);
+            DefaultPilot = profile.pilot; DefaultSpob = DefaultPilot.spob; DefaultStar = DefaultSpob.Star;
         }
 
-        void Start() { camera = Create<PlayerCamera>(prefabs.cam); LoadMenu(); }
+        void Start() { camera = Create<PlayerCamera>(profile.cam); LoadMenu(); }
 
         public static void PrintInput() {
             foreach (KeyCode k in Enum.GetValues(typeof(KeyCode)))
                 if (Input.GetKeyDown(k)) print(k); }
 
         public static void LoadMenu() {
-            menu = Create<Menu>(singleton.prefabs.menu);
+            menu = Create<Menu>(singleton.profile.menu);
             Fade.StartAlphaFade(Color.black,true,1,0); }
 
         // public void CreateShip() => CmdCreateShip(shipPrefab);

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName="Assets/Prefabs/Sounds/NewSoundProfile.asset")]
-public class SoundProfile : Adventure.Profile {
+public class SoundProfile : Adventure.Profile<SoundProfile> {
     public string Name = "New Sound";
     public float pitch = 1;
     public float volume = 1;
